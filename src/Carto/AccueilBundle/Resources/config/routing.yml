@@ -1,0 +1,21 @@
+carto_accueil_homepage:
+    pattern:  /{lang}
+    defaults: { _controller: CartoAccueilBundle:Default:index, lang: en }
+    requirements:
+        lang:  en|fr
+
+carto_accueil_homepage_switch_language:
+    pattern:  /switch_language/{lang}
+    defaults: { _controller: CartoAccueilBundle:Default:switchLanguage }
+
+carto_accueil_news:
+    pattern:  /news
+    defaults: { _controller: CartoAccueilBundle:Default:news }
+
+carto_accueil_aboutus:
+    pattern:  /aboutus
+    defaults: { _controller: CartoAccueilBundle:Default:aboutus }
+
+carto_accueil_contactus:
+    pattern:  /contactus
+    defaults: { _controller: CartoAccueilBundle:Default:contactus }
