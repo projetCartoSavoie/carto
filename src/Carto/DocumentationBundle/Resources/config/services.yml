@@ -1,0 +1,7 @@
+parameters:
+#    documentation.example.class: Carto\DocumentationBundle\Example
+
+services:
+#    documentation.example:
+#        class: %documentation.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

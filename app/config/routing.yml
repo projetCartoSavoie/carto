@@ -1,0 +1,16 @@
+donnes:
+    resource: "@donnesBundle/Resources/config/routing.yml"
+    prefix:   /
+
+documentation:
+    resource: "@DocumentationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+representation:
+    resource: "@RepresentationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+accueil:
+    resource: "@AccueilBundle/Resources/config/routing.yml"
+    prefix:   /
+
