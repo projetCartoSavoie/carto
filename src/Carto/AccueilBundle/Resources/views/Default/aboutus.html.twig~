@@ -1,0 +1,60 @@
+{% extends "CartoAccueilBundle:Layouts:layout.html.twig" %}
+
+{% block stylesheets %}{{ parent() }}
+{% stylesheets 'bundles/AccueilCartoBundle/css/aboutus.css' %}
+	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}
+
+{% block title %}{{"A propos" | trans}}{% endblock %}
+
+{% block body %}{{ parent() }}
+	<table class="aPropos" cellspacing="0" cellpadding="20">
+		<tr>
+			<th><h3>A propos du site</h3></th>
+			<th><h3>Liens</h3></th>
+			<th><h3>Commentaires</h3></th>
+			<th><h3>A propos des auteurs</h3></th>
+		</tr>
+		<tr>
+			<td>
+				Ce projet est réalisé par des étudiants de L3 à l'université de Savoie, sous la direction de Christophe Roche, professeur au sein de l'équipe Condillac.
+			</td>
+			<td class="sources">
+				<div onclick="window.open('http://www.polytech.univ-savoie.fr/fileadmin/polytech_autres_sites/sites/listic/Theses/TheseTricot.pdf', '_blank')">Voir nos sources pour les representations "<u>These de Christophe Tricot</u>"</div><br/>
+				<div onclick="window.open('http://http://fr.wikipedia.org/wiki/WordNet', '_blank')">Voir nos sources pour les donnees "<u>Wordnet</u>"</div><br/>
+			</td>
+			<td>
+				<form action="commentaires.php" method="post">
+					<table class="commentaireTable">
+						<tr>
+							<td>
+								<textarea class="commentaireTextarea" name="commentaires">Tapez ici vos commentaires</textarea>	<!--on cree un espace de texte-->
+							</td>
+						</tr>
+						<tr height="30">
+							<td style="text-align: right;">
+								<input type="submit" value="Enregistrer" />
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<a href= "#commentaires">Voir les commentaires</a>
+							</td>
+						</tr>
+					</table>
+				</form>
+			</td>
+			<td>
+				Les etudiants participants à ce projet sont :
+				<ul>
+					<li>Celine de Roland</li>
+					<li>Juliana Leclaire</li>
+					<li>Anthony Di Lisio</li>
+					<li>Remi Mollard</li>
+					<li>Remy Cluze</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+{% endblock %}

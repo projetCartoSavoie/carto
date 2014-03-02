@@ -1,0 +1,4 @@
+carto_accueil:
+    resource: "@CartoAccueilBundle/Resources/config/routing.yml"
+    prefix:   /
+

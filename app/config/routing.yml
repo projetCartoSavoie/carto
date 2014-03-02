@@ -1,4 +1,14 @@
+carto_documentation:
+    resource: "@CartoDocumentationBundle/Resources/config/routing.yml"
+    prefix:   /
+
 carto_accueil:
     resource: "@CartoAccueilBundle/Resources/config/routing.yml"
     prefix:   /
 
+carto_language:
+    resource: "@CartoAccueilBundle/Resources/config/routing.yml"
+    prefix:    /{_locale}
+    defaults: {_locale: en}
+    requirements:
+        _locale: en|fr
