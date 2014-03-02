@@ -1,0 +1,5 @@
+{% extends "CartoDocumentationBundle:Layouts:layout.html.twig" %}
+{% block body %}
+<h1>{{ "Documentation" | trans }}</h1>
+<h2>{{"La cartographie de données" | trans}}</h2>
+{% endblock %}

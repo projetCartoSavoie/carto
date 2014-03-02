@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8" />
-		<title>{% block title %}{{"Bienvenue" | trans}}{% endblock %}</title>
+		<title>{% block title %}{{ "Bienvenue" | trans }}{% endblock %}</title>
 		{% block stylesheets %}
 			{% stylesheets 'bundles/CartoAccueilBundle/css/header.css' %}
 				<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
@@ -27,13 +27,16 @@
 				<nav>
 					<ul class="nav">
 						<li id="home" {% if path(app.request.attributes.get('_route')) == "/" ~ app.request.locale or path(app.request.attributes.get('_route')) == "/" %}class="current"{% endif %}>
-									<a href="{{ path('carto_accueil_homepage') }}" --class="homeIcon"-->{{"Accueil" | trans}}</a>
+									<a href="{{ path('carto_accueil_homepage') }}" --class="homeIcon"-->{{"Accueil"|trans}}</a>
 						</li>
 						<li id="documentation" {% if "documentation" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 							<a href="{{ path('carto_documentation_homepage') }}">{{"Documentation" | trans}}</a>
+							<ul>
+								<li><a href="{{ path('carto_documentation_projet') }}">{{"Le projet"|trans}}</a></li>
+							</ul>
 						</li>
 						<li id="representations" {% if "representations" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-							<a href="{{ path('carto_representations_homepage') }}">{{"Représentations" | trans}}</a>
+							<a href="{{ path('carto_representations_homepage') }}">{{"Représentations"|trans}}</a>
 						</li>
 						<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 							<a href="{{ path('carto_donnees_homepage') }}">{{"Données" | trans}}</a>
