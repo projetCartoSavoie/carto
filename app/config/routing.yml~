@@ -1,6 +1,13 @@
+carto_donnees:
+    resource: "@CartoDonneesBundle/Resources/config/routing.yml"
+    prefix:   /
+
 carto_representations:
     resource: "@CartoRepresentationsBundle/Resources/config/routing.yml"
-    prefix:   /
+    prefix:   /{_locale}/representations
+    defaults: {_locale: en}
+    requirements:
+        _locale: en|fr
 
 carto_documentation:
     resource: "@CartoDocumentationBundle/Resources/config/routing.yml"

@@ -1,0 +1,3 @@
+carto_donnees_homepage:
+    pattern:  /
+    defaults: { _controller: CartoDonneesBundle:Default:index }

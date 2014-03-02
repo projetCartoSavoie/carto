@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Carto\AccueilBundle\CartoAccueilBundle(),
             new Carto\DocumentationBundle\CartoDocumentationBundle(),
             new Carto\RepresentationsBundle\CartoRepresentationsBundle(),
+            new Carto\DonneesBundle\CartoDonneesBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

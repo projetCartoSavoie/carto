@@ -13,10 +13,12 @@
 	<body>
 		{% block menuSuperieur %}
 			<div class="language_selector">
-				<a>
+				<a href="{{ path('carto_accueil_homepage_switch_language', {'lang' : 'en'}) }}" 
+					{% if app.request.locale == 'en' %}class="selected"{% endif %}>
 					<img src="{{ asset('bundles/CartoAccueilBundle/images/en.png') }}" title="English" alt="English">
 				</a>
-				<a>
+				<a href="{{ path('carto_accueil_homepage_switch_language', {'lang' : 'fr'}) }}" 
+					{% if app.request.locale == 'fr' %}class="selected"{% endif %}>
 					<img src="{{ asset('bundles/CartoAccueilBundle/images/fr.png') }}" title="Fran&ccedil;ais" alt="Fran&ccedil;ais">
 				</a>
 			</div>
@@ -32,6 +34,9 @@
 						</li>
 						<li id="representations" {% if "representations" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 							<a href="{{ path('carto_representations_homepage') }}">{{"Représentations" | trans}}</a>
+						</li>
+						<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+							<a href="{{ path('carto_donnees_homepage') }}">{{"Données" | trans}}</a>
 						</li>
 						<li id="about" {% if "about" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 							<a href="{{ path('carto_accueil_aboutus') }}">{{"A propos" | trans}}</a>

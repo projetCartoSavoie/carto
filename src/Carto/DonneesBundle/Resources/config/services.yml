@@ -1,0 +1,7 @@
+parameters:
+#    carto_donnees.example.class: Carto\DonneesBundle\Example
+
+services:
+#    carto_donnees.example:
+#        class: %carto_donnees.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
