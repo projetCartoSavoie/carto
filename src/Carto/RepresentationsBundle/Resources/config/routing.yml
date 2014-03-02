@@ -1,0 +1,3 @@
+carto_representations_homepage:
+    pattern:  /
+    defaults: { _controller: CartoRepresentationsBundle:Default:index }

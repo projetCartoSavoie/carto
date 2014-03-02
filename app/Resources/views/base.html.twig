@@ -30,6 +30,9 @@
 						<li id="documentation" {% if "documentation" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 							<a href="{{ path('carto_documentation_homepage') }}">{{"Documentation" | trans}}</a>
 						</li>
+						<li id="representations" {% if "representations" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+							<a href="{{ path('carto_representations_homepage') }}">{{"Représentations" | trans}}</a>
+						</li>
 						<li id="about" {% if "about" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 							<a href="{{ path('carto_accueil_aboutus') }}">{{"A propos" | trans}}</a>
 						</li>
