@@ -16,20 +16,14 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
-            new Carto\AccueilBundle\AccueilBundle(),
-            new Carto\RepresentationBundle\RepresentationBundle(),
-            new Carto\DocumentationBundle\DocumentationBundle(),
-            new Carto\DonnesBundle\donnesBundle(),
+            new Carto\AccueilBundle\CartoAccueilBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
+            $bundles[] = new Acme\DemoBundle\AcmeDemoBundle();
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
-            //$bundles[] = new Carto\AccueilBundle\AccueilBundle();
-            //$bundles[] = new Carto\RepresentationBundle\RepresentationBundle();
-           // $bundles[] = new Carto\DocumentationBundle\DocumentationBundle();
-            //$bundles[] = new Carto\DonnesBundle\donnesBundle();
         }
 
         return $bundles;

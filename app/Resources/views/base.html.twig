@@ -1,84 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="utf-8" />
-        <title>{% block title %}{{"Bienvenue" | trans}}{% endblock %}</title>
-		
-        
-		{% block stylesheets %}
-			{% stylesheets 'bundles/CartoAccueilBundle/css/header.css' %}
-				<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-			{% endstylesheets %}
-		{% endblock %}
-		
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-		
-		{% block javascripts %}{% endblock %}
-		
-	
     </head>
     <body>
-        {% block body %}
-			<div class="language_selector">
-				<a href="{{ path('carto_accueil_homepage_switch_language', {'lang' : 'en'}) }}" {% if app.request.locale == 'en' %}class="selected"{% endif %}>
-					<img src="/bundles/CartoAccueilBundle/images/en.png" title="English" alt="English">
-				</a>
-				<a href="{{ path('carto_accueil_homepage_switch_language', {'lang' : 'fr'}) }}" {% if app.request.locale == 'fr' %}class="selected"{% endif %}>
-					<img src="/bundles/CartoAccueilBundle/images/fr.png" title="Fran&ccedil;ais" alt="Fran&ccedil;ais">
-				</a>
-			</div>
-			<table>
-				<tr>
-					<td>
-						<img class="logo" src="/bundles/CartoAccueilBundle/images/logo.png" title="Carto" alt="Carto">
-					</td>
-					<td>
-						<nav>
-							<ul class="nav">
-								<li id="home" {% if path(app.request.attributes.get('_route')) == "/" ~ app.request.locale or path(app.request.attributes.get('_route')) == "/" %}class="current"{% endif %}>
-									<a href="{{ path('carto_accueil_homepage') }}" --class="homeIcon"-->{{"Accueil" | trans}}</a>
-								</li>
-								<li id="news" {% if "news" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-									<a href="{{ path('carto_accueil_news') }}">{{"Nouvelles" | trans}}</a>
-								</li>
-								<li id="documentation" {% if ("documentation" in path(app.request.attributes.get('_route')) or "wordnet" in path(app.request.attributes.get('_route'))) %}class="current"{% endif %}>
-									<a href="{# path('carto_accueil_documentation') #}">{{"Documentation" | trans}}</a>
-									<ul>
-										<li><a href="{# path('carto_etude_wn_homepage') #}">{{"Etude de wordnet" | trans}}</a></li>
-										<li><a href="{# path('carto_etude_wn_essai') #}">{{"Etude de wordnet" | trans}}</a></li>
-										<li><a href="{# path('carto_etude_wn_compterendu') #}">{{"Etude de wordnet" | trans}}</a></li>
-									</ul>
-								</li>
-								<li id="representations" {% if ("representations" in path(app.request.attributes.get('_route')) or "representation" in path(app.request.attributes.get('_route'))) %}class="current"{% endif %}>
-									<a href="{# path('carto_accueil_representations') #}">{{"Représentations" | trans}}</a>
-									<ul>
-										<li>
-											<a href="{# path('carto_accueil_representation1') #}">{{"Représentation 1" | trans}}</a>
-										</li>
-										<li>
-											<a href="{# path('carto_accueil_representation2') #}">{{"Représentation 2" | trans}}</a>
-										</li>
-										<li>
-											<a href="{# path('carto_accueil_representation3') #}">{{"Représentation 3" | trans}}</a>
-										</li>
-									</ul>
-								</li>
-								<li id="about" {% if "about" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-									<a href="{{ path('carto_accueil_aboutus') }}">{{"A propos" | trans}}</a>
-								</li>
-								<li id="contact" {% if "contact" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-									<a href="{{ path('carto_accueil_contactus') }}">{{"Contacts" | trans}}</a>
-								</li>
-							</ul>
-						</nav>
-					</td>
-				</tr>
-			</table>
-			<div id = "wikipedia" class="left">
-			</div>
-		{% endblock %}
-		<script>
-		{% block script %}{% endblock %}
-		</script>
+        {% block body %}{% endblock %}
+        {% block javascripts %}{% endblock %}
     </body>
 </html>

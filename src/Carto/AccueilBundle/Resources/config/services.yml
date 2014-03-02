@@ -1,7 +1,7 @@
 parameters:
-#    accueil.example.class: Carto\AccueiBundle\Example
+#    carto_accueil.example.class: Carto\AccueilBundle\Example
 
 services:
-#    accueil.example:
-#        class: %accueil.example.class%
+#    carto_accueil.example:
+#        class: %carto_accueil.example.class%
 #        arguments: [@service_id, "plain_value", %parameter%]

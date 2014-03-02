@@ -1,3 +1,0 @@
-donnes_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: donnesBundle:Default:index }

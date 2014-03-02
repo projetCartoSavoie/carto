@@ -1,3 +1,0 @@
-representation_homepage:
-    pattern:  /hello/{name}
-    defaults: { _controller: RepresentationBundle:Default:index }

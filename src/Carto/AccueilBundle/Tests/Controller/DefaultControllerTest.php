@@ -1,6 +1,6 @@
 <?php
 
-namespace Carto\AccueiBundle\Tests\Controller;
+namespace Carto\AccueilBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
