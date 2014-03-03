@@ -3,12 +3,16 @@
 	<head>
 		<meta charset="UTF-8" />
 		<title>{% block title %}{{ "Bienvenue" | trans }}{% endblock %}</title>
+		
 		{% block stylesheets %}
 			{% stylesheets 'bundles/CartoAccueilBundle/css/header.css' %}
 				<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 			{% endstylesheets %}
 		{% endblock %}
+		
 		<link rel="icon" type="image/png" href="{{ asset('bundles/CartoAccueilBundle/images/logo.png') }}" />
+		
+		{% block javascripts %}{% endblock %}
 	</head>
 	<body>
 		{% block menuSuperieur %}
@@ -38,6 +42,17 @@
 						</li>
 						<li id="representations" {% if "representations" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 							<a href="{{ path('carto_representations_homepage') }}">{{"Représentations"|trans}}</a>
+							<ul>
+								<li>
+									<a href="{{ path('carto_representations_representation1') }}">{{"Représentation 1" | trans}}</a>
+								</li>
+								<li>
+									<a href="{{ path('carto_representations_representation2') }}">{{"Représentation 2" | trans}}</a>
+								</li>
+								<li>
+									<a href="{{ path('carto_representations_representation3') }}">{{"Représentation 3" | trans}}</a>
+								</li>
+							</ul>
 						</li>
 						<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 							<a href="{{ path('carto_donnees_homepage') }}">{{"Données" | trans}}</a>
@@ -52,13 +67,10 @@
 				</nav>
 			</div>
 		{% endblock %}
-
-		{% block body %}
-		{% endblock %}
-
-		{% block javascripts %}{% endblock %}
+		{% block body %}{% endblock %}
 		<script>
 			{% block script %}{% endblock %}
 		</script>
+		
 	</body>
 </html>

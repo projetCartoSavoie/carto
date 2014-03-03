@@ -69,3 +69,4 @@ carto_documentation_etudewn_simplifierdataadv:
 carto_documentation_etudewn_conclusion:
     pattern:  /WordNet/conclusion
     defaults: { _controller: CartoDocumentationBundle:EtudeWN:conclusion }
+

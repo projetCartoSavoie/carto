@@ -20,6 +20,7 @@ carto_documentation_etudewn_simplifierindex:
 
 carto_documentation_etudewn_ajouterderivation:
     pattern:  /WordNet/words/ajouterderivation
+<<<<<<< HEAD
     defaults: { _controller: CartoDocumentationBundle:EtudeWN:ajoutderivation }
 
 carto_documentation_etudewn_ajouterparticiple:
@@ -65,3 +66,10 @@ carto_documentation_etudewn_rsynsets:
 carto_documentation_etudewn_simplifierdataadv:
     pattern:  /WordNet/simplifierdataadv
     defaults: { _controller: CartoDocumentationBundle:EtudeWN:simplifierdataadv }
+
+carto_documentation_etudewn_conclusion:
+    pattern:  /WordNet/conclusion
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:conclusion }
+=======
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:ajoutderivation }
+>>>>>>> 36e7b28a965e545bca10870a739474ea045845ae
