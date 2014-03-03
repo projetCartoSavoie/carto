@@ -1,3 +1,15 @@
 carto_representations_homepage:
     pattern:  /
     defaults: { _controller: CartoRepresentationsBundle:Default:index }
+
+carto_representations_representation1:
+    pattern:  /Representation1
+    defaults: { _controller: CartoRepresentationsBundle:Default:representation1 }
+
+carto_representations_representation2:
+    pattern:  /Representation2
+    defaults: { _controller: CartoRepresentationsBundle:Default:representation2 }
+
+carto_representations_representation3:
+    pattern:  /Representation3
+    defaults: { _controller: CartoRepresentationsBundle:Default:representation3 }
