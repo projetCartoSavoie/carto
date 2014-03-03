@@ -1,0 +1,95 @@
+{% extends "CartoDocumentationBundle:Layouts:layoutWN.html.twig" %}
+{% block contenu %}
+<h1>{{ "Documentation" | trans }}</h1>
+<h2>WordNet</h2>
+
+<h3>{{ "Relations entre les rsynsets" | trans }}</h3>
+<ul>
+	<li>Antonymie (ManyToMany, {{ "inversé par" | trans }} Antonymie).</li>
+</ul>
+
+<img src="{{ asset('bundles/CartoDocumentationBundle/images/DC6.png') }}" width="48%"/>
+<img src="{{ asset('bundles/CartoDocumentationBundle/images/DO6.png') }}" width="48%"/>
+
+<h3>{{ "Les fichiers de la base de données WordNet" | trans }}</h3>
+
+<p>
+{% trans %}
+Nous utiliserons le fichier data.adv, que nous modifierons pour correspondre à nos besoins.
+{% endtrans %}
+</p>
+<p>
+{% trans %}
+Voici quelques exemples de lignes du fichier data.adv
+{% endtrans %} :
+<pre>
+00033808 02 r 04 instantaneously 0 outright 2 instantly 2 in_a_flash 0 001 \ 00982222 a 0101 | without any delay; "he was killed outright"  
+
+00033949 02 r 01 mildly 0 001 \ 01512398 a 0101 | to a moderate degree; "he was mildly interested"  
+
+00034050 02 r 03 a_bit 0 a_little 0 a_trifle 0 000 | to a small degree; somewhat; "it's a bit warm"; "felt a little better"; "a trifle smaller"  
+
+00035445 02 r 05 frequently 0 often 0 oftentimes 0 oft 0 ofttimes 0 003 ! 00035772 r 0201 ! 00376350 r 0101 \ 01070231 a 0101 | many times at short intervals; "we often met over a cup of coffee"  
+</pre>
+</p>
+<p>
+{{ "Voici tous les symboles que nous pouvons trouver dans ce fichier" | trans }}
+<ul>
+<li>!    Antonym : {{ "Antonymie" | trans }}</li><li>
+\    Derived from adjective : {{ "déjà traité dans le cadre des relations entre les mots" | trans }}</li><li>
+;c    Domain of synset - TOPIC : {{ "non traité dans le cadre du projet" | trans }}</li><li>
+;r    Domain of synset - REGION : {{ "non traité dans le cadre du projet" | trans }}</li><li>
+;u    Domain of synset - USAGE : {{ "non traité dans le cadre du projet" | trans }}</li>
+</ul>
+</p>
+
+<p>{{ "Organisation d'une ligne" | trans }}
+<ul>
+	<li>{{ "numero du synset (8 chiffres)" | trans }}<pre>00033808</pre></li>
+	<li>{{ "numeros à moins de 8 chiffres pour les fichiers lexicographer (on ne les utilisera pas), la lettre r pour adverbe (inutile car dans data.adv c'est toujours r), les mots du synset (nous les enlèverons car la relation un mot appartient à un synset est déjà codée dans index.words)" | trans }}<pre>02 r 05 frequently 0 often 0 oftentimes 0 oft 0 ofttimes 0 003</pre></li>
+	<li>{{ "des blocs de type : un symbole, un numero de synset, une lettre pour le type de synset (inutile pour nous car nous savons que ce sont toujours des rsynsets) et un numéro à quatre chiffres servant à indiquer si la relation est entre des mots ou entre des synsets (inutile pour nous car nous avons déjà travaillé les relations entre les mots)" | trans }}<pre>\ 01512398 a 0101 </pre> {{ "nous laisserons seulement le symbole et le numéro du synset, nous enlèverons tout le bloc pour les relations dont on a déjà traité l'inverse et celles que nous ne souhaitons pas traiter" | trans }}</li>
+	<li>{{ "Le symbole | suivi de la définition du synset" | trans }}</li>
+</ul>
+</p>
+
+<h3>{{ "Transformation du fichier data.adv" | trans }}</h3>
+<p>{{ "Voici les quelques lignes données en exemple sous leur forme simplifiée" | trans }} :
+<pre>
+00033808 | without any delay; "he was killed outright"  
+
+00033949 | to a moderate degree; "he was mildly interested"  
+
+00034050 | to a small degree; somewhat; "it's a bit warm"; "felt a little better"; "a trifle smaller"  
+
+00035445 ! 00035772 ! 00376350 | many times at short intervals; "we often met over a cup of coffee"  
+</pre>
+<p>{{ "Voici le script que nous avons utilisé pour simplifier le fichier data.adv" | trans }}
+<pre>public function simplifierdataadvAction()
+{
+  $reponse = '';
+  $data = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.adv','r');
+  $symbols = array('!');
+  
+  //On parcourt le fichier data.adv ligne par ligne
+  while ($ligne = fgets($data))
+  {
+    //On met d'abord la définition de côté
+    $tab = explode('|',$ligne);
+    $def = ' | ' . $tab[1];
+    //Puis on sépare chaque élément et lorsqu'on rencontre un symbole qu'on souhaite traiter on l'ajoute
+    $tab = explode(' ',$tab[0]);
+    foreach($tab as $cle => $valeur)
+    {
+      if ($cle == 0) { $nouvligne = $valeur . ' '; }
+      else if (in_array($valeur,$symbols)) { $nouvligne .= substr($valeur,0,1) . ' ' . $tab[$cle + 1]. ' '; }
+    }
+    $nouvligne .= $def . '&nbsp;<br/>';
+    $reponse .= $nouvligne;
+  }
+
+  fclose($data);
+  return new Response($reponse);
+}</pre>
+<a href="{{ path('carto_documentation_etudewn_simplifierdataadv') }}" target="blank">{{ "Voir le résultat du script (peut prendre quelques minutes)" | trans }}</a>
+</p>
+{% endblock %}

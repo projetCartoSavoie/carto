@@ -21,3 +21,51 @@ carto_documentation_etudewn_simplifierindex:
 carto_documentation_etudewn_ajouterderivation:
     pattern:  /WordNet/words/ajouterderivation
     defaults: { _controller: CartoDocumentationBundle:EtudeWN:ajoutderivation }
+
+carto_documentation_etudewn_ajouterparticiple:
+    pattern:  /WordNet/words/ajouterparticiple
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:ajoutparticiple }
+
+carto_documentation_etudewn_ajouterpertainym:
+    pattern:  /WordNet/words/ajouterpertainym
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:ajoutpertainym }
+
+carto_documentation_etudewn_ajouterbuiltfrom:
+    pattern:  /WordNet/words/ajouterbuiltfrom
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:ajoutbuilt }
+
+carto_documentation_etudewn_nsynsets:
+    pattern:  /WordNet/nsynsets
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:nsynsets }
+
+carto_documentation_etudewn_simplifierdatanoun:
+    pattern:  /WordNet/simplifierdatanoun
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:simplifierdatanoun }
+
+carto_documentation_etudewn_vsynsets:
+    pattern:  /WordNet/vsynsets
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:vsynsets }
+
+carto_documentation_etudewn_simplifierdataverb:
+    pattern:  /WordNet/simplifierdataverb
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:simplifierdataverb }
+
+carto_documentation_etudewn_asynsets:
+    pattern:  /WordNet/asynsets
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:asynsets }
+
+carto_documentation_etudewn_simplifierdataadj:
+    pattern:  /WordNet/simplifierdataadj
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:simplifierdataadj }
+
+carto_documentation_etudewn_rsynsets:
+    pattern:  /WordNet/rsynsets
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:rsynsets }
+
+carto_documentation_etudewn_simplifierdataadv:
+    pattern:  /WordNet/simplifierdataadv
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:simplifierdataadv }
+
+carto_documentation_etudewn_conclusion:
+    pattern:  /WordNet/conclusion
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:conclusion }

@@ -1,3 +1,41 @@
+# Mots techniques courammnt utilisés
+!: Antonym
+!i: Antonymy
+@: Hypernym
+@i: Hypernymy
+~: Hyponym
+~i: Hyponymy
+%: Méronym
+%i: Méronymy
+"#": Holonym
+"#i": Holonymy
+=: Attribute
+/: Pertainym
+/i: Pertainymy
++: Derivationaly related to
++i: Derivation
+<: Participle of
+/adv: Built from
+&: Similar to
+adj: Adjective
+unadj: an adjective
+vb: Verb
+unvb: a verb
+nm: Noun
+adv: Adverb
+in: is into
+Un mot: A word
+
+# Mots très courants
+est: is
+et: and
+un: a
+Un: A
+le: the
+Le: The
+
+# Bazard à ranger
+
 'Documentation': 'Documentation'
 'La cartographie de données': 'Knowledge mapping'
 
@@ -56,3 +94,51 @@ Les relations définies sur cette ligne sont: Relations defined there are
 script de simplification et mélange de tous les fichiers index.suffixe: here is the script we have written to make this one index.words file simplified
 Voir le résultat du script (peut prendre quelques minutes): See the result (can take a few minutes)
 Il nous faut maintenant ajouter les relations: Now we have to add relations to this file
+Commençons avec la relation de dérivation, nous fabriquons un fichier derivation dont les lignes sont de la forme <mot1,mot2> où mot1 est un adjectif ou un verbe dérivé du nom mot2.: Let start with derivation, we make a derivation file wich lines look like <word1,word2>, where word1 is an adjective or a verb derivationaly related to the noun word2.
+Nous fabriquons maintenant un fichier participle dont les lignes sont de la forme <mot1,mot2> où mot1 est un adjectif participe passé du verbe mot2.: Now we make a participle file wich lines look like <word1,word2>, where word1 is an adjective participle of the verb word2.
+Nous continuons avec un fichier pertainym dont les lignes sont de la forme <mot1,mot2> où mot1 est un adjectif pertainym du nom mot2.: We continue with a pertainym file wich lines look like <word1,word2>, where word1 is an adjective pertainym to the noun word2.
+Terminons avec un fichier builtfrom dont les lignes sont de la forme <mot1,mot2> où mot1 est un adverbe construit à partir de l'adjectif mot2.: We finish with a builtfrom file wich lines look like <word1,word2>, where word1 is an adverbe built from the adjective word2.
+Relations entre les nsynsets: Relations between nsynsets
+inversé par: inversed by
+Nous utiliserons le fichier data.noun, que nous modifierons pour correspondre à nos besoins.: We will use the file data.noun, modified to fit our needs.
+Voici quelques exemples de lignes du fichier data.noun: Here are few examples of lines from data.noun
+Voici tous les symboles que nous pouvons trouver dans ce fichier: Here are all symbols we can read on this file
+Cas particulier d'hypernymie: Particular case of hypernymie
+inverse de hypernyme, inutile donc de le traiter deux fois: inverse of hypernym, no need to treat it twice
+inverse de méronyme, inutile donc de le traiter deux fois: inverse of meronym, no need to treat it twice
+pour plus de clareté dans nos représentations, nous rassemblons les différents types de méronymes en un seul, que nous noterons simplement: to have visual representations clearer, we won't make difference between the three nuances of meronyms
+déjà traité dans le cadre des relations entre les mots: treated yet with words relations
+non traité dans le cadre du projet: no treated by this project
+Organisation d'une ligne: how a line is organised
+numero du synset (8 chiffres): identifiant of the synset (8 numerals)
+numeros à moins de 8 chiffres pour les fichiers lexicographer (on ne les utilisera pas), la lettre n pour nom (inutile car dans data.noun c'est toujours n), les mots du synset (nous les enlèverons car la relation un mot appartient à un synset est déjà codée dans index.words): numbers with less than 8 numerals for lexicographer files (we won't use it), the letter n for noun (no usefull because in data.noun it's ever a n), the words witch are in the synset (we won't let it because the relation a word is into a synset is written yet in index.words)
+"des blocs de type : un symbole, un numero de synset, une lettre pour le type de synset (inutile pour nous car nous savons que ce sont toujours des nsynsets sauf hasAttribute pour laquelle c'est toujours un asynset) et un numéro à quatre chiffres servant à indiquer si la relation est entre des mots ou entre des synsets (inutile pour nous car nous avons déjà travaillé les relations entre les mots)": blocks witch look like : a symbole, a synset identifiant, a letter for the type of the synset (we won't write it because for us it will always be n, except for hasAttribut where it will always be a) and a 4 numerals number witch indicate if it's a relation between synsets or between words (for us it's always synsets because we have treated relations between words before)
+nous laisserons seulement le symbole et le numéro du synset, nous enlèverons tout le bloc pour les relations dont on a déjà traité l'inverse et celles que nous ne souhaitons pas traiter: we will only let the symbol and the synset identifiant, we will suppress the whole block for relations we havn't decided to treat.
+Le symbole | suivi de la définition du synset: The symbole | followed by the synset's definition
+Transformation du fichier data.noun: Transformation of data.noun file
+Voici le script que nous avons utilisé pour simplifier le fichier data.noun: Here is the script we have written to simplify the file data.noun
+Relations entre les vsynsets: Relations between vsynsets
+Conséquence logique (entailment): Entailment
+Nous utiliserons le fichier data.verb, que nous modifierons pour correspondre à nos besoins.: We will use the file data.verb, modified to fit our needs.
+Voici quelques exemples de lignes du fichier data.verb: Here are few examples of lines from data.verb
+numeros à moins de 8 chiffres pour les fichiers lexicographer (on ne les utilisera pas), la lettre v pour verbe (inutile car dans data.verb c'est toujours v), les mots du synset (nous les enlèverons car la relation un mot appartient à un synset est déjà codée dans index.words): numbers with less than 8 numerals for lexicographer files (we won't use it), the letter v for verb (no usefull because in data.verb it's ever a v), the words witch are in the synset (we won't let it because the relation a word is into a synset is written yet in index.words)
+Transformation du fichier data.verb: Transformation of data.verb file
+Voici le script que nous avons utilisé pour simplifier le fichier data.verb: Here is the script we have written to simplify the file data.verb
+Relations entre les asynsets: Relations between asynsets
+Nous utiliserons le fichier data.adj, que nous modifierons pour correspondre à nos besoins.: We will use the file data.adj, modified to fit our needs.
+Voici quelques exemples de lignes du fichier data.adj: Here are few examples of lines from data.adj
+numeros à moins de 8 chiffres pour les fichiers lexicographer (on ne les utilisera pas), la lettre a pour adjectif (inutile car dans data.adj c'est toujours a), les mots du synset (nous les enlèverons car la relation un mot appartient à un synset est déjà codée dans index.words): numbers with less than 8 numerals for lexicographer files (we won't use it), the letter a for adjective (no usefull because in data.adj it's ever a a), the words witch are in the synset (we won't let it because the relation a word is into a synset is written yet in index.words)
+Transformation du fichier data.adj: Transformation of data.adj file
+déjà traité dans le cadre des relations des nsynsets: treated yet with the nsynset relations
+"des blocs de type : un symbole, un numero de synset, une lettre pour le type de synset (inutile pour nous car nous savons que ce sont toujours des asynsets) et un numéro à quatre chiffres servant à indiquer si la relation est entre des mots ou entre des synsets (inutile pour nous car nous avons déjà travaillé les relations entre les mots)": blocks witch look like : a symbole, a synset identifiant, a letter for the type of the synset (we won't write it because for us it will always be a) and a 4 numerals number witch indicate if it's a relation between synsets or between words (for us it's always synsets because we have treated relations between words before)
+Voici les quelques lignes données en exemple sous leur forme simplifiée: Here are the example lines simplified
+Voici le script que nous avons utilisé pour simplifier le fichier data.adj: Here is the script we have written to simplify the file data.adj
+
+Relations entre les rsynsets: Relations between rsynsets
+Nous utiliserons le fichier data.adv, que nous modifierons pour correspondre à nos besoins.: We will use the file data.adv, modified to fit our needs.
+Voici quelques exemples de lignes du fichier data.adv: Here are few examples of lines from data.adv
+numeros à moins de 8 chiffres pour les fichiers lexicographer (on ne les utilisera pas), la lettre r pour adverbe (inutile car dans data.adv c'est toujours r), les mots du synset (nous les enlèverons car la relation un mot appartient à un synset est déjà codée dans index.words): numbers with less than 8 numerals for lexicographer files (we won't use it), the letter r for adverb (no usefull because in data.adv it's ever a v), the words witch are in the synset (we won't let it because the relation a word is into a synset is written yet in index.words)
+Transformation du fichier data.adv: Transformation of data.adv file
+"des blocs de type : un symbole, un numero de synset, une lettre pour le type de synset (inutile pour nous car nous savons que ce sont toujours des rsynsets) et un numéro à quatre chiffres servant à indiquer si la relation est entre des mots ou entre des synsets (inutile pour nous car nous avons déjà travaillé les relations entre les mots)": blocks witch look like : a symbole, a synset identifiant, a letter for the type of the synset (we won't write it because for us it will always be r) and a 4 numerals number witch indicate if it's a relation between synsets or between words (for us it's always synsets because we have treated relations between words before)
+Voici le script que nous avons utilisé pour simplifier le fichier data.adv: Here is the script we have written to simplify the file data.adv
+
