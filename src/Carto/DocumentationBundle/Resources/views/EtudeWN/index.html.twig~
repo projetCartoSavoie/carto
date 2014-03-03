@@ -1,0 +1,66 @@
+{% extends "CartoDocumentationBundle:Layouts:layoutWN.html.twig" %}
+{% block contenu %}
+<h1>{{ "Documentation" | trans }}</h1>
+<h2>WordNet</h2>
+<p>
+{% trans %}
+Dans WordNet, un concept est représenté par un ensemble de mots synonymes entre eux. Cet ensemble est appelé un synset. Un mot peut appartenir à un ou plusieurs synsets et un synset peut contenir un ou plusieurs mots.
+{% endtrans %}
+</p>
+<p>
+{% trans %}
+WordNet différencie les synsets contenant des noms, de ceux contenant des verbes, des adjectifs et des adverbes.
+{% endtrans %}
+</p>
+<p>
+{% trans %}
+Exemple simplifié : 
+{% endtrans %}
+</p>
+<img src="{{ asset('bundles/CartoDocumentationBundle/images/crfig1.png') }}" width="50%" style="margin-left:25%;"/>
+<p>
+{% trans %}
+Pour bien comprendre le fonctionnement de WordNet, il faut voir que certaines relations concernent 2 synsets, d'autres 2 mots, et d'autres un synset et un mot.
+{% endtrans %}
+</p>
+<p>
+{% trans %}
+Les synsets sont différenciés au sein de la base de données wordnet par leur type et un numéro d'identifiant à 8 chiffres. Ils sont caractérisés par l'ensemble des mots qui les constituent et une définition (attention, deux synsets peuvent avoir exactement le même ensemble de mots mais un type, un numéro et/ou une définition différente!
+{% endtrans %}
+</p>
+Exemple :<br/>
+<style> td,th { border:solid 1px grey;padding:5px; }</style>
+<table>
+<tr>
+	<th>Type</th><th>{{ "Numéro" | trans }}</th><th>{{ "Ensemble de mots" | trans }}</th><th>{{ "Définition" | trans }}</th>
+</tr>
+<tr>
+	<td>Noun</td><td>06655934</td><td>update</td><td>information or data that updates</td>
+</tr>
+<tr>
+	<td>Verb</td><td>00170503</td><td>update</td><td>modernize or bring up to date</td>
+</tr>
+<tr>
+	<td>Verb</td><td>00835207</td><td>update</td><td>bring up to date; supply with recent information</td>
+<tr>
+</tr>
+	<td>Verb</td><td>00170701</td><td>update</td><td>bring to the latest state of technology or supply with the latest data</td>
+</tr>
+</table>
+
+<p>
+{% trans %}
+Nous avons choisi de représenter les synsets et les mots en base de données en utilisant doctrine. Voici le diagramme des classes correspondants.
+{% endtrans %}
+</p>
+<p>
+{% trans %}
+
+{% endtrans %}
+</p>
+<p>
+{% trans %}
+
+{% endtrans %}
+</p>
+{% endblock %}

@@ -5,3 +5,11 @@ carto_documentation_homepage:
 carto_documentation_projet:
     pattern:  /projet
     defaults: { _controller: CartoDocumentationBundle:Projet:index }
+
+carto_documentation_etudewn:
+    pattern:  /WordNet
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:index }
+
+carto_documentation_etudewn_words:
+    pattern:  /WordNet/words
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:words }

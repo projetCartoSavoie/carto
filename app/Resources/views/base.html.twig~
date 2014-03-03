@@ -36,7 +36,7 @@
 							</ul>
 						</li>
 						<li id="representations" {% if "representations" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-							<a href="{{ path('carto_representations_homepage') }}">{{"Représentations" | trans}}</a>
+							<a href="{{ path('carto_representations_homepage') }}">{{"Représentations"|trans}}</a>
 						</li>
 						<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 							<a href="{{ path('carto_donnees_homepage') }}">{{"Données" | trans}}</a>

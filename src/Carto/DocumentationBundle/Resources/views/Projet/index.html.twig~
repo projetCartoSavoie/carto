@@ -1,5 +1,71 @@
 {% extends "CartoDocumentationBundle:Layouts:layout.html.twig" %}
 {% block body %}
 <h1>{{ "Documentation" | trans }}</h1>
-<h2>{{"La cartographie de données" | trans}}</h2>
+<h2>{{ "La cartographie de données" | trans }}</h2>
+<p>
+{% trans %}
+	A l’ère de l’information numérique, la quantité d’informations accessibles à chacun nécessite une gestion moderne. La cartographie sémantique de données est donc un secteur d’avenir. Nous souhaitons inscrire notre projet dans cette dynamique technologique, en espérant qu’il apportera une quelconque contribution à ce secteur de recherche.
+{% endtrans %}
+</p>
+<p>
+{% trans %}
+	Nous nous concentrerons sur la mise en forme des données du catalogue WordNet. Il s'agit donc d'étudier le fonctionnement de la base de données WordNet et de proposer des solutions graphiques pour parcourir cette base de donnée. Puis nous étendrons le travail à d'autres jeux de données.
+{% endtrans %}
+</p>
+<p>
+{% trans %}
+	Nous travaillerons en collaboration avec un autre groupe d'étudiants, qui travailleront également sur la cartographie de données.
+{% endtrans %}
+</p>
+<p>
+{% trans %}
+	WordNet est un projet développé par l'université de Princeton, qui regroupe les mots de la langue anglaise et les relie entre eux par diverses relations. Grâce à WordNet, il est possible de faire un lien entre un dictionnaire de mots et la sémantique de la langue anglaise, à travers la notion de concepts et les relations entre ces concepts et les mots qui les composent.
+{% endtrans %}
+</p>
+
+<h2>{{ "Liens utiles" | trans }} :</h2>
+	<ul>
+		<li><a href="http://wordnet.princeton.edu/">{{ "Présentation de WordNet" | trans }}</a></li>
+		<li><a href="http://wordnet.princeton.edu/wordnet/documentation/">{{ "Documentation WordNet" | trans }}</a></li>
+		<li><a href="http://wordnetweb.princeton.edu/perl/webwn">{{ "WordNet en ligne" | trans }}</a></li>
+		<li><a href="http://ontology.univ-savoie.fr/tricot/">{{ "Thèse de Christophe Tricot" | trans }} </a></li>
+		<li><a href="http://fr.slideshare.net/Rencontres_Web_de_donnees/christophe-tricot-et-raphal-velt">{{ "Revue sur les outils web de cartographie de données" | trans }}</a></li>
+		<li><a href="http://www.data.gouv.fr/">{{ "Base de donnée ouverte du gouvernement français" | trans }}</a></li>
+		<li><a href="http://wiki.dbpedia.org/About">DbPedia</a></li>
+	</ul>
+
+<h2>{{ "Fonctionnement général du projet" | trans }}</h2>
+<p>
+{% trans %}
+	Nous travaillerons autour d'un fichier standard au format json commun à tous. Ainsi chaque base de données et chaque représentation sera autonome du reste du projet. Chaque source de données devra fournir un fichier json correspondant au standard, et chaque visualisation devra prendre en charge un fichier json standard.
+{% endtrans %}
+</p>
+<img src="{{ asset('bundles/CartoDocumentationBundle/images/jsoncommun.svg')}}" width=50% />
+<br/>
+<p>Json standard : </p>
+<pre>
+{
+	noeuds : [
+		{id:'...', nom:'...', param_optionnels},
+		{id:'...', nom:'...', param_optionnels},	
+		{id:'...', nom:'...', param_optionnels}
+	],
+	relations : [
+		{nom:'...'},
+		{nom:'...'}
+	]
+	graphe : [
+		{
+			noeud:id,
+			rel1:[id1,id2,...],
+			rel2:[id1,...]
+		},
+		{
+			noeud:id,
+			rel1:[id1,id2,...],
+			rel2:[id1,...]
+		}
+	]
+}
+</pre>
 {% endblock %}

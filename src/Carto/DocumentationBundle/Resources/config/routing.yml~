@@ -3,5 +3,9 @@ carto_documentation_homepage:
     defaults: { _controller: CartoDocumentationBundle:Default:index }
 
 carto_documentation_projet:
-    pattern:  /
+    pattern:  /projet
     defaults: { _controller: CartoDocumentationBundle:Projet:index }
+
+carto_documentation_etudewn:
+    pattern:  /WordNet
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:index }
