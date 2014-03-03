@@ -74,7 +74,7 @@ Deux remarques concernant les fichiers de WordNet et la manière dont nous allon
 {{ "Nous allons donc adapter les fichiers de la façon suivante" | trans }} :
 <ul>
 	<li>{{ "Un seul fichier index.words rédigé ainsi" | trans }} :
-		<pre>mot a [ASynsets] &lt; verb + [noms] \ [noms] n [NSynsets] r [RSynsets] + adjective v [VSynsets] + [noms]</pre>
+		<pre>mot a [ASynsets] n [NSynsets] r [RSynsets] v [VSynsets]</pre>
 		{{ "Les relations définies sur cette ligne sont" | trans }} :
 		<ul>
 			<li>+ : derivationaly related to</li>
@@ -151,6 +151,7 @@ public function mixindexAction()
   return new Response($reponse);
 }</pre>
 </p>
-
-{ render(controller("CartoDocumentationBundle:EtudeWN:mixindex")) }
+<a href="{{ path('carto_documentation_etudewn_simplifierindex') }}" target="blank">{{ "Voir le résultat du script (peut prendre quelques minutes)" | trans }}</a>
+<p> {{ "Il nous faut maintenant ajouter les relations" | trans }}</p>
+<a href="{{ path('carto_documentation_etudewn_ajouterderivation') }}" target="blank">{{ "Voir le résultat du script (peut prendre quelques minutes)" | trans }}</a>
 {% endblock %}

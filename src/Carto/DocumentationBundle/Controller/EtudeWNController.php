@@ -7,6 +7,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class EtudeWNController extends Controller
 {
+	//Rendus visuels du compte rendu
+
 	public function indexAction()
 	{
 		return $this->render('CartoDocumentationBundle:EtudeWN:index.html.twig');
@@ -16,6 +18,8 @@ class EtudeWNController extends Controller
 	{
 		return $this->render('CartoDocumentationBundle:EtudeWN:words.html.twig');
 	}
+
+	//Traitement des fichiers d'index
 
 	//Renvoie un tableau contenant toutes les lignes simplifiées d'un fichier index.suffix donné
 	public function simplifyindex($suffixe,$lettre)
@@ -77,6 +81,61 @@ class EtudeWNController extends Controller
 		}
 
 		//On renvoie le fichier simplifié et mixé
+		return new Response($reponse);
+	}
+
+	//Cherche les relations de dérivation
+	public function ajoutderivationAction()
+	{
+		$reponse = '';
+		$correspondances = array();
+		$reperesNdata = array(0,5084,10322,16180,22091,27720,32787,37864,43757,48398,53834,59671,64695,69485,74910,80366);
+
+		$index = fopen('../src/Carto/DocumentationBundle/Resources/dict/index.words','r');
+		$ndata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.noun','r');
+		$vdata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.verb','r');
+		$adata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.adj','r');
+		$rdata = fopen('../src/Carto/DocumentationBundle/Resources/dict/index.adv','r');
+
+		while ($nligne = fgets($ndata)) 
+		{ 
+			$lignesndata[] = $nligne;
+		}
+		$k=0;
+		while ($ligne = fgets($adata))
+		{
+			$k++;
+			$tab = explode(' ',$ligne);
+			foreach($tab as $cle => $valeur)
+			{
+				if ($valeur == '+')
+				{
+					$nsynset = $tab[$cle + 1];
+					$numAdj = intval(substr($tab[$cle + 3],0,2));
+					$numNom = intval(substr($tab[$cle + 3],2,2));
+					$i = $reperesNdata[intval(substr($nsynset,0,2))];
+					while ($i < 82192) 
+					{ 
+						$ntab = explode(' ', $lignesndata[$i]);
+						if ($ntab[0] == $nsynset)
+						{
+							$nom = $ntab[2*($numNom + 1)];
+							break;
+						}
+						$i++;
+					}
+					$correspondances[] = $tab[2*($numAdj + 1)]. ',' . $nom;
+				}
+			}
+		}
+
+		fclose($index);
+		fclose($ndata);
+		fclose($vdata);
+		fclose($adata);
+		fclose($rdata);
+		$correspondances = array_unique($correspondances);
+		$reponse = implode('&nbsp;<br/>',$correspondances);
 		return new Response($reponse);
 	}
 }

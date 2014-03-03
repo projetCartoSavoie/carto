@@ -1,0 +1,26 @@
+.aProposTitle h3{
+    font-size: 25px;
+    font-weight: normal;
+	text-decoration: underline;
+}
+
+.aPropos td{
+	width: 25%;
+	vertical-align: top;
+	text-align: left;
+}
+
+.sources div:hover{
+	color: black;
+	cursor: pointer;
+}
+
+.commentaireTable{
+	height: 100%;
+	width: 100%;
+}
+
+.commentaireTextarea{
+	height: 150px;
+	width: 100%;
+}

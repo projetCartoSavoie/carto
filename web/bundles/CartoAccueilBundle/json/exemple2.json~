@@ -1,0 +1,73 @@
+{
+  "noeuds":[
+    {"id":"00000000","nom":"administer"},
+    {"id":"V02436818","nom":"administer"},
+    {"id":"V02314601","nom":"administer"},
+    {"id":"V02299397","nom":"administer, dispense, distribute"},
+    {"id":"V00080825","nom":"administer, dispense"},
+    {"id":"V00078513","nom":"care_for, treat"},
+    {"id":"V00085829","nom":"bleed, leech, phlebotomise, phlebotomize"},
+    {"id":"V00079223","nom":"correct"},
+    {"id":"V00087042","nom":"cup, transfuse"},
+    {"id":"V00079541","nom":"detox, detoxify"},
+    {"id":"V00080057","nom":"doctor"},
+    {"id":"V00080209","nom":"vet"},
+    {"id":"V00082467","nom":"dress"},
+    {"id":"V00082877","nom":"bandage"},
+    {"id":"V00083087","nom":"ligate"},
+    {"id":"V02609574","nom":"administer"}
+  ],
+  "relations":["estdans","estfilsde","estparentde","contient","estcontenudans"],
+  "graphe":[
+   {
+    "noeud":"00000000",
+    "estdans":[
+      "V02436818",
+      "V02314601",
+      "V02299397",
+      "V00080825",
+      "V00078513",
+      "V00085829",
+      "V00079223",
+      "V00087042",
+      "V00079541",
+      "V00080057",
+      "V00080209",
+      "V00082467",
+      "V00082877",
+      "V00083087",
+      "V02609574"
+    ]
+
+   },   {
+    "noeud":"V00085829",
+    "estparentde":[
+      "V00078513"
+    ]
+   },   {
+    "noeud":"V00079223",
+    "estparentde":[
+      "V00078513"
+    ]
+   },   {
+    "noeud":"V00087042",
+    "estparentde":[
+      "V00078513"
+    ]
+   },   {
+    "noeud":"V00079541",
+    "estparentde":[
+      "V00078513"
+    ]
+   },   {
+    "noeud":"V00080209",
+    "estparentde":[
+      "V00080057"
+    ]
+   },   {
+    "noeud":"V00083087",
+    "estparentde":[
+      "V00082877"
+    ]
+   }  ]
+}

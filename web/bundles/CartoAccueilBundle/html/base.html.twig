@@ -1,0 +1,20 @@
+{% stylesheets 'bundles/AccueilCartoBundle/css/*' %}
+	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+
+{% javascripts 'bundles/AccueilCartoBundle/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+
+{% block body %}
+        <nav>
+            <ul class="fancyNav">
+                <li id="home"><a href="{{ path('carto_accueil_homepage') }}" --class="homeIcon"-->Home</a></li>
+                <li id="news"><a href="{{ path('carto_accueil_news') }}">News</a></li>
+				<li id="about"><a href="{{ path('carto_accueil_documentation') }}">Documentation</a></li>
+                <li id="services"><a href="{{ path('carto_accueil_representations') }}">Representations</a></li>
+				<li id="about"><a href="{{ path('carto_accueil_aboutus') }}">About us</a></li>
+                <li id="contact"><a href="{{ path('carto_accueil_contactus') }}">Contact us</a></li>
+            </ul>
+        </nav>
+{% endblock %}

@@ -53,3 +53,6 @@ Les relations entre mots sont définis dans les fichiers concernant les synsets,
 Nous allons donc adapter les fichiers de la façon suivante: We will modify index.suffix files like that
 Un seul fichier index.words rédigé ainsi: An only one file index.words organised this way
 Les relations définies sur cette ligne sont: Relations defined there are
+script de simplification et mélange de tous les fichiers index.suffixe: here is the script we have written to make this one index.words file simplified
+Voir le résultat du script (peut prendre quelques minutes): See the result (can take a few minutes)
+Il nous faut maintenant ajouter les relations: Now we have to add relations to this file

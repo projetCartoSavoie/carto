@@ -13,3 +13,11 @@ carto_documentation_etudewn:
 carto_documentation_etudewn_words:
     pattern:  /WordNet/words
     defaults: { _controller: CartoDocumentationBundle:EtudeWN:words }
+
+carto_documentation_etudewn_simplifierindex:
+    pattern:  /WordNet/words/indexsimplifie
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:mixindex }
+
+carto_documentation_etudewn_ajouterderivation:
+    pattern:  /WordNet/words/ajouterderivation
+    defaults: { _controller: CartoDocumentationBundle:EtudeWN:ajoutderivation }

@@ -1,0 +1,29 @@
+/**************
+	MENU
+***************/
+.menugauche {
+	display:inline-block;
+	vertical-align:300%;
+	float:left;
+	margin-right: 30px;
+}
+
+.contenu {
+	margin-left:30%;
+}
+
+img {
+	vertical-align:top;
+}
+
+/**************
+	CODE
+***************/
+
+pre {
+	word-wrap: break-word;
+	max-width: 100%;
+	white-space: pre-wrap;
+	overflow-wrap:break-word;
+	border:solid 1px;
+}
