@@ -7,6 +7,12 @@
 {% endstylesheets %}
 {% endblock %}
 
+{% block javascripts %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% endblock %}
+
 {% block menuSuperieur %}{{ parent() }}
 {% endblock %}
 {% block script %}
