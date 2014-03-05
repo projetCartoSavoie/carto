@@ -10,6 +10,12 @@ a {
 	color: #333;
 }
 
+.header{
+	width: 1000px;
+	margin: 0 auto;
+	border-bottom: #666 solid 10px;
+}
+
 /**************
 	MENU
 ***************/
@@ -187,4 +193,23 @@ html[xmlns] .nav {
 
 .language_selector a{
 	text-decoration: none !important;
+}
+
+/*************
+	CONTENU
+**************/
+
+#content {
+background-color: #FDFAFA;
+border-right-color: #F7F2ED;
+border-right-width: 1px;
+border-right-style: solid;
+border-left-color: #E9E6E2;
+border-left-width: 1px;
+border-left-style: solid;
+width: 998px;
+margin-left: auto;
+margin-right: auto;
+padding-bottom: 20px;
+text-align: left;
 }

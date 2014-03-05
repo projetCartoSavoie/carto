@@ -15,6 +15,7 @@
 		{% block javascripts %}{% endblock %}
 	</head>
 	<body>
+		<div class="header">
 		{% block menuSuperieur %}
 			<div class="language_selector">
 				<a href="{{ path('carto_accueil_homepage_switch_language', {'lang' : 'en'}) }}" 
@@ -66,8 +67,12 @@
 					</ul>
 				</nav>
 			</div>
+		</div>
 		{% endblock %}
-		{% block body %}{% endblock %}
+		<div id="content">
+			{% block body %}
+			{% endblock %}
+		</div>
 		<script>
 			{% block script %}{% endblock %}
 		</script>
