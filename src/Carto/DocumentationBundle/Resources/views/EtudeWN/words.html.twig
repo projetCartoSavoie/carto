@@ -5,9 +5,9 @@
 
 <h3>{{ "Relations entre les mots" | trans }}</h3>
 <ul>
-	<li>{{ "Un adjectif ou un verbe dérive d'un nom" | trans }} (ManyToOne).</li>
+	<li>{{ "Un adjectif ou un verbe dérive d'un nom" | trans }} (ManyToMany).</li>
 	<li>{{ "Un adjectif est le participe passé d'un verbe" | trans }} (OneToOne)</li>
-	<li>{{ "Un adjectif est le pertainym d'un nom" | trans }} (OneToMany)</li>
+	<li>{{ "Un adjectif est le pertainym d'un nom" | trans }} (ManyToMany)</li>
 	<li>{{ "Un adverbe est construit à partir d'un adjectif" | trans }} (OneToOne)</li>
 </ul>
 <p>
@@ -147,5 +147,247 @@ public function mixindexAction()
 </p>
 <a href="{{ path('carto_documentation_etudewn_simplifierindex') }}" target="blank">{{ "Voir le résultat du script (peut prendre quelques minutes)" | trans }}</a>
 <p> {{ "Il nous faut maintenant ajouter les relations" | trans }}</p>
+<p> {{ "Commençons avec la relation de dérivation, nous fabriquons un fichier derivation dont les lignes sont de la forme <mot1,mot2> où mot1 est un adjectif ou un verbe dérivé du nom mot2." | trans }}</p>
+<pre>//Cherche les relations de dérivation
+public function ajoutderivationAction()
+{
+  $correspondances = array();
+
+  $index = fopen('../src/Carto/DocumentationBundle/Resources/dict/index.words','r');
+  $ndata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.noun','r');
+  $vdata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.verb','r');
+  $adata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.adj','r');
+
+  //On enregistre dans un tableau indexé par les numéros de synset toutes les lignes de data.noun, afin de ne pas avoir ensuite à parcourir tout le fichier pour trouver une ligne.
+  while ($nligne = fgets($ndata)) 
+  { 
+    $tab = explode(' ',$nligne,2);
+    $lignesndata[$tab[0]] = $nligne;
+  }
+
+  //On parcourt le fichier data.adj à la recherche du symbole + (qui signifie derivationaly related to)
+  while ($ligne = fgets($adata))
+  {
+    $tab = explode(' ',$ligne);
+    foreach($tab as $cle => $valeur)
+    {
+      if ($valeur == '+')
+      {
+        //On note le numéro du synset et des mots concernés
+        $nsynset = $tab[$cle + 1];
+        $numAdj = intval(substr($tab[$cle + 3],0,2));
+        $numNom = intval(substr($tab[$cle + 3],2,2));
+        //On va chercher les mots concernés
+        if (isset($lignesndata[$nsynset]))
+        {
+          $ntab = explode(' ', $lignesndata[$nsynset]);
+          $nom = $ntab[2*($numNom + 1)];
+          $adj = $tab[2*($numAdj + 1)];
+          if ($adj != $nom) { $correspondances[] = $adj. ',' . $nom; }
+        }
+      }
+    }
+  }
+
+  //On fait exactement la même chose pour les verbes
+  while ($ligne = fgets($vdata))
+  {
+    $tab = explode(' ',$ligne);
+    foreach($tab as $cle => $valeur)
+    {
+      if ($valeur == '+')
+      {
+        $nsynset = $tab[$cle + 1];
+        $numVerb = intval(substr($tab[$cle + 3],0,2));
+        $numNom = intval(substr($tab[$cle + 3],2,2));
+        if (isset($lignesndata[$nsynset]))
+        {
+          $ntab = explode(' ', $lignesndata[$nsynset]);
+          $nom = $ntab[2*($numNom + 1)];
+          $verb = $tab[2*($numVerb + 1)];
+          if ($verb != $nom) { $correspondances[] = $verb. ',' . $nom; }
+        }
+      }
+    }
+  }
+
+  fclose($index);
+  fclose($ndata);
+  fclose($vdata);
+  fclose($adata);
+
+  //On les remet en ordre alphabétique et on enlève les doublons (chaque adjectif ou verbe apparait autant de fois qu'il a de synsets)
+  $correspondances = array_unique($correspondances);
+  sort($correspondances);
+
+  //On affiche le résultat
+  $reponse = implode('&nbsp;<br/>',$correspondances);
+  return new Response($reponse);
+}</pre>
 <a href="{{ path('carto_documentation_etudewn_ajouterderivation') }}" target="blank">{{ "Voir le résultat du script (peut prendre quelques minutes)" | trans }}</a>
+
+<p> {{ "Nous fabriquons maintenant un fichier participle dont les lignes sont de la forme <mot1,mot2> où mot1 est un adjectif participe passé du verbe mot2." | trans }}</p>
+<pre>//Cherche les relations participle
+public function ajoutparticipleAction()
+{
+  $correspondances = array();
+
+  $index = fopen('../src/Carto/DocumentationBundle/Resources/dict/index.words','r');
+  $vdata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.verb','r');
+  $adata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.adj','r');
+
+  //On enregistre dans un tableau indexé par les numéros de synset toutes les lignes de data.verb, afin de ne pas avoir ensuite à parcourir tout le fichier pour trouver une ligne.
+  while ($vligne = fgets($vdata)) 
+  {
+    $tab = explode(' ',$vligne,2);
+    $lignesvdata[$tab[0]] = $vligne;
+  }
+
+  //On parcourt le fichier data.adj à la recherche du symbole < (qui signifie participle of)
+  while ($ligne = fgets($adata))
+  {
+    $tab = explode(' ',$ligne);
+    foreach($tab as $cle => $valeur)
+    {
+      if ($valeur == '<')
+      {
+        //On note le numéro du synset et des mots concernés
+        $vsynset = $tab[$cle + 1];
+        $numAdj = intval(substr($tab[$cle + 3],0,2));
+        $numVerb = intval(substr($tab[$cle + 3],2,2));
+        //On va chercher les mots concernés
+        if (isset($lignesvdata[$vsynset]))
+        {
+          $vtab = explode(' ', $lignesvdata[$vsynset]);
+          $verb = $vtab[2*($numVerb + 1)];
+          $adj = $tab[2*($numAdj + 1)];
+          if ($adj != $verb) { $correspondances[] = $adj. ',' . $verb; }
+        }
+      }
+    }
+  }
+
+  fclose($index);
+  fclose($vdata);
+  fclose($adata);
+
+  //On les remet en ordre alphabétique et on enlève les doublons (chaque adjectif apparait autant de fois qu'il a de synsets)
+  $correspondances = array_unique($correspondances);
+  sort($correspondances);
+
+  //On affiche le résultat
+  $reponse = implode('&nbsp;<br/>',$correspondances);
+  return new Response($reponse);
+}</pre>
+<a href="{{ path('carto_documentation_etudewn_ajouterparticiple') }}" target="blank">{{ "Voir le résultat du script (peut prendre quelques minutes)" | trans }}</a>
+
+<p> {{ "Nous continuons avec un fichier pertainym dont les lignes sont de la forme <mot1,mot2> où mot1 est un adjectif pertainym du nom mot2." | trans }}</p>
+<pre>//Cherche les relations pertainym
+public function ajoutpertainymAction()
+{
+  $correspondances = array();
+
+  $index = fopen('../src/Carto/DocumentationBundle/Resources/dict/index.words','r');
+  $ndata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.noun','r');
+  $adata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.adj','r');
+
+  //On enregistre dans un tableau indexé par les numéros de synset toutes les lignes de data.verb, afin de ne pas avoir ensuite à parcourir tout le fichier pour trouver une ligne.
+  while ($nligne = fgets($ndata)) 
+  {
+    $tab = explode(' ',$nligne,2);
+    $lignesndata[$tab[0]] = $nligne;
+  }
+
+  //On parcourt le fichier data.adj à la recherche du symbole \ (qui signifie pertainym)
+  while ($ligne = fgets($adata))
+  {
+    $tab = explode(' ',$ligne);
+    foreach($tab as $cle => $valeur)
+    {
+      if ($valeur == '\\')
+      {
+        //On note le numéro du synset et des mots concernés
+        $nsynset = $tab[$cle + 1];
+        $numAdj = intval(substr($tab[$cle + 3],0,2));
+        $numNom = intval(substr($tab[$cle + 3],2,2));
+        //On va chercher les mots concernés
+        if (isset($lignesndata[$nsynset]))
+        {
+          $ntab = explode(' ', $lignesndata[$nsynset]);
+          $nom = $ntab[2*($numNom + 1)];
+          $adj = $tab[2*($numAdj + 1)];
+          if ($adj != $nom) { $correspondances[] = $adj. ',' . $nom; }
+        }
+      }
+    }
+  }
+
+  fclose($index);
+  fclose($ndata);
+  fclose($adata);
+
+  //On les remet en ordre alphabétique et on enlève les doublons (chaque adjectif apparait autant de fois qu'il a de synsets)
+  $correspondances = array_unique($correspondances);
+  sort($correspondances);
+
+  //On affiche le résultat
+  $reponse = implode('&nbsp;<br/>',$correspondances);
+  return new Response($reponse);
+}</pre>
+<a href="{{ path('carto_documentation_etudewn_ajouterpertainym') }}" target="blank">{{ "Voir le résultat du script (peut prendre quelques minutes)" | trans }}</a>
+
+<p> {{ "Terminons avec un fichier builtfrom dont les lignes sont de la forme <mot1,mot2> où mot1 est un adverbe construit à partir de l'adjectif mot2." | trans }}</p>
+<pre>//Cherche les relations builtfrom
+public function ajoutbuiltAction()
+{
+  $correspondances = array();
+
+  $index = fopen('../src/Carto/DocumentationBundle/Resources/dict/index.words','r');
+  $rdata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.adv','r');
+  $adata = fopen('../src/Carto/DocumentationBundle/Resources/dict/data.adj','r');
+
+  //On enregistre dans un tableau indexé par les numéros de synset toutes les lignes de data.adj, afin de ne pas avoir ensuite à parcourir tout le fichier pour trouver une ligne.
+  while ($aligne = fgets($adata)) 
+  {
+    $tab = explode(' ',$aligne,2);
+    $lignesadata[$tab[0]] = $aligne;
+  }
+
+  //On parcourt le fichier data.adj à la recherche du symbole \ (qui signifie builtfrom)
+  while ($ligne = fgets($rdata))
+  {
+    $tab = explode(' ',$ligne);
+    foreach($tab as $cle => $valeur)
+    {
+      if ($valeur == '\\')
+      {
+        //On note le numéro du synset et des mots concernés
+        $asynset = $tab[$cle + 1];
+        $numAdv = intval(substr($tab[$cle + 3],0,2));
+        $numAdj = intval(substr($tab[$cle + 3],2,2));
+        //On va chercher les mots concernés
+        if (isset($lignesadata[$asynset]))
+        {
+          $atab = explode(' ', $lignesadata[$asynset]);
+          $adj = $atab[2*($numAdj + 1)];
+          $adv = $tab[2*($numAdv + 1)];
+          if ($adv != $adj) { $correspondances[] = $adv. ',' . $adj; }
+        }
+      }
+    }
+  }
+
+  fclose($index);
+  fclose($rdata);
+  fclose($adata);
+
+  //On les remet en ordre alphabétique et on enlève les doublons (chaque adjectif apparait autant de fois qu'il a de synsets)
+  $correspondances = array_unique($correspondances);
+  sort($correspondances);
+
+  //On affiche le résultat
+  $reponse = implode('&nbsp;<br/>',$correspondances);
+  return new Response($reponse);
+}</pre>
+<a href="{{ path('carto_documentation_etudewn_ajouterbuiltfrom') }}" target="blank">{{ "Voir le résultat du script (peut prendre quelques minutes)" | trans }}</a>
 {% endblock %}

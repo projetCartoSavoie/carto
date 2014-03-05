@@ -1,57 +1,35 @@
-'Documentation': 'Documentation'
-'La cartographie de données': 'Knowledge mapping'
+# Mots techniques courammnt utilisés
+!: Antonym
+!i: Antonymy
+@: Hypernym
+@i: Hypernymy
+~: Hyponym
+~i: Hyponymy
+%: Méronym
+%i: Méronymy
+"#": Holonym
+"#i": Holonymy
+=: Attribute
+/: Pertainym
+/i: Pertainymy
++: Derivationaly related to
++i: Derivation
+<: Participle of
+/adv: Built from
+&: Similar to
+adj: Adjective
+unadj: an adjective
+vb: Verb
+unvb: a verb
+nm: Noun
+adv: Adverb
+in: is into
+Un mot: A word
 
-'Le projet': 'The project'
-'A l’ère de l’information numérique, la quantité d’informations accessibles à chacun nécessite une gestion moderne. La cartographie sémantique de données est donc un secteur d’avenir. Nous souhaitons inscrire notre projet dans cette dynamique technologique, en espérant qu’il apportera une quelconque contribution à ce secteur de recherche.': 'Today, numerical technologies provide big quantity of datas. We need modern ways to organize and acces it. Mapping datas is a good solution and we want this project to be usefull for people who want to access informations.'
-Nous nous concentrerons sur la mise en forme des données du catalogue WordNet. Il s'agit donc d'étudier le fonctionnement de la base de données WordNet et de proposer des solutions graphiques pour parcourir cette base de donnée. Puis nous étendrons le travail à d'autres jeux de données.: We will principally work on WordNet database. We will study how WordNet works and propose several graphic representations of this database. Later we will work on other databases
-Nous travaillerons en collaboration avec un autre groupe d'étudiants, qui travailleront également sur la cartographie de données.: We will work with another group of students, who will also work on kwnoledge mapping.
-WordNet est un projet développé par l'université de Princeton, qui regroupe les mots de la langue anglaise et les relie entre eux par diverses relations. Grâce à WordNet, il est possible de faire un lien entre un dictionnaire de mots et la sémantique de la langue anglaise, à travers la notion de concepts et les relations entre ces concepts et les mots qui les composent.: WordNet has been developped by Princeton University. It's aim is to group english words with syntaxic and semantic relations.
-
-'Liens utiles': 'Links'
-'Présentation de WordNet': 'WordNet introduction'
-'Documentation WordNet': 'WordNet documentation'
-'WordNet en ligne': 'Use WordNet online'
-'Thèse de Christophe Tricot': 'Christophe Tricot thesis'
-'Revue sur les outils web de cartographie de données': 'Review on tools for web knowledge mapping'
-'Base de donnée ouverte du gouvernement français': 'open database from french government'
-
-'Fonctionnement général du projet': 'Organization of the project'
-Nous travaillerons autour d'un fichier standard au format json commun à tous. Ainsi chaque base de données et chaque représentation sera autonome du reste du projet. Chaque source de données devra fournir un fichier json correspondant au standard, et chaque visualisation devra prendre en charge un fichier json standard.: We will use a common standard file on json format, so that each database and visualisation will be independant. Each data source will have to provide a json file matching the standard, and each visualisation will have to accept to receive a standard json file.
-'Introduction': 'Introduction'
-Dans WordNet, un concept est représenté par un ensemble de mots synonymes entre eux. Cet ensemble est appelé un synset. Un mot peut appartenir à un ou plusieurs synsets et un synset peut contenir un ou plusieurs mots.: In WordNet, a concept is represented by a set of words synonyms to each other. This set is called a synset. One word can be in one or several synsets, and a synset can contain one or several synsets.
-WordNet différencie les synsets contenant des noms, de ceux contenant des verbes, des adjectifs et des adverbes.: WordNet makes a difference between synsets containing nouns, verbs, adjectives and adverbs.
-Exemple simplifié : Simplified exemple
-Pour bien comprendre le fonctionnement de WordNet, il faut voir que certaines relations concernent 2 synsets, d'autres 2 mots, et d'autres un synset et un mot.: To understand how WordNet works, it's important to see that there is relations between 2 synsets, 2 words or a word and a synset.
-Les synsets sont différenciés au sein de la base de données wordnet par leur type et un numéro d'identifiant à 8 chiffres. Ils sont caractérisés par l'ensemble des mots qui les constituent et une définition (attention, deux synsets peuvent avoir exactement le même ensemble de mots mais un type, un numéro et/ou une définition différente!: Synsets are differenciated in WordNet database by there type and a 8 numerals identification number. They're characterized by their set of words and a definition (be careful : two synsets can have exactely the same set of words but a different type, number and/or definition.
-Numéro: id
-Ensemble de mots: set of words
-Définition: Definition
-Nous avons choisi de représenter les synsets et les mots en base de données en utilisant doctrine. Voici le diagramme des classes correspondants.: We have chosen to represent synsets and words in a database using doctrine. Here is the corresponding class diagram.
-
-Relations entre les mots: Relations between words
-Un adjectif ou un verbe dérive d'un nom: An adjective or a verb is derivationaly related from a noun
-Un adjectif est le participe passé d'un verbe: An adjective is participle of a verb
-Un adjectif est le pertainym d'un nom: An adjectif is pertainym of a noun
-Un adverbe est construit à partir d'un adjectif: An adverb is built from an adjective
-Contrairement aux synsets, les mots ne sont pas typés puisqu'un mot peut appartenir à plusieurs synsets de types différents. Autrement dit, un mot peut être à la fois un adjectif, un verbe et un nom (par exemple work est à la fois un verbe et un nom).: Contrary to synsets, words have no type : a word can be at once a verb, a noun and an adjective (exemple : work is both a verb and a noun).
-Les fichiers de la base de données WordNet: WordNet database files
-"Nous n'utiliserons pas tous les fichiers offerts par WordNet. Nous utiliserons les fichiers nommés index.noun, index.verb, index.adj, index.adv, data.noun, data.verb, data.adj et data.adv .": We won't use all files offered by WordNet. Those we will use are named index.noun, index.verb, index.adj, index.adv, data.noun, data.verb, data.adj and data.adv .
-Les fichiers index.suffixe recensent tous les mots de WordNet avec les synsets auxquels ils appartiennent. Leurs lignes sont construites de la façon suivante: Files index.suffixe make an inventory of all WordNet words and synsets they are into. Their lines are built like that
-mot: word
-synsets de type indiqué par le suffixe: synsets of type corresponding to the suffixe
-Ainsi pour connaitre tous les synsets contenant le mot work, nous allons lire dans chaque fichier de type index.suffixe: In order to know all synsets the word work is into, we have to read each file of type index.suffix
+# Mots très courants
+est: is
 et: and
-"le mot work n'apparait pas dans ces fichiers": The word work doesn't appear in those files
-Le mot work appartient à 7 synsets de type nom et 27 synsets de type verbe: The word work is into 7 noun synsets and 27 verb synsets
-Il nous reste à lire la partie infos de ces lignes. La lettre n, v, a ou r sert à indiquer le type (nom, verbe, adjectif ou adverbe). Les numéros à moins de 8 chiffres servent à compter les synsets et identifier le mots dans les fichiers lexicographer de WordNet, auxquels nous ne nous intéresserons pas dans ce projet, et enfin les symboles servent à annoncer les relations des synsets référencés. Puisque les relations sont également référencées dans les fichiers data.suffixe, nous éliminerons ces symboles des fichiers index.suffixe . Finalement, nous ne garderons donc que la lettre n, v, a ou r.: Now we have to explain the part infos of those lines. The letter n, v, a or r defines the type (noun, verb, adjective or adverb). Numbers with less than 8 numerals are used to count the synsets and identify the word in lexicographer files (we won't use those files, so we are not interested on this information). Other symbols announce relations for the synsets of this word. As relations are also defined in files data.suffix, we will suppress it from the index.suffixe file. In conclusion, we will only keep the letter n, v, a or v.
-Les relations entre les mots sont codées dans les fichiers data.noun, data.verb, data.adj, data.adv de la façon suivante: Relations between words are defined in files data.suffix like that
-le premier mot du VSynset 00001740 (ie breathe) est une dérivation du cinquième mot du NSynset 04257960 (ie breather): first word of VSynset 00001740 (ie breathe) is derivationaly related to the fifth word of the NSynset 04257960 (ie breather)
-Nos fichiers textes adaptés: Adaptation of those files
-Deux remarques concernant les fichiers de WordNet et la manière dont nous allons les utiliser: Two remarques about WordNet files and the way we will use it
-Un même mot peut apparaitre plusieurs fois (work apparait à la fois dans index.noun et index.verb): One word can appear several times (work appears both in index.noun and index.verb)
-Les relations entre mots sont définis dans les fichiers concernant les synsets, elles sont donc définies plusieurs fois (dans chaque synset contenant les mots concernés par la relation) et la recherche d'un mot en relation avec un autre nous oblige à chercher plusieurs lignes dans des fichiers data différents.: Relations between words are defined in files corresponding to synsets, as a consequence they are defined several times (in each synset containing the words concerned be the relation) and searching a word in relation with another one oblige us to search several lines in various data.suffixe files.
-Nous allons donc adapter les fichiers de la façon suivante: We will modify index.suffix files like that
-Un seul fichier index.words rédigé ainsi: An only one file index.words organised this way
-Les relations définies sur cette ligne sont: Relations defined there are
-script de simplification et mélange de tous les fichiers index.suffixe: here is the script we have written to make this one index.words file simplified
-Voir le résultat du script (peut prendre quelques minutes): See the result (can take a few minutes)
+un: a
+Un: A
+le: the
+Le: The
