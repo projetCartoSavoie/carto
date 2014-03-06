@@ -127,7 +127,7 @@ nav {
 	-moz-box-shadow: none;
 }
 .nav ul a:hover {
-	background: #0078ff url(/bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 -100px !important;
+	background: #0078ff url(http://localhost/CartoSavoie/carto/web/bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 -100px !important;
 	color: #fff !important;
 
 	-webkit-border-radius: 0;
