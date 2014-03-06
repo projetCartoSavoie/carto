@@ -5,7 +5,7 @@
 		<title>{% block title %}{{ "Bienvenue" | trans }}{% endblock %}</title>
 		
 		{% block stylesheets %}
-			{% stylesheets 'bundles/CartoAccueilBundle/css/header.css' %}
+			{% stylesheets 'bundles/CartoAccueilBundle/css/*' %}
 				<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 			{% endstylesheets %}
 		{% endblock %}
@@ -15,64 +15,82 @@
 		{% block javascripts %}{% endblock %}
 	</head>
 	<body>
-		<div class="header">
 		{% block menuSuperieur %}
-			<div class="language_selector">
-				<a href="{{ path('carto_accueil_homepage_switch_language', {'lang' : 'en'}) }}" 
-					{% if app.request.locale == 'en' %}class="selected"{% endif %}>
-					<img src="{{ asset('bundles/CartoAccueilBundle/images/en.png') }}" title="English" alt="English">
-				</a>
-				<a href="{{ path('carto_accueil_homepage_switch_language', {'lang' : 'fr'}) }}" 
-					{% if app.request.locale == 'fr' %}class="selected"{% endif %}>
-					<img src="{{ asset('bundles/CartoAccueilBundle/images/fr.png') }}" title="Fran&ccedil;ais" alt="Fran&ccedil;ais">
-				</a>
-			</div>
-			<div>
-				<img class="logo" src="{{ asset('bundles/CartoAccueilBundle/images/logo.png')}}" title="Cartographie de données" alt="Cartographie de données">
-				<nav>
-					<ul class="nav">
-						<li id="home" {% if path(app.request.attributes.get('_route')) == "/" ~ app.request.locale or path(app.request.attributes.get('_route')) == "/" %}class="current"{% endif %}>
-									<a href="{{ path('carto_accueil_homepage') }}" --class="homeIcon"-->{{"Accueil"|trans}}</a>
-						</li>
-						<li id="documentation" {% if "documentation" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-							<a href="{{ path('carto_documentation_homepage') }}">{{"Documentation" | trans}}</a>
-							<ul>
-								<li><a href="{{ path('carto_documentation_projet') }}">{{"Le projet"|trans}}</a></li>
-								<li><a href="{{ path('carto_documentation_etudewn') }}">WordNet</a></li>
-							</ul>
-						</li>
-						<li id="representations" {% if "representations" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-							<a href="{{ path('carto_representations_homepage') }}">{{"Représentations"|trans}}</a>
-							<ul>
-								<li>
-									<a href="{{ path('carto_representations_representation1') }}">{{"Représentation 1" | trans}}</a>
-								</li>
-								<li>
-									<a href="{{ path('carto_representations_representation2') }}">{{"Représentation 2" | trans}}</a>
-								</li>
-								<li>
-									<a href="{{ path('carto_representations_representation3') }}">{{"Représentation 3" | trans}}</a>
-								</li>
-							</ul>
-						</li>
-						<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-							<a href="{{ path('carto_donnees_homepage') }}">{{"Données" | trans}}</a>
-						</li>
-						<li id="about" {% if "about" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-							<a href="{{ path('carto_accueil_aboutus') }}">{{"A propos" | trans}}</a>
-						</li>
-						<li id="contact" {% if "contact" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-							<a href="{{ path('carto_accueil_contactus') }}">{{"Contacts" | trans}}</a>
-						</li>
-					</ul>
-				</nav>
-			</div>
-		</div>
+			<table class="tableHeader">
+				<tr>
+					<td class="header">&nbsp;</td>
+					<td class="headerCenter" style="width: 1000px;">
+						<div class="language_selector">
+							<a href="{{ path('carto_accueil_homepage_switch_language', {'lang' : 'en'}) }}" 
+								{% if app.request.locale == 'en' %}class="selected"{% endif %}>
+								<img src="{{ asset('bundles/CartoAccueilBundle/images/en.png') }}" title="English" alt="English">
+							</a>
+							<a href="{{ path('carto_accueil_homepage_switch_language', {'lang' : 'fr'}) }}" 
+								{% if app.request.locale == 'fr' %}class="selected"{% endif %}>
+								<img src="{{ asset('bundles/CartoAccueilBundle/images/fr.png') }}" title="Fran&ccedil;ais" alt="Fran&ccedil;ais">
+							</a>
+						</div>
+						<div>
+							<img class="logo" src="{{ asset('bundles/CartoAccueilBundle/images/logo.png')}}" title="Cartographie de données" alt="Cartographie de données">
+							<nav>
+								<ul class="nav">
+									<li id="home" {% if path(app.request.attributes.get('_route')) == "/" ~ app.request.locale or path(app.request.attributes.get('_route')) == "/" %}class="current"{% endif %}>
+												<a href="{{ path('carto_accueil_homepage') }}" --class="homeIcon"-->{{"Accueil"|trans}}</a>
+									</li>
+									<li id="documentation" {% if "documentation" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+										<a href="{{ path('carto_documentation_homepage') }}">{{"Documentation" | trans}}</a>
+										<ul>
+											<li><a href="{{ path('carto_documentation_projet') }}">{{"Le projet"|trans}}</a></li>
+											<li><a href="{{ path('carto_documentation_etudewn') }}">WordNet</a></li>
+										</ul>
+									</li>
+									<li id="representations" {% if "representations" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+										<a href="{{ path('carto_representations_homepage') }}">{{"Représentations"|trans}}</a>
+										<ul>
+											<li>
+												<a href="{{ path('carto_representations_representation1') }}">{{"Représentation 1" | trans}}</a>
+											</li>
+											<li>
+												<a href="{{ path('carto_representations_representation2') }}">{{"Représentation 2" | trans}}</a>
+											</li>
+											<li>
+												<a href="{{ path('carto_representations_representation3') }}">{{"Représentation 3" | trans}}</a>
+											</li>
+										</ul>
+									</li>
+									<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+										<a href="{{ path('carto_donnees_homepage') }}">{{"Données" | trans}}</a>
+									</li>
+									<li id="about" {% if "about" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+										<a href="{{ path('carto_accueil_aboutus') }}">{{"A propos" | trans}}</a>
+									</li>
+									<li id="contact" {% if "contact" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+										<a href="{{ path('carto_accueil_contactus') }}">{{"Contacts" | trans}}</a>
+									</li>
+								</ul>
+							</nav>
+						</div>
+					</td>
+					<td class="header">&nbsp;</td>
+				</tr>
+			</table>
 		{% endblock %}
-		<div id="content">
-			{% block body %}
-			{% endblock %}
-		</div>
+		<table class="tableContent">
+			<tr>
+				<td class="contentLeft">
+					{% block utilsLeft %}
+					{% endblock %}
+				</td>
+				<td id="contentCenter">
+					{% block body %}
+					{% endblock %}
+				</td>
+				<td class="contentRight">
+					{% block utilsRight %}
+					{% endblock %}
+				</td>
+			</tr>
+		</table>
 		<script>
 			{% block script %}{% endblock %}
 		</script>

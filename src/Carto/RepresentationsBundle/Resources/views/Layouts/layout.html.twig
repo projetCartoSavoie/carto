@@ -6,11 +6,14 @@
 {% endjavascripts %}
 {% endblock %}
 
-{% block body %}
-	<div>
-	{% block contenu %}
-	{% endblock %}
-	</div>	
+{% block body %}{{ parent() }}
+
 {% endblock %}
 
-
+{% block utilsLeft %}{{ parent() }}
+	<div>
+	<input class="button" type='button' value='Representation wordnet' id='show_rep' onclick='disabled_button_and_show()'>
+	</div>
+	<div id = "wikipedia">
+	</div>
+{% endblock %}

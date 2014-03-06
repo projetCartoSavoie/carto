@@ -1,19 +1,59 @@
-body {
+body{
 	font: normal .8em/1.5em Arial, Helvetica, sans-serif;
 	background: #ebebeb;
-	width: 1000px;
-	margin: 30px auto;
 	color: #666;
+	height: 100%;
 }
 
-a {
+a{
 	color: #333;
 }
 
+html{
+	height: 100%;
+}
+
+/**************
+	HEADER
+***************/
+.tableHeader{
+	width: 100%;
+	border-spacing: 0px;
+}
+
 .header{
+	border-bottom: 10px solid;
+}
+
+.headerCenter{
+	border-bottom: 10px solid;
 	width: 1000px;
-	margin: 0 auto;
-	border-bottom: #666 solid 10px;
+}
+
+/*************
+	CONTENU
+**************/
+
+.tableContent {
+	width: 100%;
+	height:100%;
+	border-spacing: 0px;
+}
+#contentCenter{
+	background-color: #FDFAFA;
+	width: 1000px;
+}
+
+.contentLeft{
+	height : 100%;
+	width : 300px;
+	float : left;
+}
+
+.contentRight{
+	height : 100%;
+	width : 250px;
+	float : right;
 }
 
 /**************
@@ -66,7 +106,7 @@ nav {
 
 /* main level link hover */
 .nav .current a, .nav li:hover > a {
-	background: #666 url(/bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 -40px;
+	background: #A5A0A0 url(/bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 -40px;
 	color: #444;
 	border-top: solid 1px #f8f8f8;
 
@@ -193,23 +233,4 @@ html[xmlns] .nav {
 
 .language_selector a{
 	text-decoration: none !important;
-}
-
-/*************
-	CONTENU
-**************/
-
-#content {
-background-color: #FDFAFA;
-border-right-color: #F7F2ED;
-border-right-width: 1px;
-border-right-style: solid;
-border-left-color: #E9E6E2;
-border-left-width: 1px;
-border-left-style: solid;
-width: 998px;
-margin-left: auto;
-margin-right: auto;
-padding-bottom: 20px;
-text-align: left;
 }

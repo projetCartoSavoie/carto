@@ -11,7 +11,7 @@ D3_GrapheRepresentation.prototype.show = function(fichier) {
 		.linkDistance(100)
 		.size([width, height]);
 
-	var svg = d3.select("#content").append("svg")
+	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", width)
 		.attr("height", height);
 		

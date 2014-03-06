@@ -11,7 +11,7 @@ D3_NodeLinkTreeRepresentation.prototype.show = function(fichier) {
 	var diagonal = d3.svg.diagonal.radial()
 		.projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
 
-	var svg = d3.select("#content").append("svg")
+	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", diameter)
 		.attr("height", diameter - 150)
 		.append("g")
