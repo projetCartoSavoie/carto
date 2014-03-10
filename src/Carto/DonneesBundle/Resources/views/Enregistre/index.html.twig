@@ -74,73 +74,46 @@ php app/console doctrine:schema:update --force
 	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.adv','type' : 'R', 'liminf' : 0, 'limsup' : 5000000})}}" target="blank">Antonymes Adverbes</a></li>
 	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.adj','type' : 'A', 'liminf' : 0, 'limsup' : 5000000})}}" target="blank">Antonymes Adjectifs</a></li>
 	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.verb','type' : 'V', 'liminf' : 0, 'limsup' : 5000000})}}" target="blank">Antonymes Verbes</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 0, 'limsup' : 1000000})}}" target="blank">Antonymes Noms 1</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 1000000, 'limsup' : 2000000})}}" target="blank">Antonymes Noms 2</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 2000000, 'limsup' : 3000000})}}" target="blank">Antonymes Noms 3</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 3000000, 'limsup' : 4000000})}}" target="blank">Antonymes Noms 4</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 4000000, 'limsup' : 5000000})}}" target="blank">Antonymes Noms 5</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 5000000, 'limsup' : 6000000})}}" target="blank">Antonymes Noms 6</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 6000000, 'limsup' : 7000000})}}" target="blank">Antonymes Noms 7</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 7000000, 'limsup' : 8000000})}}" target="blank">Antonymes Noms 8</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 8000000, 'limsup' : 9000000})}}" target="blank">Antonymes Noms 9</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 9000000, 'limsup' : 10000000})}}" target="blank">Antonymes Noms 10</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 10000000, 'limsup' : 11000000})}}" target="blank">Antonymes Noms 11</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 11000000, 'limsup' : 12000000})}}" target="blank">Antonymes Noms 12</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 12000000, 'limsup' : 13000000})}}" target="blank">Antonymes Noms 13</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 13000000, 'limsup' : 14000000})}}" target="blank">Antonymes Noms 14</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 14000000, 'limsup' : 15000000})}}" target="blank">Antonymes Noms 15</a></li>
-	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 15000000, 'limsup' : 16000000})}}" target="blank">Antonymes Noms 16</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 0, 'limsup' : 1000000})}}" target="blank">Hypernyms Noms 1</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 1000000, 'limsup' : 2000000})}}" target="blank">Hypernyms Noms 2</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 2000000, 'limsup' : 3000000})}}" target="blank">Hypernyms Noms 3</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 3000000, 'limsup' : 4000000})}}" target="blank">Hypernyms Noms 4</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 4000000, 'limsup' : 5000000})}}" target="blank">Hypernyms Noms 5</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 5000000, 'limsup' : 6000000})}}" target="blank">Hypernyms Noms 6</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 6000000, 'limsup' : 7000000})}}" target="blank">Hypernyms Noms 7</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 7000000, 'limsup' : 8000000})}}" target="blank">Hypernyms Noms 8</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 8000000, 'limsup' : 9000000})}}" target="blank">Hypernyms Noms 9</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 9000000, 'limsup' : 10000000})}}" target="blank">Hypernyms Noms 10</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 10000000, 'limsup' : 11000000})}}" target="blank">Hypernyms Noms 11</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 11000000, 'limsup' : 12000000})}}" target="blank">Hypernyms Noms 12</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 12000000, 'limsup' : 13000000})}}" target="blank">Hypernyms Noms 13</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 13000000, 'limsup' : 14000000})}}" target="blank">Hypernyms Noms 14</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 14000000, 'limsup' : 15000000})}}" target="blank">Hypernyms Noms 15</a></li>
-	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 15000000, 'limsup' : 16000000})}}" target="blank">Hypernyms Noms 16</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 0, 'limsup' : 1000000})}}" target="blank">Meronyms Noms 1</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 1000000, 'limsup' : 2000000})}}" target="blank">Meronyms Noms 2</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 2000000, 'limsup' : 3000000})}}" target="blank">Meronyms Noms 3</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 3000000, 'limsup' : 4000000})}}" target="blank">Meronyms Noms 4</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 4000000, 'limsup' : 5000000})}}" target="blank">Meronyms Noms 5</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 5000000, 'limsup' : 6000000})}}" target="blank">Meronyms Noms 6</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 6000000, 'limsup' : 7000000})}}" target="blank">Meronyms Noms 7</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 7000000, 'limsup' : 8000000})}}" target="blank">Meronyms Noms 8</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 8000000, 'limsup' : 9000000})}}" target="blank">Meronyms Noms 9</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 9000000, 'limsup' : 10000000})}}" target="blank">Meronyms Noms 10</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 10000000, 'limsup' : 11000000})}}" target="blank">Meronyms Noms 11</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 11000000, 'limsup' : 12000000})}}" target="blank">Meronyms Noms 12</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 12000000, 'limsup' : 13000000})}}" target="blank">Meronyms Noms 13</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 13000000, 'limsup' : 14000000})}}" target="blank">Meronyms Noms 14</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 14000000, 'limsup' : 15000000})}}" target="blank">Meronyms Noms 15</a></li>
-	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 15000000, 'limsup' : 16000000})}}" target="blank">Meronyms Noms 16</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 0, 'limsup' : 1000000})}}" target="blank">Attributes Noms 1</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 1000000, 'limsup' : 2000000})}}" target="blank">Attributes Noms 2</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 2000000, 'limsup' : 3000000})}}" target="blank">Attributes Noms 3</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 3000000, 'limsup' : 4000000})}}" target="blank">Attributes Noms 4</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 4000000, 'limsup' : 5000000})}}" target="blank">Attributes Noms 5</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 5000000, 'limsup' : 6000000})}}" target="blank">Attributes Noms 6</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 6000000, 'limsup' : 7000000})}}" target="blank">Attributes Noms 7</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 7000000, 'limsup' : 8000000})}}" target="blank">Attributes Noms 8</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 8000000, 'limsup' : 9000000})}}" target="blank">Attributes Noms 9</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 9000000, 'limsup' : 10000000})}}" target="blank">Attributes Noms 10</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 10000000, 'limsup' : 11000000})}}" target="blank">Attributes Noms 11</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 11000000, 'limsup' : 12000000})}}" target="blank">Attributes Noms 12</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 12000000, 'limsup' : 13000000})}}" target="blank">Attributes Noms 13</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 13000000, 'limsup' : 14000000})}}" target="blank">Attributes Noms 14</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 14000000, 'limsup' : 15000000})}}" target="blank">Attributes Noms 15</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 15000000, 'limsup' : 16000000})}}" target="blank">Attributes Noms 16</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 0, 'limsup' : 5000000})}}" target="blank">Attributs Noms 1</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 5000000, 'limsup' : 10000000})}}" target="blank">Attributs Noms 2</a></li>
-	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 10000000, 'limsup' : 16000000})}}" target="blank">Attributs Noms 3</a></li>
+	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 0, 'limsup' : 10000})}}" target="blank">Antonymes Noms 1</a></li>
+	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 10000, 'limsup' : 20000})}}" target="blank">Antonymes Noms 2</a></li>
+	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 20000, 'limsup' : 30000})}}" target="blank">Antonymes Noms 3</a></li>
+	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 30000, 'limsup' : 40000})}}" target="blank">Antonymes Noms 4</a></li>
+	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 40000, 'limsup' : 50000})}}" target="blank">Antonymes Noms 5</a></li>
+	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 50000, 'limsup' : 60000})}}" target="blank">Antonymes Noms 6</a></li>
+	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 60000, 'limsup' : 70000})}}" target="blank">Antonymes Noms 7</a></li>
+	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 70000, 'limsup' : 80000})}}" target="blank">Antonymes Noms 8</a></li>
+	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 80000, 'limsup' : 90000})}}" target="blank">Antonymes Noms 9</a></li>
+	<li><a href="{{ path('carto_donnees_antonyms',{'nom': 'mydata.noun','type' : 'N', 'liminf' : 90000, 'limsup' : 100000})}}" target="blank">Antonymes Noms 10</a></li>
+	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 0, 'limsup' : 10000})}}" target="blank">Hypernyms Noms 1</a></li>
+	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 10000, 'limsup' : 20000})}}" target="blank">Hypernyms Noms 2</a></li>
+	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 20000, 'limsup' : 30000})}}" target="blank">Hypernyms Noms 3</a></li>
+	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 30000, 'limsup' : 40000})}}" target="blank">Hypernyms Noms 4</a></li>
+	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 40000, 'limsup' : 50000})}}" target="blank">Hypernyms Noms 5</a></li>
+	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 50000, 'limsup' : 60000})}}" target="blank">Hypernyms Noms 6</a></li>
+	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 60000, 'limsup' : 70000})}}" target="blank">Hypernyms Noms 7</a></li>
+	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 70000, 'limsup' : 80000})}}" target="blank">Hypernyms Noms 8</a></li>
+	<li><a href="{{ path('carto_donnees_hypernyms',{'liminf' : 80000, 'limsup' : 90000})}}" target="blank">Hypernyms Noms 9</a></li>
+
+	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 0, 'limsup' : 10000})}}" target="blank">Meronyms Noms 1</a></li>
+	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 10000, 'limsup' : 20000})}}" target="blank">Meronyms Noms 2</a></li>
+	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 20000, 'limsup' : 30000})}}" target="blank">Meronyms Noms 3</a></li>
+	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 30000, 'limsup' : 40000})}}" target="blank">Meronyms Noms 4</a></li>
+	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 40000, 'limsup' : 50000})}}" target="blank">Meronyms Noms 5</a></li>
+	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 50000, 'limsup' : 60000})}}" target="blank">Meronyms Noms 6</a></li>
+	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 60000, 'limsup' : 70000})}}" target="blank">Meronyms Noms 7</a></li>
+	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 70000, 'limsup' : 80000})}}" target="blank">Meronyms Noms 8</a></li>
+	<li><a href="{{ path('carto_donnees_meronyms',{'liminf' : 80000, 'limsup' : 90000})}}" target="blank">Meronyms Noms 9</a></li>
+
+	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 0, 'limsup' : 10000})}}" target="blank">Attributes Noms 1</a></li>
+	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 10000, 'limsup' : 20000})}}" target="blank">Attributes Noms 2</a></li>
+	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 20000, 'limsup' : 30000})}}" target="blank">Attributes Noms 3</a></li>
+	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 30000, 'limsup' : 40000})}}" target="blank">Attributes Noms 4</a></li>
+	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 40000, 'limsup' : 50000})}}" target="blank">Attributes Noms 5</a></li>
+	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 50000, 'limsup' : 60000})}}" target="blank">Attributes Noms 6</a></li>
+	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 60000, 'limsup' : 70000})}}" target="blank">Attributes Noms 7</a></li>
+	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 70000, 'limsup' : 80000})}}" target="blank">Attributes Noms 8</a></li>
+	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 80000, 'limsup' : 90000})}}" target="blank">Attributes Noms 9</a></li>
+	<li><a href="{{ path('carto_donnees_attributes',{'liminf' : 90000, 'limsup' : 100000})}}" target="blank">Attributes Noms 10</a></li>
 	<li><a href="{{ path('carto_donnees_troponyms')}}" target="blank">Troponyms</a></li>
 	<li><a href="{{ path('carto_donnees_entails')}}" target="blank">Entails</a></li>
 	<li><a href="{{ path('carto_donnees_causes')}}" target="blank">Causes</a></li>
