@@ -210,10 +210,10 @@ class VSynset
     /**
      * Add troponyms
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $troponyms
+     * @param \Carto\DonneesBundle\Entity\VSynset $troponyms
      * @return VSynset
      */
-    public function addTroponym(\Carto\DonneesBundle\Entity\NSynset $troponyms)
+    public function addTroponym(\Carto\DonneesBundle\Entity\VSynset $troponyms)
     {
         $this->troponyms[] = $troponyms;
 
@@ -223,9 +223,9 @@ class VSynset
     /**
      * Remove troponyms
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $troponyms
+     * @param \Carto\DonneesBundle\Entity\VSynset $troponyms
      */
-    public function removeTroponym(\Carto\DonneesBundle\Entity\NSynset $troponyms)
+    public function removeTroponym(\Carto\DonneesBundle\Entity\VSynset $troponyms)
     {
         $this->troponyms->removeElement($troponyms);
     }
@@ -243,10 +243,10 @@ class VSynset
     /**
      * Add hyponyms
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $hyponyms
+     * @param \Carto\DonneesBundle\Entity\VSynset $hyponyms
      * @return VSynset
      */
-    public function addHyponym(\Carto\DonneesBundle\Entity\NSynset $hyponyms)
+    public function addHyponym(\Carto\DonneesBundle\Entity\VSynset $hyponyms)
     {
         $this->hyponyms[] = $hyponyms;
 
@@ -256,9 +256,9 @@ class VSynset
     /**
      * Remove hyponyms
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $hyponyms
+     * @param \Carto\DonneesBundle\Entity\VSynset $hyponyms
      */
-    public function removeHyponym(\Carto\DonneesBundle\Entity\NSynset $hyponyms)
+    public function removeHyponym(\Carto\DonneesBundle\Entity\VSynset $hyponyms)
     {
         $this->hyponyms->removeElement($hyponyms);
     }
@@ -276,10 +276,10 @@ class VSynset
     /**
      * Add entails
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $entails
+     * @param \Carto\DonneesBundle\Entity\VSynset $entails
      * @return VSynset
      */
-    public function addEntail(\Carto\DonneesBundle\Entity\NSynset $entails)
+    public function addEntail(\Carto\DonneesBundle\Entity\VSynset $entails)
     {
         $this->entails[] = $entails;
 
@@ -289,9 +289,9 @@ class VSynset
     /**
      * Remove entails
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $entails
+     * @param \Carto\DonneesBundle\Entity\VSynset $entails
      */
-    public function removeEntail(\Carto\DonneesBundle\Entity\NSynset $entails)
+    public function removeEntail(\Carto\DonneesBundle\Entity\VSynset $entails)
     {
         $this->entails->removeElement($entails);
     }
@@ -309,10 +309,10 @@ class VSynset
     /**
      * Add holonyms
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $holonyms
+     * @param \Carto\DonneesBundle\Entity\VSynset $holonyms
      * @return VSynset
      */
-    public function addHolonym(\Carto\DonneesBundle\Entity\NSynset $holonyms)
+    public function addHolonym(\Carto\DonneesBundle\Entity\VSynset $holonyms)
     {
         $this->holonyms[] = $holonyms;
 
@@ -322,9 +322,9 @@ class VSynset
     /**
      * Remove holonyms
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $holonyms
+     * @param \Carto\DonneesBundle\Entity\VSynset $holonyms
      */
-    public function removeHolonym(\Carto\DonneesBundle\Entity\NSynset $holonyms)
+    public function removeHolonym(\Carto\DonneesBundle\Entity\VSynset $holonyms)
     {
         $this->holonyms->removeElement($holonyms);
     }
@@ -342,10 +342,10 @@ class VSynset
     /**
      * Add causes
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $causes
+     * @param \Carto\DonneesBundle\Entity\VSynset $causes
      * @return VSynset
      */
-    public function addCause(\Carto\DonneesBundle\Entity\NSynset $causes)
+    public function addCause(\Carto\DonneesBundle\Entity\VSynset $causes)
     {
         $this->causes[] = $causes;
 
@@ -355,9 +355,9 @@ class VSynset
     /**
      * Remove causes
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $causes
+     * @param \Carto\DonneesBundle\Entity\VSynset $causes
      */
-    public function removeCause(\Carto\DonneesBundle\Entity\NSynset $causes)
+    public function removeCause(\Carto\DonneesBundle\Entity\VSynset $causes)
     {
         $this->causes->removeElement($causes);
     }
@@ -375,10 +375,10 @@ class VSynset
     /**
      * Add consequences
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $consequences
+     * @param \Carto\DonneesBundle\Entity\VSynset $consequences
      * @return VSynset
      */
-    public function addConsequence(\Carto\DonneesBundle\Entity\NSynset $consequences)
+    public function addConsequence(\Carto\DonneesBundle\Entity\VSynset $consequences)
     {
         $this->consequences[] = $consequences;
 
@@ -388,9 +388,9 @@ class VSynset
     /**
      * Remove consequences
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $consequences
+     * @param \Carto\DonneesBundle\Entity\VSynset $consequences
      */
-    public function removeConsequence(\Carto\DonneesBundle\Entity\NSynset $consequences)
+    public function removeConsequence(\Carto\DonneesBundle\Entity\VSynset $consequences)
     {
         $this->consequences->removeElement($consequences);
     }

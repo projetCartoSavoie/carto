@@ -210,10 +210,10 @@ class VSynset
     /**
      * Add troponyms
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $troponyms
+     * @param \Carto\DonneesBundle\Entity\VSynset $troponyms
      * @return VSynset
      */
-    public function addTroponym(\Carto\DonneesBundle\Entity\NSynset $troponyms)
+    public function addTroponym(\Carto\DonneesBundle\Entity\VSynset $troponyms)
     {
         $this->troponyms[] = $troponyms;
 
@@ -223,9 +223,9 @@ class VSynset
     /**
      * Remove troponyms
      *
-     * @param \Carto\DonneesBundle\Entity\NSynset $troponyms
+     * @param \Carto\DonneesBundle\Entity\VSynset $troponyms
      */
-    public function removeTroponym(\Carto\DonneesBundle\Entity\NSynset $troponyms)
+    public function removeTroponym(\Carto\DonneesBundle\Entity\VSynset $troponyms)
     {
         $this->troponyms->removeElement($troponyms);
     }

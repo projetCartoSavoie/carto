@@ -317,6 +317,7 @@ class EnregistreController extends Controller
 			{
 				if ($valeur == '@') 
 				{ 
+					echo $tab[0] . ' -- ' . $tab[$cle + 1] . '<br/>';
 					$syn_dest = $rep -> findOneByWnid($tab[$cle+1]);
 					$syn_src -> addTroponym($syn_dest);
 				}
@@ -386,6 +387,7 @@ class EnregistreController extends Controller
 			{
 				if ($valeur == '&') 
 				{ 
+					echo $tab[0] . ' -- ' . $tab[$cle + 1] . '<br/>';
 					$syn_dest = $rep -> findOneByWnid($tab[$cle+1]);
 					$syn_src -> addSimilar($syn_dest);
 				}
