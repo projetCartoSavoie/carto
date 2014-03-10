@@ -291,6 +291,7 @@ class EnregistreController extends Controller
 				{
 					if ($valeur == '=') 
 					{ 
+						echo $tab[0] . ' -- ' . $tab[$cle + 1] . '<br/>';
 						$syn_dest = $arep -> findOneByWnid($tab[$cle+1]);
 						$syn_src -> addHasAttribute($syn_dest);
 					}

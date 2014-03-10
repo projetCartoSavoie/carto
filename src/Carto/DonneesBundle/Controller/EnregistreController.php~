@@ -192,6 +192,7 @@ class EnregistreController extends Controller
 		$cpt = 0;
 		while ($ligne = fgets($data))
 		{
+			echo $cpt.'<br/>';
 			if ($cpt >= $liminf and $cpt < $limsup)
 			{
 				$antos = array();
