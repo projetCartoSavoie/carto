@@ -1,3 +1,68 @@
 carto_donnees_homepage:
-    pattern:  /hello/{name}
+    pattern:  /
     defaults: { _controller: CartoDonneesBundle:Default:index }
+
+carto_donnees_enregistre:
+    pattern:  /enregistrer
+    defaults: { _controller: CartoDonneesBundle:Enregistre:index }
+
+carto_donnees_sauvegarder:
+    pattern:  /sauvegarder/{nom}/{type}/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:Enregistre:sauvegarde }
+
+carto_donnees_sauvegardermots:
+    pattern:  /sauvegardermots/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:Enregistre:sauvegardemot }
+
+carto_donnees_derive:
+    pattern:  /derive/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:Enregistre:derive }
+
+carto_donnees_builtfrom:
+    pattern:  /builtfrom
+    defaults: { _controller: CartoDonneesBundle:Enregistre:builtfrom }
+
+carto_donnees_participle:
+    pattern:  /participle
+    defaults: { _controller: CartoDonneesBundle:Enregistre:participle }
+
+carto_donnees_pertainym:
+    pattern:  /pertainym/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:Enregistre:pertainym }
+
+carto_donnees_antonyms:
+    pattern:  /antonyms/{nom}/{type}/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:Enregistre:antonyms }
+
+carto_donnees_hypernyms:
+    pattern:  /hypernyms/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:Enregistre:hypernyms }
+
+carto_donnees_meronyms:
+    pattern:  /meronyms/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:Enregistre:meronyms }
+
+carto_donnees_attributes:
+    pattern:  /attributes/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:Enregistre:attributes }
+
+carto_donnees_troponyms:
+    pattern:  /troponyms
+    defaults: { _controller: CartoDonneesBundle:Enregistre:troponyms }
+
+carto_donnees_entails:
+    pattern:  /entails
+    defaults: { _controller: CartoDonneesBundle:Enregistre:entails }
+
+carto_donnees_causes:
+    pattern:  /causes
+    defaults: { _controller: CartoDonneesBundle:Enregistre:causes }
+
+carto_donnees_similars:
+    pattern:  /similars
+    defaults: { _controller: CartoDonneesBundle:Enregistre:similars }
+
+carto_donnees_recherche:
+    pattern:  /recherche/{recherche}
+    defaults: { _controller: CartoDonneesBundle:Default:index, recherche:'entity' }
+

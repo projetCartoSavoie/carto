@@ -1,1 +1,10 @@
-Hello {{ name }}!
+{% extends "CartoDonneesBundle:Layouts:layout.html.twig" %}
+{% block body %}
+<h1>Données</h1>
+<h2>NSynsets</h2>
+<ul>
+	{{ for syn in nsynsets }}
+	<li>{{ syn.wnid }}</li>
+	{{ endfor }}
+</ul>
+{% endblock %}
