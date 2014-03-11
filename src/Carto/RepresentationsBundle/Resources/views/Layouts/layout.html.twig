@@ -1,28 +1,67 @@
 {% extends "::base.html.twig" %}
 
-{% block javascripts %}
-{% javascripts 'bundles/CartoRepresentationsBundle/js/*' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
+{% block stylesheets %}{{ parent() }}
+{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' %}
+	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}
+
+{% block menuSuperieur %}{{ parent() }}
 {% endblock %}
 
 {% block body %}{{ parent() }}
+{% endblock %}
 
+{% block script %}
+	$(document).ready(function(){
+		$("#form_recherche").submit(function(){ 
+			var search = $('#search').val();
+			var url = "{{ asset('bundles/CartoRepresentationsBundle/action/main_action.php') }}";
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {
+					cmd: 'search_action',
+					search: search
+				},
+				cache: false,
+				success: function(response) {
+					var result = $.parseJSON(response);
+					if(result.success){
+						var data = result.data;
+						if(representation){
+							$('svg').remove();
+						}
+						representation.show(data); 
+					}
+				}
+			});    
+			return false;
+		});
+	});
 {% endblock %}
 
 {% block utilsLeft %}{{ parent() }}
+	<div class="toggle-btn-grp joint-toggle">
+		<label onclick="" class="toggle-btn">
+			<input type="radio" name="group3"/>Wordnet
+		</label>
+		<label onclick="" class="toggle-btn">
+			<input type="radio" name="group3"/>Les échos
+		</label>
+	</div>
 	<div>
-	<input class="button" type='button' value='Representation wordnet' id='show_rep' onclick='disabled_button_and_show()'>
+		<form id="form_recherche" action="" method="post">
+			<p>
+				<input id="search" type="text" name="search" />
+				<button type="submit">Rechercher</button>
+			</p>
+		</form>
 	</div>
 	<div id = "wikipedia">
+		<p>Click on any words to show its Wikipedia article.</p>
 	</div>
 {% endblock %}
 
 {% block utilsRight %}{{ parent() }}
-	<form id="recherche" action="<?php echo url_for('@job_search') ?>" method="get">
-		<div>
-			 <label for="search_keywords"><input type="text" name="query" value="<?php echo $sf_request->getParameter('query') ?>" id="search_keywords" /></label>
-			 <input class="button" type="submit" value="OK" />
-		</div>
-	</form>
 {% endblock %}

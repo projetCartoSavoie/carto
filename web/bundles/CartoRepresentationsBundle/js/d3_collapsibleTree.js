@@ -1,6 +1,21 @@
 function D3_TreeRepresentation(){}
 
-D3_TreeRepresentation.prototype.show = function(fichier) {
+D3_TreeRepresentation.prototype.show = function(data) {
+
+	// data is file path
+	if(typeof data === "string"){
+		d3.json(data, function(error, root) {
+			if (error) alert(error);
+			D3_TreeRepresentation.load(root);
+		});
+	}
+	// data is json
+	else {
+		D3_TreeRepresentation.load(data);
+	}
+}
+
+D3_TreeRepresentation.load = function(json) {
 
 	var margin = {top: 30, right: 20, bottom: 30, left: 20},
 		width = 960 - margin.left - margin.right,
@@ -22,17 +37,14 @@ D3_TreeRepresentation.prototype.show = function(fichier) {
 	  .append("g")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	d3.json(fichier, function(error, json) {
-	  
-		if (error) alert(error);
+	// On transforme le fichier generique json au bon format pour la representation concernee
+	var formatter = new D3_Formatter();
+	var treeJson = formatter.to_tree(json);
+	console.log(treeJson);
 
-		var formatter = new D3_Formatter();
-		var tree = formatter.to_tree(json);
-		
-		tree.x0 = 0;
-		tree.y0 = 0;
-		update(root = tree);
-	});
+	treeJson.x0 = 0;
+	treeJson.y0 = 0;
+	update(root = treeJson);
 
 	function update(source) {
 

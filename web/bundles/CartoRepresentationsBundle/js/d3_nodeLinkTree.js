@@ -1,7 +1,22 @@
 function D3_NodeLinkTreeRepresentation(){}
 
-D3_NodeLinkTreeRepresentation.prototype.show = function(fichier) {
+D3_NodeLinkTreeRepresentation.prototype.show = function(data) {
+
+	// data is file path
+	if(typeof data === "string"){
+		d3.json(data, function(error, root) {
+			if (error) alert(error);
+			D3_NodeLinkTreeRepresentation.load(root);
+		});
+	}
+	// data is json
+	else {
+		D3_NodeLinkTreeRepresentation.load(data);
+	}
+}
 	
+D3_NodeLinkTreeRepresentation.load = function(json) {
+		console.log(json);
 	var diameter = 960;
 
 	var tree = d3.layout.tree()
@@ -17,43 +32,41 @@ D3_NodeLinkTreeRepresentation.prototype.show = function(fichier) {
 		.append("g")
 		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 
-	d3.json(fichier, function(error, root) {
-	
-		if (error) alert(error);
-
-		//var formatter = new D3_Formatter();
-		//var tree = formatter.to_tree(json);
-		
-		var nodes = tree.nodes(root),
-			links = tree.links(nodes);
-
-		var link = svg.selectAll(".link")
-			.data(links)
-			.enter().append("path")
-			.attr("class", "link")
-			.attr("d", diagonal);
-
-		var node = svg.selectAll(".node")
-			.data(nodes)
-			.enter()
-				.append("g")
-				.attr("class", "node")
-				.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
-				.attr("cursor","pointer")
-				.on("click", function(d) {
-						var d3_utils = new D3_Utils();
-						d3_utils.show_wikipedia(d.name);
-					});
-
-		node.append("circle")
-			.attr("r", 4.5);
-
-		node.append("text")
-			.attr("dy", ".31em")
-			.attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
-			.attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
-			.text(function(d) { return d.name; });
-	});
-
 	d3.select(self.frameElement).style("height", diameter - 150 + "px");
+	
+	// On transforme le fichier generique json au bon format pour la representation concernee
+	var formatter = new D3_Formatter();
+	var json = formatter.to_tree(json);
+	console.log(json);
+	json.x = 180;
+	
+	var nodes = tree.nodes(json),
+		links = tree.links(nodes);
+
+	var link = svg.selectAll(".link")
+		.data(links)
+		.enter().append("path")
+		.attr("class", "link")
+		.attr("d", diagonal);
+
+	var node = svg.selectAll(".node")
+		.data(nodes)
+		.enter()
+			.append("g")
+			.attr("class", "node")
+			.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
+			.attr("cursor","pointer")
+			.on("click", function(d) {
+					var d3_utils = new D3_Utils();
+					d3_utils.show_wikipedia(d.name);
+				});
+
+	node.append("circle")
+		.attr("r", 4.5);
+
+	node.append("text")
+		.attr("dy", ".31em")
+		.attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+		.attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
+		.text(function(d) { return d.name; });
 }

@@ -13,13 +13,11 @@
 {% endjavascripts %}
 {% endblock %}
 
-{% block menuSuperieur %}{{ parent() }}
-{% endblock %}
-
-{% block script %}
+{% block script %}{{ parent() }}
 	var representation = new D3_NodeLinkTreeRepresentation();
-	var fichier = "{{ asset('bundles/CartoRepresentationsBundle/json/flare.json') }}";
 	function disabled_button_and_show(){
+		$('svg').remove();
+		var fichier = "{{ asset('bundles/CartoRepresentationsBundle/json/flare.json') }}";
 		document.getElementById('show_rep').disabled=true;
 		representation.show(fichier); 
 	}

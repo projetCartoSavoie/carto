@@ -42,12 +42,24 @@ html{
 #contentCenter{
 	background-color: #FDFAFA;
 	width: 1000px;
+	border-left: solid 1px;
+	border-right: solid 1px;
 }
 
 .contentLeft{
-	height : 100%;
-	width : 300px;
-	float : left;
+	border-left: solid 1px;
+	padding: 10px;
+	height: 100%;
+	width: 350px;
+	vertical-align: top;
+}
+
+.contentLeft #wikipedia{
+	border-top: solid 1px;
+	border-left: solid 1px;
+	border-bottom: solid 1px;
+	border-right: solid 1px;
+	height: 300px;
 }
 
 .contentRight{
