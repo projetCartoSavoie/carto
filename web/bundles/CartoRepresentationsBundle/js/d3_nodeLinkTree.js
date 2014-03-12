@@ -16,7 +16,6 @@ D3_NodeLinkTreeRepresentation.prototype.show = function(data) {
 }
 	
 D3_NodeLinkTreeRepresentation.load = function(json) {
-		console.log(json);
 	var diameter = 960;
 
 	var tree = d3.layout.tree()
@@ -37,8 +36,6 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	// On transforme le fichier generique json au bon format pour la representation concernee
 	var formatter = new D3_Formatter();
 	var json = formatter.to_tree(json);
-	console.log(json);
-	json.x = 180;
 	
 	var nodes = tree.nodes(json),
 		links = tree.links(nodes);
@@ -54,12 +51,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.enter()
 			.append("g")
 			.attr("class", "node")
-			.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; })
-			.attr("cursor","pointer")
-			.on("click", function(d) {
-					var d3_utils = new D3_Utils();
-					d3_utils.show_wikipedia(d.name);
-				});
+			.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
 
 	node.append("circle")
 		.attr("r", 4.5);
@@ -68,5 +60,11 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.attr("dy", ".31em")
 		.attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
 		.attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
-		.text(function(d) { return d.name; });
+		.style("stroke", "black")
+		.text(function(d) { return d.name; })
+		.attr("cursor","pointer")
+		.on("click", function(d) {
+				var d3_utils = new D3_Utils();
+				d3_utils.show_wikipedia(d.name);
+			});
 }

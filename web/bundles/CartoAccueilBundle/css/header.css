@@ -72,6 +72,11 @@ html{
 	float : right;
 }
 
+.toolsRight{
+	vertical-align: top;
+	padding-top: 20px;
+}
+
 /**************
 	MENU
 ***************/
@@ -82,7 +87,7 @@ nav {
 .nav {
 	margin: 0;
 	padding: 7px 6px 0;
-	background: #7d7d7d url(/bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 -110px;
+	background: #7d7d7d url(../bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 -110px;
 	line-height: 100%;
 
 	border-radius: 2em;
@@ -122,7 +127,7 @@ nav {
 
 /* main level link hover */
 .nav .current a, .nav li:hover > a {
-	background: #A5A0A0 url(/bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 -40px;
+	background: #A5A0A0 url(../bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 -40px;
 	color: #444;
 	border-top: solid 1px #f8f8f8;
 
@@ -143,7 +148,7 @@ nav {
 	-moz-box-shadow: none;
 }
 .nav ul a:hover {
-	background: #0078ff url(http://localhost/CartoSavoie/carto/web/bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 -100px !important;
+	background: #0078ff url(../bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 -100px !important;
 	color: #fff !important;
 
 	-webkit-border-radius: 0;
@@ -167,7 +172,7 @@ nav {
 	position: absolute;
 	top: 35px;
 	left: 0;
-	background: #ddd url(/bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 0;
+	background: #ddd url(../bundles/CartoAccueilBundle/images/gradient.png) repeat-x 0 0;
 	border: solid 1px #b4b4b4;
 
 	-webkit-border-radius: 10px;
