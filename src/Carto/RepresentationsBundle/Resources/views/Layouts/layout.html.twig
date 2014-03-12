@@ -41,27 +41,42 @@
 	});
 {% endblock %}
 
-{% block utilsLeft %}{{ parent() }}
-	<div class="toggle-btn-grp joint-toggle">
-		<label onclick="" class="toggle-btn">
-			<input type="radio" name="group3"/>Wordnet
-		</label>
-		<label onclick="" class="toggle-btn">
-			<input type="radio" name="group3"/>Les échos
-		</label>
-	</div>
-	<div>
-		<form id="form_recherche" action="" method="post">
-			<p>
-				<input id="search" type="text" name="search" />
-				<button type="submit">Rechercher</button>
-			</p>
-		</form>
-	</div>
-	<div id = "wikipedia">
-		<p>Click on any words to show its Wikipedia article.</p>
+{% block utilsLeft %}
+	<div style="padding: 12px">
+		<div class="toggle-btn-grp joint-toggle">
+			<label onclick="" class="toggle-btn">
+				<input type="radio" name="group3"/>Wordnet
+			</label>
+			<label onclick="" class="toggle-btn">
+				<input type="radio" name="group3"/>Les échos
+			</label>
+		</div>
+		<div>
+			<form id="form_recherche" action="" method="post">
+				<p>
+					<input id="search" type="text" name="search" />
+					<button type="submit">Rechercher</button>
+				</p>
+			</form>
+		</div>
+		<div id = "wikipedia">
+			<p>Click on any words to show its Wikipedia article.</p>
+		</div>
 	</div>
 {% endblock %}
 
-{% block utilsRight %}{{ parent() }}
+{% block tools %}
+	<div class="tool-container">
+		<div class="tool-items">
+			<a href="#" class="tool-item gradient">
+				<i class="icon-search"></i>
+			</a>
+			<a href="#" class="tool-item gradient">
+				<i class="icon-zoom-in"></i>
+			</a>
+			<a href="#" class="tool-item gradient">
+				<i class="icon-zoom-out"></i>
+			</a>
+		</div>
+	</div>
 {% endblock %}
