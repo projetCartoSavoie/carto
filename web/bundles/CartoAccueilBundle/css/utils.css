@@ -37,7 +37,7 @@ label {
 
 
 .toggle-btn:hover { 
-    border:solid 1px #a0d5dc !important; 
+    border:solid 1px #4A72A9 !important; 
     background:#f1fdfe;
 }
 
@@ -84,8 +84,6 @@ label {
 	BARRE DE RECHERCHE
 ***************************/
 #search_keywords{
-width: 150px;
-height: 23px;
 border: none;
 margin: 6px 0 0 36px;
 vertical-align: middle;
@@ -94,15 +92,34 @@ padding: 0 0 0 6px;
 }
 
 #recherche {
-float: left;
-padding: 0;
-background: url(../bundles/CartoAccueilBundle/images/search.png) left center no-repeat;
-height: 35px;
-padding-right: 7px;
--moz-border-radius: 4px 4px 0 0;
--webkit-border-radius: 4px 4px 0 0;
-border-radius: 4px 4px 0 0;
+	padding: 10px;
+	background: url(../bundles/CartoAccueilBundle/images/search.png) left center no-repeat;
+	height: 35px;
+	padding-right: 7px;
+	-moz-border-radius: 4px 4px 0 0;
+	-webkit-border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 0 0;
 }
+
+.buttonSearch{
+	padding: 4px 16px;
+	border: none;
+	outline: none;
+	border-radius: 2px;
+	background: #36A9C7;
+	color: #FFF;
+	text-shadow: 0 -1px rgba(0,0,0,0.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+	font-weight: bold;
+	cursor: pointer;
+	-webkit-appearance: none;
+}
+
+.buttonSearch:hover{
+	background: #4A72A9; 
+	box-shadow: 0 1px 2px rgba(0,0,0,0.3); 
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.3); 
+} 
 
 /*************
 	TOOLBAR
@@ -169,8 +186,7 @@ border-radius: 4px 4px 0 0;
 	border-top-left-radius: 4px;
 }
 
-[class^="icon-"],
-[class*=" icon-"] {
+[class^="icon-"]{
 	display: inline-block;
 	width: 14px;
 	height: 14px;
@@ -186,9 +202,18 @@ border-radius: 4px 4px 0 0;
 .icon-search {
 	background-position: -48px 0;
 }
+.icon-select {
+	background-position: -290px 0;
+}
 .icon-zoom-in {
 	background-position: -336px 0;
 }
 .icon-zoom-out {
 	background-position: -360px 0;
+}
+.icon-print {
+	background-position: -96px -48px;
+}
+.icon-close {
+	background-position: -310px 0;
 }

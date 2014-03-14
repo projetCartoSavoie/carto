@@ -15,3 +15,9 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 	size = $('#wikipedia').height() - size - 10;
 	$('#wikiframe').css('height', size+'px');
 }
+
+D3_Utils.prototype.zoomIn = function() {
+}
+
+D3_Utils.prototype.zoomOut = function() {
+}
