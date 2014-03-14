@@ -12,6 +12,7 @@ class DefaultController extends Controller
 		$mrep = $manager -> getRepository('CartoDonneesBundle:Mot');
 		$mot = $mrep -> findOneByMot($recherche);
 		$nsynsets = $mot -> getNsynsets();
+		//var_dump($nsynsets);
 		return $this->render('CartoDonneesBundle:Default:index.html.twig',array('nsynsets' => $nsynsets));
 	}
 }

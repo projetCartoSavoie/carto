@@ -28,3 +28,13 @@ pre {
 	border:solid 1px;
 	padding:5px;
 }
+
+/****************
+	TABLEAUX DE DONNEES
+****************/
+
+
+.donnees td, .donnees th { 
+	border:solid 1px grey;
+	padding:5px; 
+}

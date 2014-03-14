@@ -53,6 +53,7 @@ Exemple :<br/>
 Nous avons choisi de représenter les synsets et les mots en base de données en utilisant doctrine. Voici le diagramme des classes correspondants.
 {% endtrans %}
 </p>
+<img src="{{ asset('bundles/CartoDocumentationBundle/images/DC1.png') }}" width="50%" style="margin-left:25%;"/>
 <p>
 {% trans %}
 

@@ -19,7 +19,7 @@ carto_donnees_derive:
     defaults: { _controller: CartoDonneesBundle:Enregistre:derive }
 
 carto_donnees_builtfrom:
-    pattern:  /builtfrom
+    pattern:  /builtfrom/{liminf}/{limsup}
     defaults: { _controller: CartoDonneesBundle:Enregistre:builtfrom }
 
 carto_donnees_participle:

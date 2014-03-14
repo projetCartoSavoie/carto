@@ -4,7 +4,7 @@
 <h2>NSynsets</h2>
 <ul>
 	{{ for syn in nsynsets }}
-	<li>{{ syn.wnid }}</li>
+	<li>{{ syn.wnid }} : {{ syn.definition }} </li>
 	{{ endfor }}
 </ul>
 {% endblock %}

@@ -26,4 +26,5 @@ pre {
 	white-space: pre-wrap;
 	overflow-wrap:break-word;
 	border:solid 1px;
+	padding:5px;
 }
