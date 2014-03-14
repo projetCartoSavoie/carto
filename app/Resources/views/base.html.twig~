@@ -62,7 +62,7 @@
 										<a href="{{ path('carto_donnees_homepage') }}">{{"Données" | trans}}</a>
 										<ul>
 											<li>
-												<a href="{{ path('carto_donnees_enregistre') }}">{{"Enregistrer les données" | trans}}</a>
+												<a href="{{ path('carto_representations_representation1') }}">{{"Enregistrer les données" | trans}}</a>
 											</li>
 										</ul>
 									</li>
@@ -82,17 +82,24 @@
 		{% endblock %}
 		<table class="tableContent">
 			<tr>
+				<td>
+					&nbsp;
+				</td>
 				<td class="contentLeft">
 					{% block utilsLeft %}
+						<img class="borderLeft" src="{{ asset('bundles/CartoAccueilBundle/images/left.png') }}">
 					{% endblock %}
 				</td>
 				<td id="contentCenter">
 					{% block body %}
 					{% endblock %}
 				</td>
-				<td class="contentRight">
-					{% block utilsRight %}
+				<td class="toolsRight">
+					{% block tools %}
 					{% endblock %}
+				</td>
+				<td>
+					&nbsp;
 				</td>
 			</tr>
 		</table>

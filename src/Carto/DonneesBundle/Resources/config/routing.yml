@@ -1,5 +1,5 @@
 carto_donnees_homepage:
-    pattern:  /{recherche}
+    pattern:  /recherche/{recherche}
     defaults: { _controller: CartoDonneesBundle:Default:index, recherche:'entity' }
 
 carto_donnees_enregistre:

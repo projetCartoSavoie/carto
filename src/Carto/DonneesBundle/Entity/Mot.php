@@ -336,7 +336,7 @@ class Mot
      * @param \Carto\DonneesBundle\Entity\Mot $participleOf
      * @return Mot
      */
-    public function setparticipleOf(\Carto\DonneesBundle\Entity\Mot $participleOf = null)
+    public function setParticipleOf(\Carto\DonneesBundle\Entity\Mot $participleOf = null)
     {
         $this->participleOf = $participleOf;
 
@@ -348,7 +348,7 @@ class Mot
      *
      * @return \Carto\DonneesBundle\Entity\Mot 
      */
-    public function getparticipleOf()
+    public function getParticipleOf()
     {
         return $this->participleOf;
     }

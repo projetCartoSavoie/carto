@@ -64,7 +64,7 @@ class Mot
 		* @ORM\OneToOne(targetEntity="Carto\DonneesBundle\Entity\Mot",inversedBy="participleTo",cascade={"persist"})
 		* @ORM\JoinColumn(name="participle")
 		*/
-		private $parcipleOf;
+		private $participleOf;
 
 		/**
 		* @ORM\OneToOne(targetEntity="Carto\DonneesBundle\Entity\Mot",mappedBy="participleOf")
@@ -331,26 +331,26 @@ class Mot
     }
 
     /**
-     * Set parcipleOf
+     * Set participleOf
      *
-     * @param \Carto\DonneesBundle\Entity\Mot $parcipleOf
+     * @param \Carto\DonneesBundle\Entity\Mot $participleOf
      * @return Mot
      */
-    public function setParcipleOf(\Carto\DonneesBundle\Entity\Mot $parcipleOf = null)
+    public function setparticipleOf(\Carto\DonneesBundle\Entity\Mot $participleOf = null)
     {
-        $this->parcipleOf = $parcipleOf;
+        $this->participleOf = $participleOf;
 
         return $this;
     }
 
     /**
-     * Get parcipleOf
+     * Get participleOf
      *
      * @return \Carto\DonneesBundle\Entity\Mot 
      */
-    public function getParcipleOf()
+    public function getparticipleOf()
     {
-        return $this->parcipleOf;
+        return $this->participleOf;
     }
 
     /**
