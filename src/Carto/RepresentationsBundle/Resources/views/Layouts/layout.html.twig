@@ -51,15 +51,17 @@
 				<input type="radio" name="group3"/>Les échos
 			</label>
 		</div>
-		<div>
-			<form id="form_recherche" action="" method="post">
-				<p>
-					<input id="search" type="text" name="search" />
-					<button type="submit">Rechercher</button>
-				</p>
-			</form>
+		<div id="recherche">
+			<div id="search_keywords">
+				<form id="form_recherche" action="" method="post">
+					<p>
+						<input id="search" type="text" name="search" />
+						<button class="buttonSearch" type="submit">Rechercher</button>
+					</p>
+				</form>
+			</div>
 		</div>
-		<div id = "wikipedia">
+		<div id="wikipedia">
 			<p>Click on any words to show its Wikipedia article.</p>
 		</div>
 	</div>
@@ -69,13 +71,19 @@
 	<div class="tool-container">
 		<div class="tool-items">
 			<a href="#" class="tool-item gradient">
-				<i class="icon-search"></i>
+				<i class="icon-select"></i>
 			</a>
 			<a href="#" class="tool-item gradient">
 				<i class="icon-zoom-in"></i>
 			</a>
 			<a href="#" class="tool-item gradient">
 				<i class="icon-zoom-out"></i>
+			</a>
+			<a href="#" class="tool-item gradient">
+				<i class="icon-print"></i>
+			</a>
+			<a href="#" class="tool-item gradient">
+				<i class="icon-close"></i>
 			</a>
 		</div>
 	</div>
