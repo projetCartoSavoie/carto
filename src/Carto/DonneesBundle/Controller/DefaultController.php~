@@ -56,10 +56,19 @@ class DefaultController extends Controller
 		));
 	}
 
+	/**
+	 * Ajoute un tableau de résultats en relation avec une source
+	 * entree : les résultats
+	 * relation : la relation entre la source et les résultats
+	 * type : le type des entrées
+	 * srctype : le type de la source
+	 * src : l'id de la source
+	**/
 	public function ajoutResultat($entree,$relation,$type,$srctype,$src)
 	{
 		foreach ($entree as $valeur) 
 		{ 
+			//Préparation du noeud : 'id':'...','nom':'...','type':'...'
 			if ($type == 'M') { $nom = $valeur -> getMot(); }
 			else { $nom = $valeur -> getDefinition(); }
 			$n = array(
@@ -67,29 +76,45 @@ class DefaultController extends Controller
 				'nom' => $nom,
 				'type' => $type
 			);
+			//Ajout du noeud dans la liste si il n'y est pas déjà
 			if (!isset($this -> resultat['graphe'][$srctype.$src])) 
 			{
 				$this -> resultat['noeuds'][] = $n;
 				$this -> resultat['graphe'][$srctype.$src] = array( 'noeud' => $srctype.$src );
 			}
+			//Ajout de la relation
 			$this -> resultat['graphe'][$srctype.$src][$relation][] = $type.$valeur -> getId();
 		}
 	}
 
+	/**
+	 * Ajoute un résultat unique en relation avec une source (pour les relations OneToOne)
+	 * entree : le résultat
+	 * relation : la relation entre la source et le résultat
+	 * inutile de spécifier les types : les seules relations OneToOne qui existent sont entre deux mots
+	**/
 	public function ajoutResultatOne($entree,$relation)
 	{
 		if ($entree != NULL) 
 		{ 
-			$this -> resultat['graphe']['M'.$this -> mot -> getId()][$relation][] = 'M'.$entree -> getId(); 
+			//Préparation du noeud : 'id':'...','nom':'...','type':'...'
 			$n = array(
 				'id' => 'M'.$entree -> getId(),
 				'nom' => $entree -> getMot(),
 				'type' => 'M'
 			);
+			//Ajout du noeud dans la liste si il n'y est pas déjà
 			if (!in_array($n,$this -> resultat['noeuds'])) { $this -> resultat['noeuds'][] = $n; }
+			//Ajout de la relation
+			$this -> resultat['graphe']['M'.$this -> mot -> getId()][$relation][] = 'M'.$entree -> getId(); 
 		}
 	}
 
+	/**
+	 * Ajoute tous les mots d'un synset donné
+	 * entree : la liste des mots du synset
+	 * type : le type de synset
+	**/
 	public function ajoutMots($entree,$type)
 	{
 		foreach($entree as $valeur)
@@ -97,6 +122,7 @@ class DefaultController extends Controller
 			$mots = $valeur -> getMots();
 			foreach ($mots as $mot)
 			{
+				//Ajout du mot dans la liste de noeuds et dans le graphe si il n'y est pas déjà
 				if (!isset($this -> resultat['graphe']['M'.$mot -> getId()])) 
 				{
 					$this -> resultat['noeuds'][] = array(
@@ -106,7 +132,13 @@ class DefaultController extends Controller
 					);
 					$this -> resultat['graphe']['M'.$mot -> getId()] = array( 'noeud' => 'M'.$mot -> getId() );
 				}
-				if (isset($this -> resultat['graphe']['M'.$mot -> getId()]['estdans']) and !in_array($type.$valeur -> getId(),$this -> resultat['graphe']['M'.$mot -> getId()]['estdans']))
+				//Création de la relation 'est dans' pour ce mot si elle n'existe pas déjà
+				if (!isset($this -> resultat['graphe']['M'.$mot -> getId()]['estdans']))
+				{ 
+					$this -> resultat['graphe']['M'.$mot -> getId()]['estdans'] = array();
+				}
+				//Ajout de la relation si elle n'y est pas déjà
+				if (!in_array($type.$valeur -> getId(),$this -> resultat['graphe']['M'.$mot -> getId()]['estdans']))
 				{
 					$this -> resultat['graphe']['M'.$mot -> getId()]['estdans'][] = $type.$valeur -> getId();
 				}
@@ -119,6 +151,7 @@ class DefaultController extends Controller
 		$manager = $this -> getDoctrine() -> getManager();
 		$mrep = $manager -> getRepository('CartoDonneesBundle:Mot');
 
+		//Initialisation du tableau résultat, qui sera ensuite encodé en json
 		$this -> resultat = array(
 			'noeuds' => array(), 
 			'relations' => array(
@@ -142,7 +175,7 @@ class DefaultController extends Controller
 			'graphe' => array()
 		);
 
-		//Recherche du mot recherché
+		//Recherche du mot recherché et ajout dans la liste des noeuds et dans le graphe
 		$this -> mot = $mrep -> findOneByMot($recherche);
 		$this -> resultat['noeuds'][] = array(
 			'id' => 'M'.$this -> mot -> getId(),
@@ -222,7 +255,7 @@ class DefaultController extends Controller
 		}
 
 
-		//$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
+		$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
 		$text = '<pre>'.json_encode($this -> resultat).'</pre>';
 		$text = str_replace('{','
 {',$text);
@@ -237,6 +270,7 @@ class DefaultController extends Controller
 "meronym","entails","holonym","antonym","attribut","cause","consequence","similar","estdans"],
 
 ',$text);
+		$text = '<html><body>'.$text.'</body></html>';
 
 		return new Response($text);
 	}
