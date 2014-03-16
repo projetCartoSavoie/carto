@@ -66,3 +66,7 @@ carto_donnees_recherche:
     pattern:  /recherche/{recherche}
     defaults: { _controller: CartoDonneesBundle:Default:index, recherche:'entity' }
 
+carto_donnees_json:
+    pattern:  /json/{recherche}
+    defaults: { _controller: CartoDonneesBundle:Default:json, recherche:'entity' }
+

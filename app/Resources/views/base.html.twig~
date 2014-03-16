@@ -62,7 +62,7 @@
 										<a href="{{ path('carto_donnees_homepage') }}">{{"Données" | trans}}</a>
 										<ul>
 											<li>
-												<a href="{{ path('carto_representations_representation1') }}">{{"Enregistrer les données" | trans}}</a>
+												<a href="{{ path('carto_donnees_enregistre') }}">{{"Enregistrer les données" | trans}}</a>
 											</li>
 										</ul>
 									</li>
