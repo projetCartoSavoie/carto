@@ -24,13 +24,9 @@ class DefaultController extends Controller
 
 		//Récupération de ses synsets et de leurs mots
 		$nsynsets = $this -> mot -> getNsynsets();
-		//foreach ($nsynsets as $syn) { $this -> mots = $syn -> getMots(); }
 		$vsynsets = $this -> mot -> getVsynsets();
-		//foreach ($vsynsets as $syn) { $this -> mots = $syn -> getMots(); }
 		$asynsets = $this -> mot -> getAsynsets();
-		//foreach ($asynsets as $syn) { $this -> mots = $syn -> getMots(); }
 		$rsynsets = $this -> mot -> getRsynsets();
-		//foreach ($rsynsets as $syn) { $this -> mots = $syn -> getMots(); }
 
 		//Récupération de ses relations directes entre mots
 		$derivede = $this -> mot -> getDeriveFrom();
@@ -64,7 +60,6 @@ class DefaultController extends Controller
 	{
 		foreach ($entree as $valeur) 
 		{ 
-			$this -> resultat['graphe'][$srctype.$src][$relation][] = $type.$valeur -> getId();
 			if ($type == 'M') { $nom = $valeur -> getMot(); }
 			else { $nom = $valeur -> getDefinition(); }
 			$n = array(
@@ -72,7 +67,12 @@ class DefaultController extends Controller
 				'nom' => $nom,
 				'type' => $type
 			);
-			if (!in_array($n,$this -> resultat['noeuds'])) { $this -> resultat['noeuds'][] = $n; }
+			if (!isset($this -> resultat['graphe'][$srctype.$src])) 
+			{
+				$this -> resultat['noeuds'][] = $n;
+				$this -> resultat['graphe'][$srctype.$src] = array( 'noeud' => $srctype.$src );
+			}
+			$this -> resultat['graphe'][$srctype.$src][$relation][] = $type.$valeur -> getId();
 		}
 	}
 
@@ -223,6 +223,21 @@ class DefaultController extends Controller
 
 
 		$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
-		return new Response(json_encode($this -> resultat));
+		$text = '<pre>'.json_encode($this -> resultat).'</pre>';
+		$text = str_replace('{','
+{',$text);
+		$text = str_replace('},','},
+',$text);
+		$text = str_replace('}','}
+',$text);
+		$text = str_replace('"relations":["derive","pertainym","build","participle","hypernym","troponym","hyponym","meronym","entails","holonym","antonym","attribut","cause","consequence","similar","estdans"],','
+
+"relations":
+["derive","pertainym","build","participle","hypernym","troponym","hyponym",
+"meronym","entails","holonym","antonym","attribut","cause","consequence","similar","estdans"],
+
+',$text);
+
+		return new Response($text);
 	}
 }
