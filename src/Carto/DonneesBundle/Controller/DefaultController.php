@@ -222,7 +222,7 @@ class DefaultController extends Controller
 		}
 
 
-		//$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
+		$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
 		return new Response(json_encode($this -> resultat));
 	}
 }

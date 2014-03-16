@@ -191,11 +191,11 @@ class DefaultController extends Controller
 		}
 		foreach ($this -> mot -> getVSynsets() as $valeur)
 		{
-			$this -> ajoutResultat($valeur -> getTroponyms(),'hypernym','V','V',$valeur -> getId());
+			$this -> ajoutResultat($valeur -> getTroponyms(),'troponym','V','V',$valeur -> getId());
 			$this -> ajoutMots($valeur -> getTroponyms(),'V');
 			$this -> ajoutResultat($valeur -> getHyponyms(),'hyponym','V','V',$valeur -> getId());
 			$this -> ajoutMots($valeur -> getHyponyms(),'V');
-			$this -> ajoutResultat($valeur -> getEntails(),'meronym','V','V',$valeur -> getId());
+			$this -> ajoutResultat($valeur -> getEntails(),'entails','V','V',$valeur -> getId());
 			$this -> ajoutMots($valeur -> getEntails(),'V');
 			$this -> ajoutResultat($valeur -> getHolonyms(),'holonym','V','V',$valeur -> getId());
 			$this -> ajoutMots($valeur -> getHolonyms(),'V');
@@ -203,17 +203,22 @@ class DefaultController extends Controller
 			$this -> ajoutMots($valeur -> getAntonyms(),'V');
 			$this -> ajoutResultat($valeur -> getCauses(),'cause','V','V',$valeur -> getId());
 			$this -> ajoutMots($valeur -> getCauses(),'V');
-			$this -> ajoutResultat($valeur -> getConsequences(),'consequences','V','V',$valeur -> getId());
+			$this -> ajoutResultat($valeur -> getConsequences(),'consequence','V','V',$valeur -> getId());
 			$this -> ajoutMots($valeur -> getConsequences(),'V');
 		}
 		foreach ($this -> mot -> getASynsets() as $valeur)
 		{
 			$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','A','A',$valeur -> getId());
 			$this -> ajoutMots($valeur -> getAntonyms(),'A');
-			$this -> ajoutResultat($valeur -> getCauses(),'attribut','A','A',$valeur -> getId());
-			$this -> ajoutMots($valeur -> getCauses(),'A');
-			$this -> ajoutResultat($valeur -> getConsequences(),'attribut','A','A',$valeur -> getId());
-			$this -> ajoutMots($valeur -> getConsequences(),'A');
+			$this -> ajoutResultat($valeur -> getIsAttributeOf(),'attribut','N','A',$valeur -> getId());
+			$this -> ajoutMots($valeur -> getIsAttributeOf(),'A');
+			$this -> ajoutResultat($valeur -> getSimilars(),'similar','A','A',$valeur -> getId());
+			$this -> ajoutMots($valeur -> getSimilars(),'A');
+		}
+		foreach ($this -> mot -> getRSynsets() as $valeur)
+		{
+			$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','R','R',$valeur -> getId());
+			$this -> ajoutMots($valeur -> getAntonyms(),'R');
 		}
 
 
