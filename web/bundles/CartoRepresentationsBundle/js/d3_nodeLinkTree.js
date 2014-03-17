@@ -28,8 +28,9 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", diameter)
 		.attr("height", diameter - 150)
-		.append("g")
-		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
+		.append("g");
 
 	d3.select(self.frameElement).style("height", diameter - 150 + "px");
 	
@@ -67,4 +68,8 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 				var d3_utils = new D3_Utils();
 				d3_utils.show_wikipedia(d.name);
 			});
+			
+	function zoom() {
+		svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	}
 }

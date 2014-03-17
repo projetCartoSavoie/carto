@@ -28,7 +28,9 @@ D3_GrapheRepresentation.load = function(json) {
 
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", width)
-		.attr("height", height);
+		.attr("height", height)
+		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
+		.append("g");
 
 	var formatter = new D3_Formatter();
 	var graph = formatter.to_graph(json);
@@ -82,4 +84,8 @@ D3_GrapheRepresentation.load = function(json) {
 			return "translate(" + d.x + "," + d.y + ")"; 
 		});
 	});
+	
+	function zoom() {
+		svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	}
 }
