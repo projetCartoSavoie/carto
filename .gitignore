@@ -15,3 +15,4 @@ app/config/parameters.yml
 
 # Fichiers qui posent problème
 web/bundles/CartoRepresentationsBundle/action/*
+src/Carto/RepresentationsBundle/Ressources/views/Layouts/layout.html.twig
