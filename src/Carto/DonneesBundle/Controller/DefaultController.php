@@ -258,8 +258,8 @@ class DefaultController extends Controller
 		$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
 
 		//On encode en json et on ajoute quelques sauts de ligne pour faciliter la lecture
-		$text = '<pre>'.json_encode($this -> resultat).'</pre>';
-		$text = str_replace('{','
+		$text = json_encode($this -> resultat);
+		/*$text = str_replace('{','
 {',$text);
 		$text = str_replace('},','},
 ',$text);
@@ -272,7 +272,7 @@ class DefaultController extends Controller
 "meronym","entails","holonym","antonym","attribut","cause","consequence","similar","estdans"],
 
 ',$text);
-		$text = '<html><body>'.$text.'</body></html>';
+		$text = '<html><body>'.$text.'</body></html>';*/
 
 		//On retourne le json obtenu
 		return new Response($text);

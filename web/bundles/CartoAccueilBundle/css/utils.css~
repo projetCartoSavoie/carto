@@ -1,0 +1,219 @@
+/*************
+	BOUTONS
+**************/
+label { 
+    padding:0.4em 2em 0.4em 0; 
+}
+.toggle-btn-grp { 
+    margin:3px 0; 
+}
+.toggle-btn { 
+    text-align:centre; 
+    margin:5px 2px;
+    padding:0.4em 3em; 
+    color:#000; 
+    background-color:#FFF; 
+    border-radius:10px; 
+    display:inline-block; 
+    border:solid 1px #CCC; 
+    cursor:pointer;
+}
+
+.toggle-btn-grp.joint-toggle .toggle-btn { 
+    margin:5px 0; 
+    padding:0.4em 2em; 
+    border-radius:0;
+    border-right-color:white;
+}
+.toggle-btn-grp.joint-toggle .toggle-btn:first-child { 
+    margin-left:2px; 
+    border-radius: 10px 0px 0px 10px; 
+}
+.toggle-btn-grp.joint-toggle .toggle-btn:last-child { 
+    margin-right:2px;  
+    border-radius: 0px 10px 10px 0px;
+    border-right:solid 1px #CCC;
+}
+
+
+.toggle-btn:hover { 
+    border:solid 1px #4A72A9 !important; 
+    background:#f1fdfe;
+}
+
+
+.toggle-btn.success { 
+    background:lightgreen;
+    border:solid 1px green !important; 
+}
+
+
+.visuallyhidden { 
+    border: 0; 
+    clip: rect(0 0 0 0); 
+    height: 1px; 
+    margin: -1px; 
+    overflow: hidden; 
+    padding: 0; 
+    position: absolute; 
+    width: 1px; 
+}
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { 
+    clip: auto; 
+    height: auto; 
+    margin: 0; 
+    overflow: visible; 
+    position: static; 
+    width: auto; 
+}
+
+
+/* CSS only version */
+.toggle-btn-grp.cssonly * {
+    width:140px;
+    height:30px;
+    line-height:30px;
+}
+.toggle-btn-grp.cssonly div {
+    display:inline-block;
+    position:relative;
+    margin:5px 2px;
+}
+
+/**************************
+	BARRE DE RECHERCHE
+***************************/
+#search_keywords{
+border: none;
+margin: 6px 0 0 20px;
+vertical-align: middle;
+color: #666;
+padding: 0 0 0 6px;
+}
+
+#recherche {
+	padding: 10px;
+	background: url(/bundles/CartoAccueilBundle/images/search.png) left center no-repeat;
+	height: 35px;
+	padding-right: 7px;
+	-moz-border-radius: 4px 4px 0 0;
+	-webkit-border-radius: 4px 4px 0 0;
+	border-radius: 4px 4px 0 0;
+}
+
+.buttonSearch{
+	padding: 4px 16px;
+	border: none;
+	outline: none;
+	border-radius: 2px;
+	background: #36A9C7;
+	color: #FFF;
+	text-shadow: 0 -1px rgba(0,0,0,0.15);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+	font-weight: bold;
+	cursor: pointer;
+	-webkit-appearance: none;
+}
+
+.buttonSearch:hover{
+	background: #4A72A9; 
+	box-shadow: 0 1px 2px rgba(0,0,0,0.3); 
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.3); 
+} 
+
+/*************
+	TOOLBAR
+**************/
+
+.tool-container {
+	background-color: #d0cbcb;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(14%, #d0cbcb), color-stop(100%, #e9e5e5));
+	background: -moz-linear-gradient(top, #d0cbcb 14%, #e9e5e5 100%);
+	background: -ms-linear-gradient(top, #d0cbcb 14%,#e9e5e5 100%);
+	background: linear-gradient(to bottom, #d0cbcb 14%,#e9e5e5 100%);
+	border-radius: 3px;
+	box-shadow: 0px 0px 15px #000;
+	position: fixed;				
+}
+
+.tool-item {
+	height: 34px;
+	border-top: 1px solid #e2dfdf;
+	border-bottom: 1px solid #9f9898;
+	display: block;				
+	width: 44px;
+	text-align: center;
+}
+
+.tool-item:first-child {
+	border-left: none;
+}
+
+.tool-left .tool-item:first-child {
+	border-top: 1px solid transparent;
+}
+
+.tool-item:last-child {
+	border-right: none;
+	border-bottom: none;
+}
+
+.tool-item.selected, .tool-item:hover  {
+	background: #a79f9f;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a79f9f), color-stop(93%, #e2dfdf));
+	background: -moz-linear-gradient(top, #a79f9f 0%, #e2dfdf 93%);
+	background: -ms-linear-gradient(top, #a79f9f 0%, #e2dfdf 93%);
+	background: linear-gradient(to bottom, #a79f9f 0%, #e2dfdf 93%);
+}
+
+.tool-item:last-child:hover {
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+
+.tool-item:first-child:hover {
+	border-top-left-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+.tool-item:last-child:hover {
+	border-bottom-right-radius: 4px;
+	border-bottom-left-radius: 4px;
+}
+
+.tool-item:first-child:hover {
+	border-top-right-radius: 4px;
+	border-top-left-radius: 4px;
+}
+
+[class^="icon-"]{
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-right: .3em;
+	line-height: 14px;
+	vertical-align: text-top;
+	background-image: url(/bundles/CartoRepresentationsBundle/images/tools.png);
+	background-position: 14px 14px;
+	background-repeat: no-repeat;
+	margin-top: 9px;
+}
+
+.icon-search {
+	background-position: -48px 0;
+}
+.icon-select {
+	background-position: -290px 0;
+}
+.icon-zoom-in {
+	background-position: -336px 0;
+}
+.icon-zoom-out {
+	background-position: -360px 0;
+}
+.icon-print {
+	background-position: -96px -48px;
+}
+.icon-close {
+	background-position: -310px 0;
+}

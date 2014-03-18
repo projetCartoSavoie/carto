@@ -254,8 +254,10 @@ class DefaultController extends Controller
 			$this -> ajoutMots($valeur -> getAntonyms(),'R');
 		}
 
-
+		//On enlève les clés du tableau graphe pour correspondre au format commun
 		$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
+
+		//On encode en json et on ajoute quelques sauts de ligne pour faciliter la lecture
 		$text = '<pre>'.json_encode($this -> resultat).'</pre>';
 		$text = str_replace('{','
 {',$text);
@@ -272,6 +274,7 @@ class DefaultController extends Controller
 ',$text);
 		$text = '<html><body>'.$text.'</body></html>';
 
+		//On retourne le json obtenu
 		return new Response($text);
 	}
 }
