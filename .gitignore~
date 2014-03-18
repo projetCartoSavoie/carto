@@ -14,4 +14,4 @@ app/config/parameters.yml
 /nbproject/private/
 
 # Fichiers qui posent problème
-
+web/bundles/CartoRepresentationsBundle/action/*
