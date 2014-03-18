@@ -60,6 +60,17 @@
 									</li>
 									<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 										<a href="{{ path('carto_donnees_homepage') }}">{{"Données" | trans}}</a>
+										<ul>
+											<li>
+												<a href="{{ path('carto_donnees_homepage') }}">{{"Recherche simple" | trans}}</a>
+											</li>
+											<li>
+												<a href="{{ path('carto_donnees_enregistre') }}">{{"Enregistrer les données" | trans}}</a>
+											</li>
+											<li>
+												<a href="{{ path('carto_donnees_json') }}">{{"Générer json" | trans}}</a>
+											</li>
+										</ul>
 									</li>
 									<li id="about" {% if "about" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
 										<a href="{{ path('carto_accueil_aboutus') }}">{{"A propos" | trans}}</a>
@@ -87,6 +98,10 @@
 				</td>
 				<td id="contentCenter">
 					{% block body %}
+					{% endblock %}
+				</td>
+				<td class="toolsRight">
+					{% block tools %}
 					{% endblock %}
 				</td>
 				<td>

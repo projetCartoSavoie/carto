@@ -1,10 +1,176 @@
 {% extends "CartoDonneesBundle:Layouts:layout.html.twig" %}
 {% block body %}
-<h1>Données</h1>
+<p>Pour chercher un mot, ajoutez le à l'adresse (exemple : http://localhost/app_dev.php/fr/donnees/recherche/horse pour rechercher le mot horse)</p>
+<h1>Vous recherchez le mot {{ mot.mot }}</h1>
+
+{% if derivede is defined %}
+<h2>Dérive de</h2>
+<ul>
+	{% for mot in derivede %}
+		<li>{{ mot.mot }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if deriveto is defined %}
+<h2>Dérive en</h2>
+<ul>
+	{% for mot in deriveto %}
+		<li>{{ mot.mot }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if participleof.mot is defined %}
+<h2>Est participe passé de</h2>
+<ul>
+		<li>{{ participleof.mot }}</li>
+</ul>
+{% endif %}
+
+{% if participleto.mot is defined %}
+<h2>A pour participe passé</h2>
+<ul>
+		<li>{{ participleto.mot }}</li>
+</ul>
+{% endif %}
+
+{% if pertainfrom is defined %}
+<h2>Appartient à</h2>
+<ul>
+	{% for mot in pertainfrom %}
+		<li>{{ mot.mot }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if pertainto is defined %}
+<h2>Adjectifs d'appartenance</h2>
+<ul>
+	{% for mot in pertainto %}
+		<li>{{ mot.mot }}</li>
+	{% endfor %}
+</ul>
+{% endif %}
+
+{% if builtfrom.mot is defined %}
+<h2>Est construit à partir de</h2>
+<ul>
+		<li>{{ builtfrom.mot }}</li>
+</ul>
+{% endif %}
+
+{% if build.mot is defined %}
+<h2>Adverbes construits à partir de ce mot :</h2>
+<ul>
+		<li>{{ build.mot }}</li>
+</ul>
+{% endif %}
+
 <h2>NSynsets</h2>
 <ul>
-	{{ for syn in nsynsets }}
-	<li>{{ syn.wnid }}</li>
-	{{ endfor }}
+	{% for syn in nsynsets %}
+	<li><h3>{{ syn.wnid }} : ( {% for m in syn.mots %} {{ m.mot }} {% endfor %} ) {{ syn.definition }}</h3> 
+	<ul><h4>Hypernymes</h4>
+		{% for hyp in syn.hypernyms %}
+			<li>{{ hyp.wnid }} : ( {% for m in hyp.mots %} {{ m.mot }} {% endfor %} ) {{ hyp.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Hyponymes</h4>
+		{% for hyp in syn.hyponyms %}
+			<li>{{ hyp.wnid }} : ( {% for m in hyp.mots %} {{ m.mot }} {% endfor %} ) {{ hyp.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Antonymes</h4>
+		{% for anto in syn.antonyms %}
+			<li>{{ anto.wnid }} : ( {% for m in anto.mots %} {{ m.mot }} {% endfor %} ) {{ anto.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Meronymes</h4>
+		{% for mero in syn.meronyms %}
+			<li>{{ mero.wnid }} : ( {% for m in mero.mots %} {{ m.mot }} {% endfor %} ) {{ mero.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Holonymes</h4>
+		{% for holo in syn.holonyms %}
+			<li>{{ holo.wnid }} : ( {% for m in holo.mots %} {{ m.mot }} {% endfor %} ) {{ holo.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Attributs</h4>
+		{% for att in syn.hasAttribute %}
+			<li>{{ att.wnid }} : ( {% for m in att.mots %} {{ m.mot }} {% endfor %} ) {{ att.definition }} </li>
+		{% endfor %}
+	</ul>
+	</li>
+	{% endfor %}
+
+</ul>
+
+<h2>VSynsets</h2>
+<ul>
+	{% for syn in vsynsets %}
+	<li><h3>{{ syn.wnid }} : ( {% for m in syn.mots %} {{ m.mot }} {% endfor %} ) {{ syn.definition }}</h3> 
+	<ul><h4>Troponymes</h4>
+		{% for tropo in syn.troponyms %}
+			<li>{{ tropo.wnid }} : ( {% for m in tropo.mots %} {{ m.mot }} {% endfor %} ) {{ tropo.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Hyponymes</h4>
+		{% for hyp in syn.hyponyms %}
+			<li>{{ hyp.wnid }} : ( {% for m in hyp.mots %} {{ m.mot }} {% endfor %} ) {{ hyp.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Antonymes</h4>
+		{% for anto in syn.antonyms %}
+			<li>{{ anto.wnid }} : ( {% for m in anto.mots %} {{ m.mot }} {% endfor %} ) {{ anto.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Entailments</h4>
+		{% for ent in syn.entails %}
+			<li>{{ ent.wnid }} : ( {% for m in ent.mots %} {{ m.mot }} {% endfor %} ) {{ ent.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Holonymes</h4>
+		{% for holo in syn.holonyms %}
+			<li>{{ holo.wnid }} : ( {% for m in holo.mots %} {{ m.mot }} {% endfor %} ) {{ holo.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Causes</h4>
+		{% for cause in syn.causes %}
+			<li>{{ cause.wnid }} : ( {% for m in cause.mots %} {{ m.mot }} {% endfor %} ) {{ cause.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Consequences</h4>
+		{% for cons in syn.consequences %}
+			<li>{{ cons.wnid }} : ( {% for m in cons.mots %} {{ m.mot }} {% endfor %} ) {{ cons.definition }} </li>
+		{% endfor %}
+	</ul>
+	</li>
+	{% endfor %}
+</ul>
+
+<h2>ASynsets</h2>
+<ul>
+	{% for syn in asynsets %}
+	<li><h3>{{ syn.wnid }} : ( {% for m in syn.mots %} {{ m.mot }} {% endfor %} ) {{ syn.definition }}</h3> 
+	<ul><h4>Antonymes</h4>
+		{% for anto in syn.antonyms %}
+			<li>{{ anto.wnid }} : ( {% for m in anto.mots %} {{ m.mot }} {% endfor %} ) {{ anto.definition }} </li>
+		{% endfor %}
+	</ul>
+	<ul><h4>Similars</h4>
+		{% for sim in syn.similars %}
+			<li>{{ sim.wnid }} : ( {% for m in sim.mots %} {{ m.mot }} {% endfor %} ) {{ sim.definition }} </li>
+		{% endfor %}
+	</ul>
+	</li>
+	{% endfor %}
+</ul>
+
+<h2>RSynsets</h2>
+<ul>
+	{% for syn in rsynsets %}
+	<li><h3>{{ syn.wnid }} : ( {% for m in syn.mots %} {{ m.mot }} {% endfor %} ) {{ syn.definition }}</h3> </li>
+	{% endfor %}
 </ul>
 {% endblock %}

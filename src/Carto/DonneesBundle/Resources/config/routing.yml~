@@ -1,6 +1,6 @@
 carto_donnees_homepage:
-    pattern:  /
-    defaults: { _controller: CartoDonneesBundle:Default:index }
+    pattern:  /recherche/{recherche}
+    defaults: { _controller: CartoDonneesBundle:Default:index, recherche:'entity' }
 
 carto_donnees_enregistre:
     pattern:  /enregistrer
@@ -19,7 +19,7 @@ carto_donnees_derive:
     defaults: { _controller: CartoDonneesBundle:Enregistre:derive }
 
 carto_donnees_builtfrom:
-    pattern:  /builtfrom
+    pattern:  /builtfrom/{liminf}/{limsup}
     defaults: { _controller: CartoDonneesBundle:Enregistre:builtfrom }
 
 carto_donnees_participle:
@@ -64,5 +64,9 @@ carto_donnees_similars:
 
 carto_donnees_recherche:
     pattern:  /recherche/{recherche}
+    defaults: { _controller: CartoDonneesBundle:Default:index, recherche:'entity' }
+
+carto_donnees_json:
+    pattern:  /json/{recherche}
     defaults: { _controller: CartoDonneesBundle:Default:index, recherche:'entity' }
 

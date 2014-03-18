@@ -10,7 +10,6 @@ D3_GrapheRepresentation.prototype.show = function(data) {
 	}
 	// data is json
 	else {
-		console.log(data);
 		D3_GrapheRepresentation.load(data);
 	}
 }
@@ -29,7 +28,9 @@ D3_GrapheRepresentation.load = function(json) {
 
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", width)
-		.attr("height", height);
+		.attr("height", height)
+		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
+		.append("g");
 
 	var formatter = new D3_Formatter();
 	var graph = formatter.to_graph(json);
@@ -53,12 +54,7 @@ D3_GrapheRepresentation.load = function(json) {
 		.enter()
 			.append("g")
 			.attr("class", "node")
-			.call(force.drag)
-			.attr("cursor","pointer")
-			.on("click", function(d) {
-				var d3_utils = new D3_Utils();
-				d3_utils.show_wikipedia(d.name);
-			});
+			.call(force.drag);
 	
 	node.append("circle")
 		.attr("r", 5)
@@ -68,7 +64,12 @@ D3_GrapheRepresentation.load = function(json) {
 		.attr("x", 12)
 		.attr("dy", ".35em")
 		.style("stroke", "black")
-		.text(function(d) { return d.name; });
+		.text(function(d) { return d.name; })
+		.attr("cursor","pointer")
+		.on("click", function(d) {
+			var d3_utils = new D3_Utils();
+			d3_utils.show_wikipedia(d.name);
+		});
 		
 	node.append("title")
 		.text(function(d) { return d.name; });
@@ -83,4 +84,8 @@ D3_GrapheRepresentation.load = function(json) {
 			return "translate(" + d.x + "," + d.y + ")"; 
 		});
 	});
+	
+	function zoom() {
+		svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	}
 }
