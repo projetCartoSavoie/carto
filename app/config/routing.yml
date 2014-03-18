@@ -1,9 +1,6 @@
 carto_accueil:
     resource: "@CartoAccueilBundle/Resources/config/routing.yml"
-    prefix:    /{_locale}
-    defaults: {_locale: en}
-    requirements:
-        _locale: en|fr
+    prefix:    /
 
 carto_donnees:
     resource: "@CartoDonneesBundle/Resources/config/routing.yml"
@@ -25,20 +22,3 @@ carto_documentation:
     defaults: {_locale: en}
     requirements:
         _locale: en|fr
-
-<<<<<<< HEAD
-=======
-carto_accueil:
-    resource: "@CartoAccueilBundle/Resources/config/routing.yml"
-    prefix:   /{_locale}
-    defaults: {_locale: en}
-    requirements:
-        _locale: en|fr
-
-carto_language:
-    resource: "@CartoAccueilBundle/Resources/config/routing.yml"
-    prefix:    /{_locale}
-    defaults: {_locale: en}
-    requirements:
-        _locale: en|fr
->>>>>>> c8c1a1924ffe3eebdbae3020e2af4a0fb6896b36
