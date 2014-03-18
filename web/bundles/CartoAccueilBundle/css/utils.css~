@@ -85,7 +85,7 @@ label {
 ***************************/
 #search_keywords{
 border: none;
-margin: 6px 0 0 30px;
+margin: 6px 0 0 20px;
 vertical-align: middle;
 color: #666;
 padding: 0 0 0 6px;
@@ -93,7 +93,7 @@ padding: 0 0 0 6px;
 
 #recherche {
 	padding: 10px;
-	background: url(../bundles/CartoAccueilBundle/images/search.png) left center no-repeat;
+	background: url(/bundles/CartoAccueilBundle/images/search.png) left center no-repeat;
 	height: 35px;
 	padding-right: 7px;
 	-moz-border-radius: 4px 4px 0 0;
@@ -190,10 +190,10 @@ padding: 0 0 0 6px;
 	display: inline-block;
 	width: 14px;
 	height: 14px;
-	*margin-right: .3em;
+	margin-right: .3em;
 	line-height: 14px;
 	vertical-align: text-top;
-	background-image: url(../bundles/CartoRepresentationsBundle/images/tools.png);
+	background-image: url(/bundles/CartoRepresentationsBundle/images/tools.png);
 	background-position: 14px 14px;
 	background-repeat: no-repeat;
 	margin-top: 9px;

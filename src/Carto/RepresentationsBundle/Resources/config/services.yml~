@@ -2,8 +2,8 @@ parameters:
 #    carto_representations.example.class: Carto\RepresentationsBundle\Example
 
 services:
-#    carto_representations.obtenirjsonwn:
-#        class: Carto\DonneesBundle\Controller\DefaultController
+    carto_representations.obtenirjsonwn:
+        class: Carto\DonneesBundle\Controller\DefaultController
 #        arguments: [@service_id, "plain_value", %parameter%]
 #    carto_representations.example:
 #        class: %carto_representations.example.class%
