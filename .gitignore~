@@ -6,7 +6,12 @@ vendor/*
 */logs/*
 */cache/*
 web/uploads/*
+*/phpmyadmin/*
 
 # Configuration files
 app/config/parameters.ini
 app/config/parameters.yml
+/nbproject/private/
+
+# Fichiers qui posent problème
+

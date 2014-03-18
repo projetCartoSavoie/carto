@@ -12,3 +12,6 @@ web/uploads/*
 app/config/parameters.ini
 app/config/parameters.yml
 /nbproject/private/
+
+# Fichiers qui posent problème
+web/bundles/CartoRepresentationsBundle/action/*
