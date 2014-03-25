@@ -1,6 +1,6 @@
 {% extends "CartoDonneesBundle:Layouts:layout.html.twig" %}
 {% block body %}
-<p>Pour chercher un mot, ajoutez le à l'adresse (exemple : http://localhost/app_dev.php/fr/donnees/recherche/horse pour rechercher le mot horse)</p>
+<p>Pour chercher un mot, ajoutez le à l'adresse (exemple : http://localhost/app_dev.php/fr/donnees/recherche/horse pour rechercher le mot horse). Si vous cherchez un mot que wordnet ne connait pas, vous obtiendrez une erreur.</p>
 <h1>Vous recherchez le mot {{ mot.mot }}</h1>
 
 {% if derivede is defined %}

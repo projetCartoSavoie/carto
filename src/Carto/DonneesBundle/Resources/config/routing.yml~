@@ -1,72 +1,89 @@
-carto_donnees_homepage:
-    pattern:  /recherche/{recherche}
-    defaults: { _controller: CartoDonneesBundle:Default:index, recherche:'entity' }
+# Admin
 
-carto_donnees_enregistre:
-    pattern:  /enregistrer
-    defaults: { _controller: CartoDonneesBundle:Enregistre:index }
+carto_donnees_admin_dashboard:
+    pattern:  /admin
+    defaults: { _controller: CartoDonneesBundle:Dashboard:index }
 
-carto_donnees_sauvegarder:
-    pattern:  /sauvegarder/{nom}/{type}/{liminf}/{limsup}
-    defaults: { _controller: CartoDonneesBundle:Enregistre:sauvegarde }
+carto_donnees_admin_login:
+    pattern:  /admin/login
+    defaults:  { _controller: CartoUserBundle:Security:login }
 
-carto_donnees_sauvegardermots:
-    pattern:  /sauvegardermots/{liminf}/{limsup}
-    defaults: { _controller: CartoDonneesBundle:Enregistre:sauvegardemot }
+carto_donnees_admin_login_check:
+    pattern:  /admin/login_check
 
-carto_donnees_derive:
-    pattern:  /derive/{liminf}/{limsup}
-    defaults: { _controller: CartoDonneesBundle:Enregistre:derive }
+carto_donnees_admin_logout:
+    pattern:  /admin/logout
 
-carto_donnees_builtfrom:
-    pattern:  /builtfrom/{liminf}/{limsup}
-    defaults: { _controller: CartoDonneesBundle:Enregistre:builtfrom }
+carto_donnees_admin_homepage:
+    pattern:  /admin/recherche/{recherche}
+    defaults: { _controller: CartoDonneesBundle:WN:index, recherche:'entity' }
 
-carto_donnees_participle:
-    pattern:  /participle
-    defaults: { _controller: CartoDonneesBundle:Enregistre:participle }
+carto_donnees_admin_Enregistre:
+    pattern:  /admin/Enregistrer
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:index }
 
-carto_donnees_pertainym:
-    pattern:  /pertainym/{liminf}/{limsup}
-    defaults: { _controller: CartoDonneesBundle:Enregistre:pertainym }
+carto_donnees_admin_sauvegarder:
+    pattern:  /admin/sauvegarder/{nom}/{type}/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:sauvegarde }
 
-carto_donnees_antonyms:
-    pattern:  /antonyms/{nom}/{type}/{liminf}/{limsup}
-    defaults: { _controller: CartoDonneesBundle:Enregistre:antonyms }
+carto_donnees_admin_sauvegardermots:
+    pattern:  /admin/sauvegardermots/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:sauvegardemot }
 
-carto_donnees_hypernyms:
-    pattern:  /hypernyms/{liminf}/{limsup}
-    defaults: { _controller: CartoDonneesBundle:Enregistre:hypernyms }
+carto_donnees_admin_derive:
+    pattern:  /admin/derive/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:derive }
 
-carto_donnees_meronyms:
-    pattern:  /meronyms/{liminf}/{limsup}
-    defaults: { _controller: CartoDonneesBundle:Enregistre:meronyms }
+carto_donnees_admin_builtfrom:
+    pattern:  /admin/builtfrom/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:builtfrom }
 
-carto_donnees_attributes:
-    pattern:  /attributes/{liminf}/{limsup}
-    defaults: { _controller: CartoDonneesBundle:Enregistre:attributes }
+carto_donnees_admin_participle:
+    pattern:  /admin/participle
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:participle }
 
-carto_donnees_troponyms:
-    pattern:  /troponyms
-    defaults: { _controller: CartoDonneesBundle:Enregistre:troponyms }
+carto_donnees_admin_pertainym:
+    pattern:  /admin/pertainym/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:pertainym }
 
-carto_donnees_entails:
-    pattern:  /entails
-    defaults: { _controller: CartoDonneesBundle:Enregistre:entails }
+carto_donnees_admin_antonyms:
+    pattern:  /admin/antonyms/{nom}/{type}/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:antonyms }
 
-carto_donnees_causes:
-    pattern:  /causes
-    defaults: { _controller: CartoDonneesBundle:Enregistre:causes }
+carto_donnees_admin_hypernyms:
+    pattern:  /admin/hypernyms/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:hypernyms }
 
-carto_donnees_similars:
-    pattern:  /similars
-    defaults: { _controller: CartoDonneesBundle:Enregistre:similars }
+carto_donnees_admin_meronyms:
+    pattern:  /admin/meronyms/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:meronyms }
 
-carto_donnees_recherche:
-    pattern:  /recherche/{recherche}
-    defaults: { _controller: CartoDonneesBundle:Default:index, recherche:'entity' }
+carto_donnees_admin_attributes:
+    pattern:  /admin/attributes/{liminf}/{limsup}
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:attributes }
 
+carto_donnees_admin_troponyms:
+    pattern:  /admin/troponyms
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:troponyms }
+
+carto_donnees_admin_entails:
+    pattern:  /admin/entails
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:entails }
+
+carto_donnees_admin_causes:
+    pattern:  /admin/causes
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:causes }
+
+carto_donnees_admin_similars:
+    pattern:  /admin/similars
+    defaults: { _controller: CartoDonneesBundle:EnregistreWN:similars }
+
+carto_donnees_admin_recherche:
+    pattern:  /admin/recherche/{recherche}
+    defaults: { _controller: CartoDonneesBundle:WN:index, recherche:'entity' }
+
+#Client 
 carto_donnees_json:
     pattern:  /json/{recherche}
-    defaults: { _controller: CartoDonneesBundle:Default:index, recherche:'entity' }
+    defaults: { _controller: CartoDonneesBundle:WN:json, recherche:'entity' }
 
