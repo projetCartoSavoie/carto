@@ -31,7 +31,11 @@
 		$search = $_POST['search'];
 				
 		$curlSession = curl_init();
+<<<<<<< HEAD
+		curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/json/'.$search);
+=======
 		curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/bundles/CartoRepresentationsBundle/json/exemple.json');
+>>>>>>> 0a63713b64681a406a674729fc5c9ef88ab2865c
 		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
 		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
 
