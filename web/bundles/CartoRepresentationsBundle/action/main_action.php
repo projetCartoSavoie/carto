@@ -16,7 +16,7 @@
 		$search = $_POST['search'];
 				
 		$curlSession = curl_init();
-		curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/json/exemple.json');
+		curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/json/'.$search);
 		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
 		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
 
