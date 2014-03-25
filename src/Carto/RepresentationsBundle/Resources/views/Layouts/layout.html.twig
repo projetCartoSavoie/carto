@@ -16,8 +16,9 @@
 	$(document).ready(function(){
 		$("#form_recherche").submit(function(){ 
 			var search = $('#search').val();
-			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php";
-			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php";
+			var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
+			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 			$.ajax({
 				type: "POST",
 				url: url,
