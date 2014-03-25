@@ -16,7 +16,7 @@
 	$(document).ready(function(){
 		$("#form_recherche").submit(function(){ 
 			var search = $('#search').val();
-			var url = "http:/localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php";
+			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php";
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -26,6 +26,7 @@
 				},
 				cache: false,
 				success: function(response) {
+					console.log(response.data);
 					var result = $.parseJSON(response);
 					if(result.success){
 						var data = result.data;

@@ -164,6 +164,7 @@ padding: 0 0 0 6px;
 	background: -moz-linear-gradient(top, #a79f9f 0%, #e2dfdf 93%);
 	background: -ms-linear-gradient(top, #a79f9f 0%, #e2dfdf 93%);
 	background: linear-gradient(to bottom, #a79f9f 0%, #e2dfdf 93%);
+	cursor: pointer;
 }
 
 .tool-item:last-child:hover {
