@@ -72,4 +72,8 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	function zoom() {
 		svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 	}
+	
+	function zoomed() {
+		container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	}
 }
