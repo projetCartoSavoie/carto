@@ -1,7 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}{{ parent() }}
-{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' %}
+{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' filter='cssrewrite' %}
 	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 {% endblock %}
@@ -16,8 +16,8 @@
 	$(document).ready(function(){
 		$("#form_recherche").submit(function(){ 
 			var search = $('#search').val();
-			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php";
-			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php";
+			var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php";
+			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php";
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -27,10 +27,7 @@
 				},
 				cache: false,
 				success: function(response) {
-<<<<<<< HEAD
-=======
 					console.log(response.data);
->>>>>>> 8871a104d1588beb8c51de8e0748fd2830f1c5bb
 					var result = $.parseJSON(response);
 					if(result.success){
 						var data = result.data;

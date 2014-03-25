@@ -93,7 +93,7 @@ padding: 0 0 0 6px;
 
 #recherche {
 	padding: 10px;
-	background: url(../bundles/CartoAccueilBundle/images/search.png) left center no-repeat;
+	background: url(/bundles/CartoAccueilBundle/images/search.png) left center no-repeat;
 	height: 35px;
 	padding-right: 7px;
 	-moz-border-radius: 4px 4px 0 0;
