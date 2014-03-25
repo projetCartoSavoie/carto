@@ -6,11 +6,6 @@
   stroke-width: 1.5px;
 }
 
-.node text {
-  font: 10px sans-serif;
-  pointer-events: none;
-}
-
 path.link {
   fill: none;
   stroke: #9ecae1;

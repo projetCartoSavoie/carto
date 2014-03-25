@@ -5,7 +5,7 @@
 		<title>{% block title %}{{ "Bienvenue" | trans }}{% endblock %}</title>
 		
 		{% block stylesheets %}
-			{% stylesheets 'bundles/CartoAccueilBundle/css/aboutus.css' 'bundles/CartoAccueilBundle/css/button.css' 'bundles/CartoAccueilBundle/css/header.css' 'bundles/CartoAccueilBundle/css/utils.css' %}
+			{% stylesheets 'bundles/CartoAccueilBundle/css/*' filter='cssrewrite' %}
 				<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 			{% endstylesheets %}
 		{% endblock %}
@@ -59,13 +59,13 @@
 										</ul>
 									</li>
 									<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-										<a href="{{ path('carto_donnees_homepage') }}">{{"Données" | trans}}</a>
+										<a href="{{ path('carto_donnees_admin_homepage') }}">{{"Données" | trans}}</a>
 										<ul>
 											<li>
-												<a href="{{ path('carto_donnees_homepage') }}">{{"Recherche simple" | trans}}</a>
+												<a href="{{ path('carto_donnees_admin_homepage') }}">{{"Recherche simple" | trans}}</a>
 											</li>
 											<li>
-												<a href="{{ path('carto_donnees_enregistre') }}">{{"Enregistrer les données" | trans}}</a>
+												<a href="{{ path('carto_donnees_admin_enregistre') }}">{{"Enregistrer les données" | trans}}</a>
 											</li>
 											<li>
 												<a href="{{ path('carto_donnees_json') }}">{{"Générer json" | trans}}</a>
