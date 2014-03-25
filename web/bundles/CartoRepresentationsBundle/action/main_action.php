@@ -6,11 +6,7 @@
 	//var_dump($cmd);
 
 	$curlSession = curl_init();
-<<<<<<< HEAD
 	curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/app_dev.php/fr/donnees/json/'.$cmd);
-=======
-	curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/app_dev.php/fr/donnees/json/'.$cmd);
->>>>>>> 56f02e291c4f2028d35a5d02f8bb9a0c2285ce6a
 	curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
 	curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
 
