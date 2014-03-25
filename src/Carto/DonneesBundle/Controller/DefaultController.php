@@ -77,9 +77,9 @@ class DefaultController extends Controller
 				'type' => $type
 			);
 			//Ajout du noeud dans la liste si il n'y est pas déjà
+			if (!in_array($n,$this -> resultat['noeuds'])) { $this -> resultat['noeuds'][] = $n; }
 			if (!isset($this -> resultat['graphe'][$srctype.$src])) 
 			{
-				$this -> resultat['noeuds'][] = $n;
 				$this -> resultat['graphe'][$srctype.$src] = array( 'noeud' => $srctype.$src );
 			}
 			//Ajout de la relation
@@ -272,7 +272,7 @@ class DefaultController extends Controller
 "meronym","entails","holonym","antonym","attribut","cause","consequence","similar","estdans"],
 
 ',$text);
-		$text = '<html><body>'.$text.'</body></html>';*/
+		$text = '<html><body><pre>'.$text.'</pre></body></html>';*/
 
 		//On retourne le json obtenu
 		return new Response($text);
