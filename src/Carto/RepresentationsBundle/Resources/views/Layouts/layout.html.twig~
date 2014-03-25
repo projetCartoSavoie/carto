@@ -16,7 +16,7 @@
 	$(document).ready(function(){
 		$("#form_recherche").submit(function(){ 
 			var search = $('#search').val();
-			var url = "{{ asset('bundles/CartoRepresentationsBundle/action/main_action.php') }}";
+			var url = "http:/localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php";
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -69,7 +69,7 @@
 				<form id="form_recherche" action="" method="post">
 					<p>
 						<input id="search" type="text" name="search" />
-						<button class="buttonSearch" type="submit">Rechercher</button>
+						<button class="buttonSearch" type="submit">Ok</button>
 					</p>
 				</form>
 			</div>

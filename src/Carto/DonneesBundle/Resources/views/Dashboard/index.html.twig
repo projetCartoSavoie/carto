@@ -1,0 +1,9 @@
+{% extends "CartoDonneesBundle:Layouts:layout.html.twig" %}
+
+{% block title %}{{ parent() }} - Admin{% endblock %}
+
+{% block body %}{{ parent() }}
+	{% if app.user %}
+		<h3 class="titleList">{{'Bienvenue sur notre partie administrateur' | trans}}, {{ app.user.username }} !</h3>
+	{% endif %}
+{% endblock %}
