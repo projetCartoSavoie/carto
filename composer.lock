@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "313d4ea64616b4b26ef080e7e527c276",
+    "hash": "0a940c1f487f63d1d65e0be35d37e392",
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",

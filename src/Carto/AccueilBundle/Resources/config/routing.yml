@@ -1,6 +1,6 @@
 carto_accueil_homepage:
-    pattern:  /
-    defaults: { _controller: CartoAccueilBundle:Default:index }
+    pattern:  /{_locale}
+    defaults: { _controller: CartoAccueilBundle:Default:index, _locale: en }
 
 carto_accueil_homepage_switch_language:
     pattern:  /switch_language/{lang}
