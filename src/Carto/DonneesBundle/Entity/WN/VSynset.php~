@@ -1,81 +1,139 @@
 <?php
-
+/**
+	* Modèle des synsets de type verbe
+	*
+	* rappel : un synset est un ensemble de mots synonymes les uns des autres.
+	*
+	* @author Rémy Cluze <Remy.Cluze@etu.univ-savoie.fr>
+	* @author Anthony Di Lisio <Anthony.Di-Lisio@etu.univ-savoie.fr>
+	* @author Juliana Leclaire <Juliana.Leclaire@etu.univ-savoie.fr>
+	* @author Rémi Mollard <Remi.Mollard@etu.univ-savoie.fr>
+	* @author Céline de Roland <Celine.de-Roland@etu.univ-savoie.fr>
+	*
+	* @version 1.0
+	*/
 namespace Carto\DonneesBundle\Entity\WN;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * VSynset
- *
- * @ORM\Table()
- * @ORM\Entity(repositoryClass="Carto\DonneesBundle\Entity\VSynsetRepository")
- */
+	* Modèle des synsets de type verbe
+	*
+	* rappel : un synset est un ensemble de mots synonymes les uns des autres.
+	*
+	* @ORM\Table()
+	* @ORM\Entity(repositoryClass="Carto\DonneesBundle\Entity\WN\VSynsetRepository")
+	*/
 class VSynset
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="wnid", type="string", length=10)
-     */
-    private $wnid;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="definition", type="text")
-     */
-    private $definition;
+	/**
+	 * identification dans la base de données
+	 *
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	private $id;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\Mot",mappedBy="vsynsets")
+	 * identification dans la base wordnet
+	 *
+	 * utile uniquement lors de l'import de la base wordnet
+	 *
+	 * @var string
+	 *
+	 * @ORM\Column(name="wnid", type="string", length=10)
+	 */
+	private $wnid;
+
+	/**
+	 * définition commune à tous les mots du même synset
+	 *
+	 * @var string
+	 *
+	 * @ORM\Column(name="definition", type="text")
+	 */
+	private $definition;
+
+	/**
+	 * liste des mots du synset
+	 *
+	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\Mot",mappedBy="vsynsets")
 	*/
 	private $mots;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\VSynset")
+	* liste des antonyms 
+	*
+	* contraires 
+	* Relation ManyToMany entre des VSynsets
+	*
+	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\VSynset")
 	* @ORM\JoinTable(name="vantonyms")
 	*/
 	private $antonyms;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\VSynset",inversedBy="hyponyms")
+	* liste des troponyms 
+	*
+	* Relation de généralisation (ex: Communicate est troponym de Talk) 
+	* Relation ManyToMany entre des VSynsets
+	*
+	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\VSynset",inversedBy="hyponyms")
 	* @ORM\JoinTable(name="vtroponyms")
 	*/
 	private $troponyms;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\VSynset",mappedBy="troponyms")
+	* liste des hyponyms 
+	*
+	* Relation de spécialisation (ex: Talk est hyponym de Communicate) 
+	* Relation inverse de Troponym
+	*
+	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\VSynset",mappedBy="troponyms")
 	*/
 	private $hyponyms;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\VSynset",inversedBy="holonyms")
+	* liste des entails 
+	*
+	* Relation de nécessité, d'inclusion (ex: Pour respirer il faut obligatoirement expirer (entre autres)) 
+	* Relation ManyToMany entre VSynsets
+	*
+	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\VSynset",inversedBy="holonyms")
 	* @ORM\JoinTable(name="ventails")
 	*/
 	private $entails;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\VSynset",mappedBy="entails")
+	* liste des holonyms 
+	*
+	* Relation est inclus dans (ex: expirer est obligatoire pour respirer) 
+	* Relation inverse de Entails
+	*
+	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\VSynset",mappedBy="entails")
 	*/
 	private $holonyms;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\VSynset",inversedBy="consequences")
+	* liste des causes 
+	*
+	* Relation de conséquence logique (ex: une personne enseigne implique que d'autres personnes apprennent) 
+	*
+	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\VSynset",inversedBy="consequences")
 	* @ORM\JoinTable(name="vcauses")
 	*/
 	private $causes;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\VSynset",mappedBy="causes")
+	* liste des consequences 
+	*
+	* Relation de conséquence logique (ex: une personne apprend, c'est parce qu'une autre lui enseigne quelque chose) 
+	* Relation inverse de causes
+	*
+	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\VSynset",mappedBy="causes")
 	*/
 	private $consequences;
 
@@ -85,323 +143,323 @@ class VSynset
 		$this -> setWnid($wnid);
 	}
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	 * Get id
+	 *
+	 * @return integer 
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-    /**
-     * Set wnid
-     *
-     * @param string $wnid
-     * @return VSynset
-     */
-    public function setWnid($wnid)
-    {
-        $this->wnid = $wnid;
+	/**
+	 * Set wnid
+	 *
+	 * @param string $wnid
+	 * @return VSynset
+	 */
+	public function setWnid($wnid)
+	{
+		$this->wnid = $wnid;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get wnid
-     *
-     * @return string 
-     */
-    public function getWnid()
-    {
-        return $this->wnid;
-    }
+	/**
+	 * Get wnid
+	 *
+	 * @return string 
+	 */
+	public function getWnid()
+	{
+		return $this->wnid;
+	}
 
-    /**
-     * Set definition
-     *
-     * @param string $definition
-     * @return VSynset
-     */
-    public function setDefinition($definition)
-    {
-        $this->definition = $definition;
+	/**
+	 * Set definition
+	 *
+	 * @param string $definition
+	 * @return VSynset
+	 */
+	public function setDefinition($definition)
+	{
+		$this->definition = $definition;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get definition
-     *
-     * @return string 
-     */
-    public function getDefinition()
-    {
-        return $this->definition;
-    }
+	/**
+	 * Get definition
+	 *
+	 * @return string 
+	 */
+	public function getDefinition()
+	{
+		return $this->definition;
+	}
 
-    /**
-     * Add mots
-     *
-     * @param \Carto\DonneesBundle\Entity\Mot $mots
-     * @return VSynset
-     */
-    public function addMot(\Carto\DonneesBundle\Entity\Mot $mots)
-    {
-        $this->mots[] = $mots;
+	/**
+	 * Add mots
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\Mot $mots
+	 * @return VSynset
+	 */
+	public function addMot(\Carto\DonneesBundle\Entity\WN\Mot $mots)
+	{
+		$this->mots[] = $mots;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove mots
-     *
-     * @param \Carto\DonneesBundle\Entity\Mot $mots
-     */
-    public function removeMot(\Carto\DonneesBundle\Entity\Mot $mots)
-    {
-        $this->mots->removeElement($mots);
-    }
+	/**
+	 * Remove mots
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\Mot $mots
+	 */
+	public function removeMot(\Carto\DonneesBundle\Entity\WN\Mot $mots)
+	{
+		$this->mots->removeElement($mots);
+	}
 
-    /**
-     * Get mots
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getMots()
-    {
-        return $this->mots;
-    }
+	/**
+	 * Get mots
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getMots()
+	{
+		return $this->mots;
+	}
 
-    /**
-     * Add antonyms
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $antonyms
-     * @return VSynset
-     */
-    public function addAntonym(\Carto\DonneesBundle\Entity\VSynset $antonyms)
-    {
-        $this->antonyms[] = $antonyms;
+	/**
+	 * Add antonyms
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $antonyms
+	 * @return VSynset
+	 */
+	public function addAntonym(\Carto\DonneesBundle\Entity\WN\VSynset $antonyms)
+	{
+		$this->antonyms[] = $antonyms;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove antonyms
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $antonyms
-     */
-    public function removeAntonym(\Carto\DonneesBundle\Entity\VSynset $antonyms)
-    {
-        $this->antonyms->removeElement($antonyms);
-    }
+	/**
+	 * Remove antonyms
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $antonyms
+	 */
+	public function removeAntonym(\Carto\DonneesBundle\Entity\WN\VSynset $antonyms)
+	{
+		$this->antonyms->removeElement($antonyms);
+	}
 
-    /**
-     * Get antonyms
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getAntonyms()
-    {
-        return $this->antonyms;
-    }
+	/**
+	 * Get antonyms
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getAntonyms()
+	{
+		return $this->antonyms;
+	}
 
-    /**
-     * Add troponyms
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $troponyms
-     * @return VSynset
-     */
-    public function addTroponym(\Carto\DonneesBundle\Entity\VSynset $troponyms)
-    {
-        $this->troponyms[] = $troponyms;
+	/**
+	 * Add troponyms
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $troponyms
+	 * @return VSynset
+	 */
+	public function addTroponym(\Carto\DonneesBundle\Entity\WN\VSynset $troponyms)
+	{
+		$this->troponyms[] = $troponyms;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove troponyms
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $troponyms
-     */
-    public function removeTroponym(\Carto\DonneesBundle\Entity\VSynset $troponyms)
-    {
-        $this->troponyms->removeElement($troponyms);
-    }
+	/**
+	 * Remove troponyms
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $troponyms
+	 */
+	public function removeTroponym(\Carto\DonneesBundle\Entity\WN\VSynset $troponyms)
+	{
+		$this->troponyms->removeElement($troponyms);
+	}
 
-    /**
-     * Get troponyms
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getTroponyms()
-    {
-        return $this->troponyms;
-    }
+	/**
+	 * Get troponyms
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getTroponyms()
+	{
+		return $this->troponyms;
+	}
 
-    /**
-     * Add hyponyms
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $hyponyms
-     * @return VSynset
-     */
-    public function addHyponym(\Carto\DonneesBundle\Entity\VSynset $hyponyms)
-    {
-        $this->hyponyms[] = $hyponyms;
+	/**
+	 * Add hyponyms
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $hyponyms
+	 * @return VSynset
+	 */
+	public function addHyponym(\Carto\DonneesBundle\Entity\WN\VSynset $hyponyms)
+	{
+		$this->hyponyms[] = $hyponyms;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove hyponyms
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $hyponyms
-     */
-    public function removeHyponym(\Carto\DonneesBundle\Entity\VSynset $hyponyms)
-    {
-        $this->hyponyms->removeElement($hyponyms);
-    }
+	/**
+	 * Remove hyponyms
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $hyponyms
+	 */
+	public function removeHyponym(\Carto\DonneesBundle\Entity\WN\VSynset $hyponyms)
+	{
+		$this->hyponyms->removeElement($hyponyms);
+	}
 
-    /**
-     * Get hyponyms
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getHyponyms()
-    {
-        return $this->hyponyms;
-    }
+	/**
+	 * Get hyponyms
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getHyponyms()
+	{
+		return $this->hyponyms;
+	}
 
-    /**
-     * Add entails
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $entails
-     * @return VSynset
-     */
-    public function addEntail(\Carto\DonneesBundle\Entity\VSynset $entails)
-    {
-        $this->entails[] = $entails;
+	/**
+	 * Add entails
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $entails
+	 * @return VSynset
+	 */
+	public function addEntail(\Carto\DonneesBundle\Entity\WN\VSynset $entails)
+	{
+		$this->entails[] = $entails;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove entails
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $entails
-     */
-    public function removeEntail(\Carto\DonneesBundle\Entity\VSynset $entails)
-    {
-        $this->entails->removeElement($entails);
-    }
+	/**
+	 * Remove entails
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $entails
+	 */
+	public function removeEntail(\Carto\DonneesBundle\Entity\WN\VSynset $entails)
+	{
+		$this->entails->removeElement($entails);
+	}
 
-    /**
-     * Get entails
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getEntails()
-    {
-        return $this->entails;
-    }
+	/**
+	 * Get entails
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getEntails()
+	{
+		return $this->entails;
+	}
 
-    /**
-     * Add holonyms
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $holonyms
-     * @return VSynset
-     */
-    public function addHolonym(\Carto\DonneesBundle\Entity\VSynset $holonyms)
-    {
-        $this->holonyms[] = $holonyms;
+	/**
+	 * Add holonyms
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $holonyms
+	 * @return VSynset
+	 */
+	public function addHolonym(\Carto\DonneesBundle\Entity\WN\VSynset $holonyms)
+	{
+		$this->holonyms[] = $holonyms;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove holonyms
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $holonyms
-     */
-    public function removeHolonym(\Carto\DonneesBundle\Entity\VSynset $holonyms)
-    {
-        $this->holonyms->removeElement($holonyms);
-    }
+	/**
+	 * Remove holonyms
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $holonyms
+	 */
+	public function removeHolonym(\Carto\DonneesBundle\Entity\WN\VSynset $holonyms)
+	{
+		$this->holonyms->removeElement($holonyms);
+	}
 
-    /**
-     * Get holonyms
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getHolonyms()
-    {
-        return $this->holonyms;
-    }
+	/**
+	 * Get holonyms
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getHolonyms()
+	{
+		return $this->holonyms;
+	}
 
-    /**
-     * Add causes
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $causes
-     * @return VSynset
-     */
-    public function addCause(\Carto\DonneesBundle\Entity\VSynset $causes)
-    {
-        $this->causes[] = $causes;
+	/**
+	 * Add causes
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $causes
+	 * @return VSynset
+	 */
+	public function addCause(\Carto\DonneesBundle\Entity\WN\VSynset $causes)
+	{
+		$this->causes[] = $causes;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove causes
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $causes
-     */
-    public function removeCause(\Carto\DonneesBundle\Entity\VSynset $causes)
-    {
-        $this->causes->removeElement($causes);
-    }
+	/**
+	 * Remove causes
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $causes
+	 */
+	public function removeCause(\Carto\DonneesBundle\Entity\WN\VSynset $causes)
+	{
+		$this->causes->removeElement($causes);
+	}
 
-    /**
-     * Get causes
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getCauses()
-    {
-        return $this->causes;
-    }
+	/**
+	 * Get causes
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getCauses()
+	{
+		return $this->causes;
+	}
 
-    /**
-     * Add consequences
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $consequences
-     * @return VSynset
-     */
-    public function addConsequence(\Carto\DonneesBundle\Entity\VSynset $consequences)
-    {
-        $this->consequences[] = $consequences;
+	/**
+	 * Add consequences
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $consequences
+	 * @return VSynset
+	 */
+	public function addConsequence(\Carto\DonneesBundle\Entity\WN\VSynset $consequences)
+	{
+		$this->consequences[] = $consequences;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Remove consequences
-     *
-     * @param \Carto\DonneesBundle\Entity\VSynset $consequences
-     */
-    public function removeConsequence(\Carto\DonneesBundle\Entity\VSynset $consequences)
-    {
-        $this->consequences->removeElement($consequences);
-    }
+	/**
+	 * Remove consequences
+	 *
+	 * @param \Carto\DonneesBundle\Entity\WN\VSynset $consequences
+	 */
+	public function removeConsequence(\Carto\DonneesBundle\Entity\WN\VSynset $consequences)
+	{
+		$this->consequences->removeElement($consequences);
+	}
 
-    /**
-     * Get consequences
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getConsequences()
-    {
-        return $this->consequences;
-    }
+	/**
+	 * Get consequences
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getConsequences()
+	{
+		return $this->consequences;
+	}
 }

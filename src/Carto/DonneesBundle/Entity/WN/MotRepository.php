@@ -12,4 +12,24 @@ use Doctrine\ORM\EntityRepository;
  */
 class MotRepository extends EntityRepository
 {
+	//A enlever, présente juste pour l'apprentissage des tests
+	/**
+	 * fonction trouve
+	 *
+	 * @param string $recherche
+	 * @return string
+	 * @todo : enlever cette fonction et son test à la fin du projet
+	*/
+	public function trouve($recherche)
+	{
+		$mot = $this -> findOneByMot($recherche);
+		if ($mot != NULL)
+		{
+			return 'trouve';
+		}
+		else
+		{
+			return 'non trouve';
+		}
+	}
 }

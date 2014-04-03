@@ -1,6 +1,6 @@
 <?php
 
-namespace Carto\DonneesBundle\Entity;
+namespace Carto\DonneesBundle\Entity\WN;
 
 use Doctrine\ORM\EntityRepository;
 
@@ -12,4 +12,17 @@ use Doctrine\ORM\EntityRepository;
  */
 class MotRepository extends EntityRepository
 {
+	//A enlever, présente juste pour l'apprentissage des tests
+	public function trouve($recherche)
+	{
+		$mot = $this -> findOneByMot($recherche);
+		if ($mot != NULL)
+		{
+			return 'trouve';
+		}
+		else
+		{
+			return 'non trouve';
+		}
+	}
 }

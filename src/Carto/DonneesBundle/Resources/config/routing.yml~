@@ -14,12 +14,8 @@ carto_donnees_admin_login_check:
 carto_donnees_admin_logout:
     pattern:  /admin/logout
 
-carto_donnees_admin_homepage:
-    pattern:  /admin/recherche/{recherche}
-    defaults: { _controller: CartoDonneesBundle:WN:index, recherche:'entity' }
-
-carto_donnees_admin_Enregistre:
-    pattern:  /admin/Enregistrer
+carto_donnees_admin_enregistre:
+    pattern:  /admin/enregistrer
     defaults: { _controller: CartoDonneesBundle:EnregistreWN:index }
 
 carto_donnees_admin_sauvegarder:
@@ -85,5 +81,9 @@ carto_donnees_admin_recherche:
 #Client 
 carto_donnees_json:
     pattern:  /json/{recherche}
+    defaults: { _controller: CartoDonneesBundle:WN:json, recherche:'entity' }
+
+carto_donnees_simple:
+    pattern:  /simple/{recherche}
     defaults: { _controller: CartoDonneesBundle:WN:json, recherche:'entity' }
 

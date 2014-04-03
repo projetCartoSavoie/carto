@@ -1,5 +1,4 @@
 <?php
-
 namespace Carto\DonneesBundle\Entity\WN;
 
 use Doctrine\ORM\EntityRepository;

@@ -59,10 +59,10 @@
 										</ul>
 									</li>
 									<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-										<a href="{{ path('carto_donnees_admin_homepage') }}">{{"Données" | trans}}</a>
+										<a href="{{ path('carto_donnees_simple') }}">{{"Données" | trans}}</a>
 										<ul>
 											<li>
-												<a href="{{ path('carto_donnees_admin_homepage') }}">{{"Recherche simple" | trans}}</a>
+												<a href="{{ path('carto_donnees_simple') }}">{{"Recherche simple" | trans}}</a>
 											</li>
 											<li>
 												<a href="{{ path('carto_donnees_admin_enregistre') }}">{{"Enregistrer les données" | trans}}</a>
