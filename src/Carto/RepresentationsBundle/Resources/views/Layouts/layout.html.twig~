@@ -16,7 +16,15 @@
 	$(document).ready(function(){
 		$("#form_recherche").submit(function(){ 
 			var search = $('#search').val();
+<<<<<<< HEAD
 			var url = "http:/localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php";
+=======
+			//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
+			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			// Anthony
+			var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php";
+>>>>>>> 0f52bc7941ab24beee17adc798a2d037637f06bd
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -58,7 +66,7 @@
 	<div style="padding: 12px">
 		<div class="toggle-btn-grp joint-toggle">
 			<label onclick="" class="toggle-btn">
-				<input type="radio" name="group3"/>Wordnet
+				<input type="radio" name="group3" checked/>Wordnet
 			</label>
 			<label onclick="" class="toggle-btn">
 				<input type="radio" name="group3"/>Les échos
