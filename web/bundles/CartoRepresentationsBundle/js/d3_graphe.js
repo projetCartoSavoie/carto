@@ -23,12 +23,14 @@ D3_GrapheRepresentation.load = function(json) {
 
 	var force = d3.layout.force()
 		.charge(-400)
-		.linkDistance(200)
+		.linkDistance(20)
 		.size([width, height]);
 
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", width)
-		.attr("height", height);
+		.attr("height", height)
+		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
+		.append("g");
 
 	var formatter = new D3_Formatter();
 	var graph = formatter.to_graph(json);
@@ -84,12 +86,12 @@ D3_GrapheRepresentation.load = function(json) {
 	});
 	
 	function zoomClick() {
-		alert("on va faire la fonction click");
-		/*svg.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", /*function() = {
-				svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
-			};))*/
+		svg.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
 		svg.append("g");
-		//svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	}
+	
+	function zoom(){
+		svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 	}
 
 	d3.selectAll('#zoomIn').on('click', zoomClick);

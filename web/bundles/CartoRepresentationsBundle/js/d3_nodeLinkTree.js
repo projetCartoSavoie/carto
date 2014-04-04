@@ -69,11 +69,14 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 				d3_utils.show_wikipedia(d.name);
 			});
 			
-	function zoom() {
-		svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	function zoomClick() {
+		svg.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
+		svg.append("g");
 	}
 	
-	function zoomed() {
-		container.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	function zoom(){
+		svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 	}
+
+	d3.selectAll('#zoomIn').on('click', zoomClick);
 }
