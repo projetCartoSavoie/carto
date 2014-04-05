@@ -16,8 +16,8 @@ D3_GrapheRepresentation.prototype.show = function(data) {
 
 D3_GrapheRepresentation.load = function(json) {
 
-	var width = 960,
-    height = 500;
+	var width = $("#contentCenter").width(),
+    height = $("#contentCenter").height();
 
 	var color = d3.scale.category20();
 
@@ -64,7 +64,10 @@ D3_GrapheRepresentation.load = function(json) {
 		.attr("x", 12)
 		.attr("dy", ".35em")
 		.style("stroke", "black")
-		.text(function(d) { return d.name; })
+		.text(function(d) { 
+			var sansEspace = new RegExp(/\s/); 
+			if(sansEspace.test(d.name.toString()) == false) return d.name; 
+		})
 		.attr("cursor","pointer")
 		.on("click", function(d) {
 			var d3_utils = new D3_Utils();

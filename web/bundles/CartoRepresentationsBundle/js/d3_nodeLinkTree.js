@@ -16,10 +16,13 @@ D3_NodeLinkTreeRepresentation.prototype.show = function(data) {
 }
 	
 D3_NodeLinkTreeRepresentation.load = function(json) {
+	
 	var diameter = 960;
+	
+	var color = d3.scale.category20();
 
 	var tree = d3.layout.tree()
-		.size([360, diameter / 2 - 120])
+		.size([360, diameter / 2 - 200])
 		.separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
 	var diagonal = d3.svg.diagonal.radial()
@@ -53,16 +56,20 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			.append("g")
 			.attr("class", "node")
 			.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
-
+		
 	node.append("circle")
-		.attr("r", 4.5);
+		.attr("r", 5)
+		.style("fill", function(d) { return color(d.group); });
 
 	node.append("text")
 		.attr("dy", ".31em")
 		.attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
 		.attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
 		.style("stroke", "black")
-		.text(function(d) { return d.name; })
+		.text(function(d) { 
+			var sansEspace = new RegExp(/\s/); 
+			if(sansEspace.test(d.name.toString()) == false) return d.name; 
+		})
 		.attr("cursor","pointer")
 		.on("click", function(d) {
 				var d3_utils = new D3_Utils();
