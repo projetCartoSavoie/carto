@@ -3,6 +3,7 @@
 namespace Carto\DonneesBundle\Entity\WN;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query\Expr\Comparison;
 
 /**
  * MotRepository
@@ -22,14 +23,58 @@ class MotRepository extends EntityRepository
 	*/
 	public function trouve($recherche)
 	{
+		echo 'fonction trouve <br/>';
 		$mot = $this -> findOneByMot($recherche);
 		if ($mot != NULL)
 		{
-			return 'trouve';
+			return $mot;
 		}
 		else
 		{
-			return 'non trouve';
+			//On cherche tous les mots
+			//$mots = $this -> findAll();
+			$regex = substr($recherche,0,3);
+			/*for ($i = 0; $i < strlen($recherche) - 2; $i++)
+			{
+				$regex .= '|'.substr($recherche,$i,3);
+			}
+			$regex = substr($regex,1);*/
+			$qb = $this->createQueryBuilder('m');
+			//$qb -> where('mot REGEXP "'.$regex.'"');
+
+			$qb -> add('where',$qb->expr()->like('m.mot', $regex));
+
+			// On récupère la Query à partir du QueryBuilder
+			$query = $qb->getQuery();
+
+			// On récupère les résultats à partir de la Query
+			$mots = $query->getResult();
+			vardump(count($mots));
+
+			//On remplace le tableau d'objets par un tableau de chaines de caractères
+			$strmots = array();
+			foreach ($mots as $cle => $m)
+			{
+				$strmots[$cle] = $m -> getMot();
+			}
+
+			//Pour chaque mot on calcule son taux de correspondance
+			$correspondances = array();
+			foreach ($strmots as $m)
+			{
+				$correspondance[$m] = $this -> calculCorrespondance($m,$recherche);
+			}
+			$minindex = min($correspondances);
+			$correspondances = array_flip($correspondances);
+			$mot = $this -> findOneByMot($correspondances[$minindex]);
+			return $mot;
 		}
+	}
+
+	public function calculCorrespondance($m,$recherche)
+	{
+		$c = levenshtein($m,$recherche);
+		if (soundex($m) == soundex($recherche)) { $c -= 10; }
+		return $c;
 	}
 }

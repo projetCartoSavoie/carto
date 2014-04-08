@@ -20,7 +20,7 @@ class WNController extends Controller
 		$mrep = $manager -> getRepository('CartoDonneesBundle:WN\Mot');
 
 		//Recherche du mot recherché
-		$this -> mot = $mrep -> findOneByMot($recherche);
+		$this -> mot = $mrep -> trouve($recherche);
 
 		//Récupération de ses synsets et de leurs mots
 		$nsynsets = $this -> mot -> getNsynsets();
@@ -259,20 +259,6 @@ class WNController extends Controller
 
 		//On encode en json et on ajoute quelques sauts de ligne pour faciliter la lecture
 		$text = json_encode($this -> resultat);
-		/*$text = str_replace('{','
-{',$text);
-		$text = str_replace('},','},
-',$text);
-		$text = str_replace('}','}
-',$text);
-		$text = str_replace('"relations":["derive","pertainym","build","participle","hypernym","troponym","hyponym","meronym","entails","holonym","antonym","attribut","cause","consequence","similar","estdans"],','
-
-"relations":
-["derive","pertainym","build","participle","hypernym","troponym","hyponym",
-"meronym","entails","holonym","antonym","attribut","cause","consequence","similar","estdans"],
-
-',$text);
-		$text = '<html><body><pre>'.$text.'</pre></body></html>';*/
 
 		//On retourne le json obtenu
 		return new Response($text);
