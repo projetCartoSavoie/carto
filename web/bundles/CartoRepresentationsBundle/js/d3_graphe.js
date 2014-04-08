@@ -16,19 +16,21 @@ D3_GrapheRepresentation.prototype.show = function(data) {
 
 D3_GrapheRepresentation.load = function(json) {
 
-	var width = 960,
-    height = 500;
+	var width = $("#contentCenter").width(),
+    height = $("#contentCenter").height();
 
 	var color = d3.scale.category20();
 
 	var force = d3.layout.force()
 		.charge(-400)
-		.linkDistance(200)
+		.linkDistance(20)
 		.size([width, height]);
 
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", width)
-		.attr("height", height);
+		.attr("height", height)
+		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
+		.append("g");
 
 	var formatter = new D3_Formatter();
 	var graph = formatter.to_graph(json);
@@ -62,7 +64,10 @@ D3_GrapheRepresentation.load = function(json) {
 		.attr("x", 12)
 		.attr("dy", ".35em")
 		.style("stroke", "black")
-		.text(function(d) { return d.name; })
+		.text(function(d) { 
+			var sansEspace = new RegExp(/\s/); 
+			if(sansEspace.test(d.name.toString()) == false) return d.name; 
+		})
 		.attr("cursor","pointer")
 		.on("click", function(d) {
 			var d3_utils = new D3_Utils();
@@ -84,12 +89,12 @@ D3_GrapheRepresentation.load = function(json) {
 	});
 	
 	function zoomClick() {
-		alert("on va faire la fonction click");
-		/*svg.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", /*function() = {
-				svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")")
-			};))*/
+		svg.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
 		svg.append("g");
-		//svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+	}
+	
+	function zoom(){
+		svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
 	}
 
 	d3.selectAll('#zoomIn').on('click', zoomClick);

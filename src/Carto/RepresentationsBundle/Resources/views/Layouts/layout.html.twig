@@ -29,7 +29,6 @@
 				},
 				cache: false,
 				success: function(response) {
-					console.log(response.data);
 					var result = $.parseJSON(response);
 					if(result.success){
 						var data = result.data;
@@ -44,7 +43,7 @@
 		});
 	});
 	
-	$(document).ready(function(){
+	/*$(document).ready(function(){
 		$( "#zoomIn" ).click(function() {
 			if(representation){
 				var svg = d3.select("svg");
@@ -55,14 +54,14 @@
 				svg.append("g");
 			}
 		});
-	});
+	});*/
 {% endblock %}
 
 {% block utilsLeft %}
 	<div style="padding: 12px">
 		<div class="toggle-btn-grp joint-toggle">
 			<label onclick="" class="toggle-btn">
-				<input type="radio" name="group3" checked/>Wordnet
+				<input type="radio" name="group3"/>Wordnet
 			</label>
 			<label onclick="" class="toggle-btn">
 				<input type="radio" name="group3"/>Les échos

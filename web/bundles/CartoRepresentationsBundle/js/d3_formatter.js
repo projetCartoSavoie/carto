@@ -2,16 +2,23 @@ function D3_Formatter(){}
 
 /**
  * Transforme le json generique en json compris par d3js pour la representation "graph"
- * @param json : graph -> JSON genrique a transformer
- * @return json : graph -> JSON genrique bien forme
+ * @param json : graph -> JSON generique a transformer
+ * @return json : graph -> JSON generique bien forme
  */
 D3_Formatter.prototype.to_graph = function(graph){
 
 	// Get Nodes
 	var nodeArray = [];
+	var typeColor = {};
+	var i = 0;
 	graph.noeuds.forEach(
 		function(node) { 
 			node.name = node.nom;
+			if(typeColor[node.type] == null){
+				typeColor[node.type] = i;
+				i++;
+			}
+			node.group = typeColor[node.type];
 			// On construit un tableau de noeud afin d'avoir leur position
 			// pour pouvoir creer les links du graphe
 			nodeArray.push(node.id);
@@ -93,10 +100,17 @@ D3_Formatter.prototype.to_tree = function(tree){
 	
 	// Get Nodes
 	var nodes = {};
+	var typeColor = {};
+	var i = 0;
 	tree.noeuds.forEach(
 		function(node) { 
 			// On construit une map avec key l'id et value le nom
 			nodes[node.id] = node.nom;
+			if(typeColor[node.type] == null){
+				typeColor[node.type] = i;
+				i++;
+			}
+			node.group = typeColor[node.type];
 		}
 	);
 	
