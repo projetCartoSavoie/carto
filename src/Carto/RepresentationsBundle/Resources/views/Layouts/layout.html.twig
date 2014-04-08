@@ -35,26 +35,13 @@
 						if(representation){
 							$('svg').remove();
 						}
-						representation.show(data); 
+						representation.show(data);
 					}
 				}
-			});    
+			});
 			return false;
 		});
 	});
-	
-	/*$(document).ready(function(){
-		$( "#zoomIn" ).click(function() {
-			if(representation){
-				var svg = d3.select("svg");
-				alert(svg);
-				svg.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", function(){
-					svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-				}));
-				svg.append("g");
-			}
-		});
-	});*/
 {% endblock %}
 
 {% block utilsLeft %}

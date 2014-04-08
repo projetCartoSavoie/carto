@@ -79,9 +79,32 @@ D3_GrapheRepresentation.load = function(json) {
 			if(sansEspace.test(d.name.toString()) == false) return d.name; 
 		})
 		.attr("cursor","pointer")
-		.on("click", function(d) {
+		/*.on("click", function(d) {
 			var d3_utils = new D3_Utils();
 			d3_utils.show_wikipedia(d.name);
+		});*/
+		.on("click", function(d){
+			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {
+					cmd: 'search_action',
+					search: d.name
+				},
+				cache: false,
+				success: function(response) {
+					var result = $.parseJSON(response);
+					if(result.success){
+						var data = result.data;
+						if(representation){
+							$('svg').remove();
+						}
+						representation.show(data);
+					}
+				}
+			});
+			return false;
 		});
 		
 	// On affiche un titre lorsqu'on passe la souris
