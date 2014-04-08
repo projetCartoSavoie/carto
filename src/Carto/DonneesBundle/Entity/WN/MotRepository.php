@@ -42,7 +42,7 @@ class MotRepository extends EntityRepository
 			$qb = $this->createQueryBuilder('m');
 			//$qb -> where('mot REGEXP "'.$regex.'"');
 
-			$qb -> add('where',$qb->expr()->like('m.mot', $regex));
+			$qb -> add('where',$qb->expr()->like('mot', $regex));
 
 			// On récupère la Query à partir du QueryBuilder
 			$query = $qb->getQuery();
