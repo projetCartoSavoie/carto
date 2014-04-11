@@ -176,7 +176,7 @@ class WNController extends Controller
 		);
 
 		//Recherche du mot recherché et ajout dans la liste des noeuds et dans le graphe
-		$this -> mot = $mrep -> findOneByMot($recherche);
+		$this -> mot = $mrep -> trouve($recherche);
 		$this -> resultat['noeuds'][] = array(
 			'id' => 'M'.$this -> mot -> getId(),
 			'nom' => $this -> mot -> getMot(),

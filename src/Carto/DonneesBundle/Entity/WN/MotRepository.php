@@ -23,7 +23,6 @@ class MotRepository extends EntityRepository
 	*/
 	public function trouve($recherche)
 	{
-		echo 'fonction trouve <br/>';
 		$mot = $this -> findOneByMot($recherche);
 		if ($mot != NULL)
 		{
@@ -33,29 +32,25 @@ class MotRepository extends EntityRepository
 		{
 			//On cherche tous les mots
 			//$mots = $this -> findAll();
-			$regex = substr($recherche,0,3);
-			/*for ($i = 0; $i < strlen($recherche) - 2; $i++)
+			//$regex = substr($recherche,1,3);
+			$query = $this->getEntityManager()->createQuery(
+				'SELECT m
+				FROM CartoDonneesBundle:WN\Mot m
+				WHERE m.mot LIKE :court'
+			);
+			$mots = array();
+			for ($i = 0; $i < strlen($recherche) - 2; $i++)
 			{
-				$regex .= '|'.substr($recherche,$i,3);
+				$regex = substr($recherche,$i,3);
+				$query->setParameter('court', '%'.$regex.'%');
+				$mots = array_merge($mots, $query -> getResult());
 			}
-			$regex = substr($regex,1);*/
-			$qb = $this->createQueryBuilder('m');
-			//$qb -> where('mot REGEXP "'.$regex.'"');
-
-			$qb -> add('where',$qb->expr()->like('mot', $regex));
-
-			// On récupère la Query à partir du QueryBuilder
-			$query = $qb->getQuery();
-
-			// On récupère les résultats à partir de la Query
-			$mots = $query->getResult();
-			vardump(count($mots));
 
 			//On remplace le tableau d'objets par un tableau de chaines de caractères
 			$strmots = array();
-			foreach ($mots as $cle => $m)
+			foreach ($mots as $m)
 			{
-				$strmots[$cle] = $m -> getMot();
+				$strmots[] = $m -> getMot();
 			}
 
 			//Pour chaque mot on calcule son taux de correspondance
@@ -64,9 +59,9 @@ class MotRepository extends EntityRepository
 			{
 				$correspondance[$m] = $this -> calculCorrespondance($m,$recherche);
 			}
-			$minindex = min($correspondances);
-			$correspondances = array_flip($correspondances);
-			$mot = $this -> findOneByMot($correspondances[$minindex]);
+			$minindex = min($correspondance);
+			$correspondance = array_flip($correspondance);
+			$mot = $this -> findOneByMot($correspondance[$minindex]);
 			return $mot;
 		}
 	}
