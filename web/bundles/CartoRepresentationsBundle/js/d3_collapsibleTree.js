@@ -17,6 +17,18 @@ D3_TreeRepresentation.prototype.show = function(data) {
 
 D3_TreeRepresentation.load = function(json) {
 
+	var data = ["hello"];
+	var paragraphs = d3.selectAll('p')
+        .data(data);
+
+// On créé les éléments "p" pour les nouvelles données
+paragraphs
+        .append('p');
+
+// On configure le texte des nœuds
+paragraphs.text(function (d) { return d; });
+
+
 	var margin = {top: 30, right: 20, bottom: 30, left: 20},
 		width = 960 - margin.left - margin.right,
 		barHeight = 20,
@@ -40,14 +52,11 @@ D3_TreeRepresentation.load = function(json) {
 	// On transforme le fichier generique json au bon format pour la representation concernee
 	var formatter = new D3_Formatter();
 	var treeJson = formatter.to_tree(json);
-	console.log(treeJson);
-
 	treeJson.x0 = 0;
 	treeJson.y0 = 0;
 	update(root = treeJson);
 
 	function update(source) {
-
 	  // Compute the flattened node list. TODO use d3.layout.hierarchy.
 	  var nodes = tree.nodes(root);
 
@@ -80,11 +89,45 @@ D3_TreeRepresentation.load = function(json) {
 		  .attr("width", barWidth)
 		  .style("fill", color)
 		  .on("click", click);
-
-	  nodeEnter.append("text")
-		  .attr("dy", 3.5)
-		  .attr("dx", 5.5)
-		  .text(function(d) { return d.name; });
+		  
+	// A chaque noeud on affiche son nom
+	nodeEnter.append("text")
+		.attr("dy", 3.5)
+		.attr("dx", 5.5)
+		.style("stroke", "black")
+		.text(function(d) { 
+			var sansEspace = new RegExp(/\s/); 
+			if(sansEspace.test(d.name.toString()) == false) return d.name; 
+		})
+		.attr("cursor","pointer")
+		/*.on("click", function(d) {
+			var d3_utils = new D3_Utils();
+			d3_utils.show_wikipedia(d.name);
+		});*/
+		.on("click", function(d){
+			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {
+					cmd: 'search_action',
+					search: d.name
+				},
+				cache: false,
+				success: function(response) {
+					var result = $.parseJSON(response);
+					if(result.success){
+						var data = result.data;
+						if(representation){
+							$('svg').remove();
+						}
+						representation.show(data);
+					}
+				}
+			});
+			return false;
+		});
+		  
 
 	  // Transition nodes to their new position.
 	  nodeEnter.transition()

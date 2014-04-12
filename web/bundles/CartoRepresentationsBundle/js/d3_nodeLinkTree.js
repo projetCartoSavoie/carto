@@ -31,26 +31,29 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", diameter)
 		.attr("height", diameter - 150)
+		
+	var container = svg.append("g")
+		.attr("class", "representationContainer")
 		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
-		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
-		.append("g");
+		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
 
 	d3.select(self.frameElement).style("height", diameter - 150 + "px");
 	
-	// On transforme le fichier generique json au bon format pour la representation concernee
+	// On transforme le fichier generique json au bon format 
+	// pour la representation concernee
 	var formatter = new D3_Formatter();
 	var json = formatter.to_tree(json);
 	
 	var nodes = tree.nodes(json),
 		links = tree.links(nodes);
 
-	var link = svg.selectAll(".link")
+	var link = container.selectAll(".link")
 		.data(links)
 		.enter().append("path")
 		.attr("class", "link")
 		.attr("d", diagonal);
 
-	var node = svg.selectAll(".node")
+	var node = container.selectAll(".node")
 		.data(nodes)
 		.enter()
 			.append("g")
@@ -71,19 +74,87 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			if(sansEspace.test(d.name.toString()) == false) return d.name; 
 		})
 		.attr("cursor","pointer")
-		.on("click", function(d) {
-				var d3_utils = new D3_Utils();
-				d3_utils.show_wikipedia(d.name);
+		/*.on("click", function(d) {
+			var d3_utils = new D3_Utils();
+			d3_utils.show_wikipedia(d.name);
+		});*/
+		.on("click", function(d){
+			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {
+					cmd: 'search_action',
+					search: d.name
+				},
+				cache: false,
+				success: function(response) {
+					var result = $.parseJSON(response);
+					if(result.success){
+						var data = result.data;
+						if(representation){
+							$('svg').remove();
+						}
+						representation.show(data);
+					}
+				}
 			});
-			
-	function zoomClick() {
-		svg.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
-		svg.append("g");
-	}
-	
-	function zoom(){
-		svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-	}
+			return false;
+		});
 
-	d3.selectAll('#zoomIn').on('click', zoomClick);
+	d3.selectAll('.zoom').on('click', zoomClick);
+}
+
+function zoomClick() {
+
+	var width = $("#contentCenter").width();
+	var height = $("#contentCenter").height();
+
+	var clicked = d3.event.target,
+		direction = 1,
+		factor = 0.2,
+		target_zoom = 1,
+		center = [width / 2, height / 2],
+		extent = zoom.scaleExtent(),
+		translate = zoom.translate(),
+		translate0 = [],
+		l = [],
+		view = {x: translate[0], y: translate[1], k: zoom.scale()};
+
+	d3.event.preventDefault();
+	direction = (this.id === 'zoom_in') ? 1 : -1;
+	target_zoom = zoom.scale() * (1 + factor * direction);
+
+	if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
+
+	translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
+	view.k = target_zoom;
+	l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+
+	view.x += center[0] - l[0];
+	view.y += center[1] - l[1];
+
+	interpolateZoom([view.x, view.y], view.k);
+}
+
+function zoomed() {
+	var container = d3.select(".representationContainer");
+	container.attr("transform",
+		"translate(" + zoom.translate() + ")" +
+		"scale(" + zoom.scale() + ")"
+	);
+}
+
+function interpolateZoom (translate, scale) {
+	var self = this;
+	return d3.transition().duration(350).tween("zoom", function () {
+		var iTranslate = d3.interpolate(zoom.translate(), translate),
+			iScale = d3.interpolate(zoom.scale(), scale);
+		return function (t) {
+		zoom
+			.scale(iScale(t))
+			.translate(iTranslate(t));
+		zoomed();
+		};
+	});
 }

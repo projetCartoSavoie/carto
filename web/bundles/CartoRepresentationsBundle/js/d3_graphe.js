@@ -33,10 +33,12 @@ D3_GrapheRepresentation.load = function(json) {
 		.linkDistance(20)
 		.size([width, height]);
 
+	// On crée un nouveau noeud <svg>
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", width)
 		.attr("height", height);
-	
+		
+	// On crée un nouveau noeud <g>
 	var container = svg.append("g")
 		.attr("class", "representationContainer")
 
@@ -49,27 +51,29 @@ D3_GrapheRepresentation.load = function(json) {
 		.start();
 		
 	/* Define the data for the circles */
-
+	// Pour tous les éléments .link on crée un noeud <line>
 	var link = container.selectAll(".link")
 		.data(graph.links)
 		.enter()
 			.append("line")
 			.attr("class", "link")
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); });
-			
+		
+	// Pour tous les éléments .node on crée un noeud <g>
 	var node = container.selectAll(".node")
 		.data(graph.nodes)
 		.enter()
 			.append("g")
 			.attr("class", "node")
 			.call(force.drag);
-	
+			
+	// A chaque node <g> on crée un noeud <circle>
 	node.append("circle")
 		.attr("r", 5)
 		.style("fill", function(d) { return color(d.group); });
 		
 		
-	// On affiche les mots associe aux noeuds
+	// A chaque noeud on affiche son nom
 	node.append("text")
 		.attr("x", 12)
 		.attr("dy", ".35em")
