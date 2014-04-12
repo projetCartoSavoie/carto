@@ -271,7 +271,8 @@ class MotRepository extends EntityRepository
 				'cause',
 				'consequence',
 				'similar',
-				'estdans'
+				'estdans',
+				'contient'
 			),
 			'graphe' => array()
 		);

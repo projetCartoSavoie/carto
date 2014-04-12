@@ -27,6 +27,7 @@ class MotRepositoryTest extends RepTestCase
 		//Je vérifie que sa réponse correspond bien à la réponse attendue
 		$this->assertTrue($reponse == $expected);
 
+		/*
 		//-------------------------------------------------------------
 		//Test cas numéro 2 : recherche d'un mot non présent dans la bdd
 		//-------------------------------------------------------------
@@ -38,7 +39,6 @@ class MotRepositoryTest extends RepTestCase
 
 		//Je vérifie que sa réponse correspond bien à la réponse attendue
 		$this->assertTrue($reponse == $expected);
-
-		$this -> assertTrue(true);
+		*/
 	}
 }
