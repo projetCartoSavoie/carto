@@ -19,7 +19,6 @@ class MotRepository extends EntityRepository
 	 *
 	 * @param string $recherche
 	 * @return string
-	 * @todo : enlever cette fonction et son test à la fin du projet
 	*/
 	public function trouve($recherche)
 	{

@@ -5,7 +5,6 @@ namespace Carto\DonneesBundle\Tests\Unitaire;
 class MotRepositoryTest extends RepTestCase
 {
 
-	//A enlever à la fin du projet
 	public function testTrouve()
 	{
 		//-------------------------------------------------------------
@@ -21,24 +20,24 @@ class MotRepositoryTest extends RepTestCase
 		//-------------------------------------------------------------
 
 		//J'appelle la fonction trouve, je note sa réponse
-		$reponse = $mrep -> trouve('entity');
+		$reponse = $mrep -> trouve('entity') -> getMot();
 		//Elle est sensée répondre 'trouve' car j'ai cherché un mot qui est bien dans la bdd
-		$expected = 'trouve';
+		$expected = 'entity';
 
 		//Je vérifie que sa réponse correspond bien à la réponse attendue
-		//$this->assertTrue($reponse == $expected);
+		$this->assertTrue($reponse == $expected);
 
 		//-------------------------------------------------------------
 		//Test cas numéro 2 : recherche d'un mot non présent dans la bdd
 		//-------------------------------------------------------------
-
+		
 		//J'appelle la fonction trouve, je note sa réponse
-		$reponse = $mrep -> trouve('motintrouvable');
+		$reponse = $mrep -> trouve('antity') -> getMot();
 		//Elle est sensée répondre 'non trouve' car j'ai cherché un mot qui n'est pas dans la bdd
-		$expected = 'non trouve';
+		$expected = 'antitype';
 
 		//Je vérifie que sa réponse correspond bien à la réponse attendue
-		//$this->assertTrue($reponse == $expected);
+		$this->assertTrue($reponse == $expected);
 
 		$this -> assertTrue(true);
 	}
