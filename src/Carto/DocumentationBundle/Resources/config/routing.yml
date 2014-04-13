@@ -70,3 +70,7 @@ carto_documentation_etudewn_conclusion:
     pattern:  /WordNet/conclusion
     defaults: { _controller: CartoDocumentationBundle:EtudeWN:conclusion }
 
+carto_documentation_etudedbpedia:
+    pattern:  /DbPedia
+    defaults: { _controller: CartoDocumentationBundle:EtudeDbPedia:index }
+
