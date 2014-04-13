@@ -87,3 +87,7 @@ carto_donnees_simple:
     pattern:  /simple/{recherche}
     defaults: { _controller: CartoDonneesBundle:WN:index, recherche:'entity' }
 
+carto_donnees_dbpedia_json:
+    pattern:  /dbpedia/json/{recherche}
+    defaults: { _controller: CartoDonneesBundle:DbPedia:index, recherche:'horse' }
+

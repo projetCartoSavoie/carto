@@ -13,6 +13,7 @@ Liens utiles :
 	<li>http://fr.wikiversity.org/wiki/SPARQL_Protocol_and_RDF_Query_Language/Requ%C3%AAtes_de_d%C3%A9couverte</li>
 	<li>http://jplu.developpez.com/tutoriels/web-semantique/nouveautes-sparql-1-1/#LIII</li>
 	<li>http://www.w3.org/TR/2007/NOTE-rdf-sparql-json-res-20070618/</li>
+	<li>http://johnwright.me/blog/sparql-query-in-code-rest-php-and-json-tutorial/</li>
 </ul>
 </p>
 <p>
@@ -82,6 +83,9 @@ LIMIT 1000
 </pre>
 Nous pouvons effectuer une recherche à un niveau de profondeur plus élevé :
 <pre>
+PREFIX owl: &lt;http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#>
+
 SELECT DISTINCT * WHERE 
 {
  ?sujet rdfs:label "Horse"@en .
@@ -89,9 +93,13 @@ SELECT DISTINCT * WHERE
  ?objet ?property2 ?objet2 .
  ?objet2 ?property3 ?objet3 .
  FILTER NOT EXISTS { 
-  ?sujet owl:sameAs ?objet . 
+  ?sujet owl:sameAs ?objet .  
+ }
+ FILTER NOT EXISTS { 
   ?objet owl:sameAs ?objet2 . 
-  ?objet2 owl:sameAs ?objet3 . 
+ }
+ FILTER NOT EXISTS { 
+  ?objet2 owl:sameAs ?objet3 .
  }
 } 
 </pre>
