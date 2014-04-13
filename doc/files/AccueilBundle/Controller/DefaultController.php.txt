@@ -34,7 +34,6 @@ class DefaultController extends Controller
 	* Passe d'une langue à l'autre
 	*
 	* @param string $lang (doit être égale à en ou fr)
-	* @todo Réagit par une erreur si on demande autre chose que fr ou en
 	*/
 	public function switchLanguageAction($lang = null)
 	{
@@ -54,7 +53,6 @@ class DefaultController extends Controller
 	/**
 	* Affiche quelques informations sur notre équipe de projet
 	*
-	* @todo Réagit par une erreur car le paramètre __locale n'est pas précisé
 	*/
 	public function aboutusAction()
 	{
@@ -64,7 +62,6 @@ class DefaultController extends Controller
 	/**
 	* Affiche nos adresses mails
 	*
-	* @todo Réagit par une erreur car le paramètre __locale n'est pas précisé
 	*/
 	public function contactusAction()
 	{

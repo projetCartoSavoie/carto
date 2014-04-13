@@ -114,7 +114,9 @@ D3_Formatter.prototype.to_tree = function(tree){
 		}
 	);
 	
+	//On va parcourir le graphe pour construire l'arbre
 	tree.graphe.forEach(
+		//Sur chaque élément du graphe on va regarder le noeud concerné
 		function(graphe) {
 			
 			// La source est l'element noeud du tree

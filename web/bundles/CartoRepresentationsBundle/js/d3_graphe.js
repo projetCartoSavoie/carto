@@ -88,7 +88,8 @@ D3_GrapheRepresentation.load = function(json) {
 			d3_utils.show_wikipedia(d.name);
 		});*/
 		.on("click", function(d){
-			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			var url = "http://localhost/CartoSavoie/carto/web/app_dev.php/fr/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Céline
 			$.ajax({
 				type: "POST",
 				url: url,

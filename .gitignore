@@ -8,6 +8,9 @@ vendor/*
 web/uploads/*
 */phpmyadmin/*
 
+# doc
+*/doc/*
+
 # Configuration files
 app/config/parameters.ini
 app/config/parameters.yml
