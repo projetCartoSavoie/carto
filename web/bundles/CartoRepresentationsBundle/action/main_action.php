@@ -6,7 +6,7 @@
 	//var_dump($cmd);
 
 	$curlSession = curl_init();
-	curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/fr/donnees/dbpedia/json/'.$cmd); //Céline
+	curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/fr/donnees/json/'.$cmd); //Céline
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd); //Juliana
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/en/donnees/json/'.$cmd); //Quelqu'un
 

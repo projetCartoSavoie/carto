@@ -64,7 +64,7 @@ D3_TreeRepresentation.load = function(json) {
 		n.x = i * barHeight;
 	  });
 
-	  // Update the nodes…
+	  // Update the nodes
 	  var node = svg.selectAll("g.node")
 		  .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
@@ -106,7 +106,7 @@ D3_TreeRepresentation.load = function(json) {
 		  .style("opacity", 1e-6)
 		  .remove();
 
-	  // Update the links…
+	  // Update the links
 	  var link = svg.selectAll("path.link")
 		  .data(tree.links(nodes), function(d) { return d.target.id; });
 
