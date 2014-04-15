@@ -22,7 +22,6 @@ D3_GrapheRepresentation.load = function(json) {
 	// On met toutes les relations sur le contentLeft
 	// en selectionnant la classe relations
 	var data = json.relations;
-	console.log(json.relations);
 	
 	// On cree une nouvelle balise div dans la partie gauche
 	var relationsLeft = d3.select(".contentLeft").append("div")
@@ -47,6 +46,7 @@ D3_GrapheRepresentation.load = function(json) {
     height = $("#contentCenter").height();
 
 	var color = d3.scale.category20();
+	var colorLink = d3.scale.category20();
 
 	var force = d3.layout.force()
 		.charge(-400)
@@ -64,14 +64,6 @@ D3_GrapheRepresentation.load = function(json) {
 
 	var formatter = new D3_Formatter();
 	var graph = formatter.to_graph(json);
-	
-	// Quand on clique sur une relation on affiche
-	// les liens en couleur
-	paragraphs
-		.on("click", function(d){
-			//d.link
-			//	.style("color", "lavender");
-		}); 
 		
 	force
 		.nodes(graph.nodes)
@@ -86,6 +78,15 @@ D3_GrapheRepresentation.load = function(json) {
 			.append("line")
 			.attr("class", "link")
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); });
+		
+		
+	// Quand on clique sur une relation on affiche
+	// les liens en couleur
+	paragraphs
+		.on("click", function(d){
+			link
+				.style("color", function(d) { return colorLink(d.value); });
+		});
 		
 	// Pour tous les éléments .node on crée un noeud <g>
 	var node = container.selectAll(".node")

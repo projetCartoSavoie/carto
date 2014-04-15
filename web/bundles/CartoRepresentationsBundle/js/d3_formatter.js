@@ -25,6 +25,16 @@ D3_Formatter.prototype.to_graph = function(graph){
 		}
 	);
 	graph.nodes = graph.noeuds;
+	
+	// On met des couleurs pour chaque relation
+	var colorLink = {};
+	i = 0;
+	graph.relations.forEach(
+		function(relation){
+			typeColor[relation] = i;
+			i++
+		}
+	);
 
 	// Get Links
 	graph.links = [];
@@ -55,12 +65,12 @@ D3_Formatter.prototype.to_graph = function(graph){
 								
 									// Si la target est bien definie dans la liste des noeuds
 									if(nodeArray.indexOf(target) != -1){
-									
+																									
 										// On ajoute un link bien formate au tableau links du graphe
 										graph.links.push({
 											source: nodeArray.indexOf(source),
 											target: nodeArray.indexOf(target),
-											value: value
+											value: colorLink[relation]
 										});
 										
 									}
