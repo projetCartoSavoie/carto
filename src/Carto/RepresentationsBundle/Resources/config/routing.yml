@@ -13,3 +13,7 @@ carto_representations_representation2:
 carto_representations_representation3:
     pattern:  /Representation3
     defaults: { _controller: CartoRepresentationsBundle:Default:representation3 }
+
+carto_representations_representation4:
+    pattern:  /Representation4
+    defaults: { _controller: CartoRepresentationsBundle:Default:representation4 }

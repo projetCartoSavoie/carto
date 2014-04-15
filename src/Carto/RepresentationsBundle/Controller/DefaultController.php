@@ -33,6 +33,11 @@ class DefaultController extends Controller
 	{
 		return $this->render('CartoRepresentationsBundle:Default:representation3.html.twig');
 	}
+
+	public function representation4Action()
+	{
+		return $this->render('CartoRepresentationsBundle:Default:representation4.html.twig');
+	}
 	
 	public function jsonRechercher()
 	{
