@@ -139,7 +139,7 @@ D3_Formatter.prototype.to_tree = function(tree){
 					d3_tree = {
 						uid: root_id,
 						name: nodes[root_id],
-						size: 5000,
+						size: 500,
 						children: []
 					};
 					node = d3_tree;
@@ -169,7 +169,7 @@ D3_Formatter.prototype.to_tree = function(tree){
 												uid: child,
 												name: nodes[child],
 												relation: relation,
-												size: 2000,
+												size: 100 + Math.floor(Math.random()*500),
 												children: []
 											});
 										}

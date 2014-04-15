@@ -25,7 +25,7 @@ D3_TreeRepresentation.load = function(json) {
 	paragraphs
 		.append('p');
 
-	// On configure le texte des nœuds
+	// On configure le texte des noeuds
 	paragraphs.text(function (d) { return d; });
 
 
@@ -96,8 +96,8 @@ D3_TreeRepresentation.load = function(json) {
 		.attr("dx", 5.5)
 		.style("stroke", "black")
 		.text(function(d) { 
-			var sansEspace = new RegExp(/\s/); 
-			if(sansEspace.test(d.name.toString()) == false) return d.name; 
+			/*var sansEspace = new RegExp(/\s/); 
+			if(sansEspace.test(d.name.toString()) == false)*/ return d.name; 
 		})
 		.attr("cursor","pointer")
 		/*.on("click", function(d) {
