@@ -18,6 +18,26 @@ D3_GrapheRepresentation.prototype.show = function(data) {
 
 D3_GrapheRepresentation.load = function(json) {
 
+
+	// On met toutes les relations sur le contentLeft
+	// en selectionnant la classe relations
+	var data = json.relations;
+	console.log(json.relations);
+	
+	// On cree une nouvelle balise div dans la partie gauche
+	var relationsLeft = d3.select(".contentLeft").append("div")
+		.attr("class", "relations");
+		
+	var paragraphs = relationsLeft.selectAll(".relations")
+        .data(data)
+		.enter()
+		.append("p");
+
+	// On configure le texte
+	paragraphs.append("text")
+		.text(function (d) { return d; })
+		.attr("cursor","pointer");
+
 	zoom = d3.behavior.zoom()
 			.scaleExtent([1, 10])
 			.on("zoom", zoomed);
@@ -44,6 +64,14 @@ D3_GrapheRepresentation.load = function(json) {
 
 	var formatter = new D3_Formatter();
 	var graph = formatter.to_graph(json);
+	
+	// Quand on clique sur une relation on affiche
+	// les liens en couleur
+	paragraphs
+		.on("click", function(d){
+			//d.link
+			//	.style("color", "lavender");
+		}); 
 		
 	force
 		.nodes(graph.nodes)
@@ -88,7 +116,7 @@ D3_GrapheRepresentation.load = function(json) {
 			d3_utils.show_wikipedia(d.name);
 		});*/
 		.on("click", function(d){
-			var url = "http://localhost/CartoSavoie/carto/web/app_dev.php/fr/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Céline
 			$.ajax({
 				type: "POST",

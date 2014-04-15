@@ -21,12 +21,12 @@ D3_TreeRepresentation.load = function(json) {
 	var paragraphs = d3.selectAll('p')
         .data(data);
 
-// On créé les éléments "p" pour les nouvelles données
-paragraphs
-        .append('p');
+	// On créé les éléments "p" pour les nouvelles données
+	paragraphs
+		.append('p');
 
-// On configure le texte des nœuds
-paragraphs.text(function (d) { return d; });
+	// On configure le texte des nœuds
+	paragraphs.text(function (d) { return d; });
 
 
 	var margin = {top: 30, right: 20, bottom: 30, left: 20},

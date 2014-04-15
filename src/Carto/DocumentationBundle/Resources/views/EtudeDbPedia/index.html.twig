@@ -1,0 +1,123 @@
+{% extends "CartoDocumentationBundle:Layouts:layout.html.twig" %}
+{% block body %}
+<h1>Documentation</h1>
+<h2>DbPedia</h2>
+<p>
+DbPedia est une base de données libre, contenant notamment les informations contenues dans les infobox des articles wikipedia.
+Liens utiles :
+<ul>
+	<li>http://www.lespetitescases.net</li>
+	<li>http://code.google.com/p/tdwg-rdf/wiki/Beginners6SPARQL</li>
+	<li>http://www.cambridgesemantics.com/semantic-university/sparql-by-example</li>
+	<li>http://www.w3.org/TR/rdf-sparql-query/</li>
+	<li>http://fr.wikiversity.org/wiki/SPARQL_Protocol_and_RDF_Query_Language/Requ%C3%AAtes_de_d%C3%A9couverte</li>
+	<li>http://jplu.developpez.com/tutoriels/web-semantique/nouveautes-sparql-1-1/#LIII</li>
+	<li>http://www.w3.org/TR/2007/NOTE-rdf-sparql-json-res-20070618/</li>
+	<li>http://johnwright.me/blog/sparql-query-in-code-rest-php-and-json-tutorial/</li>
+</ul>
+</p>
+<p>
+Principe de base : sujet relation/predicat objet.<br/>
+Une requête SPARQL a pour but de trouver un ou plusieurs membres d'un ensemble de triplets.<br/>
+Les 3 éléments du triplet sont des URI (souvent des pages web ou du texte brut).<br/>
+L'idée de SPARQL est de résoudre une équation sur un ensemble de triplet :<br/>
+MonaLisa ?X ?Y = MonaLisa a quelles relations avec quels objets ? <br/>
+</p>
+<p>
+Notations :
+<ul>
+	<li>sujet predicat objet.</li>
+	<li>sujet predicat objet ; predicat2 objet2. === sujet predicat objet . sujet predicat2 objet2.</li>
+	<li>sujet predicat objet , objet2. === sujet predicat objet . sujet predicat objet2. </li>
+</ul>
+</p>
+<p> A propos de l'équation :
+<ul>
+	<li>PREFIX machin: &lt;uri&gt; === crée un raccourci pour &lt;uri&gt;</li>
+	<li>SELECT (DISTINCT) ?Location WHERE { ?Location  dwc:stateProvince "Hawaii". } renvoie une liste des triplets qui matchent le pattern proposé</li>
+	<li>Une équation plus complexe peut être posée :
+<pre>
+SELECT ?Organism WHERE {
+ ?Organism dsw:hasOccurrence ?Occurrence.
+ ?Image dsw:evidenceFor ?Occurrence.
+ ?Image dcterms:type dcmitype:StillImage.
+}
+LIMIT 50
+</pre>
+	</li>
+	<li>DESCRIBE uri === tous les triplets qui ont uri pour sujet ou pour prédicat ou pour objet</li>
+</ul>
+</p>
+<p>Comment savoir les prédicats, sujets et objets utilisables ?
+<ul>
+	<li>SELECT DISTINCT ?c WHERE {?s ?c ?l} LIMIT 100 => prédicats</li>
+	<li>SELECT DISTINCT ?s WHERE {?s ?c ?l} LIMIT 100 => sujets</li>
+</ul>
+Des classiques :
+<ul>
+	<li>rdfs:label : une étiquette</li>
+	<li>dbpedia-owl:abstract : une description pour les ontologies</li>
+</ul>
+Exemple : je veux connaitre cent triplets dont le sujet a pour label "Horse"@en :
+<pre>
+SELECT DISTINCT ?s ?property ?objet WHERE 
+{
+ ?s rdfs:label "Horse"@en .
+ ?s ?property ?objet .
+} 
+LIMIT 100
+</pre>
+Je peux aussi en avoir 1000. <br/>
+Disons maintenant que je veux des résultats en langue anglaise uniquement, je dois me débarrasser des résultats sameAs :
+<pre>
+SELECT DISTINCT ?s ?property ?objet WHERE 
+{
+ ?s rdfs:label "Horse"@en .
+ ?s ?property ?objet .
+ FILTER NOT EXISTS 
+ {
+   ?s owl:sameAs ?objet.
+ }
+} 
+LIMIT 1000
+</pre>
+Nous pouvons effectuer une recherche à un niveau de profondeur plus élevé :
+<pre>
+PREFIX owl: &lt;http://www.w3.org/2002/07/owl#>
+PREFIX rdfs: &lt;http://www.w3.org/2000/01/rdf-schema#>
+
+SELECT DISTINCT * WHERE 
+{
+ ?sujet rdfs:label "Horse"@en .
+ ?sujet ?property ?objet .
+ ?objet ?property2 ?objet2 .
+ ?objet2 ?property3 ?objet3 .
+ FILTER NOT EXISTS { 
+  ?sujet owl:sameAs ?objet .  
+ }
+ FILTER NOT EXISTS { 
+  ?objet owl:sameAs ?objet2 . 
+ }
+ FILTER NOT EXISTS { 
+  ?objet2 owl:sameAs ?objet3 .
+ }
+} 
+</pre>
+
+<h2>Idée générale</h2>
+<ul>
+	<li>Faire une requete de profondeur 3 sans les sameAs</li>
+	<li>Récupérer le tableau results[bindings] du json obtenu</li>
+	<li>Enlever tous les noeuds qui contiennent des litéraux n'ayant pas "xml:lang": "en"</li>
+	<li>Pour chaque noeud de type URI, essayer de le remplacer par un label en faisant une requete</li>
+	<li>Etablir la liste des noeuds</li>
+	<li>Etablir la liste des relations</li>
+	<li>Coder les relations</li>
+</ul>
+
+<h2>Json obtenu</h2>
+<pre style="word-wrap: break-word; max-width:500px;">
+
+</pre>
+
+{% endblock %}
