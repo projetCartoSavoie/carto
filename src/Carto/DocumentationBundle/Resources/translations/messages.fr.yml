@@ -43,7 +43,7 @@ A selector is used to capture a set of nodes or operators given, then we can per
 'D3 can for example select all HTML elements p and then put their text. In code it would be': 'D3 peut par exemple sélectionner tous les éléments HTML p pour ensuite leur mettre du texte. En code cela donnerait'
 'Elements "p" is created for the new data': 'On crée les éléments "p" pour les nouvelles données'
 'It configures the text nodes': 'On configure le texte des nœuds'
-'This code deletes all data in p tags with the enter () function and add the "hello" given in the first node p': 'Ce code supprime toutes les données dans les balises p avec la fonction enter() et ajouterait la donnée “hello” dans le premier noeud p'
+'This code deletes all data in p tags with the enter () function and add the "hello" given in the first node p': 'Ce code supprime toutes les données dans les balises p avec la fonction enter() et ajoute la donnée “hello” dans le premier noeud p'
 'Add file.html in': 'Ajouter un fichier.html dans'
 'Import all the files you need': 'Importer tous les fichiers dont vous avez besoin'
 'Add this code': 'Ajouter ce code'
