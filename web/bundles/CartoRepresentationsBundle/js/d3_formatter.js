@@ -38,6 +38,10 @@ D3_Formatter.prototype.to_graph = function(graph){
 
 	// Get Links
 	graph.links = [];
+	
+	// Get Connexion
+	graph.relationsUsed = [];
+	
 	// Parcours des graphes du json
 	graph.graphe.forEach(
 		function(graphe) {
@@ -58,7 +62,6 @@ D3_Formatter.prototype.to_graph = function(graph){
 					
 						// Si le graphe a la relation
 						if(graphe[relation]){
-						
 							// On parcours l'ensemble des targets de la relation
 							graphe[relation].forEach(
 								function(target) {
@@ -70,13 +73,16 @@ D3_Formatter.prototype.to_graph = function(graph){
 										graph.links.push({
 											source: nodeArray.indexOf(source),
 											target: nodeArray.indexOf(target),
-											value: colorLink[relation]
+											value: colorLink[relation],
+											name: relation
 										});
 										
 									}
 								}
 							);
-							
+							if(graph.relationsUsed.indexOf(relation) == -1){
+								graph.relationsUsed.push(relation);
+							}
 						}
 						
 						// On incremente la value afin d'avoir des valeurs differentes pour chaque relation
@@ -86,7 +92,6 @@ D3_Formatter.prototype.to_graph = function(graph){
 			}
 		}
 	);
-	
 	return graph;
 }
 

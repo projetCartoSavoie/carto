@@ -9,3 +9,12 @@
   stroke: #ccc;
   stroke-width: 1.5px;
 }
+
+.node text{
+	color: black;
+	font: Arial, Helvetica, sans-serif;
+}
+
+.relations text{
+	cursor: pointer;
+}

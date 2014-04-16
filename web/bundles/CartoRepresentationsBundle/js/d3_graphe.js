@@ -18,24 +18,38 @@ D3_GrapheRepresentation.prototype.show = function(data) {
 
 D3_GrapheRepresentation.load = function(json) {
 
+	var formatter = new D3_Formatter();
+	var graph = formatter.to_graph(json);
+
+	/***************************/
+	/*		Relations 		   */
+	/**************************/
+
+	var widthRelation = $("#relations").width();
 
 	// On met toutes les relations sur le contentLeft
 	// en selectionnant la classe relations
-	var data = json.relations;
+	var data = json.relationsUsed;
 	
 	// On cree une nouvelle balise div dans la partie gauche
-	var relationsLeft = d3.select(".contentLeft").append("div")
+	var svgRelation = d3.select("#relations").append("div")
+		.attr("width", widthRelation)
 		.attr("class", "relations");
 		
-	var paragraphs = relationsLeft.selectAll(".relations")
+	var paragraphs = svgRelation.selectAll(".relations")
         .data(data)
-		.enter()
-		.append("p");
+			.enter()
+			.append("p");
 
 	// On configure le texte
 	paragraphs.append("text")
-		.text(function (d) { return d; })
-		.attr("cursor","pointer");
+		.style("color", "black")
+		.text(function (d) { return d; });
+		
+		
+	/***************************/
+	/*		Graphe	 		   */
+	/**************************/
 
 	zoom = d3.behavior.zoom()
 			.scaleExtent([1, 10])
@@ -61,15 +75,12 @@ D3_GrapheRepresentation.load = function(json) {
 	// On crée un nouveau noeud <g>
 	var container = svg.append("g")
 		.attr("class", "representationContainer")
-
-	var formatter = new D3_Formatter();
-	var graph = formatter.to_graph(json);
-		
+			
 	force
 		.nodes(graph.nodes)
 		.links(graph.links)
 		.start();
-		
+	
 	/* Define the data for the circles */
 	// Pour tous les éléments .link on crée un noeud <line>
 	var link = container.selectAll(".link")
@@ -77,15 +88,30 @@ D3_GrapheRepresentation.load = function(json) {
 		.enter()
 			.append("line")
 			.attr("class", "link")
-			.style("stroke-width", function(d) { return Math.sqrt(d.value); });
+			.attr("id", function(d) { return d.name; })
+			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+			.style("stroke", "#999");
 		
-		
+	var linkColor;
 	// Quand on clique sur une relation on affiche
 	// les liens en couleur
 	paragraphs
-		.on("click", function(d){
-			link
-				.style("color", function(d) { return colorLink(d.value); });
+		.on("click", function(nameRelation){
+			var linkColor = [];
+			graph.links.forEach(
+				function(d){
+					if(d.name.localeCompare(nameRelation) == 0){
+						linkColor.push(d);
+						d3.selectAll('#' + d.name)
+							.style("stroke-width", 3)
+							.style("stroke",  function(d) { return colorLink(d.value); });
+					} else{
+						d3.selectAll('#' + d.name)
+							.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+							.style("stroke", "#999");
+					}
+				}
+			);
 		});
 		
 	// Pour tous les éléments .node on crée un noeud <g>
@@ -99,6 +125,8 @@ D3_GrapheRepresentation.load = function(json) {
 	// A chaque node <g> on crée un noeud <circle>
 	node.append("circle")
 		.attr("r", 5)
+		.style("stroke", "#fff")
+		.style("stroke-width", 1.5)
 		.style("fill", function(d) { return color(d.group); });
 		
 		
@@ -106,7 +134,6 @@ D3_GrapheRepresentation.load = function(json) {
 	node.append("text")
 		.attr("x", 12)
 		.attr("dy", ".35em")
-		.style("stroke", "black")
 		.text(function(d) { 
 			var sansEspace = new RegExp(/\s/); 
 			if(sansEspace.test(d.name.toString()) == false) return d.name; 

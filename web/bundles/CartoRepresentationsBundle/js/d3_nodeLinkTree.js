@@ -68,7 +68,6 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.attr("dy", ".31em")
 		.attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
 		.attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
-		.style("stroke", "black")
 		.text(function(d) { 
 			var sansEspace = new RegExp(/\s/); 
 			if(sansEspace.test(d.name.toString()) == false) return d.name; 
