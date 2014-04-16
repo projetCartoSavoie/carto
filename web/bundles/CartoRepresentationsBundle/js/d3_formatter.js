@@ -110,12 +110,14 @@ D3_Formatter.prototype.to_tree = function(tree){
 	
 	// Get Nodes
 	var nodes = {};
+	var vu = {};
 	var typeColor = {};
 	var i = 0;
 	tree.noeuds.forEach(
 		function(node) { 
 			// On construit une map avec key l'id et value le nom
 			nodes[node.id] = node.nom;
+			vu[node.id] = false;
 			if(typeColor[node.type] == null){
 				typeColor[node.type] = i;
 				i++;
@@ -139,7 +141,7 @@ D3_Formatter.prototype.to_tree = function(tree){
 					d3_tree = {
 						uid: root_id,
 						name: nodes[root_id],
-						size: 5000,
+						size: 500,
 						children: []
 					};
 					node = d3_tree;
@@ -164,12 +166,13 @@ D3_Formatter.prototype.to_tree = function(tree){
 									function(child) {
 									
 										// Si le child est bien definie dans la liste des noeuds
-										if(nodes[child]){
+										if(nodes[child] && !vu[child]){
+											vu[child] = true;
 											node.children.push({
 												uid: child,
 												name: nodes[child],
 												relation: relation,
-												size: 2000,
+												size: 100 + Math.floor(Math.random()*500),
 												children: []
 											});
 										}

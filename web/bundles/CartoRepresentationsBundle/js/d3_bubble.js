@@ -24,7 +24,7 @@ D3_BubbleRepresentation.load = function(json) {
 	console.log(treeJson);
 
 	var margin = 20,
-			diameter = 960;
+			diameter = $("#contentCenter").width();
 
 	var color = d3.scale.linear()
 			.domain([-1, 5])
@@ -63,11 +63,14 @@ D3_BubbleRepresentation.load = function(json) {
 			.attr("class", "label")
 			.style("fill-opacity", function(d) { return d.parent === treeJson ? 1 : 0; })
 			.style("display", function(d) { return d.parent === treeJson ? null : "none"; })
-			.text(function(d) { return d.name; });
+			.text(function(d) { if (d.name.length > 20) {return (d.name.substring(0,20) + '...');} return d.name; });
 
 	var node = svg.selectAll("circle,text");
 
-	d3.select("body")
+	node.append("title")
+		.text(function(d) { return d.name; });
+
+	d3.select("#contentCenter")
 			.style("background", color(-1))
 			.on("click", function() { zoom(treeJson); });
 
