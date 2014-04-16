@@ -1,0 +1,171 @@
+{% extends "CartoDocumentationBundle:Layouts:layout.html.twig" %}
+{% block body %}
+<h1>{{ "Documentation" | trans }}</h1>
+<h2>{{ "Utilisation" | trans }} :</h2>
+
+<img src="{{ asset('bundles/CartoDocumentationBundle/images/jsoncommun.svg')}}" width=50% />
+<br/>
+<p>
+	{% trans %}
+	Nous partons d’un fichier json générique simple en établissant les nœuds, les relations, ainsi que le graphe c’est-à-dire pour chaque nœud source dire quel est le nœud destination avec quelle relation. Nous pouvons voir le prototype ci-dessous
+	{% endtrans %}:
+</p>
+<pre>
+{
+	noeuds : [
+		{id:'...', nom:'...', param_optionnels},
+		{id:'...', nom:'...', param_optionnels},	
+		{id:'...', nom:'...', param_optionnels}
+	],
+	relations : ['rel1','rel2',...]
+	graphe : [
+		{
+			noeud:id,
+			rel1:[id1,id2,...],
+			rel2:[id1,...]
+		},
+		{
+			noeud:id,
+			rel1:[id1,id2,...],
+			rel2:[id1,...]
+		}
+	]
+}
+</pre>
+<p>
+		<p>
+			{% trans %}
+			Param_optionnels peut être remplacé par ce que nous voulons, par exemple une couleur, un type etc
+			{% endtrans %}.
+		</p>
+		<p>
+			{% trans %}
+			Les fichiers json sont utilisés comme des objets en Javascript ce qui nous simplifie la transformation du json pour le donner correctement formé à chaque vue
+			{% endtrans %}.
+		</p>
+		<p>
+			{% trans %}
+			Un fichier json est un ensemble de nom/valeur
+			{% endtrans %}.
+		</p>
+		<p>
+			{% trans %}
+			Ces mêmes éléments représentent trois types de données
+			{% endtrans %}:
+		</p>
+		<ul>
+			<li>{% trans %}des objets {% endtrans %};</li>
+			<li>{% trans %}des tableaux {% endtrans %};</li>
+			<li>{% trans %}des valeurs génériques de type tableau, objet, booléen, nombre, chaîne ou null{% endtrans %}. </li>
+		</ul>
+
+		<p>
+			{% trans %}
+			Notre fichier json générique a trois noms nœuds, relations, graphe. Nœuds est composé d’un tableau d’objet, où ses objets sont un ensemble de nom/valeur les noms sont id, nom. Relation est composé d’un tableau d’objet où le nom de ces objets sont nom. Enfin graphe composé encore d’un tableau d’objet. Le nom des objets de graphe sont nœud, rel1, rel2, etc. Rel1 et rel2 sont des valeurs de relation. Les valeurs de rel1, rel2 doivent exister en tant que valeurs de id
+			{% endtrans %}.
+		</p>
+
+		<p>
+			{% trans %}
+			Nous avons choisi de transformer nos fichiers json générique en fichier cohérent pour chaque représentation. Nous parcourons donc le fichier sur chaque nom de l’objet qui sont nœuds, relations, et graphe et qui ont comme valeur un tableau d’objets
+			{% endtrans %}.
+		</p>
+
+		<p>
+			{% trans %}
+			Pour les vues nous utilisons D3js est une librairie Javascript qui permet un affichage de données de façon graphique et dynamique. D3 permet donc de représenter des données en utilisant les standards du Web (SVG, HTML, CSS, Javascript). D3 fonctionne de la façon suivante 
+			{% endtrans %}:
+			{% trans %}
+			On emploie un sélecteur pour saisir un ensemble de nœuds ou d'opérateurs donnés, puis on peut effectuer des opérations
+			{% endtrans %}.
+			{% trans %}
+			D3 peut par exemple sélectionner tous les éléments HTML p pour ensuite leur mettre du texte. En code cela donnerait
+			{% endtrans %}:
+			<p>
+				var data = ["hello"];</p>
+			<p>
+				var paragraphs = d3.selectAll('p')</p>
+			<p>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .data(data);</p>
+			<p>
+				// {% trans %}On crée les éléments "p" pour les nouvelles données{% endtrans %}</p>
+			<p>
+				paragraphs.enter()</p>
+			<p>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; .append('p');</p>
+			<p>
+				// {% trans %}On configure le texte des nœuds{% endtrans %}</p>
+			<p>
+				paragraphs.text(function (d) { return d; });</p>
+
+			{% trans %}
+			Ce code supprime toutes les données dans les balises p avec la fonction enter() et ajouterait la donnée “hello” dans le premier noeud p
+			{% endtrans %}.
+		</p>
+</p>
+
+<h2>{{ "Manuel d’utilisation pour ajouter une vue à notre site :" | trans }}</h2>
+<p>
+		<ul>
+			<li>{% trans %}Ajouter un fichier.html dans{% endtrans %} \src\Carto\RepresentationsBundle\Resources\views\Default</li>
+			<li>{% trans %}Importer tous les fichiers dont vous avez besoin{% endtrans %}</li>
+			<li>{% trans %}Ajouter ce code dans un bloc script{% endtrans %}: </li>
+		</ul>
+			<p>var representation = new D3_{% trans %}votreRepresentation{% endtrans %}();</p>
+		<ul>
+			<li>{% trans %}Ajouter un fichier javascript dans {% endtrans %}\web\bundles\CartoRepresentationsBundle\js</li>
+			<li>{% trans %}Ajouter ces entêtes au fichier {% endtrans %}:</li>
+		</ul>
+		<br>function D3_ {% trans %}votreRepresentation{% endtrans %} (){}</br>
+		<p> D3_ {% trans %}votreRepresentation{% endtrans %}.prototype.show = function(data) {</p>
+			<p>
+			&nbsp;</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // data is file path</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(typeof data === &quot;string&quot;){</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; d3.json(data, function(error, root) {</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (error) alert(error);</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D3_ votreRepresentation.load(root);</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; });</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // data is json</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else {</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; D3_ votreRepresentation.load(data);</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</p>
+			<p>
+			}</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+			<p>
+			D3_ {% trans %}votreRepresentation{% endtrans %}.load = function(json) {</p>
+			<p>
+			&nbsp;</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // {% trans %}Pour transformer votre json en un fichier json standard D3js{% endtrans %}</p>
+			<p>
+			&nbsp;</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var formatter = new D3_Formatter();</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; var json = formatter.to_tree(json); ou var json = formatter.to_graph(json);</p>
+			<p>
+			&nbsp;</p>
+			<p>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //{% trans %}votre code pour la representation choisie{% endtrans %}</p>
+			<p>
+			}</p>
+
+</p>
+<p>
+</p>
+{% endblock %}

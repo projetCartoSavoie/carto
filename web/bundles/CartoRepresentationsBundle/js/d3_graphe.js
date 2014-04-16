@@ -133,6 +133,7 @@ D3_GrapheRepresentation.load = function(json) {
 						var data = result.data;
 						if(representation){
 							$('svg').remove();
+							$('.relations').remove();
 						}
 						representation.show(data);
 					}
