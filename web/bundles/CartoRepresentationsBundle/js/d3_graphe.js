@@ -104,7 +104,7 @@ D3_GrapheRepresentation.load = function(json) {
 						linkColor.push(d);
 						d3.selectAll('#' + d.name)
 							.style("stroke-width", 3)
-							.style("stroke",  function(d) { return colorLink(d.value); });
+							.style("stroke",  "red");
 					} else{
 						d3.selectAll('#' + d.name)
 							.style("stroke-width", function(d) { return Math.sqrt(d.value); })
