@@ -6,8 +6,8 @@
 	//var_dump($cmd);
 
 	$curlSession = curl_init();
-	curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/fr/donnees/json/'.$cmd); //Céline
-	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd); //Juliana
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/fr/donnees/json/'.$cmd); //Céline
+	curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd); //Juliana
 	curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
 	curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
 
