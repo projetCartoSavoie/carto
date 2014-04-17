@@ -25,7 +25,7 @@ D3_GrapheRepresentation.load = function(json) {
 	/*		Relations 		   */
 	/**************************/
 
-	var widthRelation = $("#relations").width();
+	/*var widthRelation = $("#relations").width();
 
 	// On met toutes les relations sur le contentLeft
 	// en selectionnant la classe relations
@@ -34,16 +34,19 @@ D3_GrapheRepresentation.load = function(json) {
 	// On cree une nouvelle balise div dans la partie gauche
 	var svgRelation = d3.select("#relations").append("div")
 		.attr("width", widthRelation)
-		.attr("class", "relations");
-		
-	var paragraphs = svgRelation.selectAll(".relations")
+		.attr("class", "relations");*/
+	var data = json.relationsUsed;
+	var paragraphs = d3.select('.selectRelation')
+		.on("change",change)
+		.selectAll("option")
         .data(data)
 			.enter()
-			.append("p");
+			.append("option")
+			.attr("class", "relation");
 
 	// On configure le texte
-	paragraphs.append("text")
-		.style("color", "black")
+	paragraphs
+		.attr("value", function (d) { return d;})
 		.text(function (d) { return d; });
 		
 		
@@ -95,27 +98,26 @@ D3_GrapheRepresentation.load = function(json) {
 	var linkColor;
 	// Quand on clique sur une relation on affiche
 	// les liens en couleur
-	paragraphs
-		.on("click", function(nameRelation){
-			var linkColor = [];
-			//d3.select('.' + 
-			// Pour tous les liens du graphe
-			graph.links.forEach(
-				function(d){
-					// On redessine les liens en couleur de base
+	function change(){
+		nameRelation = this.options[this.selectedIndex].value;
+		var linkColor = [];
+		// Pour tous les liens du graphe
+		graph.links.forEach(
+			function(d){
+				// On redessine les liens en couleur de base
+				d3.selectAll('.' + d.name)
+						.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+						.style("stroke", "#999");
+				// Si le lien a la relation selectionnee alors on met en couleur
+				if(d.name.localeCompare(nameRelation) == 0){
+					linkColor.push(d);
 					d3.selectAll('.' + d.name)
-							.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-							.style("stroke", "#999");
-					// Si le lien a la relation selectionnee alors on met en couleur
-					if(d.name.localeCompare(nameRelation) == 0){
-						linkColor.push(d);
-						d3.selectAll('.' + d.name)
-							.style("stroke-width", 3)
-							.style("stroke",  "red");
-					}
+						.style("stroke-width", 3)
+						.style("stroke",  "red");
 				}
-			);
-		});
+			}
+		);
+	};
 		
 	// Pour tous les éléments .node on crée un noeud <g>
 	var node = container.selectAll(".node")
@@ -163,7 +165,7 @@ D3_GrapheRepresentation.load = function(json) {
 						var data = result.data;
 						if(representation){
 							$('svg').remove();
-							$('.relations').remove();
+							$('.relation').remove();
 						}
 						representation.show(data);
 					}
