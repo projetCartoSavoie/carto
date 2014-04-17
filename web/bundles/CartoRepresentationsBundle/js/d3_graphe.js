@@ -67,12 +67,12 @@ D3_GrapheRepresentation.load = function(json) {
 		.linkDistance(20)
 		.size([width, height]);
 
-	// On crée un nouveau noeud <svg>
+	// On cree un nouveau noeud <svg>
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", width)
 		.attr("height", height);
 		
-	// On crée un nouveau noeud <g>
+	// On cree un nouveau noeud <g>
 	var container = svg.append("g")
 		.attr("class", "representationContainer")
 			
@@ -88,7 +88,7 @@ D3_GrapheRepresentation.load = function(json) {
 		.enter()
 			.append("line")
 			.attr("class", "link")
-			.attr("id", function(d) { return d.name; })
+			.attr("class", function(d) { return d.name; })
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
 			.style("stroke", "#999");
 		
@@ -98,17 +98,20 @@ D3_GrapheRepresentation.load = function(json) {
 	paragraphs
 		.on("click", function(nameRelation){
 			var linkColor = [];
+			//d3.select('.' + 
+			// Pour tous les liens du graphe
 			graph.links.forEach(
 				function(d){
-					if(d.name.localeCompare(nameRelation) == 0){
-						linkColor.push(d);
-						d3.selectAll('#' + d.name)
-							.style("stroke-width", 3)
-							.style("stroke",  "red");
-					} else{
-						d3.selectAll('#' + d.name)
+					// On redessine les liens en couleur de base
+					d3.selectAll('.' + d.name)
 							.style("stroke-width", function(d) { return Math.sqrt(d.value); })
 							.style("stroke", "#999");
+					// Si le lien a la relation selectionnee alors on met en couleur
+					if(d.name.localeCompare(nameRelation) == 0){
+						linkColor.push(d);
+						d3.selectAll('.' + d.name)
+							.style("stroke-width", 3)
+							.style("stroke",  "red");
 					}
 				}
 			);
