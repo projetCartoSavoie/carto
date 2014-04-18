@@ -92,7 +92,6 @@ D3_Formatter.prototype.to_graph = function(graph){
 			}
 		}
 	);
-	console.log(graph);
 	return graph;
 }
 
@@ -111,26 +110,30 @@ D3_Formatter.getNode = function(tree, id){
 };
 
 D3_Formatter.prototype.to_tree = function(tree){
-
+	console.log(tree);
 	var d3_tree = {};
 	
 	// Get Nodes
 	var nodes = {};
+	var infos = [];
 	var vu = {};
 	var typeColor = {};
 	var i = 0;
 	tree.noeuds.forEach(
 		function(node) { 
-			// On construit une map avec key l'id et value le nom
-			nodes[node.id] = node.nom;
+			infos = [];
 			vu[node.id] = false;
 			if(typeColor[node.type] == null){
 				typeColor[node.type] = i;
 				i++;
 			}
-			node.group = typeColor[node.type];
+			infos.push(node.nom);
+			infos.push(typeColor[node.type]);
+			// On construit une map avec key l'id et value le nom
+			nodes[node.id] = infos;
 		}
 	);
+	console.log(nodes);
 	
 	//On va parcourir le graphe pour construire l'arbre
 	tree.graphe.forEach(
@@ -146,8 +149,9 @@ D3_Formatter.prototype.to_tree = function(tree){
 				if(Object.keys(d3_tree).length == 0){
 					d3_tree = {
 						uid: root_id,
-						name: nodes[root_id],
+						name: nodes[root_id][0],
 						size: 500,
+						group: nodes[root_id][1],
 						children: []
 					};
 					node = d3_tree;
@@ -176,9 +180,9 @@ D3_Formatter.prototype.to_tree = function(tree){
 											vu[child] = true;
 											node.children.push({
 												uid: child,
-												name: nodes[child],
-												relation: relation,
+												name: nodes[child][0],
 												size: 100 + Math.floor(Math.random()*500),
+												group: nodes[child][1],
 												children: []
 											});
 										}
@@ -191,6 +195,6 @@ D3_Formatter.prototype.to_tree = function(tree){
 			}
 		}
 	);
-	
+	console.log(d3_tree);
 	return d3_tree;
 }

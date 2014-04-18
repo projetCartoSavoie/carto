@@ -63,6 +63,10 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	node.append("circle")
 		.attr("r", 5)
 		.style("fill", function(d) { return color(d.group); });
+		
+	// On affiche un titre lorsqu'on passe la souris
+	node.append("title")
+		.text(function(d) { return d.name; });
 
 	node.append("text")
 		.attr("dy", ".31em")
@@ -78,8 +82,8 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			d3_utils.show_wikipedia(d.name);
 		})
 		.on("dblclick", function(d){
-			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-			var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
 			$.ajax({
 				type: "POST",

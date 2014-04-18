@@ -28,19 +28,8 @@ D3_GrapheRepresentation.load = function(json) {
 	/***************************/
 	/*		Relations 		   */
 	/**************************/
-
-	/*var widthRelation = $("#relations").width();
-
-	// On met toutes les relations sur le contentLeft
-	// en selectionnant la classe relations
-	var data = json.relationsUsed;
 	
-	// On cree une nouvelle balise div dans la partie gauche
-	var svgRelation = d3.select("#relations").append("div")
-		.attr("width", widthRelation)
-		.attr("class", "relations");*/
 	var data = json.relationsUsed;
-	console.log(data);
 	var paragraphs = d3.select('.selectRelation')
 		.on("change",change)
 		.selectAll(".relation")

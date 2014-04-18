@@ -16,19 +16,29 @@ D3_TreeRepresentation.prototype.show = function(data) {
 }
 
 D3_TreeRepresentation.load = function(json) {
+	
+	/***************************/
+	/*		Relations 		   */
+	/**************************/
+	
+	/*var data = json.relationsUsed;
+	var paragraphs = d3.select('.selectRelation')
+		.on("change",change)
+		.selectAll(".relation")
+			.data(data)
+				.enter()
+				.append("option")
+				.attr("class", "relation");
 
-	var data = ["hello"];
-	var paragraphs = d3.selectAll('p')
-        .data(data);
-
-	// On créé les éléments "p" pour les nouvelles données
+	// On configure le texte
 	paragraphs
-		.enter()
-		.append('p');
-
-	// On configure le texte des noeuds
-	paragraphs.text(function (d) { return d; });
-
+		.attr("value", function (d) { return d;})
+		.text(function (d) { return d; });*/
+		
+		
+	/***************************/
+	/*		Graphe	 		   */
+	/**************************/
 
 	var margin = {top: 30, right: 20, bottom: 30, left: 20},
 		width = 960 - margin.left - margin.right,
@@ -49,6 +59,10 @@ D3_TreeRepresentation.load = function(json) {
 		.attr("width", width + margin.left + margin.right)
 	  .append("g")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		
+	/***************************************************/
+	/*		Transformation du json generique 		   */
+	/***************************************************/
 
 	// On transforme le fichier generique json au bon format pour la representation concernee
 	var formatter = new D3_Formatter();
@@ -56,40 +70,44 @@ D3_TreeRepresentation.load = function(json) {
 	treeJson.x0 = 0;
 	treeJson.y0 = 0;
 	update(root = treeJson);
+	
+	/***************************/
+	/*		Update	 		   */
+	/**************************/
 
-	function update(source) {
-	  // Compute the flattened node list. TODO use d3.layout.hierarchy.
-	  var nodes = tree.nodes(root);
+function update(source) {
+	// Compute the flattened node list. TODO use d3.layout.hierarchy.
+	var nodes = tree.nodes(root);
+	
+	var height = Math.max(500, nodes.length * barHeight + margin.top + margin.bottom);
 
-	  var height = Math.max(500, nodes.length * barHeight + margin.top + margin.bottom);
+	d3.select("svg")
+	  .attr("height", height);
 
-	  d3.select("svg")
-		  .attr("height", height);
+	d3.select(self.frameElement)
+	  .style("height", height + "px");
 
-	  d3.select(self.frameElement)
-		  .style("height", height + "px");
+	// Compute the "layout".
+	nodes.forEach(function(n, i) {
+	n.x = i * barHeight;
+	});
 
-	  // Compute the "layout".
-	  nodes.forEach(function(n, i) {
-		n.x = i * barHeight;
-	  });
+	// Update the nodes
+	var node = svg.selectAll("g.node")
+	  .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
-	  // Update the nodes
-	  var node = svg.selectAll("g.node")
-		  .data(nodes, function(d) { return d.id || (d.id = ++i); });
+	var nodeEnter = node.enter().append("g")
+	  .attr("class", "node")
+	  .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
+	  .style("opacity", 1e-6);
 
-	  var nodeEnter = node.enter().append("g")
-		  .attr("class", "node")
-		  .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
-		  .style("opacity", 1e-6);
-
-	  // Enter any new nodes at the parent's previous position.
-	  nodeEnter.append("rect")
-		  .attr("y", -barHeight / 2)
-		  .attr("height", barHeight)
-		  .attr("width", barWidth)
-		  .style("fill", color)
-		  .on("click", click);
+	// Enter any new nodes at the parent's previous position.
+	nodeEnter.append("rect")
+	  .attr("y", -barHeight / 2)
+	  .attr("height", barHeight)
+	  .attr("width", barWidth)
+	  .style("fill", color)
+	  .on("click", click);
 		  
 	// A chaque noeud on affiche son nom
 	nodeEnter.append("text")
@@ -97,8 +115,8 @@ D3_TreeRepresentation.load = function(json) {
 		.attr("dx", 5.5)
 		.style("stroke", "black")
 		.text(function(d) { 
-			/*var sansEspace = new RegExp(/\s/); 
-			if(sansEspace.test(d.name.toString()) == false)*/ return d.name; 
+			var sansEspace = new RegExp(/\s/); 
+			if(sansEspace.test(d.name.toString()) == false) return d.name; 
 		})
 		.attr("cursor","pointer")
 		.on("click", function(d) {
@@ -106,8 +124,8 @@ D3_TreeRepresentation.load = function(json) {
 			d3_utils.show_wikipedia(d.name);
 		})
 		.on("dblclick", function(d){
-			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-			var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
 			$.ajax({
 				type: "POST",
@@ -132,61 +150,64 @@ D3_TreeRepresentation.load = function(json) {
 			return false;
 		});
 		  
+	// On affiche un titre lorsqu'on passe la souris
+	node.append("title")
+		.text(function(d) { return d.name; });
 
-	  // Transition nodes to their new position.
-	  nodeEnter.transition()
-		  .duration(duration)
-		  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-		  .style("opacity", 1);
+	// Transition nodes to their new position.
+	nodeEnter.transition()
+	  .duration(duration)
+	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+	  .style("opacity", 1);
 
-	  node.transition()
-		  .duration(duration)
-		  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-		  .style("opacity", 1)
-		.select("rect")
-		  .style("fill", color);
+	node.transition()
+	  .duration(duration)
+	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
+	  .style("opacity", 1)
+	.select("rect")
+	  .style("fill", color);
 
-	  // Transition exiting nodes to the parent's new position.
-	  node.exit().transition()
-		  .duration(duration)
-		  .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
-		  .style("opacity", 1e-6)
-		  .remove();
+	// Transition exiting nodes to the parent's new position.
+	node.exit().transition()
+	  .duration(duration)
+	  .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
+	  .style("opacity", 1e-6)
+	  .remove();
 
-	  // Update the links
-	  var link = svg.selectAll("path.link")
-		  .data(tree.links(nodes), function(d) { return d.target.id; });
+	// Update the links
+	var link = svg.selectAll("path.link")
+	  .data(tree.links(nodes), function(d) { return d.target.id; });
 
-	  // Enter any new links at the parent's previous position.
-	  link.enter().insert("path", "g")
-		  .attr("class", "link")
-		  .attr("d", function(d) {
-			var o = {x: source.x0, y: source.y0};
-			return diagonal({source: o, target: o});
-		  })
-		.transition()
-		  .duration(duration)
-		  .attr("d", diagonal);
+	// Enter any new links at the parent's previous position.
+	link.enter().insert("path", "g")
+	  .attr("class", "link")
+	  .attr("d", function(d) {
+		var o = {x: source.x0, y: source.y0};
+		return diagonal({source: o, target: o});
+	  })
+	.transition()
+	  .duration(duration)
+	  .attr("d", diagonal);
 
-	  // Transition links to their new position.
-	  link.transition()
-		  .duration(duration)
-		  .attr("d", diagonal);
+	// Transition links to their new position.
+	link.transition()
+	  .duration(duration)
+	  .attr("d", diagonal);
 
-	  // Transition exiting nodes to the parent's new position.
-	  link.exit().transition()
-		  .duration(duration)
-		  .attr("d", function(d) {
-			var o = {x: source.x, y: source.y};
-			return diagonal({source: o, target: o});
-		  })
-		  .remove();
+	// Transition exiting nodes to the parent's new position.
+	link.exit().transition()
+	  .duration(duration)
+	  .attr("d", function(d) {
+		var o = {x: source.x, y: source.y};
+		return diagonal({source: o, target: o});
+	  })
+	  .remove();
 
-	  // Stash the old positions for transition.
-	  nodes.forEach(function(d) {
-		d.x0 = d.x;
-		d.y0 = d.y;
-	  });
+	// Stash the old positions for transition.
+	nodes.forEach(function(d) {
+	d.x0 = d.x;
+	d.y0 = d.y;
+	});
 	}
 
 	// Toggle children on click.
@@ -202,6 +223,7 @@ D3_TreeRepresentation.load = function(json) {
 	}
 
 	function color(d) {
-	  return d._children ? "#3182bd" : d.children ? "#c6dbef" : "#fd8d3c";
+		var colorLink = d3.scale.category20();
+		return d._children ? /*"#3182bd"*/colorLink(d.group) : d.children ? "#c6dbef" : "#fd8d3c";
 	}
 }
