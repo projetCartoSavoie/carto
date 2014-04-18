@@ -31,8 +31,8 @@ D3_Formatter.prototype.to_graph = function(graph){
 	i = 0;
 	graph.relations.forEach(
 		function(relation){
-			typeColor[relation] = i;
-			i++
+			colorLink[relation] = i;
+			i++;
 		}
 	);
 
@@ -92,6 +92,7 @@ D3_Formatter.prototype.to_graph = function(graph){
 			}
 		}
 	);
+	console.log(graph);
 	return graph;
 }
 

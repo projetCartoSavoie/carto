@@ -113,10 +113,9 @@ D3_GrapheRepresentation.load = function(json) {
 						.style("stroke", "#999");
 				// Si le lien a la relation selectionnee alors on met en couleur
 				if(d.name.localeCompare(nameRelation) == 0){
-					linkColor.push(d);
 					d3.selectAll('.' + d.name)
 						.style("stroke-width", 3)
-						.style("stroke",  "red");
+						.style("stroke",  colorLink(d.value));
 				}
 			}
 		);
