@@ -36,6 +36,7 @@ D3_GrapheRepresentation.load = function(json) {
 		.attr("width", widthRelation)
 		.attr("class", "relations");*/
 	var data = json.relationsUsed;
+	console.log(data);
 	var paragraphs = d3.select('.selectRelation')
 		.on("change",change)
 		.selectAll("option")
@@ -100,7 +101,6 @@ D3_GrapheRepresentation.load = function(json) {
 	// les liens en couleur
 	function change(){
 		nameRelation = this.options[this.selectedIndex].value;
-		var linkColor = [];
 		// Pour tous les liens du graphe
 		graph.links.forEach(
 			function(d){
