@@ -59,7 +59,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			.append("g")
 			.attr("class", "node")
 			.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
-		
+
 	node.append("circle")
 		.attr("r", 5)
 		.style("fill", function(d) { return color(d.group); });
@@ -73,12 +73,14 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			if(sansEspace.test(d.name.toString()) == false) return d.name; 
 		})
 		.attr("cursor","pointer")
-		/*.on("click", function(d) {
+		.on("click", function(d) {
 			var d3_utils = new D3_Utils();
 			d3_utils.show_wikipedia(d.name);
-		});*/
-		.on("click", function(d){
-			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+		})
+		.on("dblclick", function(d){
+			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -95,6 +97,8 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 							$('svg').remove();
 						}
 						representation.show(data);
+						$("#loading").hide();
+						$("#loading").hide();
 					}
 				}
 			});
