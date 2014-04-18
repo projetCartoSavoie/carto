@@ -23,6 +23,7 @@ D3_TreeRepresentation.load = function(json) {
 
 	// On créé les éléments "p" pour les nouvelles données
 	paragraphs
+		.enter()
 		.append('p');
 
 	// On configure le texte des noeuds

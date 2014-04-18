@@ -43,11 +43,11 @@ D3_GrapheRepresentation.load = function(json) {
 	console.log(data);
 	var paragraphs = d3.select('.selectRelation')
 		.on("change",change)
-		.selectAll("option")
-        .data(data)
-			.enter()
-			.append("option")
-			.attr("class", "relation");
+		.selectAll(".relation")
+			.data(data)
+				.enter()
+				.append("option")
+				.attr("class", "relation");
 
 	// On configure le texte
 	paragraphs
@@ -103,14 +103,15 @@ D3_GrapheRepresentation.load = function(json) {
 	// Quand on clique sur une relation on affiche
 	// les liens en couleur
 	function change(){
+		// On recupere ce que l'utilisateur a choisi
 		nameRelation = this.options[this.selectedIndex].value;
+		// On redessine les liens en couleur de base
+		d3.selectAll("line")
+				.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+				.style("stroke", "#999");
 		// Pour tous les liens du graphe
 		graph.links.forEach(
 			function(d){
-				// On redessine les liens en couleur de base
-				d3.selectAll('.' + d.name)
-						.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-						.style("stroke", "#999");
 				// Si le lien a la relation selectionnee alors on met en couleur
 				if(d.name.localeCompare(nameRelation) == 0){
 					d3.selectAll('.' + d.name)
