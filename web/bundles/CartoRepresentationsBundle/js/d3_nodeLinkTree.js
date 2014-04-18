@@ -16,10 +16,44 @@ D3_NodeLinkTreeRepresentation.prototype.show = function(data) {
 }
 	
 D3_NodeLinkTreeRepresentation.load = function(json) {
+
+
+	/***************************************************/
+	/*		Transformation du json generique 		   */
+	/***************************************************/
+	
+	// On transforme le fichier generique json au bon format 
+	// pour la representation concernee
+	var formatter = new D3_Formatter();
+	var json = formatter.to_tree(json);
+
+
+	/***************************/
+	/*		Relations 		   */
+	/**************************/
+	
+	var data = json.relationsUsed;
+	var paragraphs = d3.select('.selectRelation')
+		.on("change",change)
+		.selectAll(".relation")
+			.data(data)
+				.enter()
+				.append("option")
+				.attr("class", "relation");
+
+	// On configure le texte
+	paragraphs
+		.attr("value", function (d) { return d;})
+		.text(function (d) { return d; });
+		
+	/***************************/
+	/*		Graphe	 		   */
+	/**************************/
 	
 	var diameter = 960;
 	
 	var color = d3.scale.category20();
+	var colorLink = d3.scale.category20();
 
 	var tree = d3.layout.tree()
 		.size([360, diameter / 2 - 200])
@@ -39,19 +73,50 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 
 	d3.select(self.frameElement).style("height", diameter - 150 + "px");
 	
-	// On transforme le fichier generique json au bon format 
-	// pour la representation concernee
-	var formatter = new D3_Formatter();
-	var json = formatter.to_tree(json);
-	
 	var nodes = tree.nodes(json),
-		links = tree.links(nodes);
+		links = json.links;
 
+	/*var link = container.selectAll(".link")
+		.data(links)
+		.enter()
+			.append("path")
+			.attr("class", "link")
+			.attr("d", diagonal)
+			.attr("class", function(d) { return d.name; })
+			.style("stroke-width", 3)
+			.style("stroke", "#999");*/
+			
 	var link = container.selectAll(".link")
 		.data(links)
-		.enter().append("path")
-		.attr("class", "link")
-		.attr("d", diagonal);
+		.enter()
+			.append("path")
+			.attr("class", "link")
+			.attr("id", function(d) { return d.name; })
+			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+			.style("stroke", "#999")
+			.attr("d", diagonal);
+		
+	// Quand on clique sur une relation on affiche
+	// les liens en couleur
+	function change(){
+		// On recupere ce que l'utilisateur a choisi
+		nameRelation = this.options[this.selectedIndex].value;
+		// On redessine les liens en couleur de base
+		d3.selectAll("path")
+				.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+				.style("stroke", "#999");
+		// Pour tous les liens du graphe
+		links.forEach(
+			function(d){
+				// Si le lien a la relation selectionnee alors on met en couleur
+				if(d.name.localeCompare(nameRelation) == 0){
+					d3.selectAll('#' + d.name)
+						.style("stroke-width", 3)
+						.style("stroke",  colorLink(d.value));
+				}
+			}
+		);
+	};
 
 	var node = container.selectAll(".node")
 		.data(nodes)
@@ -99,6 +164,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 						var data = result.data;
 						if(representation){
 							$('svg').remove();
+							$('.relation').remove();
 						}
 						representation.show(data);
 						$("#loading").hide();

@@ -110,12 +110,28 @@ D3_Formatter.getNode = function(tree, id){
 };
 
 D3_Formatter.prototype.to_tree = function(tree){
-	console.log(tree);
 	var d3_tree = {};
 	
 	// Get Nodes
 	var nodes = {};
 	var infos = [];
+	
+	// On met des couleurs pour chaque relation
+	var colorLink = {};
+	i = 0;
+	tree.relations.forEach(
+		function(relation){
+			colorLink[relation] = i;
+			i++;
+		}
+	);
+	
+	// Get Connexion
+	tree.relationsUsed = [];
+	
+	// Get Links
+	tree.links = [];
+	
 	var vu = {};
 	var typeColor = {};
 	var i = 0;
@@ -133,7 +149,6 @@ D3_Formatter.prototype.to_tree = function(tree){
 			nodes[node.id] = infos;
 		}
 	);
-	console.log(nodes);
 	
 	//On va parcourir le graphe pour construire l'arbre
 	tree.graphe.forEach(
@@ -171,23 +186,33 @@ D3_Formatter.prototype.to_tree = function(tree){
 							// Si le graphe a la relation
 							if(graphe[relation]){
 								
-								// On parcours l'ensemble des enfants de la relation
+								// On parcourt l'ensemble des enfants de la relation
 								graphe[relation].forEach(
 									function(child) {
 									
 										// Si le child est bien definie dans la liste des noeuds
 										if(nodes[child] && !vu[child]){
 											vu[child] = true;
-											node.children.push({
+											var nodeChild = {
 												uid: child,
 												name: nodes[child][0],
 												size: 100 + Math.floor(Math.random()*500),
 												group: nodes[child][1],
 												children: []
+											};
+											node.children.push(nodeChild);
+											tree.links.push({
+												source: node,
+												target: nodeChild,
+												value: colorLink[relation],
+												name: relation
 											});
 										}
 									}
 								);
+								if(tree.relationsUsed.indexOf(relation) == -1){
+									tree.relationsUsed.push(relation);
+								}
 							}
 						}
 					);
@@ -195,6 +220,7 @@ D3_Formatter.prototype.to_tree = function(tree){
 			}
 		}
 	);
-	console.log(d3_tree);
+	d3_tree.relationsUsed = tree.relationsUsed;
+	d3_tree.links = tree.links;
 	return d3_tree;
 }
