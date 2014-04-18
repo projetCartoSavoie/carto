@@ -18,6 +18,10 @@ D3_GrapheRepresentation.prototype.show = function(data) {
 
 D3_GrapheRepresentation.load = function(json) {
 
+	/***************************************************/
+	/*		Transformation du json generique 		   */
+	/***************************************************/
+
 	var formatter = new D3_Formatter();
 	var graph = formatter.to_graph(json);
 
@@ -96,7 +100,6 @@ D3_GrapheRepresentation.load = function(json) {
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
 			.style("stroke", "#999");
 		
-	var linkColor;
 	// Quand on clique sur une relation on affiche
 	// les liens en couleur
 	function change(){
@@ -144,14 +147,18 @@ D3_GrapheRepresentation.load = function(json) {
 			if(sansEspace.test(d.name.toString()) == false) return d.name; 
 		})
 		.attr("cursor","pointer")
+		
+		// Quand on clique sur un mot on affiche l'information wikipedia
 		.on("click", function(d) {
 			var d3_utils = new D3_Utils();
 			d3_utils.show_wikipedia(d.name);
 		})
+		
+		// Quand on double clique sur un mot on recharge son json
 		.on("dblclick", function(d){
-			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Céline
-			var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
 			$.ajax({
 				type: "POST",

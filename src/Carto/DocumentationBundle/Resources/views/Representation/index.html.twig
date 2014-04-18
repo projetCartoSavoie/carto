@@ -61,19 +61,27 @@
 
 		<p>
 			{% trans %}
-			Notre fichier json générique a trois noms nœuds, relations, graphe. Nœuds est composé d’un tableau d’objet, où ses objets sont un ensemble de nom/valeur les noms sont id, nom. Relation est composé d’un tableau d’objet où le nom de ces objets sont nom. Enfin graphe composé encore d’un tableau d’objet. Le nom des objets de graphe sont nœud, rel1, rel2, etc. Rel1 et rel2 sont des valeurs de relation. Les valeurs de rel1, rel2 doivent exister en tant que valeurs de id
+			Notre fichier json générique a trois noms nœuds, relations, graphe. Nœuds est composé d’un tableau d’objet, où ses objets sont un ensemble de nom/valeur les noms sont 'id', 'nom'
+			{% endtrans %}.
+			{% trans %}
+			Relation est composé d’un tableau de 'nom' représentant le nom de la relation. Pour terminé graphe est composé d’un tableau d’objet
+			{% endtrans %}.
+			{% trans %}
+			Le nom des objets de graphe sont 'nœud', 'rel1', 'rel2', etc. 'Rel1' et 'rel2' sont des valeurs de relation. Les valeurs de 'rel1', 'rel2' doivent exister en tant que valeurs de 'id'
 			{% endtrans %}.
 		</p>
 
 		<p>
 			{% trans %}
-			Nous avons choisi de transformer nos fichiers json générique en fichier cohérent pour chaque représentation. Nous parcourons donc le fichier sur chaque nom de l’objet qui sont nœuds, relations, et graphe et qui ont comme valeur un tableau d’objets
+			Nous avons choisi de transformer nos fichiers json générique en fichier cohérent pour chaque représentation. 
+			Nous parcourons le fichier sur chaque nom de l’objet qui sont 'nœuds', 'relations', et 'graphe'
 			{% endtrans %}.
 		</p>
 
 		<p>
 			{% trans %}
-			Pour les vues nous utilisons D3js est une librairie Javascript qui permet un affichage de données de façon graphique et dynamique. D3 permet donc de représenter des données en utilisant les standards du Web (SVG, HTML, CSS, Javascript). D3 fonctionne de la façon suivante 
+			Pour les vues nous utilisons D3js est une librairie Javascript qui permet un affichage de données de façon graphique et dynamique. 
+			D3 permet donc de représenter des données en utilisant les standards du Web (SVG, HTML, CSS, Javascript). D3 fonctionne de la façon suivante 
 			{% endtrans %}:
 			{% trans %}
 			On emploie un sélecteur pour saisir un ensemble de nœuds ou d'opérateurs donnés, puis on peut effectuer des opérations
