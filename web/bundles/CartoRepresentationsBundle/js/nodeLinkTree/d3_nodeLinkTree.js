@@ -1,29 +1,32 @@
-function D3_GrapheRepresentation(){}
+function D3_NodeLinkTreeRepresentation(){}
 
-var zoom = null;
+D3_NodeLinkTreeRepresentation.prototype.show = function(data) {
 
-D3_GrapheRepresentation.prototype.show = function(data) {
-		// data is file path
+	// data is file path
 	if(typeof data === "string"){
 		d3.json(data, function(error, root) {
 			if (error) alert(error);
-			D3_GrapheRepresentation.load(root);
+			D3_NodeLinkTreeRepresentation.load(root);
 		});
 	}
 	// data is json
 	else {
-		D3_GrapheRepresentation.load(data);
+		D3_NodeLinkTreeRepresentation.load(data);
 	}
 }
+	
+D3_NodeLinkTreeRepresentation.load = function(json) {
 
-D3_GrapheRepresentation.load = function(json) {
 
 	/***************************************************/
 	/*		Transformation du json generique 		   */
 	/***************************************************/
-
+	
+	// On transforme le fichier generique json au bon format 
+	// pour la representation concernee
 	var formatter = new D3_Formatter();
-	var graph = formatter.to_graph(json);
+	var json = formatter.to_tree(json);
+
 
 	/***************************/
 	/*		Relations 		   */
@@ -43,51 +46,52 @@ D3_GrapheRepresentation.load = function(json) {
 		.attr("value", function (d) { return d;})
 		.text(function (d) { return d; });
 		
-		
 	/***************************/
 	/*		Graphe	 		   */
 	/**************************/
-
+	
 	zoom = d3.behavior.zoom()
 			.scaleExtent([1, 10])
 			.on("zoom", zoomed);
-
-
+			
 	var width = $("#contentCenter").width(),
     height = $("#contentCenter").height();
-
+	
+	var diameter = width;
+	
 	var color = d3.scale.category20();
 	var colorLink = d3.scale.category20();
 
-	var force = d3.layout.force()
-		.charge(-400)
-		.linkDistance(20)
-		.size([width, height]);
+	var tree = d3.layout.tree()
+		.size([360, diameter / 2 - 200])
+		.separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
-	// On cree un nouveau noeud <svg>
+	var diagonal = d3.svg.diagonal.radial()
+		.projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
+
 	var svg = d3.select("#contentCenter").append("svg")
-		.attr("width", width)
-		.attr("height", height);
+		.attr("width", diameter)
+		.attr("height", diameter - 150)
 		
-	// On cree un nouveau noeud <g>
 	var container = svg.append("g")
 		.attr("class", "representationContainer")
-			
-	force
-		.nodes(graph.nodes)
-		.links(graph.links)
-		.start();
+		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
+		
+	d3.select(self.frameElement).style("height", diameter - 150 + "px");
 	
-	/* Define the data for the circles */
-	// Pour tous les éléments .link on crée un noeud <line>
+	var nodes = tree.nodes(json),
+		links = json.links;
+			
 	var link = container.selectAll(".link")
-		.data(graph.links)
+		.data(links)
 		.enter()
-			.append("line")
+			.append("path")
 			.attr("class", "link")
-			.attr("class", function(d) { return d.name; })
+			.attr("id", function(d) { return d.name; })
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-			.style("stroke", "#999");
+			.style("stroke", "#999")
+			.attr("d", diagonal);
 		
 	// Quand on clique sur une relation on affiche
 	// les liens en couleur
@@ -95,58 +99,52 @@ D3_GrapheRepresentation.load = function(json) {
 		// On recupere ce que l'utilisateur a choisi
 		nameRelation = this.options[this.selectedIndex].value;
 		// On redessine les liens en couleur de base
-		d3.selectAll("line")
+		d3.selectAll("path")
 				.style("stroke-width", function(d) { return Math.sqrt(d.value); })
 				.style("stroke", "#999");
 		// Pour tous les liens du graphe
-		graph.links.forEach(
+		links.forEach(
 			function(d){
 				// Si le lien a la relation selectionnee alors on met en couleur
 				if(d.name.localeCompare(nameRelation) == 0){
-					d3.selectAll('.' + d.name)
+					d3.selectAll('#' + d.name)
 						.style("stroke-width", 3)
 						.style("stroke",  colorLink(d.value));
 				}
 			}
 		);
 	};
-		
-	// Pour tous les éléments .node on crée un noeud <g>
+
 	var node = container.selectAll(".node")
-		.data(graph.nodes)
+		.data(nodes)
 		.enter()
 			.append("g")
 			.attr("class", "node")
-			.call(force.drag);
-			
-	// A chaque node <g> on crée un noeud <circle>
+			.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
+
 	node.append("circle")
 		.attr("r", 5)
-		.style("stroke", "#fff")
-		.style("stroke-width", 1.5)
 		.style("fill", function(d) { return color(d.group); });
 		
-		
-	// A chaque noeud on affiche son nom
+	// On affiche un titre lorsqu'on passe la souris
+	node.append("title")
+		.text(function(d) { return d.name; });
+
 	node.append("text")
-		.attr("x", 12)
-		.attr("dy", ".35em")
+		.attr("dy", ".31em")
+		.attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })
+		.attr("transform", function(d) { return d.x < 180 ? "translate(8)" : "rotate(180)translate(-8)"; })
 		.text(function(d) { 
 			var sansEspace = new RegExp(/\s/); 
 			if(sansEspace.test(d.name.toString()) == false) return d.name; 
 		})
 		.attr("cursor","pointer")
-		
-		// Quand on clique sur un mot on affiche l'information wikipedia
 		.on("click", function(d) {
 			var d3_utils = new D3_Utils();
 			d3_utils.show_wikipedia(d.name);
 		})
-		
-		// Quand on double clique sur un mot on recharge son json
 		.on("dblclick", function(d){
 			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // CÃ©line
 			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
 			$.ajax({
@@ -172,21 +170,6 @@ D3_GrapheRepresentation.load = function(json) {
 			});
 			return false;
 		});
-		
-	// On affiche un titre lorsqu'on passe la souris
-	node.append("title")
-		.text(function(d) { return d.name; });
-	
-	force.on("tick", function() {
-		link.attr("x1", function(d) { return d.source.x; })
-			.attr("y1", function(d) { return d.source.y; })
-			.attr("x2", function(d) { return d.target.x; })
-			.attr("y2", function(d) { return d.target.y; });
-			
-		node.attr("transform", function(d) { 
-			return "translate(" + d.x + "," + d.y + ")"; 
-		});
-	});
 
 	d3.selectAll('.zoom').on('click', zoomClick);
 }
@@ -202,31 +185,28 @@ function zoomClick() {
 		target_zoom = 1,
 		center = [width / 2, height / 2],
 		extent = zoom.scaleExtent(),
-		translate = zoom.translate(),
-		translate0 = [],
-		l = [],
-		view = {x: translate[0], y: translate[1], k: zoom.scale()};
-
+		scale = 0;
+		
 	d3.event.preventDefault();
-	direction = (this.id === 'zoom_in') ? 1 : -1;
-	target_zoom = zoom.scale() * (1 + factor * direction);
+	
+	// On revient sur la taille initiale
+	if(this.id === 'intial_scale'){
+		scale = 1;
+	}
+	// Zoom / Dezoom
+	else {
+		direction = (this.id === 'zoom_in') ? 1 : -1;
+		target_zoom = zoom.scale() * (1 + factor * direction);
+		scale = target_zoom;
+	}
 
-	if (target_zoom < extent[0] || target_zoom > extent[1]) { return false; }
-
-	translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
-	view.k = target_zoom;
-	l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
-
-	view.x += center[0] - l[0];
-	view.y += center[1] - l[1];
-
-	interpolateZoom([view.x, view.y], view.k);
+	interpolateZoom(center, scale);
 }
 
-function zoomed() {
+function zoomed(center) {
 	var container = d3.select(".representationContainer");
 	container.attr("transform",
-		"translate(" + zoom.translate() + ")" +
+		"translate(" + center[0] + "," + center[1] + ")"  +
 		"scale(" + zoom.scale() + ")"
 	);
 }
@@ -234,13 +214,11 @@ function zoomed() {
 function interpolateZoom (translate, scale) {
 	var self = this;
 	return d3.transition().duration(350).tween("zoom", function () {
-		var iTranslate = d3.interpolate(zoom.translate(), translate),
-			iScale = d3.interpolate(zoom.scale(), scale);
+		var iScale = d3.interpolate(zoom.scale(), scale);
 		return function (t) {
 		zoom
 			.scale(iScale(t))
-			.translate(iTranslate(t));
-		zoomed();
+		zoomed(translate);
 		};
 	});
 }

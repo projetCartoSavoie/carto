@@ -8,7 +8,10 @@
 {% endblock %}
 
 {% block javascripts %}
-{% javascripts 'bundles/CartoRepresentationsBundle/js/*' %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/global/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/nodeLinkTree/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}
