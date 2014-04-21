@@ -20,9 +20,13 @@ D3_TreeRepresentation.load = function(json) {
 	/***************************/
 	/*		Graphe	 		   */
 	/**************************/
+	
+	var widthContentCenter = $("#contentCenter").width(),
+    heightContentCenter = $("#contentCenter").height();
 
 	var margin = {top: 30, right: 20, bottom: 30, left: 20},
-		width = 960 - margin.left - margin.right,
+		width = widthContentCenter - margin.left - margin.right,
+		height = heightContentCenter - margin.bottom - margin.top,
 		barHeight = 20,
 		barWidth = width * .8;
 
@@ -37,9 +41,13 @@ D3_TreeRepresentation.load = function(json) {
 		.projection(function(d) { return [d.y, d.x]; });
 
 	var svg = d3.select("#contentCenter").append("svg")
-		.attr("width", width + margin.left + margin.right)
-	  .append("g")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		.attr("height", height + margin.bottom + margin.top)
+		.attr("width", width + margin.left + margin.right);
+		
+	var container = svg.append("g")
+		.attr("class", "representationContainer")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
 		
 	/***************************************************/
 	/*		Transformation du json generique 		   */
@@ -58,8 +66,6 @@ D3_TreeRepresentation.load = function(json) {
 
 function update(source) {
 
-	var colorLink = d3.scale.category20();
-
 	/***************************/
 	/*		Relations 		   */
 	/**************************/
@@ -77,6 +83,16 @@ function update(source) {
 	paragraphs
 		.attr("value", function (d) { return d;})
 		.text(function (d) { return d; });
+		
+	/***************************/
+	/*		Graphe	 		   */
+	/**************************/
+	
+	zoom = d3.behavior.zoom()
+			.scaleExtent([1, 10])
+			.on("zoom", zoomed);
+
+	var colorLink = d3.scale.category20();
 
 	// Compute the flattened node list. TODO use d3.layout.hierarchy.
 	var nodes = tree.nodes(root);
@@ -266,7 +282,58 @@ function update(source) {
 				}
 			}
 		}
-		console.log(newLinks);
 		return newLinks;
 	}
+	
+	d3.selectAll('.zoom').on('click', zoomClick);
 }
+
+function zoomClick() {
+
+	var width = $("#contentCenter").width();
+	var height = $("#contentCenter").height();
+
+	var clicked = d3.event.target,
+		direction = 1,
+		factor = 0.2,
+		target_zoom = 1,
+		center = [width / 2, height / 2],
+		extent = zoom.scaleExtent(),
+		scale = 0;
+		
+	d3.event.preventDefault();
+	
+	// On revient sur la taille initiale
+	if(this.id === 'intial_scale'){
+		scale = 1;
+	}
+	// Zoom / Dezoom
+	else {
+		direction = (this.id === 'zoom_in') ? 1 : -1;
+		target_zoom = zoom.scale() * (1 + factor * direction);
+		scale = target_zoom;
+	}
+
+	interpolateZoom(center, scale);
+}
+
+function zoomed(center) {
+	var container = d3.select(".representationContainer");
+	container.attr("transform",
+		"translate(" + center[0] + "," + center[1] + ")"  +
+		"scale(" + zoom.scale() + ")"
+	);
+}
+
+function interpolateZoom (translate, scale) {
+	var self = this;
+	return d3.transition().duration(350).tween("zoom", function () {
+		var iScale = d3.interpolate(zoom.scale(), scale);
+		return function (t) {
+		zoom
+			.scale(iScale(t))
+		zoomed(translate);
+		};
+	});
+}
+

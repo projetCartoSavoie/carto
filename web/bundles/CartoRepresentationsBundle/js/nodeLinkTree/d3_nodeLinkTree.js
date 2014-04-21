@@ -92,6 +92,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
 			.style("stroke", "#999")
 			.attr("d", diagonal);
+	console.log(json);
 		
 	// Quand on clique sur une relation on affiche
 	// les liens en couleur

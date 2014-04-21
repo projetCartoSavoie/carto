@@ -207,12 +207,12 @@ D3_Formatter.prototype.to_tree = function(tree){
 												value: colorLink[relation],
 												name: relation
 											});
+											if(tree.relationsUsed.indexOf(relation) == -1){
+												tree.relationsUsed.push(relation);
+											}
 										}
 									}
 								);
-								if(tree.relationsUsed.indexOf(relation) == -1){
-									tree.relationsUsed.push(relation);
-								}
 							}
 						}
 					);
