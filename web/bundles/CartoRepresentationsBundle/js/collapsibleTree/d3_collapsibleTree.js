@@ -16,25 +16,6 @@ D3_TreeRepresentation.prototype.show = function(data) {
 }
 
 D3_TreeRepresentation.load = function(json) {
-	
-	/***************************/
-	/*		Relations 		   */
-	/**************************/
-	
-	/*var data = json.relationsUsed;
-	var paragraphs = d3.select('.selectRelation')
-		.on("change",change)
-		.selectAll(".relation")
-			.data(data)
-				.enter()
-				.append("option")
-				.attr("class", "relation");
-
-	// On configure le texte
-	paragraphs
-		.attr("value", function (d) { return d;})
-		.text(function (d) { return d; });*/
-		
 		
 	/***************************/
 	/*		Graphe	 		   */
@@ -76,6 +57,27 @@ D3_TreeRepresentation.load = function(json) {
 	/**************************/
 
 function update(source) {
+
+	var colorLink = d3.scale.category20();
+
+	/***************************/
+	/*		Relations 		   */
+	/**************************/
+	
+	var data = treeJson.relationsUsed;
+	var paragraphs = d3.select('.selectRelation')
+		.on("change",change)
+		.selectAll(".relation")
+			.data(data)
+				.enter()
+				.append("option")
+				.attr("class", "relation");
+
+	// On configure le texte
+	paragraphs
+		.attr("value", function (d) { return d;})
+		.text(function (d) { return d; });
+
 	// Compute the flattened node list. TODO use d3.layout.hierarchy.
 	var nodes = tree.nodes(root);
 	
@@ -174,34 +176,61 @@ function update(source) {
 	  .style("opacity", 1e-6)
 	  .remove();
 
+	// On recupere tous les liens du json
+	var links = getLinks(nodes);
 	// Update the links
 	var link = svg.selectAll("path.link")
-	  .data(tree.links(nodes), function(d) { return d.target.id; });
+	  .data(links, function(d) { return d.target.id; });
 
 	// Enter any new links at the parent's previous position.
 	link.enter().insert("path", "g")
-	  .attr("class", "link")
-	  .attr("d", function(d) {
-		var o = {x: source.x0, y: source.y0};
-		return diagonal({source: o, target: o});
-	  })
-	.transition()
-	  .duration(duration)
-	  .attr("d", diagonal);
+		.attr("class", "link")
+		.attr("id", function(d) { return d.name; })
+		.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+		.style("stroke", "#999")
+		.attr("d", function(d) {
+			var o = {x: source.x0, y: source.y0};
+			return diagonal({source: o, target: o});
+		})
+		.transition()
+		.duration(duration)
+		.attr("d", diagonal);
 
 	// Transition links to their new position.
 	link.transition()
-	  .duration(duration)
-	  .attr("d", diagonal);
+		.duration(duration)
+		.attr("d", diagonal);
 
 	// Transition exiting nodes to the parent's new position.
 	link.exit().transition()
-	  .duration(duration)
-	  .attr("d", function(d) {
-		var o = {x: source.x, y: source.y};
-		return diagonal({source: o, target: o});
-	  })
-	  .remove();
+		.duration(duration)
+		.attr("d", function(d) {
+			var o = {x: source.x, y: source.y};
+			return diagonal({source: o, target: o});
+		})
+		.remove();
+	  
+	// Quand on clique sur une relation on affiche
+	// les liens en couleur
+	function change(){
+		// On recupere ce que l'utilisateur a choisi
+		nameRelation = this.options[this.selectedIndex].value;
+		// On redessine les liens en couleur de base
+		d3.selectAll("path")
+				.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+				.style("stroke", "#999");
+		// Pour tous les liens du graphe
+		links.forEach(
+			function(d){
+				// Si le lien a la relation selectionnee alors on met en couleur
+				if(d.name.localeCompare(nameRelation) == 0){
+					d3.selectAll('#' + d.name)
+						.style("stroke-width", 3)
+						.style("stroke",  colorLink(d.value));
+				}
+			}
+		);
+	};
 
 	// Stash the old positions for transition.
 	nodes.forEach(function(d) {
@@ -225,5 +254,19 @@ function update(source) {
 	function color(d) {
 		var colorLink = d3.scale.category20();
 		return d._children ? /*"#3182bd"*/colorLink(d.group) : d.children ? "#c6dbef" : "#fd8d3c";
+	}
+	function getLinks(nodes){
+		var d3_links = tree.links(nodes);
+		var allLinks = treeJson.links;
+		var newLinks = new Array();
+		for(var i = 0; i < allLinks.length; i++) {
+			for(var j = 0; j < d3_links.length; j++) {
+				if (allLinks[i].source.uid == d3_links[j].source.uid && allLinks[i].target.uid == d3_links[j].target.uid) {
+					newLinks.push(allLinks[i]);
+				}
+			}
+		}
+		console.log(newLinks);
+		return newLinks;
 	}
 }

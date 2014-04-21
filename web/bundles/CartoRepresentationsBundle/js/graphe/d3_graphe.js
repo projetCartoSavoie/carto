@@ -151,6 +151,7 @@ D3_GrapheRepresentation.load = function(json) {
 		.enter()
 			.append("g")
 			.attr("class", "node")
+			.attr("transform", function(d) { return "rotate(" + d.x + ")translate(" + d.y + ")"; })
 			.call(force.drag);
 			
 	// A chaque node <g> on crée un noeud <circle>
