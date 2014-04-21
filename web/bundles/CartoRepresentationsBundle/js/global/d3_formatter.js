@@ -80,6 +80,7 @@ D3_Formatter.prototype.to_graph = function(graph){
 									}
 								}
 							);
+							// On insere les relations correspondantes dans les deux sens
 							if(graph.relationsUsed.indexOf(relation) == -1){
 								graph.relationsUsed.push(relation);
 							}
@@ -207,6 +208,8 @@ D3_Formatter.prototype.to_tree = function(tree){
 												value: colorLink[relation],
 												name: relation
 											});
+											// On insere les relations correspondantes dans un seul sens
+											// pere -> fils
 											if(tree.relationsUsed.indexOf(relation) == -1){
 												tree.relationsUsed.push(relation);
 											}

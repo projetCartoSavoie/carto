@@ -76,7 +76,6 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	var container = svg.append("g")
 		.attr("class", "representationContainer")
 		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
-		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
 		
 	d3.select(self.frameElement).style("height", diameter - 150 + "px");
 	
@@ -92,7 +91,6 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
 			.style("stroke", "#999")
 			.attr("d", diagonal);
-	console.log(json);
 		
 	// Quand on clique sur une relation on affiche
 	// les liens en couleur

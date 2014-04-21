@@ -20,13 +20,12 @@ D3_TreeRepresentation.load = function(json) {
 	/***************************/
 	/*		Graphe	 		   */
 	/**************************/
-	
 	var widthContentCenter = $("#contentCenter").width(),
     heightContentCenter = $("#contentCenter").height();
 
 	var margin = {top: 30, right: 20, bottom: 30, left: 20},
 		width = widthContentCenter - margin.left - margin.right,
-		height = heightContentCenter - margin.bottom - margin.top,
+		height = heightContentCenter - margin.top - margin.bottom,
 		barHeight = 20,
 		barWidth = width * .8;
 
@@ -41,13 +40,12 @@ D3_TreeRepresentation.load = function(json) {
 		.projection(function(d) { return [d.y, d.x]; });
 
 	var svg = d3.select("#contentCenter").append("svg")
-		.attr("height", height + margin.bottom + margin.top)
-		.attr("width", width + margin.left + margin.right);
+		.attr("height", heightContentCenter)
+		.attr("width", widthContentCenter);
 		
 	var container = svg.append("g")
 		.attr("class", "representationContainer")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-		.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom));
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		
 	/***************************************************/
 	/*		Transformation du json generique 		   */
@@ -99,7 +97,7 @@ function update(source) {
 	
 	var height = Math.max(500, nodes.length * barHeight + margin.top + margin.bottom);
 
-	d3.select("svg")
+	d3.select(".representationContainer")
 	  .attr("height", height);
 
 	d3.select(self.frameElement)
@@ -111,7 +109,7 @@ function update(source) {
 	});
 
 	// Update the nodes
-	var node = svg.selectAll("g.node")
+	var node = container.selectAll("g.node")
 	  .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
 	var nodeEnter = node.enter().append("g")
@@ -195,7 +193,7 @@ function update(source) {
 	// On recupere tous les liens du json
 	var links = getLinks(nodes);
 	// Update the links
-	var link = svg.selectAll("path.link")
+	var link = container.selectAll("path.link")
 	  .data(links, function(d) { return d.target.id; });
 
 	// Enter any new links at the parent's previous position.
@@ -289,15 +287,14 @@ function update(source) {
 }
 
 function zoomClick() {
-
-	var width = $("#contentCenter").width();
-	var height = $("#contentCenter").height();
+	
+	var margin = {top: 30, right: 20, bottom: 30, left: 20};
 
 	var clicked = d3.event.target,
 		direction = 1,
 		factor = 0.2,
 		target_zoom = 1,
-		center = [width / 2, height / 2],
+		center = [margin.left, margin.top],
 		extent = zoom.scaleExtent(),
 		scale = 0;
 		
