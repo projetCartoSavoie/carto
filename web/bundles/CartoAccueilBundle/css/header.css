@@ -41,7 +41,7 @@ html{
 }
 #contentCenter{
 	background-color: #FDFAFA;
-	width: 1000px;
+	width: 950px;
 	border-left: solid 1px;
 	border-right: solid 1px;
 }
@@ -54,17 +54,16 @@ html{
 	border-left: solid 1px;
 	padding: 0px;
 	height: 100%;
-	width: 350px;
+	width: 300px;
 	vertical-align: top;
 }
 
 .utilsLeft div{
-	padding-bottom: 12px;
+	padding-bottom: 10px;
 }
 
 .utilsLeft{
-	padding: 12px;
-	position: fixed;
+	padding: 10px;
 }
 
 .contentLeft #wikipedia{
