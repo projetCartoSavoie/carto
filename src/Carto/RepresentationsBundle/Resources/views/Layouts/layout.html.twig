@@ -62,7 +62,7 @@
 {% endblock %}
 
 {% block utilsLeft %}
-	<div style="padding: 12px">
+	<div class="utilsLeft">
 		<form id="form_recherche" action="" method="post">
 			<div class="toggle-btn-grp joint-toggle">
 				<label for="WN" onclick="" class="toggle-btn">
@@ -81,9 +81,6 @@
 				</div>
 			</div>
 		</form>
-		<div id="wikipedia">
-			<p>Click on any words to show its Wikipedia article.</p>
-		</div>
 		<div id="relations">
 			<p>Selectionnez une relation:</p>
 			<label>
@@ -91,6 +88,9 @@
 					<option selected> None... </option>
 				</select>
 			</label>
+		</div>
+		<div id="wikipedia">
+			<p>Click on any words to show its Wikipedia article.</p>
 		</div>
 	</div>
 {% endblock %}
@@ -107,11 +107,14 @@
 			<a class="tool-item gradient zoom" id="intial_scale" title="Initial zoom">
 				<i class="icon-close"></i>
 			</a>
-			<a href="#" class="tool-item gradient">
-				<i class="icon-print"></i>
+			<a href="#" class="tool-item gradient dragAndDrop" id="drag_and_drop" title="Drag and Drop">
+				<i class="icon-drag-and-drop"></i>
 			</a>
 			<a href="#" class="tool-item gradient">
 				<i class="icon-full-screen"></i>
+			</a>
+			<a href="#" class="tool-item gradient">
+				<i class="icon-print"></i>
 			</a>
 		</div>
 	</div>

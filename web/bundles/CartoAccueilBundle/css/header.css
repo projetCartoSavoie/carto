@@ -58,6 +58,14 @@ html{
 	vertical-align: top;
 }
 
+.utilsLeft div{
+	padding-bottom: 12px;
+}
+
+.utilsLeft{
+	padding: 12px;
+}
+
 .contentLeft #wikipedia{
 	border-top: solid 1px;
 	border-left: solid 1px;

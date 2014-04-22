@@ -232,6 +232,7 @@ D3_GrapheRepresentation.load = function(json) {
 	});
 
 	d3.selectAll('.zoom').on('click', zoomClick);
+	d3.selectAll('.dragAndDrop').on('click', zoomClick);
 }
 
 function zoomClick() {
@@ -254,7 +255,7 @@ function zoomClick() {
 	
 	translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
 	
-		// On revient sur la taille initiale
+	// On revient sur la taille initiale
 	if(this.id === 'intial_scale'){
 		view.k = 1;
 	}
