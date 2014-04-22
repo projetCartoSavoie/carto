@@ -75,7 +75,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		
 	var container = svg.append("g")
 		.attr("class", "representationContainer")
-		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
 		
 	d3.select(self.frameElement).style("height", diameter - 150 + "px");
 	
