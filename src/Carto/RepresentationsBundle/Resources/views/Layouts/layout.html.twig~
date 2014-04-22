@@ -16,15 +16,12 @@
 	$(document).ready(function(){
 		$("#form_recherche").submit(function(){ 
 			var search = $('#search').val();
-<<<<<<< HEAD
-			var url = "http:/localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php";
-=======
 			//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+			var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
 			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-			// Anthony
-			var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php";
->>>>>>> 0f52bc7941ab24beee17adc798a2d037637f06bd
+			//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -39,25 +36,14 @@
 						var data = result.data;
 						if(representation){
 							$('svg').remove();
+							$('.relation').remove();
 						}
-						representation.show(data); 
+						representation.show(data);
+						$("#loading").hide();
 					}
 				}
-			});    
+			});
 			return false;
-		});
-	});
-	
-	$(document).ready(function(){
-		$( "#zoomIn" ).click(function() {
-			if(representation){
-				var svg = d3.select("svg");
-				alert(svg);
-				svg.call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", function(){
-					svg.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-				}));
-				svg.append("g");
-			}
 		});
 	});
 {% endblock %}
@@ -85,26 +71,34 @@
 		<div id="wikipedia">
 			<p>Click on any words to show its Wikipedia article.</p>
 		</div>
+		<div id="relations">
+			<p>Selectionnez une relation:</p>
+			<label>
+				<select class="selectRelation">
+					<option selected> None... </option>
+				</select>
+			</label>
+		</div>
 	</div>
 {% endblock %}
 
 {% block tools %}
 	<div class="tool-container">
 		<div class="tool-items">
-			<a href="#" class="tool-item gradient">
-				<i class="icon-select"></i>
-			</a>
-			<a href="#" class="tool-item gradient" id="zoomIn">
+			<a class="tool-item gradient zoom" id="zoom_in" title="Zoom in">
 				<i class="icon-zoom-in"></i>
 			</a>
-			<a href="#" class="tool-item gradient" id="zoomOut">
+			<a class="tool-item gradient zoom" id="zoom_out" title="Zoom out">
 				<i class="icon-zoom-out"></i>
+			</a>
+			<a class="tool-item gradient zoom" id="intial_scale" title="Initial zoom">
+				<i class="icon-close"></i>
 			</a>
 			<a href="#" class="tool-item gradient">
 				<i class="icon-print"></i>
 			</a>
 			<a href="#" class="tool-item gradient">
-				<i class="icon-close"></i>
+				<i class="icon-full-screen"></i>
 			</a>
 		</div>
 	</div>
