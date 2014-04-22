@@ -111,7 +111,7 @@ D3_GrapheRepresentation.load = function(json) {
 				})
 			}
 		});
-	
+	console.log(graph.links);
 	/* Define the data for the circles */
 	// Pour tous les éléments .link on crée un noeud <line>
 	var link = container.selectAll(".link")
@@ -119,7 +119,13 @@ D3_GrapheRepresentation.load = function(json) {
 		.enter()
 			.append("line")
 			.attr("class", "link")
-			.attr("class", function(d) { return d.name; })
+			.attr("class", function(d) {
+				var nameClass = "";
+				for(var i=0; i < d.name.length; i++){
+					nameClass = nameClass + d.name[i] + " ";
+				}
+				return nameClass;
+			})
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
 			.style("stroke", "#999");
 		
@@ -136,10 +142,12 @@ D3_GrapheRepresentation.load = function(json) {
 		graph.links.forEach(
 			function(d){
 				// Si le lien a la relation selectionnee alors on met en couleur
-				if(d.name.localeCompare(nameRelation) == 0){
-					d3.selectAll('.' + d.name)
-						.style("stroke-width", 3)
-						.style("stroke",  colorLink(d.value));
+				for(var i=0; i < d.name.length; i++){
+					if(d.name[i].localeCompare(nameRelation) == 0){
+						d3.selectAll('.' + d.name[i])
+							.style("stroke-width", 3)
+							.style("stroke",  colorLink(d.value));
+					}
 				}
 			}
 		);
