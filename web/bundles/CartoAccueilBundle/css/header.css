@@ -64,6 +64,7 @@ html{
 
 .utilsLeft{
 	padding: 12px;
+	position: fixed;
 }
 
 .contentLeft #wikipedia{

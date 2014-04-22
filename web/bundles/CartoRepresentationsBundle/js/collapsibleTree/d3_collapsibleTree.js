@@ -40,7 +40,7 @@ D3_TreeRepresentation.load = function(json) {
 		.projection(function(d) { return [d.y, d.x]; });
 
 	var svg = d3.select("#contentCenter").append("svg")
-		.attr("height", heightContentCenter)
+		//.attr("height", heightContentCenter)
 		.attr("width", widthContentCenter);
 		
 	var container = svg.append("g")
@@ -97,11 +97,11 @@ function update(source) {
 	
 	var height = Math.max(500, nodes.length * barHeight + margin.top + margin.bottom);
 
-	d3.select(".representationContainer")
-	  .attr("height", height);
+	d3.select("svg")
+		.attr("height", height);
 
 	d3.select(self.frameElement)
-	  .style("height", height + "px");
+		.style("height", height + "px");
 
 	// Compute the "layout".
 	nodes.forEach(function(n, i) {
