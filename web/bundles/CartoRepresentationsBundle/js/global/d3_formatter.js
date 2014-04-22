@@ -101,7 +101,6 @@ D3_Formatter.prototype.to_graph = function(graph){
 			}
 		}
 	);
-	console.log(graph);
 	return graph;
 }
 

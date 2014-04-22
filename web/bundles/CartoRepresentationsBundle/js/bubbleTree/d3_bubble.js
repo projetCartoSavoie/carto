@@ -64,9 +64,9 @@ D3_BubbleRepresentation.load = function(json) {
 					else if(sansEspace.test(d.parent.name.toString()) == false) d3_utils.show_wikipedia(d.parent.name);
 			})
 			.on("dblclick", function(d){
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // CÃ©line
+				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // CÃ©line
 				var sansEspace = new RegExp(/\s/); 
 				if(sansEspace.test(d.name.toString()) == false) var nom = d.name; 
 				else if(sansEspace.test(d.children[0].name.toString()) == false) var nom = d.children[0].name;
