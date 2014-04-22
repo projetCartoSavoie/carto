@@ -47,9 +47,6 @@ D3_BubbleRepresentation.load = function(json) {
 			nodes = pack.nodes(treeJson),
 			view;
 
-	/*treeJson.x = 470; treeJson.y = 470; treeJson.r = 470;
-	treeJson.children.forEach(function(ch) { ch.x = 100; ch.y = 100; ch.r = 100; });*/
-
 	var circle = svg.selectAll("circle")
 			.data(nodes)
 		.enter().append("circle")
@@ -63,7 +60,8 @@ D3_BubbleRepresentation.load = function(json) {
 			.attr("class", "label")
 			.style("fill-opacity", function(d) { return d.parent === treeJson ? 1 : 0; })
 			.style("display", function(d) { return d.parent === treeJson ? null : "none"; })
-			.text(function(d) { if (d.name.length > 20) {return (d.name.substring(0,20) + '...');} return d.name; });
+			.style("font-size", function(d) { if (d.name.length > 20) { return '10px'; } else if (d.name.length > 10) { return '15px'; } return '20px'; })
+			.text(function(d) { if (d.name.length > 20) {return (d.name.substring(0,17) + '...');} return d.name; })
 
 	var node = svg.selectAll("circle,text");
 

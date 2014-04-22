@@ -188,8 +188,8 @@ D3_GrapheRepresentation.load = function(json) {
 		
 		// Quand on double clique sur un mot on recharge son json
 		.on("dblclick", function(d){
-			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Céline
+			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Céline
 			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
 			$.ajax({
