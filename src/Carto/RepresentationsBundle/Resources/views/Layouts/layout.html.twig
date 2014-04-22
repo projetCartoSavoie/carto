@@ -16,11 +16,24 @@
 	$(document).ready(function(){
 		$("#form_recherche").submit(function(){ 
 			var search = $('#search').val();
-			//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-			var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-			//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+			var wordnet = $('#WN').attr('checked');
+			if (wordnet)
+			{
+				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
+				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+			}
+			else
+			{
+				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
+				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
+				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+			}
+
 			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
 			$.ajax({
 				type: "POST",
@@ -50,24 +63,24 @@
 
 {% block utilsLeft %}
 	<div style="padding: 12px">
-		<div class="toggle-btn-grp joint-toggle">
-			<label onclick="" class="toggle-btn">
-				<input type="radio" name="group3" checked/>Wordnet
-			</label>
-			<label onclick="" class="toggle-btn">
-				<input type="radio" name="group3"/>Les échos
-			</label>
-		</div>
-		<div id="recherche">
-			<div id="search_keywords">
-				<form id="form_recherche" action="" method="post">
-					<p>
-						<input id="search" type="text" name="search" />
-						<button class="buttonSearch" type="submit">Ok</button>
-					</p>
-				</form>
+		<form id="form_recherche" action="" method="post">
+			<div class="toggle-btn-grp joint-toggle">
+				<label for="WN" onclick="" class="toggle-btn">
+					<input id="WN" type="radio" name="choixsource" value="WN" checked/>Wordnet
+				</label>
+				<label for="DB" onclick="" class="toggle-btn">
+					<input id="DB" type="radio" name="choixsource" value="DB"/>DpPedia
+				</label>
 			</div>
-		</div>
+			<div id="recherche">
+				<div id="search_keywords">
+						<p>
+							<input id="search" type="text" name="search" />
+							<button class="buttonSearch" type="submit">Ok</button>
+						</p>
+				</div>
+			</div>
+		</form>
 		<div id="wikipedia">
 			<p>Click on any words to show its Wikipedia article.</p>
 		</div>
