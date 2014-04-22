@@ -12,8 +12,9 @@
 }
 
 .label {
-  font: 15px "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
 	font-weight:bold;
+	position:relative;
   text-anchor: middle;
 	border:solid 1px;
 	background-color:yellow;
