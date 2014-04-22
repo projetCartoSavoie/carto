@@ -31,5 +31,4 @@ class EtudeDbPediaController extends Controller
 	{
 		return $this->render('CartoDocumentationBundle:EtudeDbPedia:index.html.twig');
 	}
-
 }

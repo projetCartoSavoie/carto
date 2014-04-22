@@ -1,9 +1,13 @@
-/*.node {
-  stroke: #fff;
-  stroke-width: 1.5px;
-}
-
 .link {
   stroke: #999;
   stroke-opacity: .6;
-}*/
+}
+
+.node text{
+	color: black;
+	font: Arial, Helvetica, sans-serif;
+}
+
+.relations text{
+	cursor: pointer;
+}

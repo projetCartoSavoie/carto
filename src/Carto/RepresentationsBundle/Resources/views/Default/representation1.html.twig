@@ -8,17 +8,14 @@
 {% endblock %}
 
 {% block javascripts %}
-{% javascripts 'bundles/CartoRepresentationsBundle/js/*' %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/global/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/nodeLinkTree/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}
 
 {% block script %}{{ parent() }}
 	var representation = new D3_NodeLinkTreeRepresentation();
-	function disabled_button_and_show(){
-		$('svg').remove();
-		var fichier = "{{ asset('bundles/CartoRepresentationsBundle/json/flare.json') }}";
-		document.getElementById('show_rep').disabled=true;
-		representation.show(fichier); 
-	}
 {% endblock %}

@@ -23,3 +23,36 @@ nm: Nom
 adv: Adverbe
 in: appartient à
 mot: mot
+
+
+################################
+# 		Representation		   #
+################################
+A selector is used to capture a set of nodes or operators given, then we can perform operations: On emploie un sélecteur pour saisir un ensemble de nœuds ou d'opérateurs donnés, puis on peut effectuer des opérations
+'We start from a simple generic json file by setting the nodes, relationships, and the graph that is to say for each source node to say what is the destination node with any relationship. We can see the prototype below': 'Nous partons d’un fichier json générique simple en établissant les nœuds, les relations, ainsi que le graphe c’est-à-dire pour chaque nœud source dire quel est le nœud destination avec quelle relation. Nous pouvons voir le prototype ci-dessous'
+'Param_optionnels may be replaced by what we want, for example a color, type, etc': 'Param_optionnels peut être remplacé par ce que nous voulons, par exemple une couleur, un type etc'
+'The json files are used as objects in Javascript which makes our processing json for properly trained to give each view': 'Les fichiers json sont utilisés comme des objets en Javascript ce qui nous simplifie la transformation du json pour le donner correctement formé à chaque vue'
+'Json file is a set of name / value': 'Un fichier json est un ensemble de nom/valeur'
+'These same elements are three types of data': 'Ces mêmes éléments représentent trois types de données'
+'objects': 'des objets'
+'arrays': 'des tableaux'
+'generic values ​​of array type, object, boolean, number, string or null': 'des valeurs génériques de type tableau, objet, booléen, nombre, chaîne ou null'
+"Our generic json file names three nodes, relations, graph. Nodes is composed of an array object, where the objects are a set of name / value names are 'id', 'name'": "Notre fichier json générique a trois noms nœuds, relations, graphe. Nœuds est composé d’un tableau d’objet, où ses objets sont un ensemble de nom/valeur les noms sont 'id', 'nom'"
+"Relationship consists of an array of 'name' is the name of the relationship. To complete graph is composed of an array object": "Relation est composé d’un tableau de 'nom' représentant le nom de la relation. Pour terminé graphe est composé d’un tableau d’objet"
+"The name of the object graph are 'node', 'rel1', 'rel2', etc.. 'Rel1' and 'rel2' are values ​​relationship. Values ​​'rel1', 'rel2' must exist as values ​​of 'id'": "Le nom des objets de graphe sont 'nœud', 'rel1', 'rel2', etc. 'Rel1' et 'rel2' sont des valeurs de relation. Les valeurs de 'rel1', 'rel2' doivent exister en tant que valeurs de 'id'"
+'We chose to transform our generic json files consistent file for each performance. We travel the file name of each object are nodes, relations, and graph and have value as an array of objects': 'Nous avons choisi de transformer nos fichiers json générique en fichier cohérent pour chaque représentation. Nous parcourons donc le fichier sur chaque nom de l’objet qui sont nœuds, relations, et graphe et qui ont comme valeur un tableau d’objets'
+'For views we use D3js is a Javascript library that allows displaying data graphically and dynamic. D3 allows to represent data using web standards (SVG, HTML, CSS, Javascript). D3 works in the following way': 'Pour les vues nous utilisons D3js est une librairie Javascript qui permet un affichage de données de façon graphique et dynamique. D3 permet donc de représenter des données en utilisant les standards du Web (SVG, HTML, CSS, Javascript). D3 fonctionne de la façon suivante'
+'D3 can for example select all HTML elements p and then put their text. In code it would be': 'D3 peut par exemple sélectionner tous les éléments HTML p pour ensuite leur mettre du texte. En code cela donnerait'
+'Elements "p" is created for the new data': 'On crée les éléments "p" pour les nouvelles données'
+'It configures the text nodes': 'On configure le texte des nœuds'
+'This code deletes all data in p tags with the enter () function and add the "hello" given in the first node p': 'Ce code supprime toutes les données dans les balises p avec la fonction enter() et ajoute la donnée “hello” dans le premier noeud p'
+'Add file.html in': 'Ajouter un fichier.html dans'
+'Import all the files you need': 'Importer tous les fichiers dont vous avez besoin'
+'Add this code': 'Ajouter ce code'
+'Add file.js in': 'Ajouter un fichier javascript dans'
+'Add these headers to the file': 'Ajouter ces entêtes au fichier'
+'yourRepresentation': 'votreRepresentation'
+'To transform your json json file in a standard D3js': 'Pour transformer votre json en un fichier json standard D3js'
+'or': 'ou'
+'your code for the representation chosen': 'votre code pour la representation choisie'
+'Textbook to add a view on our website': 'Manuel d’utilisation pour ajouter une vue à notre site'

@@ -142,3 +142,35 @@ Transformation du fichier data.adv: Transformation of data.adv file
 "des blocs de type : un symbole, un numero de synset, une lettre pour le type de synset (inutile pour nous car nous savons que ce sont toujours des rsynsets) et un numéro à quatre chiffres servant à indiquer si la relation est entre des mots ou entre des synsets (inutile pour nous car nous avons déjà travaillé les relations entre les mots)": blocks witch look like : a symbole, a synset identifiant, a letter for the type of the synset (we won't write it because for us it will always be r) and a 4 numerals number witch indicate if it's a relation between synsets or between words (for us it's always synsets because we have treated relations between words before)
 Voici le script que nous avons utilisé pour simplifier le fichier data.adv: Here is the script we have written to simplify the file data.adv
 
+
+################################
+# 		Representation		   #
+################################
+On emploie un sélecteur pour saisir un ensemble de nœuds ou d'opérateurs donnés, puis on peut effectuer des opérations : A selector is used to capture a set of nodes or operators given, then we can perform operations
+'Nous partons d’un fichier json générique simple en établissant les nœuds, les relations, ainsi que le graphe c’est-à-dire pour chaque nœud source dire quel est le nœud destination avec quelle relation. Nous pouvons voir le prototype ci-dessous' : 'We start from a simple generic json file by setting the nodes, relationships, and the graph that is to say for each source node to say what is the destination node with any relationship. We can see the prototype below'
+'Param_optionnels peut être remplacé par ce que nous voulons, par exemple une couleur, un type etc': 'Param_optionnels may be replaced by what we want, for example a color, type, etc'
+'Les fichiers json sont utilisés comme des objets en Javascript ce qui nous simplifie la transformation du json pour le donner correctement formé à chaque vue': 'The json files are used as objects in Javascript which makes our processing json for properly trained to give each view'
+'Un fichier json est un ensemble de nom/valeur': 'Json file is a set of name / value'
+'Ces mêmes éléments représentent trois types de données': 'These same elements are three types of data'
+'des objets': 'objects'
+'des tableaux': 'arrays'
+'des valeurs génériques de type tableau, objet, booléen, nombre, chaîne ou null': 'generic values ​​of array type, object, boolean, number, string or null'
+"Notre fichier json générique a trois noms nœuds, relations, graphe. Nœuds est composé d’un tableau d’objet, où ses objets sont un ensemble de nom/valeur les noms sont 'id', 'nom'": "Our generic json file names three nodes, relations, graph. Nodes is composed of an array object, where the objects are a set of name / value names are 'id', 'name'"
+"Relation est composé d’un tableau de 'nom' représentant le nom de la relation. Pour terminé graphe est composé d’un tableau d’objet": "Relationship consists of an array of 'name' is the name of the relationship. To complete graph is composed of an array object"
+"Le nom des objets de graphe sont 'nœud', 'rel1', 'rel2', etc. 'Rel1' et 'rel2' sont des valeurs de relation. Les valeurs de 'rel1', 'rel2' doivent exister en tant que valeurs de 'id'": "The name of the object graph are 'node', 'rel1', 'rel2', etc.. 'Rel1' and 'rel2' are values ​​relationship. Values ​​'rel1', 'rel2' must exist as values ​​of 'id'"
+'Nous avons choisi de transformer nos fichiers json générique en fichier cohérent pour chaque représentation. Nous parcourons donc le fichier sur chaque nom de l’objet qui sont nœuds, relations, et graphe et qui ont comme valeur un tableau d’objets': 'We chose to transform our generic json files consistent file for each performance. We travel the file name of each object are nodes, relations, and graph and have value as an array of objects'
+'Pour les vues nous utilisons D3js est une librairie Javascript qui permet un affichage de données de façon graphique et dynamique. D3 permet donc de représenter des données en utilisant les standards du Web (SVG, HTML, CSS, Javascript). D3 fonctionne de la façon suivante': 'For views we use D3js is a Javascript library that allows displaying data graphically and dynamic. D3 allows to represent data using web standards (SVG, HTML, CSS, Javascript). D3 works in the following way'
+'D3 peut par exemple sélectionner tous les éléments HTML p pour ensuite leur mettre du texte. En code cela donnerait' : 'D3 can for example select all HTML elements p and then put their text. In code it would be'
+'On crée les éléments "p" pour les nouvelles données': 'Elements "p" is created for the new data'
+'On configure le texte des nœuds': 'It configures the text nodes'
+'Ce code supprime toutes les données dans les balises p avec la fonction enter() et ajoute la donnée “hello” dans le premier noeud p': 'This code deletes all data in p tags with the enter () function and add the "hello" given in the first node p'
+'Ajouter un fichier.html dans': 'Add file.html in'
+'Importer tous les fichiers dont vous avez besoin': 'Import all the files you need'
+'Ajouter ce code': 'Add this code'
+'Ajouter un fichier javascript dans': 'Add file.js in'
+'Ajouter ces entêtes au fichier': 'Add these headers to the file'
+'votreRepresentation': 'yourRepresentation'
+'Pour transformer votre json en un fichier json standard D3js' : 'To transform your json json file in a standard D3js'
+'ou': 'or'
+'votre code pour la representation choisie': 'your code for the representation chosen'
+"Manuel d’utilisation pour ajouter une vue à notre site": "Textbook to add a view on our website"
