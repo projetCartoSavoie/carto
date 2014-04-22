@@ -17,7 +17,11 @@
 		$("#form_recherche").submit(function(){ 
 			var search = $('#search').val();
 			//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-			var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+<<<<<<< HEAD
+			var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
+=======
+			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+>>>>>>> 3e1701ce659a1c01fa097514439ca4ba3ab6a7c3
 			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 			//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2

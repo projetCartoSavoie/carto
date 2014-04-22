@@ -1,5 +1,16 @@
 <?php
-
+/**
+ * Controleur pour l'enregistrement de la base de données WordNet
+ *
+ *
+ * @author Rémy Cluze <Remy.Cluze@etu.univ-savoie.fr>
+ * @author Anthony Di Lisio <Anthony.Di-Lisio@etu.univ-savoie.fr>
+ * @author Juliana Leclaire <Juliana.Leclaire@etu.univ-savoie.fr>
+ * @author Rémi Mollard <Remi.Mollard@etu.univ-savoie.fr>
+ * @author Céline de Roland <Celine.de-Roland@etu.univ-savoie.fr>
+ *
+ * @version 1.0
+ */
 namespace Carto\DonneesBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -10,14 +21,36 @@ use Carto\DonneesBundle\Entity\WN\NSynset;
 use Carto\DonneesBundle\Entity\WN\VSynset;
 use Carto\DonneesBundle\Entity\WN\Mot;
 
+/**
+ * Controleur pour l'enregistrement de la base de données WordNet
+ *
+ * Nous avons enregistré petit à petit une base de données sql représentant les
+ * données de WordNet à partir des fichiers texts fournis par WordNet.
+ * Ce fichier nous a donc servi une seule fois au moment de construire la base
+ * de données sql.
+ */
 class EnregistreWNController extends Controller
 {
 
+/**
+ * Affiche les liens pour enregistrer toutes les parties de la base de données
+ *
+ * @return vue twig
+ */
 	public function indexAction()
 	{
 		return $this->render('CartoDonneesBundle:EnregistreWN:index.html.twig');
 	}
 
+/**
+ * Enregistre des synsets
+ *
+ * @param string $nom
+ * @param string $type
+ * @param int $liminf
+ * @param int $limsup
+ * @return HTMLResponse
+ */
 	public function sauvegardeAction($nom,$type,$liminf,$limsup)
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -42,6 +75,13 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des mots
+ *
+ * @param int $liminf
+ * @param int $limsup
+ * @return HTMLResponse
+ */
 	public function sauvegardemotAction($liminf,$limsup)
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -83,6 +123,13 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre mots
+ *
+ * @param int $liminf
+ * @param int $limsup
+ * @return HTMLResponse
+ */
 	public function deriveAction($liminf,$limsup)
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -108,6 +155,13 @@ class EnregistreWNController extends Controller
 		return new Response('<body>enregistré</body>');
 	}
 
+/**
+ * Enregistre des relations entre mots
+ *
+ * @param int $liminf
+ * @param int $limsup
+ * @return HTMLResponse
+ */
 	public function builtfromAction($liminf,$limsup)
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -135,6 +189,11 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre mots
+ *
+ * @return HTMLResponse
+ */
 	public function participleAction()
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -156,6 +215,13 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre mots
+ *
+ * @param int $liminf
+ * @param int $limsup
+ * @return HTMLResponse
+ */
 	public function pertainymAction($liminf,$limsup)
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -181,6 +247,15 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre synsets
+ *
+ * @param string $nom
+ * @param string $type
+ * @param int $liminf
+ * @param int $limsup
+ * @return HTMLResponse
+ */
 	public function antonymsAction($nom,$type,$liminf,$limsup)
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -218,6 +293,13 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre synsets
+ *
+ * @param int $liminf
+ * @param int $limsup
+ * @return HTMLResponse
+ */
 	public function hypernymsAction($liminf,$limsup)
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -246,6 +328,13 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre synsets
+ *
+ * @param int $liminf
+ * @param int $limsup
+ * @return HTMLResponse
+ */
 	public function meronymsAction($liminf,$limsup)
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -274,6 +363,13 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre synsets
+ *
+ * @param int $liminf
+ * @param int $limsup
+ * @return HTMLResponse
+ */
 	public function attributesAction($liminf,$limsup)
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -304,6 +400,11 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre synsets
+ *
+ * @return HTMLResponse
+ */
 	public function troponymsAction()
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -328,6 +429,11 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre synsets
+ *
+ * @return HTMLResponse
+ */
 	public function entailsAction()
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -351,6 +457,11 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre synsets
+ *
+ * @return HTMLResponse
+ */
 	public function causesAction()
 	{
 		$manager = $this->getDoctrine()->getManager();
@@ -374,6 +485,11 @@ class EnregistreWNController extends Controller
 		return new Response('enregistré');
 	}
 
+/**
+ * Enregistre des relations entre synsets
+ *
+ * @return HTMLResponse
+ */
 	public function similarsAction()
 	{
 		$manager = $this->getDoctrine()->getManager();

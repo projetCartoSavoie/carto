@@ -22,7 +22,6 @@ use Carto\DonneesBundle\Entity\WN\NSynset;
 use Carto\DonneesBundle\Entity\WN\VSynset;
 use Carto\DonneesBundle\Entity\WN\Mot;
 
-include 'sparqllib.php';
 /**
  * Controleur pour les recherches DbPedia
  */
