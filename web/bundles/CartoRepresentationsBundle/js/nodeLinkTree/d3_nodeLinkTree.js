@@ -26,6 +26,11 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	// pour la representation concernee
 	var formatter = new D3_Formatter();
 	var json = formatter.to_tree(json);
+	
+	/***************************************************/
+	/*					Outils						   */
+	/***************************************************/
+	var d3_utils = new D3_Utils();
 
 
 	/***************************/
@@ -68,14 +73,25 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 
 	var diagonal = d3.svg.diagonal.radial()
 		.projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
-
+		
+	// On cree un nouveau noeud <svg>
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", diameter)
 		.attr("height", diameter - 150)
+		.attr("class", "svgContainer");
 		
-	var container = svg.append("g")
+	// On specifie une origine
+	var d = [{ x: 20, y: 20 }];
+	// On cree un nouveau noeud <g>
+	var container = d3.select('.svgContainer')
+		.data(d)
+		.append("g")
 		.attr("class", "representationContainer")
 		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+		
+	/*var container = svg.append("g")
+		.attr("class", "representationContainer")
+		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");*/
 		
 	d3.select(self.frameElement).style("height", diameter - 150 + "px");
 	
@@ -139,39 +155,19 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		})
 		.attr("cursor","pointer")
 		.on("click", function(d) {
-			var d3_utils = new D3_Utils();
 			d3_utils.show_wikipedia(d.name);
 		})
-		.on("dblclick", function(d){
-			var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // CÃ©line
-			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: {
-					cmd: 'search_action',
-					search: d.name
-				},
-				cache: false,
-				success: function(response) {
-					var result = $.parseJSON(response);
-					if(result.success){
-						var data = result.data;
-						if(representation){
-							$('svg').remove();
-							$('.relation').remove();
-						}
-						representation.show(data);
-						$("#loading").hide();
-					}
-				}
-			});
-			return false;
+		.on("dblclick", function(d) {
+			d3_utils.load_json(d);
 		});
 
 	d3.selectAll('.zoom').on('click', zoomClick);
+	
+	// Si on clique sur le bouton ayant la classe
+	// dragAndDrop on appelle la fonction dragAndDrop
+	d3.selectAll('.dragAndDrop')
+		.attr("value", "0")
+		.on('click', d3_utils.dragAndDrop);
 }
 
 function zoomClick() {
