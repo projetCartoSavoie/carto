@@ -81,7 +81,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.attr("class", "svgContainer");
 		
 	// On specifie une origine
-	var d = [{ x: 20, y: 20 }];
+	var d = [{ x: diameter/2, y: diameter/2 }];
 	// On cree un nouveau noeud <g>
 	var container = d3.select('.svgContainer')
 		.data(d)
