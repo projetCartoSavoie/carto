@@ -1,0 +1,46 @@
+<?php
+/**
+ * Controleur pour les représentations
+ *
+ *
+ * @author Rémy Cluze <Remy.Cluze@etu.univ-savoie.fr>
+ * @author Anthony Di Lisio <Anthony.Di-Lisio@etu.univ-savoie.fr>
+ * @author Juliana Leclaire <Juliana.Leclaire@etu.univ-savoie.fr>
+ * @author Rémi Mollard <Remi.Mollard@etu.univ-savoie.fr>
+ * @author Céline de Roland <Celine.de-Roland@etu.univ-savoie.fr>
+ *
+ * @version 1.0
+ */
+namespace Carto\RepresentationsBundle\Controller;
+ 
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+ 
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+ 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+ 
+use Carto\RepresentationsBundle\Form\Type\JsonSearchPostType;
+
+/**
+ * Controleur pour les représentations
+ */
+class LayoutsController extends Controller
+{
+
+  /**
+   * @Route( "/PLO", name="create_post" )
+   * @Template()
+   */
+  public function layoutAction( Request $request )
+  {
+	
+	$form = $this->createFormBuilder(new JsonSearchPostType())
+            ->getForm();
+
+	return array(
+      'postform' => $form->createView()
+    );
+  }
+}
