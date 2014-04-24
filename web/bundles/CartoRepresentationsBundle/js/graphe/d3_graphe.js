@@ -73,9 +73,13 @@ D3_GrapheRepresentation.load = function(json) {
 		.attr("height", height)
 		.attr("class", "svgContainer");
 		
+	var d = [{ x: 20, y: 20 }];
 	// On cree un nouveau noeud <g>
-	var container = svg.append("g")
-		.attr("class", "representationContainer");
+	var container = d3.select('.svgContainer')//svg.append("g")
+		.data(d)
+		.append("g")
+		.attr("class", "representationContainer")
+		.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
 		
 	/* Define the data for the circles */
 	// Pour tous les éléments .link on crée un noeud <line>
@@ -231,20 +235,26 @@ D3_GrapheRepresentation.load = function(json) {
 		});
 	});
 
+	// Si on clique sur le bouton ayant la classe
+	// zoom on appelle la fonction zoomClick
 	d3.selectAll('.zoom').on('click', zoomClick);
+	
+	// Si on clique sur le bouton ayant la classe
+	// dragAndDrop on appelle la fonction dragAndDrop
 	d3.selectAll('.dragAndDrop').on('click', dragAndDrop);
 }
 
-function move() {
-	// On selectionne la balise ayant la classe .representationContainer
-	d3.select(this)
-		.attr("transform", "translate(" + d3.event.x + "," + d3.event.y + ")")
-		.attr("cursor", "move");
+function move(d) {
+
+	// d est un objet compose de x et de y
+	d.x += d3.event.dx;
+	d.y += d3.event.dy;
+	d3.select('.representationContainer').attr("transform", "translate(" + d.x + "," + d.y + ")");
 }
 
 function dragAndDrop() {
-	d3.select('.svgContainer').attr("cursor", "move");
-	var container = d3.select(".representationContainer");
+	var container = d3.select(".svgContainer")
+		.attr("cursor", "move");
 	container.call(d3.behavior.drag().on("drag", move));
 }
 
