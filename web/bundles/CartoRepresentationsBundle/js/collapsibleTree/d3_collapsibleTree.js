@@ -38,12 +38,18 @@ D3_TreeRepresentation.load = function(json) {
 
 	var diagonal = d3.svg.diagonal()
 		.projection(function(d) { return [d.y, d.x]; });
-
-	var svg = d3.select("#contentCenter").append("svg")
-		//.attr("height", heightContentCenter)
-		.attr("width", widthContentCenter);
 		
-	var container = svg.append("g")
+	// On cree un nouveau noeud <svg>
+	var svg = d3.select("#contentCenter").append("svg")
+		.attr("width", widthContentCenter)
+		.attr("class", "svgContainer");
+		
+	// On specifie une origine
+	var d = [{ x: 20, y: 20 }];
+	// On cree un nouveau noeud <g>
+	var container = d3.select('.svgContainer')
+		.data(d)
+		.append("g")
 		.attr("class", "representationContainer")
 		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		
@@ -57,6 +63,11 @@ D3_TreeRepresentation.load = function(json) {
 	treeJson.x0 = 0;
 	treeJson.y0 = 0;
 	update(root = treeJson);
+	
+	/***************************************************/
+	/*					Outils						   */
+	/***************************************************/
+	var d3_utils = new D3_Utils();
 	
 	/***************************/
 	/*		Update	 		   */
@@ -136,50 +147,10 @@ function update(source) {
 		})
 		.attr("cursor","pointer")
 		.on("click", function(d) {
-			var d3_utils = new D3_Utils();
 			d3_utils.show_wikipedia(d.name);
 		})
-		.on("dblclick", function(d){
-			var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
-			//Url permettant de faire la recherche demandée (dépend de la source)
-			if (wordnet)
-			{
-				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
-			}
-			else
-			{
-				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
-				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
-				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
-			}
-			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: {
-					cmd: 'search_action',
-					search: d.name
-				},
-				cache: false,
-				success: function(response) {
-					var result = $.parseJSON(response);
-					if(result.success){
-						var data = result.data;
-						if(representation){
-							$('svg').remove();
-						}
-						representation.show(data);
-						$("#loading").hide();
-					}
-				}
-			});
-			return false;
+		.on("dblclick", function(d) {
+			d3_utils.load_json(d);
 		});
 		  
 	// On affiche un titre lorsqu'on passe la souris
@@ -300,6 +271,12 @@ function update(source) {
 	}
 	
 	d3.selectAll('.zoom').on('click', zoomClick);
+	
+	// Si on clique sur le bouton ayant la classe
+	// dragAndDrop on appelle la fonction dragAndDrop
+	d3.selectAll('.dragAndDrop')
+		.attr("value", "0")
+		.on('click', d3_utils.dragAndDrop);
 }
 
 function zoomClick() {

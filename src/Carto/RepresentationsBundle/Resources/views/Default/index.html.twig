@@ -1,4 +1,31 @@
 {% extends "::base.html.twig" %}
+
 {% block body %}
-<h1>Représentations</h1>
+	<h1>Représentations</h1>
+
+	
+	<div class="slider">
+		<input type="radio" name="slide_switch" id="id1"/>
+		<label for="id1">
+			<img src="{{ asset('bundles/CartoRepresentationsBundle/images/nodeLinkTree.png') }}" width="100"/>
+		</label>
+
+		<img src="{{ asset('bundles/CartoRepresentationsBundle/images/nodeLinkTree.png') }}"/>
+		
+	 	<input type="radio" name="slide_switch" id="id2" checked="checked"/>
+		<label for="id2">
+			<img src="{{ asset('bundles/CartoRepresentationsBundle/images/collapsibleTree.png') }}" width="100"/>
+		</label>
+		
+		<img src="{{ asset('bundles/CartoRepresentationsBundle/images/collapsibleTree.png') }}"/>
+		
+		<input type="radio" name="slide_switch" id="id3"/>
+		<label for="id3">
+			<img src="{{ asset('bundles/CartoRepresentationsBundle/images/forceDirectedGraph.png') }}" width="100"/>
+		</label>
+		
+		<img src="{{ asset('bundles/CartoRepresentationsBundle/images/forceDirectedGraph.png') }}"/>
+		
+	</div>
+ 
 {% endblock %}
