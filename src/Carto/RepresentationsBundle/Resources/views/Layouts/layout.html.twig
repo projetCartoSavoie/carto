@@ -21,16 +21,16 @@
 			if (wordnet)
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 			}
 			else
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
 				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 			}
@@ -65,7 +65,7 @@
 
 {# On affiche la partie à gauche, permettant de lancer une recherche, voir les articles wikipedia, colorier les relations #}
 {% block utilsLeft %}
-	<div style="padding: 12px">
+	<div class="utilsLeft">
 		<form id="form_recherche" action="" method="post">
 
 			{# Sélectionner la source de données (Wordnet ou Dbpedia) #}
@@ -88,6 +88,7 @@
 				</div>
 			</div>
 		</form>
+<<<<<<< HEAD
 
 		{# Afficher article wikipedia #}
 		<div id="wikipedia">
@@ -95,6 +96,8 @@
 		</div>
 
 		{# Sélectionner une relation pour la mettre en couleur #}
+=======
+>>>>>>> 451a6d82d12e0fe59e8bff8d39bc0aad19095be4
 		<div id="relations">
 			<p>Selectionnez une relation:</p>
 			<label>
@@ -102,6 +105,9 @@
 					<option selected> None... </option>
 				</select>
 			</label>
+		</div>
+		<div id="wikipedia">
+			<p>Click on any words to show its Wikipedia article.</p>
 		</div>
 	</div>
 {% endblock %}
@@ -120,11 +126,14 @@
 			<a class="tool-item gradient zoom" id="intial_scale" title="Initial zoom">
 				<i class="icon-close"></i>
 			</a>
-			<a href="#" class="tool-item gradient">
-				<i class="icon-print"></i>
+			<a class="tool-item gradient dragAndDrop" id="drag_and_drop" title="Drag and Drop">
+				<i class="icon-drag-and-drop"></i>
 			</a>
 			<a href="#" class="tool-item gradient">
 				<i class="icon-full-screen"></i>
+			</a>
+			<a href="#" class="tool-item gradient">
+				<i class="icon-print"></i>
 			</a>
 		</div>
 	</div>

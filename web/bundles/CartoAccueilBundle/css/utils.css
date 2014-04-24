@@ -218,6 +218,9 @@ padding: 0 0 0 6px;
 .icon-close {
 	background-position: -167px -96px;
 }
+.icon-drag-and-drop{
+	background-position: -168px -73px;
+}
 
 /*************
 	COMBOBOX

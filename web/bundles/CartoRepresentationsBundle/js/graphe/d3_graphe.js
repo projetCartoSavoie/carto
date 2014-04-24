@@ -62,56 +62,25 @@ D3_GrapheRepresentation.load = function(json) {
 		.linkDistance(20)
 		.size([width, height]);
 		
-	// On cree un nouveau noeud <svg>
-	var svg = d3.select("#contentCenter").append("svg")
-		.attr("width", width)
-		.attr("height", height);
-		
-	// On cree un nouveau noeud <g>
-	var container = svg.append("g")
-		.attr("class", "representationContainer");
-			
 	force
 		.nodes(graph.nodes)
 		.links(graph.links)
 		.start();
 		
-	
-	var drag = d3.behavior.drag()
-		.on("drag", function(d, i) {
-			d.x += d3.event.dx;
-			d.y += d3.event.dy;
-			d3.select(this).moveToFront().attr("transform", function(d, i) {
-			   return "translate(" + [d.x, d.y] + ")";
-			});
-		})
-		.on("dragend", function(d, i){
-			orig_x = d.orig_x;
-			new_x = d.x;
-
-			// ugly hack to propagate click event on anchor tags in Firefox
-			if ((orig_x == new_x) && $.browser.mozilla == true) { 
-				if (d3.event.sourceEvent.target.parentNode.attributes.href){
-				  href_raw = d3.event.sourceEvent.target.parentNode.attributes.href.value;
-				  $(location).attr("href", href_raw);
-				}
-			}
-      
-			//set index of interval new_x falls into
-			if (new_x <= 0) {
-				new_pos_lower_bound = 0;
-			} else if (new_x >= 300) {
-				new_pos_lower_bound =  rangePoints[rangePoints.length-1]
-			} else {
-				$.each(rangePoints, function(i, rp){
-				  if(new_x <= rp){
-					new_pos_lower_bound = (new_x > orig_x) ? rangePoints[i-1] : rangePoints[i];
-					return false
-				  }
-				})
-			}
-		});
-	console.log(graph.links);
+	// On cree un nouveau noeud <svg>
+	var svg = d3.select("#contentCenter").append("svg")
+		.attr("width", width)
+		.attr("height", height)
+		.attr("class", "svgContainer");
+		
+	var d = [{ x: 20, y: 20 }];
+	// On cree un nouveau noeud <g>
+	var container = d3.select('.svgContainer')//svg.append("g")
+		.data(d)
+		.append("g")
+		.attr("class", "representationContainer")
+		.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+		
 	/* Define the data for the circles */
 	// Pour tous les éléments .link on crée un noeud <line>
 	var link = container.selectAll(".link")
@@ -152,6 +121,41 @@ D3_GrapheRepresentation.load = function(json) {
 			}
 		);
 	};
+	
+	var drag = d3.behavior.drag()
+		.on("drag", function(d, i) {
+			d.x += d3.event.dx;
+			d.y += d3.event.dy;
+			d3.select(this).moveToFront().attr("transform", function(d, i) {
+			   return "translate(" + [d.x, d.y] + ")";
+			});
+		})
+		.on("dragend", function(d, i){
+			orig_x = d.orig_x;
+			new_x = d.x;
+
+			// ugly hack to propagate click event on anchor tags in Firefox
+			if ((orig_x == new_x) && $.browser.mozilla == true) { 
+				if (d3.event.sourceEvent.target.parentNode.attributes.href){
+				  href_raw = d3.event.sourceEvent.target.parentNode.attributes.href.value;
+				  $(location).attr("href", href_raw);
+				}
+			}
+	  
+			//set index of interval new_x falls into
+			if (new_x <= 0) {
+				new_pos_lower_bound = 0;
+			} else if (new_x >= 300) {
+				new_pos_lower_bound =  rangePoints[rangePoints.length-1]
+			} else {
+				$.each(rangePoints, function(i, rp){
+				  if(new_x <= rp){
+					new_pos_lower_bound = (new_x > orig_x) ? rangePoints[i-1] : rangePoints[i];
+					return false
+				  }
+				})
+			}
+		});
 		
 	// Pour tous les éléments .node on crée un noeud <g>
 	var node = container.selectAll(".node")
@@ -246,7 +250,27 @@ D3_GrapheRepresentation.load = function(json) {
 		});
 	});
 
+	// Si on clique sur le bouton ayant la classe
+	// zoom on appelle la fonction zoomClick
 	d3.selectAll('.zoom').on('click', zoomClick);
+	
+	// Si on clique sur le bouton ayant la classe
+	// dragAndDrop on appelle la fonction dragAndDrop
+	d3.selectAll('.dragAndDrop').on('click', dragAndDrop);
+}
+
+function move(d) {
+
+	// d est un objet compose de x et de y
+	d.x += d3.event.dx;
+	d.y += d3.event.dy;
+	d3.select('.representationContainer').attr("transform", "translate(" + d.x + "," + d.y + ")");
+}
+
+function dragAndDrop() {
+	var container = d3.select(".svgContainer")
+		.attr("cursor", "move");
+	container.call(d3.behavior.drag().on("drag", move));
 }
 
 function zoomClick() {
@@ -269,7 +293,7 @@ function zoomClick() {
 	
 	translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
 	
-		// On revient sur la taille initiale
+	// On revient sur la taille initiale
 	if(this.id === 'intial_scale'){
 		view.k = 1;
 	}
