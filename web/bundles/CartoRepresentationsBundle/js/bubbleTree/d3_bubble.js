@@ -96,54 +96,11 @@ D3_BubbleRepresentation.load = function(json) {
 					else if(sansEspace.test(d.parent.name.toString()) == false) d3_utils.show_wikipedia(d.parent.name);
 			})
 			.on("dblclick", function(d){
-				//Le double click sur un cercle provoque une relance de la recherche autour du noeud correspondant.
-				var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
-				//Url permettant de faire la recherche demandée (dépend de la source)
-				if (wordnet)
-				{
-					//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-					var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-					//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-					//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-					//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
-				}
-				else
-				{
-					//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-					var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-					//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
-					//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
-					//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
-				}
-				//Si le noeud a un nom contenant des espaces, on cherche un mot sans espace dans son voisinage pour faire la recherche.
+				var d3_utils = new D3_Utils();
 				var sansEspace = new RegExp(/\s/); 
-				if(sansEspace.test(d.name.toString()) == false) var nom = d.name; 
-				else if(sansEspace.test(d.children[0].name.toString()) == false) var nom = d.children[0].name;
-				else if(sansEspace.test(d.parent.name.toString()) == false) var nom = d.parent.name;
-				//On utilise ajax pour reloader le résultat de la recherche dans le conteneur central
-				$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
-				$.ajax({
-					type: "POST",
-					url: url,
-					data: {
-						cmd: 'search_action',
-						search: nom
-					},
-					cache: false,
-					success: function(response) {
-						var result = $.parseJSON(response);
-						if(result.success){
-							var data = result.data;
-							if(representation){
-								$('svg').remove();
-								$('.relation').remove();
-							}
-							representation.show(data);
-							$("#loading").hide();
-						}
-					}
-				});
-				return false;
+				if(sansEspace.test(d.name.toString()) == false) d3_utils.load_json(d); 
+				else if(sansEspace.test(d.children[0].name.toString()) == false) d3_utils.load_json(d.children[0]);
+				else if(sansEspace.test(d.parent.name.toString()) == false) d3_utils.load_json(d.parent.name);
 			});
 
 	//On ajoute le texte représentant le noeud dans chaque cercle.
