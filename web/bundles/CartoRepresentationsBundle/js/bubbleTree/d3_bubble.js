@@ -2,8 +2,13 @@ function D3_BubbleRepresentation(){}
 
 var zoom = null;
 
+/** 
+ * Fonction show : appelle la fonction load en lui passant le json
+ *
+ * @param data : le json sous forme d'objet json ou de chaine de caractères
+ */
 D3_BubbleRepresentation.prototype.show = function(data) {
-		// data is file path
+	// data is file path
 	if(typeof data === "string"){
 		d3.json(data, function(error, root) {
 			if (error) alert(error);
@@ -16,14 +21,25 @@ D3_BubbleRepresentation.prototype.show = function(data) {
 	}
 }
 
+/** 
+ * Fonction load : ajoute les balises svg au conteneur pour afficher la vue bubble pour le json donné
+ *
+ * @param json : fichier json rendu par la recherche
+ */
 D3_BubbleRepresentation.load = function(json) {
 
+	//On transforme le json format commun en json format tree accepté par D3
 	var formatter = new D3_Formatter();
 	var treeJson = formatter.to_tree(json);
+
+
+	//Zoomvar sert aux fonctions de zoom communes à toutes les représentations
 	var zoomvar = d3.behavior.zoom()
 			.scaleExtent([1, 10])
 			.on("zoom", zoomed);
 
+
+	//Variables indiquant les paramètres de notre visualisation (marges, taille, couleurs)
 	var margin = 20,
 			diameter = $("#contentCenter").width();
 
@@ -32,11 +48,14 @@ D3_BubbleRepresentation.load = function(json) {
 			.range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
 			.interpolate(d3.interpolateHcl);
 
+
+	//Le packlayout de D3 permet d'agencer des ensembles de cercles dans des cercles
 	var pack = d3.layout.pack()
 			.padding(2)
 			.size([diameter - margin, diameter - margin])
 			.value(function(d) { return d.size; })
 
+	//On configure le svg qui contiendra toute la figure
 	var svg = d3.select("#contentCenter").append("svg")
 			.attr("width", diameter)
 			.attr("height", diameter)
@@ -46,17 +65,30 @@ D3_BubbleRepresentation.load = function(json) {
 	var container = svg.append("g")
 	.attr("class", "representationContainer");
 
-	var focus = treeJson,
-			nodes = pack.nodes(treeJson),
-			view;
 
+	//focus indique sur quel noeud doit se centrer la vue (au départ c'est la racine)
+	var focus = treeJson;
+	//view contiendra un vecteur correspondant au zoom sur le focus (vecteur (x,y,r) où (x,y) = coordonnées du centre et r = taille de la zone visible)
+	var view;
+
+	//pack.nodes transforme le treeJson en un objet contenant les infos nécessaires au packlayout.
+	//ces infos sont calculées automatiquement par D3 à partir du json qu'on lui fournit.
+	var nodes = pack.nodes(treeJson);
+
+
+
+	//On ajoute les cercles représentant les noeuds de l'arbre
 	var circle = container.selectAll("circle")
 			.data(nodes)
 		.enter().append("circle")
 			.attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--treeJson"; })
 			.style("fill", function(d) { return d.children ? color(d.depth) : null; })
-			.on("click", function(d) { 
+			.on("click", function(d) {
+					//Le click sur un cercle provoque 2 choses :
+						//La vue se centre sur ce cercle
 					if (focus !== d) zoom(d), d3.event.stopPropagation(); 
+						//Le résultat d'une recherche wikipedia s'affiche dans le cadre wikipedia
+						//Si le noeud a un nom contenant des espaces, on cherche un mot sans espace dans son voisinage pour faire la recherche.
 					var sansEspace = new RegExp(/\s/); 
 					var d3_utils = new D3_Utils();
 					if(sansEspace.test(d.name.toString()) == false) d3_utils.show_wikipedia(d.name); 
@@ -64,13 +96,31 @@ D3_BubbleRepresentation.load = function(json) {
 					else if(sansEspace.test(d.parent.name.toString()) == false) d3_utils.show_wikipedia(d.parent.name);
 			})
 			.on("dblclick", function(d){
-				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // CÃ©line
+				//Le double click sur un cercle provoque une relance de la recherche autour du noeud correspondant.
+				var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
+				//Url permettant de faire la recherche demandée (dépend de la source)
+				if (wordnet)
+				{
+					//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
+					var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+					//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+					//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+					//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+				}
+				else
+				{
+					//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
+					var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+					//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+					//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
+					//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+				}
+				//Si le noeud a un nom contenant des espaces, on cherche un mot sans espace dans son voisinage pour faire la recherche.
 				var sansEspace = new RegExp(/\s/); 
 				if(sansEspace.test(d.name.toString()) == false) var nom = d.name; 
 				else if(sansEspace.test(d.children[0].name.toString()) == false) var nom = d.children[0].name;
 				else if(sansEspace.test(d.parent.name.toString()) == false) var nom = d.parent.name;
+				//On utilise ajax pour reloader le résultat de la recherche dans le conteneur central
 				$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
 				$.ajax({
 					type: "POST",
@@ -96,7 +146,7 @@ D3_BubbleRepresentation.load = function(json) {
 				return false;
 			});
 
-
+	//On ajoute le texte représentant le noeud dans chaque cercle.
 	var text = container.selectAll("text")
 			.data(nodes)
 		.enter().append("text")
@@ -106,12 +156,12 @@ D3_BubbleRepresentation.load = function(json) {
 			.style("font-size", function(d) { if (d.name.length > 20) { return '10px'; } else if (d.name.length > 10) { return '15px'; } return '20px'; })
 			.text(function(d) { if (d.name.length > 20) {return (d.name.substring(0,17) + '...');} return d.name; });
 			
-
+	//On ajoute un title pour voir les définitions en entier lorsque les noeuds contiennent plus d'un mot
 	var node = container.selectAll("circle,text");
-
 	node.append("title")
 		.text(function(d) { return d.name; });
 
+	//Gestion du zoom pour faire un focus sur un cercle
 	d3.select("#contentCenter")
 			.style("background", color(-1))
 			.on("click", function() { zoom(treeJson); });
@@ -142,6 +192,8 @@ D3_BubbleRepresentation.load = function(json) {
 	}
 
 	d3.select(self.frameElement).style("height", diameter + "px");
+
+	//Boutons zoom à droite de l'écran
 	d3.selectAll('.zoom').on('click', zoomClick);
 
 	function zoomClick() {
