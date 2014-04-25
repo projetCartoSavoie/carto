@@ -1,0 +1,3 @@
+carto_livre_or_homepage:
+    pattern:  /
+    defaults: { _controller: CartoLivreOrBundle:Default:index }

@@ -1,0 +1,21 @@
+{% extends "CartoLivreOrBundle:Layouts:layout.html.twig" %}
+{% block body %}
+
+<ul>
+{% for com in comments %}
+	<li> 
+		<ul>
+			<li>{{ com.auteur }}</li>
+			<li>{{ com.date | date("d/m/Y")}}</li>
+			<li>{{ com.contenu }}</li>
+		</ul>
+	</li>
+{% endfor %}
+</ul>
+
+<h1>{{"Livre d'or" | trans}}</h1>
+<form method="post" action="">
+	{{ form_widget(form) }}
+	<input type="submit" id="submit"/>
+</form>
+{% endblock %}

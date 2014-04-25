@@ -16,11 +16,13 @@ class AppKernel extends Kernel
             new Symfony\Bundle\AsseticBundle\AsseticBundle(),
             new Doctrine\Bundle\DoctrineBundle\DoctrineBundle(),
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
+            new Gregwar\CaptchaBundle\GregwarCaptchaBundle(),
             new Carto\AccueilBundle\CartoAccueilBundle(),
             new Carto\DocumentationBundle\CartoDocumentationBundle(),
             new Carto\RepresentationsBundle\CartoRepresentationsBundle(),
             new Carto\DonneesBundle\CartoDonneesBundle(),
-			new Carto\UserBundle\CartoUserBundle(),
+            new Carto\UserBundle\CartoUserBundle(),
+            new Carto\LivreOrBundle\CartoLivreOrBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {
