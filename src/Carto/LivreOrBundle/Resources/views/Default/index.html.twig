@@ -1,7 +1,7 @@
 {% extends "CartoLivreOrBundle:Layouts:layout.html.twig" %}
 {% block body %}
 
-	<h1>{{"Livre d'or" | trans}}</h1>
+	<h1>{{"livre" | trans}} -- {{ 'letworld'|trans }}</h1>
 <div class="livre">
 <table>
 {% for com in comments %}
@@ -15,25 +15,24 @@
 <div class="form">
 	<form method="post" action="">
 		<table>
-			<tr><th colspan="3">Laissez nous un petit mot</th></tr>
 			<tr>
-				<td>{{ form_label(form.auteur, "Auteur") }}</td>
+				<td>{{ form_label(form.auteur, "auteur"|trans) }}</td>
 				<td>{{ form_errors(form.auteur) }}</td>
 				<td>{{ form_widget(form.auteur) }}</td>
 			</tr>
 			<tr>
-				<td>{{ form_label(form.contenu, "Votre commentaire") }}</td>
+				<td>{{ form_label(form.contenu, "comment"|trans) }}</td>
 				<td>{{ form_errors(form.contenu) }}</td>
 				<td>{{ form_widget(form.contenu) }}</td>
 			</tr>
 			<tr>
-				<td>{{ form_label(form.captcha, "Copiez la captcha") }}</td>
+				<td>{{ form_label(form.captcha, "captcha"|trans) }}</td>
 				<td>{{ form_errors(form.captcha) }}</td>
 				<td>{{ form_widget(form.captcha) }}</td>
 			</tr>
 		{{ form_rest(form) }}
 		</table>
-		<input type="submit" id="submit"/>
+		<input type="submit" id="submit" value="{{ 'submit'|trans }}"/>
 	</form>
 </div>
 {% endblock %}
