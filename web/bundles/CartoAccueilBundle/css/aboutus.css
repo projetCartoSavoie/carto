@@ -4,10 +4,21 @@
 	text-decoration: underline;
 }
 
-.aPropos td{
-	width: 25%;
+.aPropos td, .aPropos th{
+	width:50%;
 	vertical-align: top;
 	text-align: left;
+	padding:2px;
+}
+.aPropos th h3
+{
+	margin:0px;
+	padding:0px;
+}
+.aPropos p
+{
+	margin-top:0px;
+	padding-top:0px;
 }
 
 .sources div:hover{
