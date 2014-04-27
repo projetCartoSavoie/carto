@@ -31,7 +31,26 @@ class DefaultController extends Controller
 		$form = $form -> createView();
 
 		$com_rep = $manager -> getRepository('CartoLivreOrBundle:Commentaire');
-		$comments = $com_rep -> findAll();
+		$comments = $com_rep -> findBy(array(),array('date'=>'desc'));
 		return $this->render('CartoLivreOrBundle:Default:index.html.twig', array('form' => $form, 'comments' => $comments));
+	}
+
+	public function adminAction()
+	{
+		$manager = $this -> getDoctrine() -> getManager();
+		$com_rep = $manager -> getRepository('CartoLivreOrBundle:Commentaire');
+		$comments = $com_rep -> findBy(array(),array('date'=>'desc'));
+		return $this->render('CartoLivreOrBundle:Default:admin.html.twig', array('comments' => $comments));
+	}
+
+	public function supprimerAction($id)
+	{
+		$manager = $this -> getDoctrine() -> getManager();
+		$com_rep = $manager -> getRepository('CartoLivreOrBundle:Commentaire');
+		$comment = $com_rep -> find($id);
+		$manager -> remove($comment);
+		$manager -> flush();
+		$comments = $com_rep -> findBy(array(),array('date'=>'desc'));
+		return $this->render('CartoLivreOrBundle:Default:admin.html.twig', array('comments' => $comments));
 	}
 }

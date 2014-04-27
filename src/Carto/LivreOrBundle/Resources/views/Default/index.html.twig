@@ -7,6 +7,9 @@
 {% for com in comments %}
 			<tr><td class="auteur">{{ com.auteur }}, le {{ com.date | date("d/m/Y")}}</td></tr>
 			<tr class="comment"><td>{{ com.contenu }}</td></tr>
+			{% if is_granted('ROLE_ADMIN') %}
+			<tr><td>Supprimer</td></tr>
+			{% endif %}
 		<tr class="separation"><td> </td></tr>
 {% endfor %}
 </table>
