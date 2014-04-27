@@ -1,21 +1,39 @@
 {% extends "CartoLivreOrBundle:Layouts:layout.html.twig" %}
 {% block body %}
 
-<ul>
+	<h1>{{"Livre d'or" | trans}}</h1>
+<div class="livre">
+<table>
 {% for com in comments %}
-	<li> 
-		<ul>
-			<li>{{ com.auteur }}</li>
-			<li>{{ com.date | date("d/m/Y")}}</li>
-			<li>{{ com.contenu }}</li>
-		</ul>
-	</li>
+			<tr><td class="auteur">{{ com.auteur }}, le {{ com.date | date("d/m/Y")}}</td></tr>
+			<tr class="comment"><td>{{ com.contenu }}</td></tr>
+		<tr class="separation"><td> </td></tr>
 {% endfor %}
-</ul>
+</table>
+</div>
 
-<h1>{{"Livre d'or" | trans}}</h1>
-<form method="post" action="">
-	{{ form_widget(form) }}
-	<input type="submit" id="submit"/>
-</form>
+<div class="form">
+	<form method="post" action="">
+		<table>
+			<tr><th colspan="3">Laissez nous un petit mot</th></tr>
+			<tr>
+				<td>{{ form_label(form.auteur, "Auteur") }}</td>
+				<td>{{ form_errors(form.auteur) }}</td>
+				<td>{{ form_widget(form.auteur) }}</td>
+			</tr>
+			<tr>
+				<td>{{ form_label(form.contenu, "Votre commentaire") }}</td>
+				<td>{{ form_errors(form.contenu) }}</td>
+				<td>{{ form_widget(form.contenu) }}</td>
+			</tr>
+			<tr>
+				<td>{{ form_label(form.captcha, "Copiez la captcha") }}</td>
+				<td>{{ form_errors(form.captcha) }}</td>
+				<td>{{ form_widget(form.captcha) }}</td>
+			</tr>
+		{{ form_rest(form) }}
+		</table>
+		<input type="submit" id="submit"/>
+	</form>
+</div>
 {% endblock %}

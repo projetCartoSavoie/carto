@@ -44,6 +44,8 @@ html{
 	width: 950px;
 	border-left: solid 1px;
 	border-right: solid 1px;
+	vertical-align:top;
+	padding:15px;
 }
 #contentCenter #loading {
     display: block;
