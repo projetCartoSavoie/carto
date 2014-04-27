@@ -52,11 +52,16 @@ html{
     margin-left: auto;
     margin-right: auto;
 }
+
 .contentLeft{
+	background-image:url('/bundles/CartoAccueilBundle/images/left.png');
+	background-size:100% 100%;
+	color:black;
+	width:300px;
+	height:100%;
+	padding:30px;
 	border-left: solid 1px;
 	padding: 0px;
-	height: 100%;
-	width: 300px;
 	vertical-align: top;
 }
 
