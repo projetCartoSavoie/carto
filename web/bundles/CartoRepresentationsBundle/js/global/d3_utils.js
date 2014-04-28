@@ -147,55 +147,65 @@ function stopDragAndDrop() {
 	}
 }
 
+// Quand on clique sur une relation on affiche
+// les liens en couleur
+D3_Utils.prototype.changeTree = function (links, nameRelation, colorLink){
+	// On redessine les liens en couleur de base
+	d3.selectAll("path")
+			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+			.style("stroke", "#999");
+	// Pour tous les liens du graphe
+	links.forEach(
+		function(d){
+			// Si le lien a la relation selectionnee alors on met en couleur
+			if(d.name.localeCompare(nameRelation) == 0){
+				d3.selectAll('#' + d.name)
+					.style("stroke-width", 3)
+					.style("stroke",  colorLink(d.value));
+			}
+		}
+	);
+}
+
+// Quand on clique sur une relation on affiche
+// les liens en couleur
+function changeGraph(links, nameRelation, colorLink){
+	// On redessine les liens en couleur de base
+	d3.selectAll("line")
+			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+			.style("stroke", "#999");
+	// Pour tous les liens du graphe
+	links.forEach(
+		function(d){
+			// Si le lien a la relation selectionnee alors on met en couleur
+			for(var i=0; i < d.name.length; i++){
+				if(d.name[i].localeCompare(nameRelation) == 0){
+					d3.selectAll('.' + d.name[i])
+						.style("stroke-width", 3)
+						.style("stroke",  colorLink(d.value));
+				}
+			}
+		}
+	);
+}
+
 /**
 * Affiche les relations en couleur pour une representation en arbre ou en graphe
 * @param json : json transforme pour recuperer le nom des relations
 */
-D3_Utils.prototype.showRelation = function(json, representation) {
-	var balise = "line";
-	var isTree = 0;
-	if(representation === "tree"){
-		balise = "path";
-		isTree = 1;
-	}
+D3_Utils.prototype.showRelation = function(json, representation, links) {
 	var colorLink = d3.scale.category20();
 	// On recupere les relations utilisees pour ce json
 	var data = json.relationsUsed;
 	var paragraphs = d3.select('.selectRelation')
 		.on("change",function() {
-						// On recupere ce que l'utilisateur a choisi
+				// On recupere ce que l'utilisateur a choisi
 				nameRelation = this.options[this.selectedIndex].value;
-				// On redessine les liens en couleur de base
-				d3.selectAll(balise)
-						.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-						.style("stroke", "#999");
-				if(isTree === 1){
-					// Pour tous les liens du graphe
-					json.links.forEach(
-						function(d){
-							// Si le lien a la relation selectionnee alors on met en couleur
-							if(d.name.localeCompare(nameRelation) == 0){
-								d3.selectAll('#' + d.name)
-									.style("stroke-width", 3)
-									.style("stroke",  colorLink(d.value));
-							}
-						}
-					);
+				if(representation === "tree"){
+					D3_Utils.prototype.changeTree(json.links, nameRelation, colorLink);
 				}
 				else{
-					// Pour tous les liens du graphe
-					json.links.forEach(
-						function(d){
-							// Si le lien a la relation selectionnee alors on met en couleur
-							for(var i=0; i < d.name.length; i++){
-								if(d.name[i].localeCompare(nameRelation) == 0){
-									d3.selectAll('.' + d.name[i])
-										.style("stroke-width", 3)
-										.style("stroke",  colorLink(d.value));
-								}
-							}
-						}
-					);
+					changeGraph(json.links, nameRelation, colorLink);
 				}
 			}
 		)

@@ -34,7 +34,7 @@ D3_GrapheRepresentation.load = function(json) {
 	/*		Relations 		   */
 	/**************************/
 	
-	d3_utils.showRelation(json, "graph");
+	d3_utils.showRelation(json, "graph", json.links);
 		
 	/***************************/
 	/*		Graphe	 		   */

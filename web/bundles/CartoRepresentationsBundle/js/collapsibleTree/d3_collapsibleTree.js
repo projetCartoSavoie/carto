@@ -51,12 +51,7 @@ D3_TreeRepresentation.load = function(json) {
 		.data(d)
 		.append("g")
 		.attr("class", "representationContainer")
-		.attr("id","representationContainer")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
-		.attr("tx", margin.left)
-		.attr("ty", margin.top)
-		.attr("sc", 1);
-		;
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 		
 	/***************************************************/
 	/*		Transformation du json generique 		   */
@@ -67,7 +62,6 @@ D3_TreeRepresentation.load = function(json) {
 	var treeJson = formatter.to_tree(json);
 	treeJson.x0 = 0;
 	treeJson.y0 = 0;
-	update(root = treeJson);
 	
 	/***************************************************/
 	/*					Outils						   */
@@ -75,15 +69,17 @@ D3_TreeRepresentation.load = function(json) {
 	var d3_utils = new D3_Utils();
 	
 	/***************************/
-	/*		Update	 		   */
-	/**************************/
-
-function update(source) {
-
-	/***************************/
 	/*		Relations 		   */
 	/**************************/
-	d3_utils.showRelation(json, "tree");
+	
+	d3_utils.showRelation(treeJson, "tree", treeJson.links);
+	
+	/***************************/
+	/*		Update	 		   */
+	/**************************/
+	update(root = treeJson);
+
+function update(source) {
 		
 	/***************************/
 	/*		Graphe	 		   */
@@ -248,6 +244,7 @@ function update(source) {
 		var colorLink = d3.scale.category20();
 		return d._children ? /*"#3182bd"*/colorLink(d.group) : d.children ? "#c6dbef" : "#fd8d3c";
 	}
+	
 	function getLinks(nodes){
 		var d3_links = tree.links(nodes);
 		var allLinks = treeJson.links;
@@ -269,9 +266,6 @@ function update(source) {
 	d3.selectAll('.dragAndDrop')
 		.attr("value", "0")
 		.on('click', d3_utils.dragAndDrop);
-
-	// On désactive les boutons inutiles pour cette vue
-	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
 }
 
 function zoomClick() {
@@ -304,16 +298,10 @@ function zoomClick() {
 
 function zoomed(center) {
 	var container = d3.select(".representationContainer");
-	var tx = Number($("#representationContainer").attr('tx'));
-	var ty = Number($("#representationContainer").attr('ty'));
-	var sc = zoom.scale();
-	var rotation = Number($("#rotate").attr('value'))
 	container.attr("transform",
-		"translate(" + tx + "," + ty + ")"  +
-		"scale(" + sc + ")" +
-		"rotate(" + rotation + ")"
+		"translate(" + center[0] + "," + center[1] + ")"  +
+		"scale(" + zoom.scale() + ")"
 	);
-	container.attr("sc",sc);
 }
 
 function interpolateZoom (translate, scale) {

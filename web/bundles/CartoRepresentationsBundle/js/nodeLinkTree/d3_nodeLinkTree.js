@@ -37,7 +37,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	/*		Relations 		   */
 	/**************************/
 	
-	d3_utils.showRelation(json, "tree");
+	d3_utils.showRelation(json, "tree", json.links);
 		
 	/***************************/
 	/*		Graphe	 		   */
