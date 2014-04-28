@@ -78,5 +78,15 @@ class DefaultController extends Controller
 	{
 		return $this->render('CartoRepresentationsBundle:Default:representation4.html.twig');
 	}
+
+/**
+ * Dependency Wheel
+ *
+ * @return vue twig
+ */
+	public function representation6Action()
+	{
+		return $this->render('CartoRepresentationsBundle:Default:representation6.html.twig');
+	}
 	
 }
