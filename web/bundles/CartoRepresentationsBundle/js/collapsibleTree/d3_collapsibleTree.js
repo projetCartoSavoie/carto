@@ -49,13 +49,17 @@ D3_TreeRepresentation.load = function(json) {
 		.attr("class", "svgContainer");
 		
 	// On specifie une origine
-	var d = [{ x: 20, y: 20 }];
+	var d = [{ x: 20, y: 30 }];
 	// On cree un nouveau noeud <g> pour mettre plusieurs attributs
 	var container = d3.select('.svgContainer')
 		.data(d)
 		.append("g")
 		.attr("class", "representationContainer")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		.attr("id","representationContainer")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+		.attr("tx",  d.x)
+		.attr("ty", d.y)
+		.attr("sc", 1);
 		
 	/***************************************************/
 	/*		Transformation du json generique 		   */
@@ -278,10 +282,14 @@ function zoomClick() {
 
 function zoomed(center) {
 	var container = d3.select(".representationContainer");
+	var tx = Number($("#representationContainer").attr('tx'));
+	var ty = Number($("#representationContainer").attr('ty'));
+	var sc = zoom.scale();
 	container.attr("transform",
-		"translate(" + center[0] + "," + center[1] + ")"  +
-		"scale(" + zoom.scale() + ")"
+		"translate(" + tx + "," + ty + ")"  +
+		"scale(" + sc + ")"
 	);
+	container.attr("sc",sc);
 }
 
 function interpolateZoom (translate, scale) {

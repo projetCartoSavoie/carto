@@ -184,11 +184,9 @@ function zoomed(center) {
 	var tx = Number($("#representationContainer").attr('tx'));
 	var ty = Number($("#representationContainer").attr('ty'));
 	var sc = zoom.scale();
-	var rotation = Number($("#rotate").attr('value'))
 	container.attr("transform",
 		"translate(" + tx + "," + ty + ")"  +
-		"scale(" + sc + ")" +
-		"rotate(" + rotation + ")"
+		"scale(" + sc + ")"
 	);
 	container.attr("sc",sc);
 }

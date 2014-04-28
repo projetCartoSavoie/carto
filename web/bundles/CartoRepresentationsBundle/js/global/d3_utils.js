@@ -84,8 +84,9 @@ function move(d) {
 	var actual = Number($("#rotate").attr('value'));
 	// On recupere le scale si on a deja zoome sur la representation
 	var sc = Number($("#representationContainer").attr('sc'));
-	d3.select('.representationContainer').attr("transform", "translate(" + d.x + "," + d.y + ")scale(" + sc + ")rotate(" + actual + ")")
-	.attr("tx",d.x).attr("ty",d.y);
+	d3.select('.representationContainer')
+		.attr("transform", "translate(" + d.x + "," + d.y + ")scale(" + sc + ")rotate(" + actual + ")")
+		.attr("tx",d.x).attr("ty",d.y);
 }
 
 D3_Utils.prototype.rotate = function() {
