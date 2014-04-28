@@ -1,0 +1,41 @@
+{% extends "CartoLivreOrBundle:Layouts:layout.html.twig" %}
+{% block body %}
+
+	<h1>{{"livre" | trans}} -- {{ 'letworld'|trans }}</h1>
+<div class="livre">
+<table>
+{% for com in comments %}
+			<tr><td class="auteur">{{ com.auteur }}, le {{ com.date | date("d/m/Y")}}</td></tr>
+			<tr class="comment"><td>{{ com.contenu }}</td></tr>
+			{% if is_granted('ROLE_ADMIN') %}
+			<tr><td>Supprimer</td></tr>
+			{% endif %}
+		<tr class="separation"><td> </td></tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="form">
+	<form method="post" action="">
+		<table>
+			<tr>
+				<td>{{ form_label(form.auteur, "auteur"|trans) }}</td>
+				<td>{{ form_errors(form.auteur) }}</td>
+				<td>{{ form_widget(form.auteur) }}</td>
+			</tr>
+			<tr>
+				<td>{{ form_label(form.contenu, "comment"|trans) }}</td>
+				<td>{{ form_errors(form.contenu) }}</td>
+				<td>{{ form_widget(form.contenu) }}</td>
+			</tr>
+			<tr>
+				<td>{{ form_label(form.captcha, "captcha"|trans) }}</td>
+				<td>{{ form_errors(form.captcha) }}</td>
+				<td>{{ form_widget(form.captcha) }}</td>
+			</tr>
+		{{ form_rest(form) }}
+		</table>
+		<input type="submit" id="submit" value="{{ 'submit'|trans }}"/>
+	</form>
+</div>
+{% endblock %}

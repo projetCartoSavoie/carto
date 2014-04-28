@@ -33,6 +33,10 @@ security:
                 path:   carto_donnees_admin_logout
                 target: /
 
+        main:
+            pattern:   /
+            anonymous: true
+
     access_control:
         - { path: /admin$, roles: ROLE_ADMIN }
         #- { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }

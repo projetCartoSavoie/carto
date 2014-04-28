@@ -10,6 +10,8 @@
 {% endblock %}
 
 {% block body %}{{ parent() }}
+<h1>Aide :</h1><br/>
+<img style="border:solid 1px grey;"src="{{ asset('bundles/CartoRepresentationsBundle/images/ManuelUtilisateur.png') }}"></img>
 {% endblock %}
 
 {% block script %}
@@ -21,16 +23,16 @@
 			if (wordnet)
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 			}
 			else
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
 				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 			}
@@ -120,6 +122,9 @@
 			</a>
 			<a class="tool-item gradient dragAndDrop" id="drag_and_drop" title="Drag and Drop" value="0">
 				<i class="icon-drag-and-drop"></i>
+			</a>
+			<a class="tool-item gradient rotate" id="rotate" title="rotate" value="0">
+				<i class="icon-rotate"></i>
 			</a>
 			<a href="#" class="tool-item gradient">
 				<i class="icon-full-screen"></i>

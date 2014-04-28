@@ -1,9 +1,9 @@
 function D3_Utils(){}
 
 /**
- * Met dans une iframe la page url du nom passe en parametre
- * @param name : name qu'on veut chercher sur wikipedia
- */
+* Met dans une iframe la page url du nom passe en parametre
+* @param name : name qu'on veut chercher sur wikipedia
+*/
 D3_Utils.prototype.show_wikipedia = function(name) {
 
 	var s = name.replace(/\./g,"").replace(" ","_").replace("-","_");
@@ -20,25 +20,25 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 }
 
 /**
- * Charge un nouveau json en fonction du nom 
- * @param d : objet node sur lequel l'utilisateur a clique
- */
+* Charge un nouveau json en fonction du nom 
+* @param d : objet node sur lequel l'utilisateur a clique
+*/
 D3_Utils.prototype.load_json = function(d) {
-	var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
-	//Url permettant de faire la recherche demandée (dépend de la source)
+	var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
+	//Url permettant de faire la recherche demandpend de la source)
 	if (wordnet)
 	{
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+		var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 	}
 	else
 	{
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+		var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
 		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 	}
@@ -73,12 +73,32 @@ function move(d) {
 	// les nouvelles cad la ou l'utilisateur a clique
 	d.x += d3.event.dx;
 	d.y += d3.event.dy;
-	d3.select('.representationContainer').attr("transform", "translate(" + d.x + "," + d.y + ")");
+	var actual = Number($("#rotate").attr('value'));
+	var sc = Number($("#representationContainer").attr('sc'));
+	d3.select('.representationContainer').attr("transform", "translate(" + d.x + "," + d.y + ")scale(" + sc + ")rotate(" + actual + ")")
+	.attr("tx",d.x).attr("ty",d.y);
+}
+
+D3_Utils.prototype.rotate = function() {
+	var actual = Number($("#rotate").attr('value')) + 20;
+	//var trans = $("#representationContainer").getAttribute("transform");
+	//console.log(trans);
+	var components = d3.transform($("#representationContainer").attr("transform"));
+	t = components.translate;
+	var tx = Number($("#representationContainer").attr('tx'));
+	var ty = Number($("#representationContainer").attr('ty'));
+	var sc = Number($("#representationContainer").attr('sc'));
+	console.log(tx + " , " + ty);
+	d3.select('.rotate').attr("value", actual);
+	var container = d3.select(".svgContainer");
+	// Va recuperer les donnees de l'element se trouvant dans le svg
+	// et appeler la fonction move avec comme parametre les coordonnees
+	d3.select('.representationContainer').attr("transform", "translate(" + tx + "," + ty + ")scale(" + sc + ")rotate(" + actual + ")");
 }
 
 /**
- * Prepare le svg pour que l'utilisateur puisse faire un drag and drop
- */
+* Prepare le svg pour que l'utilisateur puisse faire un drag and drop
+*/
 D3_Utils.prototype.dragAndDrop = function() {
 	if($("#drag_and_drop").attr('value') === "1"){
 		stopDragAndDrop();
@@ -97,8 +117,8 @@ D3_Utils.prototype.dragAndDrop = function() {
 }
 
 /**
- * Prepare le svg pour que l'utilisateur arrete de faire un drag and drop
- */
+* Prepare le svg pour que l'utilisateur arrete de faire un drag and drop
+*/
 function stopDragAndDrop() {
 	if($("#drag_and_drop").attr('value') === "1"){
 		// On change la couleur du bouton

@@ -86,7 +86,11 @@ D3_GrapheRepresentation.load = function(json) {
 		.data(d)
 		.append("g")
 		.attr("class", "representationContainer")
-		.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; });
+		.attr("id","representationContainer")
+		.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; })
+		.attr("tx", 20)
+		.attr("ty", 20)
+		.attr("sc", 1);
 		
 	/* Define the data for the circles */
 	// Pour tous les éléments .link on crée un noeud <line>
@@ -225,6 +229,10 @@ D3_GrapheRepresentation.load = function(json) {
 	d3.selectAll('.dragAndDrop')
 		.attr("value", "0")
 		.on('click', d3_utils.dragAndDrop);
+
+	// On désactive les boutons inutiles pour cette vue
+	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
+
 }
 
 function zoomClick() {
@@ -267,10 +275,16 @@ function zoomClick() {
 
 function zoomed() {
 	var container = d3.select(".representationContainer");
+	var tx = Number($("#representationContainer").attr('tx'));
+	var ty = Number($("#representationContainer").attr('ty'));
+	var sc = zoom.scale();
+	var rotation = Number($("#rotate").attr('value'))
 	container.attr("transform",
-		"translate(" + zoom.translate() + ")" +
-		"scale(" + zoom.scale() + ")"
+		"translate(" + tx + "," + ty + ")"  +
+		"scale(" + sc + ")" +
+		"rotate(" + rotation + ")"
 	);
+	container.attr("sc",sc);
 }
 
 function interpolateZoom (translate, scale) {

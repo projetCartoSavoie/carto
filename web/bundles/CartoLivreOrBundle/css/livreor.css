@@ -1,0 +1,59 @@
+.livre
+{
+	width:50%;
+	display:inline-block;
+	vertical-align:top;
+	margin-right:5%;
+}
+
+.livre table
+{
+	width:100%;
+}
+
+.livre td
+{
+	padding:5px;
+	background-color:#ebebeb;
+}
+
+.comment td
+{
+	border:solid 1px #ebebeb;
+	background-color:#FDFAFA;
+}
+
+.separation td
+{
+	background-color:grey;
+	padding:1px;
+}
+
+.form
+{
+	width:40%;
+	display:inline-block;
+	vertical-align:top;
+	padding:5px;
+	border:solid 1px #ebebeb;
+}
+
+.form table
+{
+	width:100%;
+}
+
+.form table td
+{
+	vertical-align:top;
+}
+
+.form table input, .form table textarea
+{
+	width:100%;
+}
+
+.form table textarea
+{
+	height:100px;
+}

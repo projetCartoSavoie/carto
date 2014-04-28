@@ -87,7 +87,11 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.data(d)
 		.append("g")
 		.attr("class", "representationContainer")
-		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");
+		.attr("id","representationContainer")
+		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")")
+		.attr("tx", diameter / 2)
+		.attr("ty", diameter / 2)
+		.attr("sc", 1);
 		
 	/*var container = svg.append("g")
 		.attr("class", "representationContainer")
@@ -168,6 +172,11 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	d3.selectAll('.dragAndDrop')
 		.attr("value", "0")
 		.on('click', d3_utils.dragAndDrop);
+
+	// Si on clique sur le bouton ayant la classe
+	// rotate on appelle la fonction Rotate
+	d3.selectAll('.rotate').attr("value","0")
+		.on('click', d3_utils.rotate);
 }
 
 function zoomClick() {
@@ -201,10 +210,16 @@ function zoomClick() {
 
 function zoomed(center) {
 	var container = d3.select(".representationContainer");
+	var tx = Number($("#representationContainer").attr('tx'));
+	var ty = Number($("#representationContainer").attr('ty'));
+	var sc = zoom.scale();
+	var rotation = Number($("#rotate").attr('value'))
 	container.attr("transform",
-		"translate(" + center[0] + "," + center[1] + ")"  +
-		"scale(" + zoom.scale() + ")"
+		"translate(" + tx + "," + ty + ")"  +
+		"scale(" + sc + ")" +
+		"rotate(" + rotation + ")"
 	);
+	container.attr("sc",sc);
 }
 
 function interpolateZoom (translate, scale) {

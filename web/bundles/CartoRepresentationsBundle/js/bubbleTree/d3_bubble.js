@@ -150,8 +150,13 @@ D3_BubbleRepresentation.load = function(json) {
 
 	d3.select(self.frameElement).style("height", diameter + "px");
 
+	//On désactive les boutons inutiles
+	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
+	d3.selectAll('.dragAndDrop').attr("value","0").attr("class","inactif");
+
 	//Boutons zoom à droite de l'écran
 	d3.selectAll('.zoom').on('click', zoomClick);
+
 
 	function zoomClick() {
 		var width = $("#contentCenter").width();
