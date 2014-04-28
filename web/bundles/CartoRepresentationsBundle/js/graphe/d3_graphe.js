@@ -87,9 +87,9 @@ D3_GrapheRepresentation.load = function(json) {
 		.append("g")
 		.attr("class", "representationContainer")
 		.attr("id","representationContainer")
-		.attr("transform", function (d) { return "translate(" + 0 + "," + 0 + ")"; })
-		.attr("tx", 0)
-		.attr("ty", 0)
+		.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; })
+		.attr("tx", 20)
+		.attr("ty", 20)
 		.attr("sc", 1);
 		
 	/* Define the data for the circles */
@@ -230,10 +230,9 @@ D3_GrapheRepresentation.load = function(json) {
 		.attr("value", "0")
 		.on('click', d3_utils.dragAndDrop);
 
-	// Si on clique sur le bouton ayant la classe
-	// rotate on appelle la fonction Rotate
-	d3.selectAll('.rotate').attr("value","0")
-		.on('click', d3_utils.rotate);
+	// On désactive les boutons inutiles pour cette vue
+	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
+
 }
 
 function zoomClick() {

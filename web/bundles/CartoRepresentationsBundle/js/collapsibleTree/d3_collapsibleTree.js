@@ -51,7 +51,12 @@ D3_TreeRepresentation.load = function(json) {
 		.data(d)
 		.append("g")
 		.attr("class", "representationContainer")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		.attr("id","representationContainer")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+		.attr("tx", margin.left)
+		.attr("ty", margin.top)
+		.attr("sc", 1);
+		;
 		
 	/***************************************************/
 	/*		Transformation du json generique 		   */
@@ -277,6 +282,9 @@ function update(source) {
 	d3.selectAll('.dragAndDrop')
 		.attr("value", "0")
 		.on('click', d3_utils.dragAndDrop);
+
+	// On désactive les boutons inutiles pour cette vue
+	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
 }
 
 function zoomClick() {
@@ -309,10 +317,16 @@ function zoomClick() {
 
 function zoomed(center) {
 	var container = d3.select(".representationContainer");
+	var tx = Number($("#representationContainer").attr('tx'));
+	var ty = Number($("#representationContainer").attr('ty'));
+	var sc = zoom.scale();
+	var rotation = Number($("#rotate").attr('value'))
 	container.attr("transform",
-		"translate(" + center[0] + "," + center[1] + ")"  +
-		"scale(" + zoom.scale() + ")"
+		"translate(" + tx + "," + ty + ")"  +
+		"scale(" + sc + ")" +
+		"rotate(" + rotation + ")"
 	);
+	container.attr("sc",sc);
 }
 
 function interpolateZoom (translate, scale) {

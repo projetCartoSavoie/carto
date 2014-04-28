@@ -158,6 +158,10 @@ padding: 0 0 0 6px;
 	border-bottom: none;
 }
 
+.inactif {
+	display:none;
+}
+
 .tool-item.selected, .tool-item:hover  {
 	background: #a79f9f;
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #a79f9f), color-stop(93%, #e2dfdf));

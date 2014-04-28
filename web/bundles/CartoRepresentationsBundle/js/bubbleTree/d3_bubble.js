@@ -150,12 +150,9 @@ D3_BubbleRepresentation.load = function(json) {
 
 	d3.select(self.frameElement).style("height", diameter + "px");
 
-	// Si on clique sur le bouton ayant la classe
-	// dragAndDrop on appelle la fonction dragAndDrop
-	var d3_utils = new D3_Utils();
-	d3.selectAll('.dragAndDrop')
-		.attr("value", "0")
-		.on('click', d3_utils.dragAndDrop);
+	//On désactive les boutons inutiles
+	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
+	d3.selectAll('.dragAndDrop').attr("value","0").attr("class","inactif");
 
 	//Boutons zoom à droite de l'écran
 	d3.selectAll('.zoom').on('click', zoomClick);
