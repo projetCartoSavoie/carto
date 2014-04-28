@@ -86,7 +86,7 @@ D3_BubbleRepresentation.load = function(json) {
 			.on("click", function(d) {
 					//Le click sur un cercle provoque 2 choses :
 						//La vue se centre sur ce cercle
-					if (focus !== d) zoom(d), d3.event.stopPropagation(); 
+					//if (focus !== d) console.log("on click"),zoom(d), d3.event.stopPropagation(); 
 						//Le résultat d'une recherche wikipedia s'affiche dans le cadre wikipedia
 						//Si le noeud a un nom contenant des espaces, on cherche un mot sans espace dans son voisinage pour faire la recherche.
 					var sansEspace = new RegExp(/\s/); 
