@@ -23,9 +23,7 @@ D3_GrapheRepresentation.load = function(json) {
 	/***************************************************/
 
 	var formatter = new D3_Formatter();
-	var graph = formatter.to_graph(json);
-	console.log(json);
-	
+	var graph = formatter.to_graph(json);	
 	
 	/***************************************************/
 	/*					Outils						   */
@@ -36,24 +34,13 @@ D3_GrapheRepresentation.load = function(json) {
 	/*		Relations 		   */
 	/**************************/
 	
-	var data = json.relationsUsed;
-	var paragraphs = d3.select('.selectRelation')
-		.on("change",change)
-		.selectAll(".relation")
-			.data(data)
-				.enter()
-				.append("option")
-				.attr("class", "relation");
-
-	// On configure le texte
-	paragraphs
-		.attr("value", function (d) { return d;})
-		.text(function (d) { return d; });
+	d3_utils.showRelation(json, "graph");
 		
 	/***************************/
 	/*		Graphe	 		   */
 	/**************************/
-
+	
+	//Zoom sert aux fonctions de zoom communes à toutes les représentations
 	zoom = d3.behavior.zoom()
 			.scaleExtent([1, 10])
 			.on("zoom", zoomed);
@@ -109,30 +96,6 @@ D3_GrapheRepresentation.load = function(json) {
 			})
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
 			.style("stroke", "#999");
-		
-	// Quand on clique sur une relation on affiche
-	// les liens en couleur
-	function change(){
-		// On recupere ce que l'utilisateur a choisi
-		nameRelation = this.options[this.selectedIndex].value;
-		// On redessine les liens en couleur de base
-		d3.selectAll("line")
-				.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-				.style("stroke", "#999");
-		// Pour tous les liens du graphe
-		graph.links.forEach(
-			function(d){
-				// Si le lien a la relation selectionnee alors on met en couleur
-				for(var i=0; i < d.name.length; i++){
-					if(d.name[i].localeCompare(nameRelation) == 0){
-						d3.selectAll('.' + d.name[i])
-							.style("stroke-width", 3)
-							.style("stroke",  colorLink(d.value));
-					}
-				}
-			}
-		);
-	};
 	
 	var drag = d3.behavior.drag()
 		.on("drag", function(d, i) {

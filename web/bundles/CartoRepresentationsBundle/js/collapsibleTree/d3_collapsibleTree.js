@@ -83,20 +83,7 @@ function update(source) {
 	/***************************/
 	/*		Relations 		   */
 	/**************************/
-	
-	var data = treeJson.relationsUsed;
-	var paragraphs = d3.select('.selectRelation')
-		.on("change",change)
-		.selectAll(".relation")
-			.data(data)
-				.enter()
-				.append("option")
-				.attr("class", "relation");
-
-	// On configure le texte
-	paragraphs
-		.attr("value", function (d) { return d;})
-		.text(function (d) { return d; });
+	d3_utils.showRelation(json, "tree");
 		
 	/***************************/
 	/*		Graphe	 		   */
@@ -216,7 +203,7 @@ function update(source) {
 		})
 		.remove();
 	  
-	// Quand on clique sur une relation on affiche
+	/*// Quand on clique sur une relation on affiche
 	// les liens en couleur
 	function change(){
 		// On recupere ce que l'utilisateur a choisi
@@ -236,7 +223,7 @@ function update(source) {
 				}
 			}
 		);
-	};
+	};*/
 
 	// Stash the old positions for transition.
 	nodes.forEach(function(d) {

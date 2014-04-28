@@ -7,7 +7,9 @@ function D3_Utils(){}
 D3_Utils.prototype.show_wikipedia = function(name) {
 
 	var s = name.replace(/\./g,"").replace(" ","_").replace("-","_");
+	// On construit l'url avec le name selectionne par l'utilisateur
 	var url = "http://en.m.wikipedia.org/wiki/"+s;
+	// On ajoute des balises a la div qui a l'identifiant wikipedia
 	$('#wikipedia').html(
 			"<p><b>Informations on "+name+"</b> "+
 			"<iframe id='wikiframe' src='"+url+"' "+
@@ -43,6 +45,8 @@ D3_Utils.prototype.load_json = function(d) {
 		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 	}
 	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
+	
+	// On fait une requete ajax afin de ne pas recharger la page
 	$.ajax({
 		type: "POST",
 		url: url,
@@ -53,10 +57,14 @@ D3_Utils.prototype.load_json = function(d) {
 		cache: false,
 		success: function(response) {
 			var result = $.parseJSON(response);
+			// On verifie si la reponse a ete faite avec succes
 			if(result.success){
 				var data = result.data;
+				// On regarde si un graphe est deja dessine
 				if(representation){
+					// S'il y a deja une representation on l'enleve
 					$('svg').remove();
+					// On enleve le combobox pour les relations dans la barre d'outils a gauche
 					$('.relation').remove();
 				}
 				representation.show(data);
@@ -74,6 +82,7 @@ function move(d) {
 	d.x += d3.event.dx;
 	d.y += d3.event.dy;
 	var actual = Number($("#rotate").attr('value'));
+	// On recupere le scale si on a deja zoome sur la representation
 	var sc = Number($("#representationContainer").attr('sc'));
 	d3.select('.representationContainer').attr("transform", "translate(" + d.x + "," + d.y + ")scale(" + sc + ")rotate(" + actual + ")")
 	.attr("tx",d.x).attr("ty",d.y);
@@ -81,8 +90,6 @@ function move(d) {
 
 D3_Utils.prototype.rotate = function() {
 	var actual = Number($("#rotate").attr('value')) + 20;
-	//var trans = $("#representationContainer").getAttribute("transform");
-	//console.log(trans);
 	var components = d3.transform($("#representationContainer").attr("transform"));
 	t = components.translate;
 	var tx = Number($("#representationContainer").attr('tx'));
@@ -100,13 +107,17 @@ D3_Utils.prototype.rotate = function() {
 * Prepare le svg pour que l'utilisateur puisse faire un drag and drop
 */
 D3_Utils.prototype.dragAndDrop = function() {
+	// On regarde si on a deja clique sur le bouton dragNdrog
 	if($("#drag_and_drop").attr('value') === "1"){
+		// Si c'est la deuxieme fois on enleve le mode dragNdrop
 		stopDragAndDrop();
 	}
 	else{
+		// Sinon on avertit l'utilisateur qu'il a clique sur le bouton
 		d3.select('.dragAndDrop')
 			.style("background-color", "#36A9C7")
 			.attr("value", "1");
+		// Et on applique le mode dragNdrop
 		var container = d3.select(".svgContainer")
 			.attr("cursor", "move");
 			
@@ -134,4 +145,68 @@ function stopDragAndDrop() {
 	else{
 		this.dragAndDrop();
 	}
+}
+
+/**
+* Affiche les relations en couleur pour une representation en arbre ou en graphe
+* @param json : json transforme pour recuperer le nom des relations
+*/
+D3_Utils.prototype.showRelation = function(json, representation) {
+	var balise = "line";
+	var isTree = 0;
+	if(representation === "tree"){
+		balise = "path";
+		isTree = 1;
+	}
+	var colorLink = d3.scale.category20();
+	// On recupere les relations utilisees pour ce json
+	var data = json.relationsUsed;
+	var paragraphs = d3.select('.selectRelation')
+		.on("change",function() {
+						// On recupere ce que l'utilisateur a choisi
+				nameRelation = this.options[this.selectedIndex].value;
+				// On redessine les liens en couleur de base
+				d3.selectAll(balise)
+						.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+						.style("stroke", "#999");
+				if(isTree === 1){
+					// Pour tous les liens du graphe
+					json.links.forEach(
+						function(d){
+							// Si le lien a la relation selectionnee alors on met en couleur
+							if(d.name.localeCompare(nameRelation) == 0){
+								d3.selectAll('#' + d.name)
+									.style("stroke-width", 3)
+									.style("stroke",  colorLink(d.value));
+							}
+						}
+					);
+				}
+				else{
+					// Pour tous les liens du graphe
+					json.links.forEach(
+						function(d){
+							// Si le lien a la relation selectionnee alors on met en couleur
+							for(var i=0; i < d.name.length; i++){
+								if(d.name[i].localeCompare(nameRelation) == 0){
+									d3.selectAll('.' + d.name[i])
+										.style("stroke-width", 3)
+										.style("stroke",  colorLink(d.value));
+								}
+							}
+						}
+					);
+				}
+			}
+		)
+		.selectAll(".relation")
+			.data(data)
+				.enter()
+				.append("option")
+				.attr("class", "relation");
+
+	// On configure le texte
+	paragraphs
+		.attr("value", function (d) { return d;})
+		.text(function (d) { return d; });
 }

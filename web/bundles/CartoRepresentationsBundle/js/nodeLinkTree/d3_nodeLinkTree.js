@@ -26,7 +26,6 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	// pour la representation concernee
 	var formatter = new D3_Formatter();
 	var json = formatter.to_tree(json);
-	console.log(json);
 	
 	/***************************************************/
 	/*					Outils						   */
@@ -38,24 +37,13 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	/*		Relations 		   */
 	/**************************/
 	
-	var data = json.relationsUsed;
-	var paragraphs = d3.select('.selectRelation')
-		.on("change",change)
-		.selectAll(".relation")
-			.data(data)
-				.enter()
-				.append("option")
-				.attr("class", "relation");
-
-	// On configure le texte
-	paragraphs
-		.attr("value", function (d) { return d;})
-		.text(function (d) { return d; });
+	d3_utils.showRelation(json, "tree");
 		
 	/***************************/
 	/*		Graphe	 		   */
 	/**************************/
 	
+	//Zoom sert aux fonctions de zoom communes à toutes les représentations
 	zoom = d3.behavior.zoom()
 			.scaleExtent([1, 10])
 			.on("zoom", zoomed);
@@ -94,15 +82,10 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.attr("ty", diameter / 2)
 		.attr("sc", 1);
 		
-	/*var container = svg.append("g")
-		.attr("class", "representationContainer")
-		.attr("transform", "translate(" + diameter / 2 + "," + diameter / 2 + ")");*/
-		
 	d3.select(self.frameElement).style("height", diameter - 150 + "px");
 	
 	var nodes = tree.nodes(json),
 		links = json.links;
-	console.log(links);
 			
 	var link = container.selectAll(".link")
 		.data(links)
@@ -113,28 +96,6 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
 			.style("stroke", "#999")
 			.attr("d", diagonal);
-		
-	// Quand on clique sur une relation on affiche
-	// les liens en couleur
-	function change(){
-		// On recupere ce que l'utilisateur a choisi
-		nameRelation = this.options[this.selectedIndex].value;
-		// On redessine les liens en couleur de base
-		d3.selectAll("path")
-				.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-				.style("stroke", "#999");
-		// Pour tous les liens du graphe
-		links.forEach(
-			function(d){
-				// Si le lien a la relation selectionnee alors on met en couleur
-				if(d.name.localeCompare(nameRelation) == 0){
-					d3.selectAll('#' + d.name)
-						.style("stroke-width", 3)
-						.style("stroke",  colorLink(d.value));
-				}
-			}
-		);
-	};
 
 	var node = container.selectAll(".node")
 		.data(nodes)
