@@ -149,7 +149,7 @@ function stopDragAndDrop() {
 
 // Quand on clique sur une relation on affiche
 // les liens en couleur
-D3_Utils.prototype.changeTree = function (links, nameRelation, colorLink){
+function changeTree(links, nameRelation, colorLink){
 	// On redessine les liens en couleur de base
 	d3.selectAll("path")
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
@@ -192,8 +192,9 @@ function changeGraph(links, nameRelation, colorLink){
 /**
 * Affiche les relations en couleur pour une representation en arbre ou en graphe
 * @param json : json transforme pour recuperer le nom des relations
+* @param representation : pour savoir si la representation est un arbre ou un graphe
 */
-D3_Utils.prototype.showRelation = function(json, representation, links) {
+D3_Utils.prototype.showRelation = function(json, representation) {
 	var colorLink = d3.scale.category20();
 	// On recupere les relations utilisees pour ce json
 	var data = json.relationsUsed;
@@ -202,7 +203,7 @@ D3_Utils.prototype.showRelation = function(json, representation, links) {
 				// On recupere ce que l'utilisateur a choisi
 				nameRelation = this.options[this.selectedIndex].value;
 				if(representation === "tree"){
-					D3_Utils.prototype.changeTree(json.links, nameRelation, colorLink);
+					changeTree(json.links, nameRelation, colorLink);
 				}
 				else{
 					changeGraph(json.links, nameRelation, colorLink);

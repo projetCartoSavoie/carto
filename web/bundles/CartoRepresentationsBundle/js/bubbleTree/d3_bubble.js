@@ -65,7 +65,6 @@ D3_BubbleRepresentation.load = function(json) {
 	var container = svg.append("g")
 	.attr("class", "representationContainer");
 
-
 	//focus indique sur quel noeud doit se centrer la vue (au départ c'est la racine)
 	var focus = treeJson;
 	//view contiendra un vecteur correspondant au zoom sur le focus (vecteur (x,y,r) où (x,y) = coordonnées du centre et r = taille de la zone visible)

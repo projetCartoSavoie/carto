@@ -20,6 +20,8 @@ D3_TreeRepresentation.load = function(json) {
 	/***************************/
 	/*		Graphe	 		   */
 	/**************************/
+	
+	// On recupere la taille de la div pour mettre le svg
 	var widthContentCenter = $("#contentCenter").width(),
     heightContentCenter = $("#contentCenter").height();
 
@@ -33,6 +35,7 @@ D3_TreeRepresentation.load = function(json) {
 		duration = 400,
 		root;
 
+	//Le layout de D3 permet d'agencer sous forme d'arbre
 	var tree = d3.layout.tree()
 		.size([0, 100]);
 
@@ -40,13 +43,14 @@ D3_TreeRepresentation.load = function(json) {
 		.projection(function(d) { return [d.y, d.x]; });
 		
 	// On cree un nouveau noeud <svg>
+	//On configure le svg qui contiendra toute la figure
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", widthContentCenter)
 		.attr("class", "svgContainer");
 		
 	// On specifie une origine
 	var d = [{ x: 20, y: 20 }];
-	// On cree un nouveau noeud <g>
+	// On cree un nouveau noeud <g> pour mettre plusieurs attributs
 	var container = d3.select('.svgContainer')
 		.data(d)
 		.append("g")
@@ -72,7 +76,7 @@ D3_TreeRepresentation.load = function(json) {
 	/*		Relations 		   */
 	/**************************/
 	
-	d3_utils.showRelation(treeJson, "tree", treeJson.links);
+	d3_utils.showRelation(treeJson, "tree");
 	
 	/***************************/
 	/*		Update	 		   */
@@ -91,7 +95,7 @@ function update(source) {
 
 	var colorLink = d3.scale.category20();
 
-	// Compute the flattened node list. TODO use d3.layout.hierarchy.
+	// On recupere les noeuds du json grace a la fonction de d3
 	var nodes = tree.nodes(root);
 	
 	var height = Math.max(500, nodes.length * barHeight + margin.top + margin.bottom);
@@ -102,21 +106,21 @@ function update(source) {
 	d3.select(self.frameElement)
 		.style("height", height + "px");
 
-	// Compute the "layout".
 	nodes.forEach(function(n, i) {
 	n.x = i * barHeight;
 	});
 
-	// Update the nodes
+	// On recupere les noeuds de nodes
 	var node = container.selectAll("g.node")
 	  .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
+	// On cree les noeuds de la representation
 	var nodeEnter = node.enter().append("g")
 	  .attr("class", "node")
 	  .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
 	  .style("opacity", 1e-6);
 
-	// Enter any new nodes at the parent's previous position.
+	// Les noeuds sont representes par des rectangles
 	nodeEnter.append("rect")
 	  .attr("y", -barHeight / 2)
 	  .attr("height", barHeight)
@@ -145,12 +149,7 @@ function update(source) {
 	node.append("title")
 		.text(function(d) { return d.name; });
 
-	// Transition nodes to their new position.
-	nodeEnter.transition()
-	  .duration(duration)
-	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-	  .style("opacity", 1);
-
+	// Nouvelle position du noeud si on clique dessus
 	node.transition()
 	  .duration(duration)
 	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
@@ -158,7 +157,8 @@ function update(source) {
 	.select("rect")
 	  .style("fill", color);
 
-	// Transition exiting nodes to the parent's new position.
+	// On enleve les noeuds si le parent a ete clique
+	// On les place a la meme position que le parent
 	node.exit().transition()
 	  .duration(duration)
 	  .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
@@ -167,11 +167,11 @@ function update(source) {
 
 	// On recupere tous les liens du json
 	var links = getLinks(nodes);
-	// Update the links
+	// On met a jour les liens
 	var link = container.selectAll("path.link")
 	  .data(links, function(d) { return d.target.id; });
 
-	// Enter any new links at the parent's previous position.
+	// On ajoute les liens
 	link.enter().insert("path", "g")
 		.attr("class", "link")
 		.attr("id", function(d) { return d.name; })
@@ -185,12 +185,12 @@ function update(source) {
 		.duration(duration)
 		.attr("d", diagonal);
 
-	// Transition links to their new position.
+	// On met les liens a leur nouvelle position
 	link.transition()
 		.duration(duration)
 		.attr("d", diagonal);
 
-	// Transition exiting nodes to the parent's new position.
+	// On place les liens a ne pas afficher a la position du parent
 	link.exit().transition()
 		.duration(duration)
 		.attr("d", function(d) {
@@ -198,37 +198,15 @@ function update(source) {
 			return diagonal({source: o, target: o});
 		})
 		.remove();
-	  
-	/*// Quand on clique sur une relation on affiche
-	// les liens en couleur
-	function change(){
-		// On recupere ce que l'utilisateur a choisi
-		nameRelation = this.options[this.selectedIndex].value;
-		// On redessine les liens en couleur de base
-		d3.selectAll("path")
-				.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-				.style("stroke", "#999");
-		// Pour tous les liens du graphe
-		links.forEach(
-			function(d){
-				// Si le lien a la relation selectionnee alors on met en couleur
-				if(d.name.localeCompare(nameRelation) == 0){
-					d3.selectAll('#' + d.name)
-						.style("stroke-width", 3)
-						.style("stroke",  colorLink(d.value));
-				}
-			}
-		);
-	};*/
 
-	// Stash the old positions for transition.
+	// Pour tous les noeuds on affecte la nouvelle position
 	nodes.forEach(function(d) {
 	d.x0 = d.x;
 	d.y0 = d.y;
 	});
 	}
 
-	// Toggle children on click.
+	// Lorsqu'on clique sur un noeud
 	function click(d) {
 	  if (d.children) {
 		d._children = d.children;
@@ -245,6 +223,8 @@ function update(source) {
 		return d._children ? /*"#3182bd"*/colorLink(d.group) : d.children ? "#c6dbef" : "#fd8d3c";
 	}
 	
+	// On recupere le liens du json mis a jour a chaque fois 
+	// qu'on clique sur un noeud pour avoir le nom de la relation
 	function getLinks(nodes){
 		var d3_links = tree.links(nodes);
 		var allLinks = treeJson.links;

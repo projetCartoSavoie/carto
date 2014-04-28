@@ -37,7 +37,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	/*		Relations 		   */
 	/**************************/
 	
-	d3_utils.showRelation(json, "tree", json.links);
+	d3_utils.showRelation(json, "tree");
 		
 	/***************************/
 	/*		Graphe	 		   */
@@ -47,7 +47,8 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	zoom = d3.behavior.zoom()
 			.scaleExtent([1, 10])
 			.on("zoom", zoomed);
-			
+	
+	// On recupere la taille de la div pour mettre le svg
 	var width = $("#contentCenter").width(),
     height = $("#contentCenter").height();
 	
@@ -56,6 +57,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	var color = d3.scale.category20();
 	var colorLink = d3.scale.category20();
 
+	//Le layout de D3 permet d'agencer sous forme d'arbre
 	var tree = d3.layout.tree()
 		.size([360, diameter / 2 - 200])
 		.separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
@@ -64,6 +66,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
 		
 	// On cree un nouveau noeud <svg>
+	//On configure le svg qui contiendra toute la figure
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", diameter)
 		.attr("height", diameter - 150)
@@ -71,7 +74,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		
 	// On specifie une origine
 	var d = [{ x: diameter/2, y: diameter/2 }];
-	// On cree un nouveau noeud <g>
+	// On cree un nouveau noeud <g> pour mettre plusieurs attributs
 	var container = d3.select('.svgContainer')
 		.data(d)
 		.append("g")
@@ -84,9 +87,11 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		
 	d3.select(self.frameElement).style("height", diameter - 150 + "px");
 	
+	// On recupere les noeuds du json grace a la fonction de d3
 	var nodes = tree.nodes(json),
 		links = json.links;
 			
+	// On cree les liens de la representation
 	var link = container.selectAll(".link")
 		.data(links)
 		.enter()
@@ -97,6 +102,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			.style("stroke", "#999")
 			.attr("d", diagonal);
 
+	// On cree les noeuds de la representation
 	var node = container.selectAll(".node")
 		.data(nodes)
 		.enter()
@@ -104,6 +110,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			.attr("class", "node")
 			.attr("transform", function(d) { return "rotate(" + (d.x - 90) + ")translate(" + d.y + ")"; });
 
+	// Les noeuds sont representes par des cercles
 	node.append("circle")
 		.attr("r", 5)
 		.style("fill", function(d) { return color(d.group); });
@@ -112,6 +119,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	node.append("title")
 		.text(function(d) { return d.name; });
 
+	// On ajoute du texte aux noeuds
 	node.append("text")
 		.attr("dy", ".31em")
 		.attr("text-anchor", function(d) { return d.x < 180 ? "start" : "end"; })

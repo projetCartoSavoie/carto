@@ -2,6 +2,11 @@ function D3_GrapheRepresentation(){}
 
 var zoom = null;
 
+/** 
+ * Fonction show : appelle la fonction load en lui passant le json
+ *
+ * @param data : le json sous forme d'objet json ou de chaine de caractères
+ */
 D3_GrapheRepresentation.prototype.show = function(data) {
 		// data is file path
 	if(typeof data === "string"){
@@ -16,6 +21,11 @@ D3_GrapheRepresentation.prototype.show = function(data) {
 	}
 }
 
+/** 
+ * Fonction load : ajoute les balises svg au conteneur pour afficher la vue graph pour le json donné
+ *
+ * @param json : fichier json rendu par la recherche
+ */
 D3_GrapheRepresentation.load = function(json) {
 
 	/***************************************************/
@@ -34,7 +44,7 @@ D3_GrapheRepresentation.load = function(json) {
 	/*		Relations 		   */
 	/**************************/
 	
-	d3_utils.showRelation(json, "graph", json.links);
+	d3_utils.showRelation(json, "graph");
 		
 	/***************************/
 	/*		Graphe	 		   */
@@ -44,13 +54,15 @@ D3_GrapheRepresentation.load = function(json) {
 	zoom = d3.behavior.zoom()
 			.scaleExtent([1, 10])
 			.on("zoom", zoomed);
-
+	
+	// On recupere la taille de la div pour mettre le svg
 	var width = $("#contentCenter").width(),
     height = $("#contentCenter").height();
 
 	var color = d3.scale.category20();
 	var colorLink = d3.scale.category20();
 
+	//Le layout de D3 permet d'agencer sous forme de graphe
 	var force = d3.layout.force()
 		.charge(-400)
 		.linkDistance(20)
@@ -62,6 +74,7 @@ D3_GrapheRepresentation.load = function(json) {
 		.start();
 		
 	// On cree un nouveau noeud <svg>
+	//On configure le svg qui contiendra toute la figure
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", width)
 		.attr("height", height)
@@ -69,7 +82,7 @@ D3_GrapheRepresentation.load = function(json) {
 		
 	// On specifie une origine
 	var d = [{ x: 20, y: 20 }];
-	// On cree un nouveau noeud <g>
+	// On cree un nouveau noeud <g> pour mettre plusieurs attributs
 	var container = d3.select('.svgContainer')
 		.data(d)
 		.append("g")
@@ -80,8 +93,8 @@ D3_GrapheRepresentation.load = function(json) {
 		.attr("ty", 20)
 		.attr("sc", 1);
 		
-	/* Define the data for the circles */
 	// Pour tous les éléments .link on crée un noeud <line>
+	// On cree les liens de la representation
 	var link = container.selectAll(".link")
 		.data(graph.links)
 		.enter()
@@ -132,7 +145,8 @@ D3_GrapheRepresentation.load = function(json) {
 			}
 		});
 		
-	// Pour tous les éléments .node on crée un noeud <g>
+	// Pour tous les elements .node on cree un noeud <g>
+	// On cree les noeuds de la representation
 	var node = container.selectAll(".node")
 		.data(graph.nodes)
 		.enter()
@@ -141,7 +155,8 @@ D3_GrapheRepresentation.load = function(json) {
 			.attr("transform", function(d) { return "rotate(" + d.x + ")translate(" + d.y + ")"; })
 			.call(force.drag);
 			
-	// A chaque node <g> on crée un noeud <circle>
+	// A chaque node <g> on cree un noeud <circle>
+	// Les noeuds sont representes par des cercles
 	node.append("circle")
 		.attr("r", 5)
 		.style("stroke", "#fff")
