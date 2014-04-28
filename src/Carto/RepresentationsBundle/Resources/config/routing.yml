@@ -17,3 +17,7 @@ carto_representations_representation3:
 carto_representations_representation4:
     pattern:  /Representation4
     defaults: { _controller: CartoRepresentationsBundle:Default:representation4 }
+
+carto_representations_representation6:
+    pattern:  /Representation6
+    defaults: { _controller: CartoRepresentationsBundle:Default:representation6 }
