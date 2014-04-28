@@ -24,6 +24,7 @@ D3_GrapheRepresentation.load = function(json) {
 
 	var formatter = new D3_Formatter();
 	var graph = formatter.to_graph(json);
+	console.log(json);
 	
 	
 	/***************************************************/

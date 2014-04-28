@@ -28,11 +28,13 @@ D3_Formatter.prototype.to_graph = function(graph){
 	
 	// On met des couleurs pour chaque relation
 	var colorLink = {};
-	i = 0;
+	// On definit une value de type int pour d3js
+	// La premiere relation ayant une value de 1, la seconde de 2, ...
+	var value = 1;
 	graph.relations.forEach(
 		function(relation){
-			colorLink[relation] = i;
-			i++;
+			colorLink[relation] = value;
+			value++;
 		}
 	);
 
@@ -51,10 +53,6 @@ D3_Formatter.prototype.to_graph = function(graph){
 			
 			// Si la source est bien definie dans la liste des noeuds
 			if(nodeArray.indexOf(source) != -1){
-			
-				// On definit une value de type int pour d3js
-				// La premiere relation ayant une value de 1, la seconde de 2, ...
-				var value = 1;
 				
 				// Parcours de l'ensemble des relations, pour avoir leur nom
 				graph.relations.forEach(
@@ -127,11 +125,13 @@ D3_Formatter.prototype.to_tree = function(tree){
 	
 	// On met des couleurs pour chaque relation
 	var colorLink = {};
-	i = 0;
+	// On definit une value de type int pour d3js
+	// La premiere relation ayant une value de 1, la seconde de 2, ...
+	var value = 1;
 	tree.relations.forEach(
 		function(relation){
-			colorLink[relation] = i;
-			i++;
+			colorLink[relation] = value;
+			value++;
 		}
 	);
 	

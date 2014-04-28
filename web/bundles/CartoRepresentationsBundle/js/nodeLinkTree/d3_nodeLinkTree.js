@@ -26,6 +26,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	// pour la representation concernee
 	var formatter = new D3_Formatter();
 	var json = formatter.to_tree(json);
+	console.log(json);
 	
 	/***************************************************/
 	/*					Outils						   */
@@ -101,6 +102,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	
 	var nodes = tree.nodes(json),
 		links = json.links;
+	console.log(links);
 			
 	var link = container.selectAll(".link")
 		.data(links)
