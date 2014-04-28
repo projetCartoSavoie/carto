@@ -34,6 +34,7 @@
 							<img class="logo" src="{{ asset('bundles/CartoAccueilBundle/images/logo.png')}}" title="Cartographie de données" alt="Cartographie de données">
 							<nav>
 								<ul class="nav">
+									{# Quand on clique sur un <li> on attribue une class current pour le laisser en couleur #}
 									<li id="home" {% if path(app.request.attributes.get('_route')) == "/" ~ app.request.locale or path(app.request.attributes.get('_route')) == "/" %}class="current"{% endif %}>
 												<a href="{{ path('carto_accueil_homepage') }}" --class="homeIcon"-->{{"Accueil"|trans}}</a>
 									</li>
@@ -50,23 +51,23 @@
 										<a href="{{ path('carto_representations_homepage') }}">{{"Représentations"|trans}}</a>
 										<ul>
 											<li>
-												<a href="{{ path('carto_representations_representation1') }}">{{"Représentation 1" | trans}}</a>
+												<a href="{{ path('carto_representations_representation1') }}">{{"Radial Tree" | trans}}</a>
 											</li>
 											<li>
-												<a href="{{ path('carto_representations_representation2') }}">{{"Représentation 2" | trans}}</a>
+												<a href="{{ path('carto_representations_representation2') }}">{{"Indented Tree" | trans}}</a>
 											</li>
 											<li>
-												<a href="{{ path('carto_representations_representation3') }}">{{"Représentation 3" | trans}}</a>
+												<a href="{{ path('carto_representations_representation3') }}">{{"Force Directed Graph" | trans}}</a>
 											</li>
 											<li>
-												<a href="{{ path('carto_representations_representation4') }}">{{"Représentation 4" | trans}}</a>
+												<a href="{{ path('carto_representations_representation4') }}">{{"Bubble Tree" | trans}}</a>
 											</li>
 											<li>
-												<a href="{{ path('carto_representations_representation6') }}">{{"Représentation 6" | trans}}</a>
+												<a href="{{ path('carto_representations_representation6') }}">{{"Dependency Wheel" | trans}}</a>
 											</li>
 										</ul>
 									</li>
-									<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+									<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %} >
 										<a href="{{ path('carto_donnees_simple') }}">{{"Données" | trans}}</a>
 										<ul>
 											<li>
@@ -83,11 +84,16 @@
 											</li>
 										</ul>
 									</li>
-									<li id="about" {% if "about" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+									<li id="about" {% if "about" in path(app.request.attributes.get('_route')) %}class="current"{% endif %} >
 										<a href="{{ path('carto_accueil_aboutus') }}">{{"A propos" | trans}}</a>
 									</li>
-									<li id="contact" {% if "contact" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
-										<a href="{{ path('carto_accueil_contactus') }}">{{"Contacts" | trans}}</a>
+									<li id="contact" {% if "livre-d-or" in path(app.request.attributes.get('_route')) %}class="current"{% endif %} >
+										<a href="{{ path('carto_livre_or_homepage') }}">{{"livre" | trans}}</a>
+										<ul>
+											<li>
+												<a href="{{ path('carto_livre_or_admin') }}">{{"Gérer" | trans}}</a>
+											</li>
+										</ul>
 									</li>
 								</ul>
 							</nav>
@@ -104,7 +110,7 @@
 				</td>
 				<td class="contentLeft">
 					{% block utilsLeft %}
-						<img class="borderLeft" src="{{ asset('bundles/CartoAccueilBundle/images/left.png') }}">
+						<img class="borderLeft" src="{{ asset('bundles/CartoAccueilBundle/images/left.png') }}"></img>
 					{% endblock %}
 				</td>
 				<td id="contentCenter">

@@ -11,48 +11,67 @@
 {% block body %}{{ parent() }}
 	<table class="aPropos" cellspacing="0" cellpadding="20">
 		<tr>
-			<th><h3>A propos du site</h3></th>
+			<th><h3>Qui sommes nous ?</h3></th>
 			<th><h3>Liens</h3></th>
-			<th><h3>Commentaires</h3></th>
-			<th><h3>A propos des auteurs</h3></th>
 		</tr>
 		<tr>
 			<td>
-				Ce projet est réalisé par des étudiants de L3 à l'université de Savoie, sous la direction de Christophe Roche, professeur au sein de l'équipe Condillac.
+				<p>Ce projet est réalisé par des étudiants de L3 à l'université de Savoie, sous la direction de Christophe Roche, professeur au sein de l'équipe Condillac.</p>
+				<p>				Les etudiants participants à ce projet sont :
+				<ul>
+					<li><a href="mailto:remy.cluze@etu.univ-savoie.fr">Remy Cluze</a></li>
+					<li><a href="mailto:celine.de-roland@etu.univ-savoie.fr">Celine de Roland</a></li>
+					<li><a href="mailto:anthony.di-lisio@etu.univ-savoie.fr">Anthony Di Lisio</a></li>
+					<li><a href="mailto:juliana.leclaire@etu.univ-savoie.fr">Juliana Leclaire</a></li>
+					<li><a href="mailto:remi.mollard@etu.univ-savoie.fr">Remi Mollard</a></li>
+					<br/>
+					<li><a href="mailto:remy.cluze@etu.univ-savoie.fr,celine.de-roland@etu.univ-savoie.fr,remi.mollard@etu.univ-savoie.fr,anthony.di-lisio@etu.univ-savoie.fr,juliana.leclaire@etu.univ-savoie.fr">Ecrire à toute l'équipe</a></li>
+				</ul>
+				</p>
 			</td>
 			<td class="sources">
-				<div onclick="window.open('http://www.polytech.univ-savoie.fr/fileadmin/polytech_autres_sites/sites/listic/Theses/TheseTricot.pdf', '_blank')">Voir nos sources pour les representations "<u>These de Christophe Tricot</u>"</div><br/>
-				<div onclick="window.open('http://http://fr.wikipedia.org/wiki/WordNet', '_blank')">Voir nos sources pour les donnees "<u>Wordnet</u>"</div><br/>
-			</td>
-			<td>
-				<form action="commentaires.php" method="post">
-					<table class="commentaireTable">
-						<tr>
-							<td>
-								<textarea class="commentaireTextarea" name="commentaires">Tapez ici vos commentaires</textarea>	<!--on cree un espace de texte-->
-							</td>
-						</tr>
-						<tr height="30">
-							<td style="text-align: right;">
-								<input type="submit" value="Enregistrer" />
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<a href= "#commentaires">Voir les commentaires</a>
-							</td>
-						</tr>
-					</table>
-				</form>
-			</td>
-			<td>
-				Les etudiants participants à ce projet sont :
-				<ul>
-					<li>Celine de Roland</li>
-					<li>Juliana Leclaire</li>
-					<li>Anthony Di Lisio</li>
-					<li>Remi Mollard</li>
-					<li>Remy Cluze</li>
+				<ul style="margin-top:0px;padding-top:0px;">
+					<li>WordNet
+						<ul>
+							<li><a href="http://wordnet.princeton.edu/">{{ "Présentation de WordNet" | trans }}</a></li>
+							<li><a href="http://wordnet.princeton.edu/wordnet/documentation/">{{ "Documentation WordNet" | trans }}</a></li>
+							<li><a href="http://wordnetweb.princeton.edu/perl/webwn">{{ "WordNet en ligne" | trans }}</a></li>
+						</ul>
+					</li>
+					<li>Wikipedia
+						<ul>
+							<li><a href="http://www.lespetitescases.net">Les petites cases</a></li>
+							<li><a href="http://code.google.com/p/tdwg-rdf/wiki/Beginners6SPARQL">Wiki google</a></li>
+							<li><a href="http://www.cambridgesemantics.com/semantic-university/sparql-by-example">Cambridge University</a></li>
+							<li><a href="http://www.w3.org/TR/rdf-sparql-query/">W3C - sparql query</a></li>
+							<li><a href="http://fr.wikiversity.org/wiki/SPARQL_Protocol_and_RDF_Query_Language/Requ%C3%AAtes_de_d%C3%A9couverte">Wikiversity</a></li>
+							<li><a href="http://jplu.developpez.com/tutoriels/web-semantique/nouveautes-sparql-1-1/#LIII">Developpez.com</a></li>
+							<li><a href="http://www.w3.org/TR/2007/NOTE-rdf-sparql-json-res-20070618/">W3C - sparql json result</a></li>
+							<li><a href="http://johnwright.me/blog/sparql-query-in-code-rest-php-and-json-tutorial/">Johnwright.me</a></li>
+						</ul>
+					</li>
+					<li>Représentations - D3 - json
+						<ul>
+							<li><a href="http://ontology.univ-savoie.fr/tricot/">{{ "Thèse de Christophe Tricot" | trans }} </a></li>
+							<li><a href="http://fr.slideshare.net/Rencontres_Web_de_donnees/christophe-tricot-et-raphal-velt">{{ "Revue sur les outils web de cartographie de données" | trans }}</a></li>
+							<li><a href="http://d3js.org/">D3</a></li>
+							<li><a href="http://jsonlint.com/">JsonLint</a></li>
+						</ul>
+					</li>
+					<li>Technologies Web
+						<ul>
+							<li><a href="http://httpd.apache.org/">Apache</a></li>
+							<li><a href="http://symfony.com/">Symfony</a></li>
+							<li><a href="http://www.w3.org/">W3C</a></li>
+							<li><a href="http://www.php.net/">PHP</a></li>
+							<li><a href="http://phpunit.de/">PHPUnit</a></li>
+							<li><a href="http://www.phpdoc.org/">PHPDoc</a></li>
+							<li><a href="http://www.doctrine-project.org/">Doctrine</a></li>
+							<li><a href="https://www.mysql.fr/">Mysql</a></li>
+							<li><a href="http://fr.openclassrooms.com/">Openclassrooms</a></li>
+							<li><a href="http://knpbundles.com/Gregwar/CaptchaBundle">CaptchaBundle</a></li>
+						</ul>
+					</li>
 				</ul>
 			</td>
 		</tr>

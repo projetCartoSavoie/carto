@@ -1,5 +1,5 @@
 {% extends "CartoRepresentationsBundle:Layouts:layout.html.twig" %}
-{% block title %}{{"Représentation 3"}}{% endblock %}
+{% block title %}{{"Force Directed Graph"}}{% endblock %}
 
 {% block stylesheets %}{{ parent() }}
 {% stylesheets 'bundles/CartoRepresentationsBundle/css/forceDirectedGraph.css' %}
@@ -8,7 +8,10 @@
 {% endblock %}
 
 {% block javascripts %}
-{% javascripts 'bundles/CartoRepresentationsBundle/js/*' %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/global/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/graphe/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}

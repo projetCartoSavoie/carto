@@ -1,0 +1,7 @@
+parameters:
+#    carto_livre_or.example.class: Carto\LivreOrBundle\Example
+
+services:
+#    carto_livre_or.example:
+#        class: %carto_livre_or.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

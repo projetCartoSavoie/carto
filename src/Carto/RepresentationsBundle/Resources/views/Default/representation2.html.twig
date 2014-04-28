@@ -1,5 +1,5 @@
 {% extends "CartoRepresentationsBundle:Layouts:layout.html.twig" %}
-{% block title %}{{"Représentation 2"}}{% endblock %}
+{% block title %}{{"Indented Tree"}}{% endblock %}
 
 {% block stylesheets %}{{ parent() }}
 {% stylesheets 'bundles/CartoRepresentationsBundle/css/collapsibleTree.css' %}
@@ -8,17 +8,14 @@
 {% endblock %}
 
 {% block javascripts %}
-{% javascripts 'bundles/CartoRepresentationsBundle/js/*' %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/global/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/collapsibleTree/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}
 
 {% block script %}{{ parent() }}
 	var representation = new D3_TreeRepresentation();
-	function disabled_button_and_show(){
-		$('svg').remove();
-		var fichier = "{{ asset('bundles/CartoRepresentationsBundle/json/exemple.json') }}";
-		document.getElementById('show_rep').disabled=true;
-		representation.show(fichier); 
-	}
 {% endblock %}

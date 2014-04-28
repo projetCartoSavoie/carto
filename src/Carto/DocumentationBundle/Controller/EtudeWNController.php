@@ -1,44 +1,92 @@
 <?php
-
+/**
+ * Controleur pour la doc WordNet
+ *
+ * @author Rémy Cluze <Remy.Cluze@etu.univ-savoie.fr>
+ * @author Anthony Di Lisio <Anthony.Di-Lisio@etu.univ-savoie.fr>
+ * @author Juliana Leclaire <Juliana.Leclaire@etu.univ-savoie.fr>
+ * @author Rémi Mollard <Remi.Mollard@etu.univ-savoie.fr>
+ * @author Céline de Roland <Celine.de-Roland@etu.univ-savoie.fr>
+ *
+ * @version 1.0
+ */
 namespace Carto\DocumentationBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 
+/**
+ * Controleur pour la doc WordNet
+ */
 class EtudeWNController extends Controller
 {
 	//Rendus visuels du compte rendu
 
+/**
+ * Accueil
+ *
+ * @return vue twig
+ */
 	public function indexAction()
 	{
 		return $this->render('CartoDocumentationBundle:EtudeWN:index.html.twig');
 	}
 
+/**
+ * Explication des mots
+ *
+ * @return vue twig
+ */
 	public function wordsAction()
 	{
 		return $this->render('CartoDocumentationBundle:EtudeWN:words.html.twig');
 	}
 
+/**
+ * Explication des NSynsets
+ *
+ * @return vue twig
+ */
 	public function nsynsetsAction()
 	{
 		return $this->render('CartoDocumentationBundle:EtudeWN:nsynsets.html.twig');
 	}
 
+/**
+ * Explication des VSynsets
+ *
+ * @return vue twig
+ */
 	public function vsynsetsAction()
 	{
 		return $this->render('CartoDocumentationBundle:EtudeWN:vsynsets.html.twig');
 	}
 
+/**
+ * Explication des ASynsets
+ *
+ * @return vue twig
+ */
 	public function asynsetsAction()
 	{
 		return $this->render('CartoDocumentationBundle:EtudeWN:asynsets.html.twig');
 	}
 
+/**
+ * Explication des RSynsets
+ *
+ * @return vue twig
+ */
 	public function rsynsetsAction()
 	{
 		return $this->render('CartoDocumentationBundle:EtudeWN:rsynsets.html.twig');
 	}
 
+/**
+ * Conclusion
+ *
+ * @return vue twig
+ */
 	public function conclusionAction()
 	{
 		return $this->render('CartoDocumentationBundle:EtudeWN:conclusion.html.twig');
@@ -47,6 +95,15 @@ class EtudeWNController extends Controller
 	//Traitement des fichiers d'index
 
 	//Renvoie un tableau contenant toutes les lignes simplifiées d'un fichier index.suffix donné
+/**
+ * Démo traitement de fichier WordNet
+ *
+ * fichiers index.suffixe
+ *
+ * @param $suffixe : suffixe du fichier
+ * @param $lettre : lettre correspondante (ex : r pour adv, a pour adj etc.)
+ * @return array
+ */
 	public function simplifyindex($suffixe,$lettre)
 	{
 		$index = fopen('../src/Carto/DocumentationBundle/Resources/dict/index.'. $suffixe,'r');
@@ -71,6 +128,13 @@ class EtudeWNController extends Controller
 	}
 
 	//Met ensemble les 4 fichiers d'index simplifiés
+/**
+ * Démo traitement de fichier WordNet
+ *
+ * fichier index.words
+ *
+ * @return string
+ */
 	public function mixindexAction()
 	{
 		//On met bout à bout les lignes de tous les fichiers index.suffixe
@@ -110,6 +174,13 @@ class EtudeWNController extends Controller
 	}
 
 	//Cherche les relations de dérivation
+/**
+ * Démo traitement de fichier WordNet
+ *
+ * derivation
+ *
+ * @return string
+ */
 	public function ajoutderivationAction()
 	{
 		$correspondances = array();
@@ -187,6 +258,13 @@ class EtudeWNController extends Controller
 	}
 
 	//Cherche les relations participle
+/**
+ * Démo traitement de fichier WordNet
+ *
+ * participle
+ *
+ * @return string
+ */
 	public function ajoutparticipleAction()
 	{
 		$correspondances = array();
@@ -240,6 +318,13 @@ class EtudeWNController extends Controller
 	}
 
 	//Cherche les relations pertainym
+/**
+ * Démo traitement de fichier WordNet
+ *
+ * pertainym
+ *
+ * @return string
+ */
 	public function ajoutpertainymAction()
 	{
 		$correspondances = array();
@@ -293,6 +378,13 @@ class EtudeWNController extends Controller
 	}
 
 	//Cherche les relations builtfrom
+/**
+ * Démo traitement de fichier WordNet
+ *
+ * builtfrom
+ *
+ * @return string
+ */
 	public function ajoutbuiltAction()
 	{
 		$reponse = '';
@@ -350,6 +442,13 @@ class EtudeWNController extends Controller
 	//Traitement des fichiers data
 	
 	//data.noun
+/**
+ * Démo traitement de fichier WordNet
+ *
+ * fichier data.noun
+ *
+ * @return string
+ */
 	public function simplifierdatanounAction()
 	{
 		$reponse = '';
@@ -378,6 +477,13 @@ class EtudeWNController extends Controller
 	}
 
 	//data.verb
+/**
+ * Démo traitement de fichier WordNet
+ *
+ * fichier data.verb
+ *
+ * @return string
+ */
 	public function simplifierdataverbAction()
 	{
 		$reponse = '';
@@ -406,6 +512,13 @@ class EtudeWNController extends Controller
 	}
 
 	//data.adj
+/**
+ * Démo traitement de fichier WordNet
+ *
+ * fichier data.adj
+ *
+ * @return string
+ */
 	public function simplifierdataadjAction()
 	{
 		$reponse = '';
@@ -434,6 +547,13 @@ class EtudeWNController extends Controller
 	}
 
 	//data.adv
+/**
+ * Démo traitement de fichier WordNet
+ *
+ * fichier data.adv
+ *
+ * @return string
+ */
 	public function simplifierdataadvAction()
 	{
 		$reponse = '';
