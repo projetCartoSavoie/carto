@@ -174,8 +174,8 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.on('click', d3_utils.dragAndDrop);
 
 	// Si on clique sur le bouton ayant la classe
-	// dragAndRotate on appelle la fonction Rotate
-	d3.selectAll('.rotate')
+	// rotate on appelle la fonction Rotate
+	d3.selectAll('.rotate').attr("value","0")
 		.on('click', d3_utils.rotate);
 }
 

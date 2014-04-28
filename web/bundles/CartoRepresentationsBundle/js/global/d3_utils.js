@@ -79,12 +79,6 @@ function move(d) {
 	.attr("tx",d.x).attr("ty",d.y);
 }
 
-/*function rotation(d)
-{
-	console.log(d.attr('transform'));
-	//d3.select('.representationContainer').attr("transform", "translate(" + d.x + "," + d.y + ")");
-}*/
-
 D3_Utils.prototype.rotate = function() {
 	var actual = Number($("#rotate").attr('value')) + 20;
 	//var trans = $("#representationContainer").getAttribute("transform");
