@@ -73,7 +73,33 @@ function move(d) {
 	// les nouvelles cad la ou l'utilisateur a clique
 	d.x += d3.event.dx;
 	d.y += d3.event.dy;
-	d3.select('.representationContainer').attr("transform", "translate(" + d.x + "," + d.y + ")");
+	var actual = Number($("#rotate").attr('value'));
+	var sc = Number($("#representationContainer").attr('sc'));
+	d3.select('.representationContainer').attr("transform", "translate(" + d.x + "," + d.y + ")scale(" + sc + ")rotate(" + actual + ")")
+	.attr("tx",d.x).attr("ty",d.y);
+}
+
+/*function rotation(d)
+{
+	console.log(d.attr('transform'));
+	//d3.select('.representationContainer').attr("transform", "translate(" + d.x + "," + d.y + ")");
+}*/
+
+D3_Utils.prototype.rotate = function() {
+	var actual = Number($("#rotate").attr('value')) + 20;
+	//var trans = $("#representationContainer").getAttribute("transform");
+	//console.log(trans);
+	var components = d3.transform($("#representationContainer").attr("transform"));
+	t = components.translate;
+	var tx = Number($("#representationContainer").attr('tx'));
+	var ty = Number($("#representationContainer").attr('ty'));
+	var sc = Number($("#representationContainer").attr('sc'));
+	console.log(tx + " , " + ty);
+	d3.select('.rotate').attr("value", actual);
+	var container = d3.select(".svgContainer");
+	// Va recuperer les donnees de l'element se trouvant dans le svg
+	// et appeler la fonction move avec comme parametre les coordonnees
+	d3.select('.representationContainer').attr("transform", "translate(" + tx + "," + ty + ")scale(" + sc + ")rotate(" + actual + ")");
 }
 
 /**

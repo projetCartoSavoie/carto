@@ -221,6 +221,9 @@ padding: 0 0 0 6px;
 .icon-drag-and-drop{
 	background-position: -168px -73px;
 }
+.icon-rotate {
+	background-position: -240px -24px;
+}
 
 /*************
 	COMBOBOX
