@@ -132,37 +132,8 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.on("click", function(d) {
 			d3_utils.show_wikipedia(d.name);
 		})
-<<<<<<< HEAD:web/bundles/CartoRepresentationsBundle/js/d3_nodeLinkTree.js
-		.on("dblclick", function(d){
-			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-			var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: {
-					cmd: 'search_action',
-					search: d.name
-				},
-				cache: false,
-				success: function(response) {
-					var result = $.parseJSON(response);
-					if(result.success){
-						var data = result.data;
-						if(representation){
-							$('svg').remove();
-							$('.relation').remove();
-						}
-						representation.show(data);
-						$("#loading").hide();
-					}
-				}
-			});
-			return false;
-=======
 		.on("dblclick", function(d) {
 			d3_utils.load_json(d);
->>>>>>> 1c13079a6d351aac414f198846c180a80051ade6:web/bundles/CartoRepresentationsBundle/js/nodeLinkTree/d3_nodeLinkTree.js
 		});
 
 	d3.selectAll('.zoom').on('click', zoomClick);
