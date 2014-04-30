@@ -7,10 +7,7 @@
 {% endstylesheets %}
 {% endblock %}
 
-{% block javascripts %}
-{% javascripts 'bundles/CartoRepresentationsBundle/js/global/*' %}
-    <script type="text/javascript" src="{{ asset_url }}"></script>
-{% endjavascripts %}
+{% block javascripts %}{{ parent() }}
 {% javascripts 'bundles/CartoRepresentationsBundle/js/graphe/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}

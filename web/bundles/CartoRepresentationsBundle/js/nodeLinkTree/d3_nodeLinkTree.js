@@ -136,7 +136,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			d3_utils.load_json(d);
 		});
 
-	d3.selectAll('.zoom').on('click', zoomClick);
+	d3.selectAll('.zoom').on('click', d3_utils.zoomClick);
 	
 	// Si on clique sur le bouton ayant la classe
 	// dragAndDrop on appelle la fonction dragAndDrop
@@ -148,57 +148,4 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	// rotate on appelle la fonction Rotate
 	d3.selectAll('.rotate').attr("value","0")
 		.on('click', d3_utils.rotate);
-}
-
-function zoomClick() {
-
-	var width = $("#contentCenter").width();
-	var height = $("#contentCenter").height();
-
-	var clicked = d3.event.target,
-		direction = 1,
-		factor = 0.2,
-		target_zoom = 1,
-		center = [width / 2, height / 2],
-		extent = zoom.scaleExtent(),
-		scale = 0;
-		
-	d3.event.preventDefault();
-	
-	// On revient sur la taille initiale
-	if(this.id === 'intial_scale'){
-		scale = 1;
-	}
-	// Zoom / Dezoom
-	else {
-		direction = (this.id === 'zoom_in') ? 1 : -1;
-		target_zoom = zoom.scale() * (1 + factor * direction);
-		scale = target_zoom;
-	}
-
-	interpolateZoom(center, scale);
-}
-
-function zoomed(center) {
-	var container = d3.select(".representationContainer");
-	var tx = Number($("#representationContainer").attr('tx'));
-	var ty = Number($("#representationContainer").attr('ty'));
-	var sc = zoom.scale();
-	container.attr("transform",
-		"translate(" + tx + "," + ty + ")"  +
-		"scale(" + sc + ")"
-	);
-	container.attr("sc",sc);
-}
-
-function interpolateZoom (translate, scale) {
-	var self = this;
-	return d3.transition().duration(350).tween("zoom", function () {
-		var iScale = d3.interpolate(zoom.scale(), scale);
-		return function (t) {
-		zoom
-			.scale(iScale(t))
-		zoomed(translate);
-		};
-	});
 }

@@ -44,7 +44,7 @@ D3_Utils.prototype.load_json = function(d) {
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
 		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 	}
-	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
+	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif>');
 	
 	// On fait une requete ajax afin de ne pas recharger la page
 	$.ajax({
@@ -66,6 +66,9 @@ D3_Utils.prototype.load_json = function(d) {
 					$('svg').remove();
 					// On enleve le combobox pour les relations dans la barre d'outils a gauche
 					$('.relation').remove();
+					d3.select('.dragAndDrop')
+						.style("background-color", "#d0cbcb")
+						.attr("value", "0");
 				}
 				representation.show(data);
 				$("#loading").hide();
@@ -107,11 +110,11 @@ D3_Utils.prototype.rotate = function() {
 /**
 * Prepare le svg pour que l'utilisateur puisse faire un drag and drop
 */
-D3_Utils.prototype.dragAndDrop = function() {
+D3_Utils.prototype.dragAndDrop = function(force) {
 	// On regarde si on a deja clique sur le bouton dragNdrog
 	if($("#drag_and_drop").attr('value') === "1"){
 		// Si c'est la deuxieme fois on enleve le mode dragNdrop
-		stopDragAndDrop();
+		stopDragAndDrop(force);
 	}
 	else{
 		// Sinon on avertit l'utilisateur qu'il a clique sur le bouton
@@ -131,7 +134,7 @@ D3_Utils.prototype.dragAndDrop = function() {
 /**
 * Prepare le svg pour que l'utilisateur arrete de faire un drag and drop
 */
-function stopDragAndDrop() {
+function stopDragAndDrop(force) {
 	if($("#drag_and_drop").attr('value') === "1"){
 		// On change la couleur du bouton
 		d3.select('.dragAndDrop')
@@ -139,8 +142,12 @@ function stopDragAndDrop() {
 		.attr("value", "0");
 		
 		// On enleve  le drag and drop
-		var container = d3.select(".svgContainer");				
-		container.call(d3.behavior.drag().on("drag", null));
+		var svg = d3.select(".svgContainer");
+		svg.call(d3.behavior.drag().on("drag", null));
+		//svg.call(force.drag);
+		var node_drag = d3.behavior.drag()
+			.on("drag", force.drag);
+		svg.select(".representationContainer").selectAll("g.node").call(node_drag);
 		$(".svgContainer").removeAttr('cursor');
 	}
 	else{
@@ -221,4 +228,55 @@ D3_Utils.prototype.showRelation = function(json, representation) {
 	paragraphs
 		.attr("value", function (d) { return d;})
 		.text(function (d) { return d; });
+}
+
+
+D3_Utils.prototype.zoomClick = function() {
+	
+	var margin = {top: 30, right: 20, bottom: 30, left: 20};
+
+	var clicked = d3.event.target,
+		direction = 1,
+		factor = 0.2,
+		target_zoom = 1,
+		scale = 0;
+		
+	d3.event.preventDefault();
+	
+	// On revient sur la taille initiale
+	if(this.id === 'intial_scale'){
+		scale = 1;
+	}
+	// Zoom / Dezoom
+	else {
+		direction = (this.id === 'zoom_in') ? 1 : -1;
+		target_zoom = zoom.scale() * (1 + factor * direction);
+		scale = target_zoom;
+	}
+
+	interpolateZoom(scale);
+}
+
+function zoomed() {
+	var container = d3.select(".representationContainer");
+	var tx = Number($("#representationContainer").attr('tx'));
+	var ty = Number($("#representationContainer").attr('ty'));
+	var sc = zoom.scale();
+	container.attr("transform",
+		"translate(" + tx + "," + ty + ")"  +
+		"scale(" + sc + ")"
+	);
+	container.attr("sc",sc);
+}
+
+function interpolateZoom (scale) {
+	var self = this;
+	return d3.transition().duration(350).tween("zoom", function () {
+		var iScale = d3.interpolate(zoom.scale(), scale);
+		return function (t) {
+		zoom
+			.scale(iScale(t))
+		zoomed();
+		};
+	});
 }
