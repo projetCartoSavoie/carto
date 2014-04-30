@@ -49,13 +49,17 @@ D3_TreeRepresentation.load = function(json) {
 		.attr("class", "svgContainer");
 		
 	// On specifie une origine
-	var d = [{ x: 20, y: 20 }];
+	var d = [{ x: 20, y: 30 }];
 	// On cree un nouveau noeud <g> pour mettre plusieurs attributs
 	var container = d3.select('.svgContainer')
 		.data(d)
 		.append("g")
 		.attr("class", "representationContainer")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		.attr("id","representationContainer")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+		.attr("tx",  20)
+		.attr("ty", 30)
+		.attr("sc", 1);
 		
 	/***************************************************/
 	/*		Transformation du json generique 		   */
@@ -239,60 +243,12 @@ function update(source) {
 		return newLinks;
 	}
 	
-	d3.selectAll('.zoom').on('click', zoomClick);
+	d3.selectAll('.zoom').on('click', d3_utils.zoomClick);
 	
 	// Si on clique sur le bouton ayant la classe
 	// dragAndDrop on appelle la fonction dragAndDrop
 	d3.selectAll('.dragAndDrop')
 		.attr("value", "0")
 		.on('click', d3_utils.dragAndDrop);
-}
-
-function zoomClick() {
-	
-	var margin = {top: 30, right: 20, bottom: 30, left: 20};
-
-	var clicked = d3.event.target,
-		direction = 1,
-		factor = 0.2,
-		target_zoom = 1,
-		center = [margin.left, margin.top],
-		extent = zoom.scaleExtent(),
-		scale = 0;
-		
-	d3.event.preventDefault();
-	
-	// On revient sur la taille initiale
-	if(this.id === 'intial_scale'){
-		scale = 1;
-	}
-	// Zoom / Dezoom
-	else {
-		direction = (this.id === 'zoom_in') ? 1 : -1;
-		target_zoom = zoom.scale() * (1 + factor * direction);
-		scale = target_zoom;
-	}
-
-	interpolateZoom(center, scale);
-}
-
-function zoomed(center) {
-	var container = d3.select(".representationContainer");
-	container.attr("transform",
-		"translate(" + center[0] + "," + center[1] + ")"  +
-		"scale(" + zoom.scale() + ")"
-	);
-}
-
-function interpolateZoom (translate, scale) {
-	var self = this;
-	return d3.transition().duration(350).tween("zoom", function () {
-		var iScale = d3.interpolate(zoom.scale(), scale);
-		return function (t) {
-		zoom
-			.scale(iScale(t))
-		zoomed(translate);
-		};
-	});
 }
 
