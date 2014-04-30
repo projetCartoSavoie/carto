@@ -60,6 +60,8 @@
 						if(representation){
 							$('svg').remove();
 							$('.relation').remove();
+							$('.dragAndDrop').css("background-color", "#d0cbcb");
+							$('.dragAndDrop').attr("value", "0");
 						}
 						representation.show(data);
 						$("#loading").hide();

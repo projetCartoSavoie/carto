@@ -230,7 +230,9 @@ D3_Utils.prototype.showRelation = function(json, representation) {
 		.text(function (d) { return d; });
 }
 
-
+/**
+* Zoom la representation
+*/
 D3_Utils.prototype.zoomClick = function() {
 	
 	var margin = {top: 30, right: 20, bottom: 30, left: 20};
