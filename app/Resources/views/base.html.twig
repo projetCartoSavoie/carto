@@ -30,6 +30,16 @@
 								<img src="{{ asset('bundles/CartoAccueilBundle/images/fr.png') }}" title="Fran&ccedil;ais" alt="Fran&ccedil;ais">
 							</a>
 						</div>
+						{% if app.user %}
+						<h3 class="text_login">{{'Bienvenue' | trans}}, {{ app.user.username }} !</h3>
+						<div class="login">
+							<a href="{{ path('carto_donnees_admin_logout') }}">{{"Déconnexion" | trans}}</a>
+						</div>
+						{% else %}
+						<div class="login">
+							<a href="{{ path('carto_donnees_admin_dashboard')}}">{{"S'identifier"| trans}}</a>
+						</div>
+						{% endif %}
 						<div>
 							<img class="logo" src="{{ asset('bundles/CartoAccueilBundle/images/logo.png')}}" title="Cartographie de données" alt="Cartographie de données">
 							<nav>

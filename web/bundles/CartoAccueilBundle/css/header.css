@@ -44,7 +44,7 @@ html{
 	width: 950px;
 	border-left: solid 1px;
 	border-right: solid 1px;
-	vertical-align:top;
+	vertical-align:middle;
 	padding:15px;
 }
 #contentCenter #loading {
@@ -273,4 +273,23 @@ html[xmlns] .nav {
 
 .language_selector a{
 	text-decoration: none !important;
+}
+
+/************
+	LOGIN
+*************/
+
+.login a{
+	text-decoration: none;
+	font-size: 120%;
+	color : rgb(20, 94, 121);
+	cursor : pointer;
+}
+
+.login a:hover{
+	color: rgba(20, 94, 121, 0.5);
+}
+
+.text_login{
+	display	: inline-block;
 }

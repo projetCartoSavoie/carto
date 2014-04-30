@@ -29,6 +29,8 @@ security:
             form_login:
                 login_path: carto_donnees_admin_login
                 check_path: carto_donnees_admin_login_check
+                always_use_default_target_path: true
+                default_target_path: /en/donnees/admin
             logout:
                 path:   carto_donnees_admin_logout
                 target: /
