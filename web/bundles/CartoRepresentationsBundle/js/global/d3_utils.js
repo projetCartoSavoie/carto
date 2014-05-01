@@ -31,16 +31,16 @@ D3_Utils.prototype.load_json = function(d) {
 	if (wordnet)
 	{
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+		var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 	}
 	else
 	{
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+		var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
 		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 	}
@@ -234,7 +234,6 @@ D3_Utils.prototype.showRelation = function(json, representation) {
 * Zoom la representation
 */
 D3_Utils.prototype.zoomClick = function() {
-	
 	var margin = {top: 30, right: 20, bottom: 30, left: 20};
 
 	var clicked = d3.event.target,
@@ -264,9 +263,11 @@ function zoomed() {
 	var tx = Number($("#representationContainer").attr('tx'));
 	var ty = Number($("#representationContainer").attr('ty'));
 	var sc = zoom.scale();
+	var actual = Number($("#rotate").attr('value'));
 	container.attr("transform",
 		"translate(" + tx + "," + ty + ")"  +
-		"scale(" + sc + ")"
+		"scale(" + sc + ")" +
+		"rotate(" + actual + ")"
 	);
 	container.attr("sc",sc);
 }

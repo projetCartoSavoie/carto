@@ -1,7 +1,5 @@
 function D3_BubbleRepresentation(){}
 
-var zoom = null;
-
 /** 
  * Fonction show : appelle la fonction load en lui passant le json
  *
@@ -31,12 +29,6 @@ D3_BubbleRepresentation.load = function(json) {
 	//On transforme le json format commun en json format tree accepté par D3
 	var formatter = new D3_Formatter();
 	var treeJson = formatter.to_tree(json);
-
-
-	//Zoomvar sert aux fonctions de zoom communes à toutes les représentations
-	var zoomvar = d3.behavior.zoom()
-			.scaleExtent([1, 10])
-			.on("zoom", zoomed);
 
 
 	//Variables indiquant les paramètres de notre visualisation (marges, taille, couleurs)
@@ -85,7 +77,7 @@ D3_BubbleRepresentation.load = function(json) {
 			.on("click", function(d) {
 					//Le click sur un cercle provoque 2 choses :
 						//La vue se centre sur ce cercle
-					//if (focus !== d) console.log("on click"),zoom(d), d3.event.stopPropagation(); 
+					if (focus !== d) zoomfonc(d), d3.event.stopPropagation();
 						//Le résultat d'une recherche wikipedia s'affiche dans le cadre wikipedia
 						//Si le noeud a un nom contenant des espaces, on cherche un mot sans espace dans son voisinage pour faire la recherche.
 					var sansEspace = new RegExp(/\s/); 
@@ -93,6 +85,7 @@ D3_BubbleRepresentation.load = function(json) {
 					if(sansEspace.test(d.name.toString()) == false) d3_utils.show_wikipedia(d.name); 
 					else if(sansEspace.test(d.children[0].name.toString()) == false) d3_utils.show_wikipedia(d.children[0].name);
 					else if(sansEspace.test(d.parent.name.toString()) == false) d3_utils.show_wikipedia(d.parent.name);
+
 			})
 			.on("dblclick", function(d){
 				var d3_utils = new D3_Utils();
@@ -120,11 +113,11 @@ D3_BubbleRepresentation.load = function(json) {
 	//Gestion du zoom pour faire un focus sur un cercle
 	d3.select("#contentCenter")
 			.style("background", color(-1))
-			.on("click", function() { zoom(treeJson); });
+			.on("click", function() { zoomfonc(treeJson); });
 
 	zoomTo([treeJson.x, treeJson.y, treeJson.r * 2 + margin]);
 
-	function zoom(d) {
+	function zoomfonc(d) {
 		var focus0 = focus; focus = d;
 
 		var transition = d3.transition()
@@ -152,60 +145,7 @@ D3_BubbleRepresentation.load = function(json) {
 	//On désactive les boutons inutiles
 	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
 	d3.selectAll('.dragAndDrop').attr("value","0").attr("class","inactif");
-
-	//Boutons zoom à droite de l'écran
-	d3.selectAll('.zoom').on('click', zoomClick);
-
-
-	function zoomClick() {
-		var width = $("#contentCenter").width();
-		var height = $("#contentCenter").height();
-
-		var clicked = d3.event.target,
-			direction = 1,
-			factor = 0.2,
-			target_zoom = 1,
-			center = [0,0],
-			extent = zoomvar.scaleExtent(),
-			scale = 0;
-		
-		d3.event.preventDefault();
-	
-		// On revient sur la taille initiale
-		if(this.id === 'intial_scale'){
-			scale = 1;
-		}
-		// Zoom / Dezoom
-		else {
-			direction = (this.id === 'zoom_in') ? 1 : -1;
-			target_zoom = zoomvar.scale() * (1 + factor * direction);
-			scale = target_zoom;
-		}
-
-		interpolateZoom(center, scale);
-	}
-
-	function zoomed(center) 
-	{
-		var container = d3.select(".representationContainer");
-		container.attr("transform",
-			"translate(" + center[0] + "," + center[1] + ")"  +
-			"scale(" + zoomvar.scale() + ")"
-		);
-	}
-
-	function interpolateZoom (translate, scale) 
-	{
-		var self = this;
-		return d3.transition().duration(350).tween("zoom", function () {
-			var iScale = d3.interpolate(zoomvar.scale(), scale);
-			return function (t) {
-			zoomvar
-				.scale(iScale(t))
-			zoomed(translate);
-			};
-		});
-	}
+	d3.selectAll('.zoom').attr("class","inactif");
 
 }
 

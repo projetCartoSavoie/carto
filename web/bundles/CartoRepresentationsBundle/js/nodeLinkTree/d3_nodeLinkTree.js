@@ -44,6 +44,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	/**************************/
 	
 	//Zoom sert aux fonctions de zoom communes à toutes les représentations
+	//variable globale car utilisée dans d3_utils ... 
 	zoom = d3.behavior.zoom()
 			.scaleExtent([1, 10])
 			.on("zoom", zoomed);
