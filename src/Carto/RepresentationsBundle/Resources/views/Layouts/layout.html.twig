@@ -58,7 +58,7 @@
 					if(result.success){
 						var data = result.data;
 						for (var d in data){
-							$('.showOptions').append('<input type="checkbox" name="option1" value="' + data[d] + '">' + data[d] + '</option>');
+							$('.showOptions').append('<div><input type="checkbox" name="option1" value="' + data[d] + '"/>' + data[d] + '</div>');
 						}
 					}
 				}
