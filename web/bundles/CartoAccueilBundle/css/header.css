@@ -42,6 +42,7 @@ html{
 #contentCenter{
 	background-color: #FDFAFA;
 	width: 1000px;
+	height: auto;
 	border-left: solid 1px;
 	border-right: solid 1px;
 }
@@ -79,6 +80,8 @@ html{
 .toolsRight{
 	vertical-align: top;
 	padding-top: 20px;
+	height: 100%;
+	width: 44px;
 }
 
 /**************

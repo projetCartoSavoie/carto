@@ -4,6 +4,10 @@
 {% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' %}
 	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
+
+{% stylesheets 'bundles/CartoRepresentationsBundle/css/fullscreen.css' %}
+	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
 {% endblock %}
 
 {% block menuSuperieur %}{{ parent() }}
@@ -14,7 +18,7 @@
 
 {% block script %}
 	$(document).ready(function(){
-		$("#form_recherche").submit(function(){ 
+		$("#form_recherche").submit(function(){
 			var search = $('#search').val();
 			//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
 			var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
@@ -98,7 +102,7 @@
 			<a href="#" class="tool-item gradient">
 				<i class="icon-print"></i>
 			</a>
-			<a href="#" class="tool-item gradient">
+			<a href="#" class="tool-item gradient fullscreen" id="full_screen" onClick="fullscreenClick();">
 				<i class="icon-full-screen"></i>
 			</a>
 		</div>
