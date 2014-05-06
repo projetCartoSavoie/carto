@@ -321,3 +321,13 @@ On click the images will be displayed at normal size to complete the effect
 	opacity: 1;
 	transform: scale(1);
 }
+
+/*************
+	OPTIONS
+**************/
+
+.options  p:hover{
+	color: black;
+	cursor: pointer;
+	color: #4A72A9;
+}
