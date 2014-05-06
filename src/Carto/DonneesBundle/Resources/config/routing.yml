@@ -84,8 +84,8 @@ carto_donnees_relations:
     defaults: { _controller: CartoDonneesBundle:WN:relations }
 
 carto_donnees_json:
-    pattern:  /json/{recherche}
-    defaults: { _controller: CartoDonneesBundle:WN:json, recherche:'entity' }
+    pattern:  /json/{recherche}/{relations}
+    defaults: { _controller: CartoDonneesBundle:WN:json, recherche:'entity', relations:'' }
 
 carto_donnees_simple:
     pattern:  /simple/{recherche}
