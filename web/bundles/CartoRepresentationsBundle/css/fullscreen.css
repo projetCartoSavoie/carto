@@ -1,0 +1,7 @@
+div#fullscreen_div{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  visibility: visible;
+  color: #000;
+}

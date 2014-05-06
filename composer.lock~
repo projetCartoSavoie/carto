@@ -3,7 +3,8 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "afbe9d82f87ab90616776a16861a997d",
+    "hash": "313d4ea64616b4b26ef080e7e527c276",
+
     "packages": [
         {
             "name": "beberlei/DoctrineExtensions",
@@ -1043,6 +1044,17 @@
         },
         {
             "name": "monolog/monolog",
+            "version": "1.9.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Seldaek/monolog.git",
+                "reference": "1afc39690e7414412face1f8cbf67b73db34485c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1afc39690e7414412face1f8cbf67b73db34485c",
+                "reference": "1afc39690e7414412face1f8cbf67b73db34485c",
+
             "version": "1.9.1",
             "source": {
                 "type": "git",
@@ -1053,6 +1065,7 @@
                 "type": "zip",
                 "url": "https://api.github.com/repos/Seldaek/monolog/zipball/65026b610f8c19e61d7242f600530677b0466aac",
                 "reference": "65026b610f8c19e61d7242f600530677b0466aac",
+
                 "shasum": ""
             },
             "require": {
@@ -1107,9 +1120,10 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2014-04-24 13:29:03"
+            "time": "2014-04-20 16:41:26"
+
         },
-        {
+        		
             "name": "psr/log",
             "version": "1.0.0",
             "source": {
@@ -1584,6 +1598,7 @@
         },
         {
             "name": "symfony/symfony",
+
             "version": "v2.4.4",
             "source": {
                 "type": "git",
@@ -1695,7 +1710,11 @@
             "keywords": [
                 "framework"
             ],
+<<<<<<< HEAD
             "time": "2014-04-04 10:27:02"
+=======
+            "time": "2014-04-27 13:39:18"
+>>>>>>> ddc8873ce5f854b278cba41eebe78dda7bb4a586
         },
         {
             "name": "twig/extensions",
