@@ -65,9 +65,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 
 	var diagonal = d3.svg.diagonal.radial()
 		.projection(function(d) { return [d.y, d.x / 180 * Math.PI]; });
-		
-	// On cree un nouveau noeud <svg>
-	//On configure le svg qui contiendra toute la figure
+
 	var svg = d3.select("#contentCenter").append("svg")
 		.attr("width", diameter)
 		.attr("height", diameter - 150)

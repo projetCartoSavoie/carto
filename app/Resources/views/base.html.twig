@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+	
 	<head>
 		<meta charset="UTF-8" />
 		<title>{% block title %}{{ "Bienvenue" | trans }}{% endblock %}</title>
@@ -72,9 +73,6 @@
 											<li>
 												<a href="{{ path('carto_representations_representation4') }}">{{"Bubble Tree" | trans}}</a>
 											</li>
-											<li>
-												<a href="{{ path('carto_representations_representation6') }}">{{"Dependency Wheel" | trans}}</a>
-											</li>
 										</ul>
 									</li>
 									<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %} >
@@ -113,11 +111,11 @@
 				</tr>
 			</table>
 		{% endblock %}
-		<table class="tableContent">
-			<tr>
-				<td>
+		<table class="tableContent" id="LaTableComplete">
+			<tr>  
+				<!--<td>
 					&nbsp;
-				</td>
+				</td>-->
 				<td class="contentLeft">
 					{% block utilsLeft %}
 						<img class="borderLeft" src="{{ asset('bundles/CartoAccueilBundle/images/left.png') }}"></img>
@@ -131,9 +129,9 @@
 					{% block tools %}
 					{% endblock %}
 				</td>
-				<td>
+				<!--<td>
 					&nbsp;
-				</td>
+				</td>-->
 			</tr>
 		</table>
 		<script>
