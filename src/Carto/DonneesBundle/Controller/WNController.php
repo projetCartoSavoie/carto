@@ -97,4 +97,11 @@ class WNController extends Controller
 		//On retourne le json obtenu
 		return new Response($text);
 	}
+
+	public function relationsAction()
+	{
+		$tab = array('hypernymie','meronymie','antonymie');
+		$text = json_encode($tab);
+		return new Response($text);
+	}
 }
