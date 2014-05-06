@@ -4,6 +4,10 @@
 {% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' %}
 	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
+
+{% stylesheets 'bundles/CartoRepresentationsBundle/css/fullscreen.css' %}
+	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
 {% endblock %}
 
 {% block javascripts %}{{ parent() }}
@@ -22,7 +26,33 @@
 
 {% block script %}
 	$(document).ready(function(){
+		$("#optionsValidate").click(function() {
+			var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
+			//Url permettant de faire la recherche demandpend de la source)
+			if (wordnet){
+				$( "<div><p>Hello</p></div>" ).appendTo("#optionsValidate");
+				$("#optionsImg").attr("src", "{{ asset('bundles/CartoRepresentationsBundle/images/optionsQuit.png') }}");
+			}
+			else{
+				//$("#optionsCheck").remove("div");
+				$("#optionsImg").attr("src", "{{ asset('bundles/CartoRepresentationsBundle/images/optionsQuit.png') }}");
+			}
+			$("#optionsValidate").attr("id", "optionsQuit");
+		});
+		$("#optionsQuit").click(function() {
+			var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
+			//Url permettant de faire la recherche demandpend de la source)
+			if (wordnet){
+				$( "<div><p>Hello</p></div>" ).appendTo("#optionsCheck");
+				$("#optionsImg").attr("src", "{{ asset('bundles/CartoRepresentationsBundle/images/optionsQuit.png') }}");
+			}
+			else{
+				//$("#optionsCheck").remove("div");
+				$("#optionsImg").attr("src", "{{ asset('bundles/CartoRepresentationsBundle/images/optionsQuit.png') }}");
+			}
+		});
 		$("#form_recherche").submit(function(){
+			var search = $('#search').val();
 			var search = $('#search').val(); //Récupération du mot demandé
 			var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
 			//Url permettant de faire la recherche demandée
@@ -31,6 +61,7 @@
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
 				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
 				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 			}
@@ -39,12 +70,14 @@
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
 				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
 				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
 				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 			}
 
 			//Utilisation d'ajax pour placer le résultat dans le conteneur
-			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
+
+			$("#contentCenter").html('<img id="loading" src="{{ asset('bundles/CartoRepresentationsBundle/images/ajax-loader.gif') }}">');
 			$.ajax({
 				type: "POST",
 				url: url,
@@ -76,26 +109,27 @@
 {# On affiche la partie à gauche, permettant de lancer une recherche, voir les articles wikipedia, colorier les relations #}
 {% block utilsLeft %}
 	<div class="utilsLeft">
+	
+		{# Sélectionner la source de données (Wordnet ou Dbpedia) #}
+		<div class="toggle-btn-grp joint-toggle">
+			<label for="WN" onclick="" class="toggle-btn">
+				<input id="WN" type="radio" name="choixsource" value="WN" checked/>Wordnet
+			</label>
+			<label for="DB" onclick="" class="toggle-btn">
+				<input id="DB" type="radio" name="choixsource" value="DB"/>DpPedia
+			</label>
+		</div>
+		
+		{# Montrer les options #}
+		<div class="options" id="optionsValidate"> 
+			<p>
+				Options
+				<img id="optionsImg" src="{{ asset('bundles/CartoRepresentationsBundle/images/optionsValidate.png') }}">
+			</p>
+		</div>
+		<div> </div>
+		
 		<form id="form_recherche" action="" method="post">
-
-			{# Sélectionner la source de données (Wordnet ou Dbpedia) #}
-			<div class="toggle-btn-grp joint-toggle">
-				<label for="WN" onclick="" class="toggle-btn">
-					<input id="WN" type="radio" name="choixsource" value="WN" checked/>Wordnet
-				</label>
-				<label for="DB" onclick="" class="toggle-btn">
-					<input id="DB" type="radio" name="choixsource" value="DB"/>DpPedia
-				</label>
-			</div>
-			
-			{# Montrer les options #}
-			<div class="options"> 
-				<p>
-					Options
-				</p>
-			</div>
-			<div> </div>
-
 			{# Entrer un mot à chercher #}
 			<div id="recherche">
 				<div id="search_keywords">
@@ -106,6 +140,7 @@
 				</div>
 			</div>
 		</form>
+			
 		{# Sélectionner une relation pour la mettre en couleur #}
 		<div id="relations">
 			<p>Selectionnez une relation:</p>
@@ -142,7 +177,7 @@
 			<a class="tool-item gradient rotate" id="rotate" title="rotate" value="0">
 				<i class="icon-rotate"></i>
 			</a>
-			<a href="#" class="tool-item gradient">
+			<a class="tool-item gradient fullscreen" id="full_screen" onClick="fullscreenClick();">
 				<i class="icon-full-screen"></i>
 			</a>
 			<a href="#" class="tool-item gradient">

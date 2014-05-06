@@ -1,0 +1,109 @@
+{% extends "::base.html.twig" %}
+
+{% block stylesheets %}{{ parent() }}
+{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' %}
+	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}
+
+{% block menuSuperieur %}{{ parent() }}
+{% endblock %}
+
+{% block body %}{{ parent() }}
+{% endblock %}
+
+{% block script %}
+	$(document).ready(function(){
+		$("#form_recherche").submit(function(){ 
+			var search = $('#search').val();
+			//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
+<<<<<<< HEAD
+			var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
+=======
+			//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+>>>>>>> 3e1701ce659a1c01fa097514439ca4ba3ab6a7c3
+			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+			//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
+			$.ajax({
+				type: "POST",
+				url: url,
+				data: {
+					cmd: 'search_action',
+					search: search
+				},
+				cache: false,
+				success: function(response) {
+					var result = $.parseJSON(response);
+					if(result.success){
+						var data = result.data;
+						if(representation){
+							$('svg').remove();
+							$('.relation').remove();
+						}
+						representation.show(data);
+						$("#loading").hide();
+					}
+				}
+			});
+			return false;
+		});
+	});
+{% endblock %}
+
+{% block utilsLeft %}
+	<div style="padding: 12px">
+		<div class="toggle-btn-grp joint-toggle">
+			<label onclick="" class="toggle-btn">
+				<input type="radio" name="group3" checked/>Wordnet
+			</label>
+			<label onclick="" class="toggle-btn">
+				<input type="radio" name="group3"/>Les échos
+			</label>
+		</div>
+		<div id="recherche">
+			<div id="search_keywords">
+				<form id="form_recherche" action="" method="post">
+					<p>
+						<input id="search" type="text" name="search" />
+						<button class="buttonSearch" type="submit">Ok</button>
+					</p>
+				</form>
+			</div>
+		</div>
+		<div id="wikipedia">
+			<p>Click on any words to show its Wikipedia article.</p>
+		</div>
+		<div id="relations">
+			<p>Selectionnez une relation:</p>
+			<label>
+				<select class="selectRelation">
+					<option selected> None... </option>
+				</select>
+			</label>
+		</div>
+	</div>
+{% endblock %}
+
+{% block tools %}
+	<div class="tool-container">
+		<div class="tool-items">
+			<a class="tool-item gradient zoom" id="zoom_in" title="Zoom in">
+				<i class="icon-zoom-in"></i>
+			</a>
+			<a class="tool-item gradient zoom" id="zoom_out" title="Zoom out">
+				<i class="icon-zoom-out"></i>
+			</a>
+			<a class="tool-item gradient zoom" id="intial_scale" title="Initial zoom">
+				<i class="icon-close"></i>
+			</a>
+			<a href="#" class="tool-item gradient">
+				<i class="icon-print"></i>
+			</a>
+			<a href="#" class="tool-item gradient">
+				<i class="icon-full-screen"></i>
+			</a>
+		</div>
+	</div>
+{% endblock %}

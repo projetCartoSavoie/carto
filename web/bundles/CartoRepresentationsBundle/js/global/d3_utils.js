@@ -284,12 +284,3 @@ function interpolateZoom (scale) {
 		};
 	});
 }
-
-/**
-* Affiche les options pour la source de donnee selectionnee
-* @param 
-* @param 
-*/
-D3_Utils.prototype.showOptions = function() {
-	
-}
