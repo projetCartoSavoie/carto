@@ -87,12 +87,12 @@ class WNController extends Controller
 	 * @param string $recherche
 	 * @return Vue twig
 	*/
-	public function jsonAction($recherche)
+	public function jsonAction($recherche,$relations)
 	{
 		$manager = $this -> getDoctrine() -> getManager();
 		$mrep = $manager -> getRepository('CartoDonneesBundle:WN\Mot');
 
-		$text = json_encode($mrep -> fabriqueGraphe($recherche));
+		$text = json_encode($mrep -> fabriqueGraphe($recherche,$relations));
 
 		//On retourne le json obtenu
 		return new Response($text);
@@ -100,7 +100,24 @@ class WNController extends Controller
 
 	public function relationsAction()
 	{
-		$tab = array('hypernymie','meronymie','antonymie');
+		$tab = array(
+				'derive',
+				'pertainym',
+				'build',
+				'participle',
+				'hypernym',
+				'troponym',
+				'hyponym',
+				'meronym',
+				'entails',
+				'holonym',
+				'antonym',
+				'attribut',
+				'cause',
+				'consequence',
+				'similar',
+				'estdans',
+				'contient');
 		$text = json_encode($tab);
 		return new Response($text);
 	}

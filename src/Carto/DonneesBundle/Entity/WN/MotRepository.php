@@ -249,13 +249,12 @@ class MotRepository extends EntityRepository
 	 * @param string $recherche
 	 * @return array
 	*/
-	public function fabriqueGraphe($recherche)
+	public function fabriqueGraphe($recherche,$options)
 	{
 
-		//Initialisation du tableau résultat, qui sera ensuite encodé en json
-		$this -> resultat = array(
-			'noeuds' => array(), 
-			'relations' => array(
+		if ($options == 'all')
+		{
+			$options = array(
 				'derive',
 				'pertainym',
 				'build',
@@ -273,7 +272,14 @@ class MotRepository extends EntityRepository
 				'similar',
 				'estdans',
 				'contient'
-			),
+			);
+		}
+		else { $options = explode(',',$options); }
+		
+		//Initialisation du tableau résultat, qui sera ensuite encodé en json
+		$this -> resultat = array(
+			'noeuds' => array(), 
+			'relations' => $options,
 			'graphe' => array()
 		);
 
@@ -287,14 +293,26 @@ class MotRepository extends EntityRepository
 		$this -> resultat['graphe']['M'.$this -> mot -> getId()] = array( 'noeud' => 'M'.$this -> mot -> getId() );
 
 		//Recherche des relations du mot
-		$this -> ajoutResultat($this -> mot -> getDeriveFrom(),'derive','derive','M','M',$this -> mot);
-		$this -> ajoutResultat($this -> mot -> getDeriveTo(),'derive','derive','M','M',$this -> mot);
-		$this -> ajoutResultat($this -> mot -> getPertainFrom(),'pertainym','pertainym','M','M',$this -> mot);
-		$this -> ajoutResultat($this -> mot -> getPertainTo(),'pertainym','pertainym','M','M',$this -> mot);
-		$this -> ajoutResultatOne($this -> mot -> getParticipleOf(),'participle');
-		$this -> ajoutResultatOne($this -> mot -> getParticipleTo(),'participle');
-		$this -> ajoutResultatOne($this -> mot -> getBuiltFrom(),'build');
-		$this -> ajoutResultatOne($this -> mot -> getBuild(),'build');
+		if (in_array('derive',$options)) 
+		{ 
+			$this -> ajoutResultat($this -> mot -> getDeriveFrom(),'derive','derive','M','M',$this -> mot);
+			$this -> ajoutResultat($this -> mot -> getDeriveTo(),'derive','derive','M','M',$this -> mot); 
+		}
+		if (in_array('pertainym',$options)) 
+		{ 
+			$this -> ajoutResultat($this -> mot -> getPertainFrom(),'pertainym','pertainym','M','M',$this -> mot);
+			$this -> ajoutResultat($this -> mot -> getPertainTo(),'pertainym','pertainym','M','M',$this -> mot);
+		}
+		if (in_array('participle',$options)) 
+		{ 
+			$this -> ajoutResultatOne($this -> mot -> getParticipleOf(),'participle');
+			$this -> ajoutResultatOne($this -> mot -> getParticipleTo(),'participle');
+		}
+		if (in_array('build',$options)) 
+		{ 
+			$this -> ajoutResultatOne($this -> mot -> getBuiltFrom(),'build');
+			$this -> ajoutResultatOne($this -> mot -> getBuild(),'build');
+		}
 
 		//Recherche des synsets du mot
 		$this -> ajoutResultat($this -> mot -> getNsynsets(),'estdans','contient','N','M',$this -> mot);
@@ -311,49 +329,100 @@ class MotRepository extends EntityRepository
 		//Recherche des relations des synsets et de leurs mots
 		foreach ($this -> mot -> getNSynsets() as $valeur)
 		{
-			$this -> ajoutResultat($valeur -> getHypernyms(),'hypernym','hyponym','N','N',$valeur);
-			$this -> ajoutMots($valeur -> getHypernyms(),'N');
-			$this -> ajoutResultat($valeur -> getHyponyms(),'hyponym','hypernym','N','N',$valeur);
-			$this -> ajoutMots($valeur -> getHyponyms(),'N');
-			$this -> ajoutResultat($valeur -> getMeronyms(),'meronym','holonym','N','N',$valeur);
-			$this -> ajoutMots($valeur -> getMeronyms(),'N');
-			$this -> ajoutResultat($valeur -> getHolonyms(),'holonym','meronym','N','N',$valeur);
-			$this -> ajoutMots($valeur -> getHolonyms(),'N');
-			$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','N','N',$valeur);
-			$this -> ajoutMots($valeur -> getAntonyms(),'N');
-			$this -> ajoutResultat($valeur -> getHasAttribute(),'attribut','attribut','A','N',$valeur);
-			$this -> ajoutMots($valeur -> getHasAttribute(),'N');
+			if (in_array('hypernym',$options)) 
+			{ 
+				$this -> ajoutResultat($valeur -> getHypernyms(),'hypernym','hyponym','N','N',$valeur);
+				$this -> ajoutMots($valeur -> getHypernyms(),'N');
+			}
+			if (in_array('hyponym',$options))
+			{
+				$this -> ajoutResultat($valeur -> getHyponyms(),'hyponym','hypernym','N','N',$valeur);
+				$this -> ajoutMots($valeur -> getHyponyms(),'N');
+			}
+			if (in_array('meronym',$options)) 
+			{ 
+				$this -> ajoutResultat($valeur -> getMeronyms(),'meronym','holonym','N','N',$valeur);
+				$this -> ajoutMots($valeur -> getMeronyms(),'N');
+			}
+			if (in_array('holonym',$options)) 
+			{ 
+				$this -> ajoutResultat($valeur -> getHolonyms(),'holonym','meronym','N','N',$valeur);
+				$this -> ajoutMots($valeur -> getHolonyms(),'N');
+			}
+			if (in_array('antonym',$options)) 
+			{ 
+				$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','N','N',$valeur);
+				$this -> ajoutMots($valeur -> getAntonyms(),'N');
+			}
+			if (in_array('attribut',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getHasAttribute(),'attribut','attribut','A','N',$valeur);
+				$this -> ajoutMots($valeur -> getHasAttribute(),'N');
+			}
 		}
 		foreach ($this -> mot -> getVSynsets() as $valeur)
 		{
-			$this -> ajoutResultat($valeur -> getTroponyms(),'troponym','hyponym','V','V',$valeur);
-			$this -> ajoutMots($valeur -> getTroponyms(),'V');
-			$this -> ajoutResultat($valeur -> getHyponyms(),'hyponym','troponym','V','V',$valeur);
-			$this -> ajoutMots($valeur -> getHyponyms(),'V');
-			$this -> ajoutResultat($valeur -> getEntails(),'entails','holonym','V','V',$valeur);
-			$this -> ajoutMots($valeur -> getEntails(),'V');
-			$this -> ajoutResultat($valeur -> getHolonyms(),'holonym','entails','V','V',$valeur);
-			$this -> ajoutMots($valeur -> getHolonyms(),'V');
-			$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','V','V',$valeur);
-			$this -> ajoutMots($valeur -> getAntonyms(),'V');
-			$this -> ajoutResultat($valeur -> getCauses(),'cause','consequence','V','V',$valeur);
-			$this -> ajoutMots($valeur -> getCauses(),'V');
-			$this -> ajoutResultat($valeur -> getConsequences(),'consequence','cause','V','V',$valeur);
-			$this -> ajoutMots($valeur -> getConsequences(),'V');
+			if (in_array('troponym',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getTroponyms(),'troponym','hyponym','V','V',$valeur);
+				$this -> ajoutMots($valeur -> getTroponyms(),'V');
+			}
+			if (in_array('hyponym',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getHyponyms(),'hyponym','troponym','V','V',$valeur);
+				$this -> ajoutMots($valeur -> getHyponyms(),'V');
+			}
+			if (in_array('entails',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getEntails(),'entails','holonym','V','V',$valeur);
+				$this -> ajoutMots($valeur -> getEntails(),'V');
+			}
+			if (in_array('holonym',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getHolonyms(),'holonym','entails','V','V',$valeur);
+				$this -> ajoutMots($valeur -> getHolonyms(),'V');
+			}
+			if (in_array('antonym',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','V','V',$valeur);
+				$this -> ajoutMots($valeur -> getAntonyms(),'V');
+			}
+			if (in_array('cause',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getCauses(),'cause','consequence','V','V',$valeur);
+				$this -> ajoutMots($valeur -> getCauses(),'V');
+			}
+			if (in_array('consequence',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getConsequences(),'consequence','cause','V','V',$valeur);
+				$this -> ajoutMots($valeur -> getConsequences(),'V');
+			}
 		}
 		foreach ($this -> mot -> getASynsets() as $valeur)
 		{
-			$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','A','A',$valeur);
-			$this -> ajoutMots($valeur -> getAntonyms(),'A');
-			$this -> ajoutResultat($valeur -> getIsAttributeOf(),'attribut','attribut','N','A',$valeur);
-			$this -> ajoutMots($valeur -> getIsAttributeOf(),'A');
-			$this -> ajoutResultat($valeur -> getSimilars(),'similar','similar','A','A',$valeur);
-			$this -> ajoutMots($valeur -> getSimilars(),'A');
+			if (in_array('antonym',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','A','A',$valeur);
+				$this -> ajoutMots($valeur -> getAntonyms(),'A');
+			}
+			if (in_array('attribut',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getIsAttributeOf(),'attribut','attribut','N','A',$valeur);
+				$this -> ajoutMots($valeur -> getIsAttributeOf(),'A');
+			}
+			if (in_array('similar',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getSimilars(),'similar','similar','A','A',$valeur);
+				$this -> ajoutMots($valeur -> getSimilars(),'A');
+			}
 		}
 		foreach ($this -> mot -> getRSynsets() as $valeur)
 		{
-			$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','R','R',$valeur);
-			$this -> ajoutMots($valeur -> getAntonyms(),'R');
+			if (in_array('antonym',$options)) 
+			{
+				$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','R','R',$valeur);
+				$this -> ajoutMots($valeur -> getAntonyms(),'R');
+			}
 		}
 
 		//On enlève les clés du tableau graphe pour correspondre au format commun

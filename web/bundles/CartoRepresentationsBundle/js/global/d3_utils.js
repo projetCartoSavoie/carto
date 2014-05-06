@@ -99,7 +99,6 @@ D3_Utils.prototype.rotate = function() {
 	var tx = Number($("#representationContainer").attr('tx'));
 	var ty = Number($("#representationContainer").attr('ty'));
 	var sc = Number($("#representationContainer").attr('sc'));
-	console.log(tx + " , " + ty);
 	d3.select('.rotate').attr("value", actual);
 	var container = d3.select(".svgContainer");
 	// Va recuperer les donnees de l'element se trouvant dans le svg
