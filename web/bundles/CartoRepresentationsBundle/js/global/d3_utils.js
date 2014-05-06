@@ -31,16 +31,16 @@ D3_Utils.prototype.load_json = function(d) {
 	if (wordnet)
 	{
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-		var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 	}
 	else
 	{
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-		var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
 		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 	}
@@ -165,8 +165,9 @@ function changeTree(links, nameRelation, colorLink){
 	// Pour tous les liens du graphe
 	links.forEach(
 		function(d){
+			console.log(d.name.localeCompare(nameRelation));
 			// Si le lien a la relation selectionnee alors on met en couleur
-			if(d.name.localeCompare(nameRelation) == 0){
+			if(d.name === nameRelation){//d.name.localeCompare(nameRelation) == 0){
 				d3.selectAll('#' + d.name)
 					.style("stroke-width", 3)
 					.style("stroke",  colorLink(d.value));
@@ -282,4 +283,13 @@ function interpolateZoom (scale) {
 		zoomed();
 		};
 	});
+}
+
+/**
+* Affiche les options pour la source de donnee selectionnee
+* @param 
+* @param 
+*/
+D3_Utils.prototype.showOptions = function() {
+	
 }
