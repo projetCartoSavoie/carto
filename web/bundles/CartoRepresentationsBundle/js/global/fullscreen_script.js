@@ -1,5 +1,4 @@
 function fullscreenClick () {
-
     var element = document.getElementById("LaTableComplete");
     var contentCen = document.getElementById("contentCenter");
     var  monSVG = contentCen.getElementsByTagName("svg");
