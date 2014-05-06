@@ -2,6 +2,11 @@ function D3_GrapheRepresentation(){}
 
 var zoom = null;
 
+/** 
+ * Fonction show : appelle la fonction load en lui passant le json
+ *
+ * @param data : le json sous forme d'objet json ou de chaine de caractères
+ */
 D3_GrapheRepresentation.prototype.show = function(data) {
 		// data is file path
 	if(typeof data === "string"){
@@ -16,6 +21,11 @@ D3_GrapheRepresentation.prototype.show = function(data) {
 	}
 }
 
+/** 
+ * Fonction load : ajoute les balises svg au conteneur pour afficher la vue graph pour le json donné
+ *
+ * @param json : fichier json rendu par la recherche
+ */
 D3_GrapheRepresentation.load = function(json) {
 
 	/***************************************************/
@@ -23,69 +33,92 @@ D3_GrapheRepresentation.load = function(json) {
 	/***************************************************/
 
 	var formatter = new D3_Formatter();
-	var graph = formatter.to_graph(json);
+	var graph = formatter.to_graph(json);	
+	
+	/***************************************************/
+	/*					Outils						   */
+	/***************************************************/
+	var d3_utils = new D3_Utils();
 
 	/***************************/
 	/*		Relations 		   */
 	/**************************/
 	
-	var data = json.relationsUsed;
-	var paragraphs = d3.select('.selectRelation')
-		.on("change",change)
-		.selectAll(".relation")
-			.data(data)
-				.enter()
-				.append("option")
-				.attr("class", "relation");
-
-	// On configure le texte
-	paragraphs
-		.attr("value", function (d) { return d;})
-		.text(function (d) { return d; });
+	d3_utils.showRelation(json, "graph");
 		
 	/***************************/
 	/*		Graphe	 		   */
 	/**************************/
-
+	
+	//Zoom sert aux fonctions de zoom communes à toutes les représentations
 	zoom = d3.behavior.zoom()
 			.scaleExtent([1, 10])
 			.on("zoom", zoomed);
-
+	
+	// On recupere la taille de la div pour mettre le svg
 	var width = $("#contentCenter").width(),
     height = $("#contentCenter").height();
-
+	
 	var color = d3.scale.category20();
 	var colorLink = d3.scale.category20();
 
+	//Le layout de D3 permet d'agencer sous forme de graphe
 	var force = d3.layout.force()
 		.charge(-400)
 		.linkDistance(20)
 		.size([width, height]);
 		
-	// On cree un nouveau noeud <svg>
-	var svg = d3.select("#contentCenter").append("svg")
-		.attr("width", width)
-		.attr("height", height);
-		
-	// On cree un nouveau noeud <g>
-	var container = svg.append("g")
-		.attr("class", "representationContainer");
-			
 	force
 		.nodes(graph.nodes)
 		.links(graph.links)
 		.start();
 		
+	// On cree un nouveau noeud <svg>
+	//On configure le svg qui contiendra toute la figure
+	var svg = d3.select("#contentCenter").append("svg")
+		.attr("width", width)
+		.attr("height", height)
+		.attr("class", "svgContainer");
+		
+	// On specifie une origine
+	var d = [{ x: 20, y: 20 }];
+	// On cree un nouveau noeud <g> pour mettre plusieurs attributs
+	var container = d3.select('.svgContainer')
+		.data(d)
+		.append("g")
+		.attr("class", "representationContainer")
+		.attr("id","representationContainer")
+		.attr("transform", function (d) { return "translate(" + d.x + "," + d.y + ")"; })
+		.attr("tx", function (d) { return d.x; })
+		.attr("ty", function (d) { return d.y; })
+		.attr("sc", 1);
+		
+	// Pour tous les éléments .link on crée un noeud <line>
+	// On cree les liens de la representation
+	var link = container.selectAll(".link")
+		.data(graph.links)
+		.enter()
+			.append("line")
+			.attr("class", "link")
+			.attr("class", function(d) {
+				var nameClass = "";
+				for(var i=0; i < d.name.length; i++){
+					nameClass = nameClass + d.name[i] + " ";
+				}
+				return nameClass;
+			})
+			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
+			.style("stroke", "#999");
 	
-	var drag = d3.behavior.drag()
-		.on("drag", function(d, i) {
+	/*var drag = d3.behavior.drag()
+		.on("drag", function(d,i) {
 			d.x += d3.event.dx;
 			d.y += d3.event.dy;
 			d3.select(this).moveToFront().attr("transform", function(d, i) {
 			   return "translate(" + [d.x, d.y] + ")";
 			});
 		})
-		.on("dragend", function(d, i){
+		.on("dragend", function(d,i) {
 			orig_x = d.orig_x;
 			new_x = d.x;
 
@@ -96,7 +129,7 @@ D3_GrapheRepresentation.load = function(json) {
 				  $(location).attr("href", href_raw);
 				}
 			}
-      
+
 			//set index of interval new_x falls into
 			if (new_x <= 0) {
 				new_pos_lower_bound = 0;
@@ -110,42 +143,10 @@ D3_GrapheRepresentation.load = function(json) {
 				  }
 				})
 			}
-		});
-	
-	/* Define the data for the circles */
-	// Pour tous les éléments .link on crée un noeud <line>
-	var link = container.selectAll(".link")
-		.data(graph.links)
-		.enter()
-			.append("line")
-			.attr("class", "link")
-			.attr("class", function(d) { return d.name; })
-			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-			.style("stroke", "#999");
+		});*/
 		
-	// Quand on clique sur une relation on affiche
-	// les liens en couleur
-	function change(){
-		// On recupere ce que l'utilisateur a choisi
-		nameRelation = this.options[this.selectedIndex].value;
-		// On redessine les liens en couleur de base
-		d3.selectAll("line")
-				.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-				.style("stroke", "#999");
-		// Pour tous les liens du graphe
-		graph.links.forEach(
-			function(d){
-				// Si le lien a la relation selectionnee alors on met en couleur
-				if(d.name.localeCompare(nameRelation) == 0){
-					d3.selectAll('.' + d.name)
-						.style("stroke-width", 3)
-						.style("stroke",  colorLink(d.value));
-				}
-			}
-		);
-	};
-		
-	// Pour tous les éléments .node on crée un noeud <g>
+	// Pour tous les elements .node on cree un noeud <g>
+	// On cree les noeuds de la representation
 	var node = container.selectAll(".node")
 		.data(graph.nodes)
 		.enter()
@@ -154,7 +155,8 @@ D3_GrapheRepresentation.load = function(json) {
 			.attr("transform", function(d) { return "rotate(" + d.x + ")translate(" + d.y + ")"; })
 			.call(force.drag);
 			
-	// A chaque node <g> on crée un noeud <circle>
+	// A chaque node <g> on cree un noeud <circle>
+	// Les noeuds sont representes par des cercles
 	node.append("circle")
 		.attr("r", 5)
 		.style("stroke", "#fff")
@@ -166,6 +168,7 @@ D3_GrapheRepresentation.load = function(json) {
 	node.append("text")
 		.attr("x", 12)
 		.attr("dy", ".35em")
+		.attr("class", "text")
 		.text(function(d) { 
 			var sansEspace = new RegExp(/\s/); 
 			if(sansEspace.test(d.name.toString()) == false) return d.name; 
@@ -174,38 +177,12 @@ D3_GrapheRepresentation.load = function(json) {
 		
 		// Quand on clique sur un mot on affiche l'information wikipedia
 		.on("click", function(d) {
-			var d3_utils = new D3_Utils();
 			d3_utils.show_wikipedia(d.name);
 		})
 		
 		// Quand on double clique sur un mot on recharge son json
-		.on("dblclick", function(d){
-			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-			var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // CÃ©line
-			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: {
-					cmd: 'search_action',
-					search: d.name
-				},
-				cache: false,
-				success: function(response) {
-					var result = $.parseJSON(response);
-					if(result.success){
-						var data = result.data;
-						if(representation){
-							$('svg').remove();
-							$('.relation').remove();
-						}
-						representation.show(data);
-						$("#loading").hide();
-					}
-				}
-			});
-			return false;
+		.on("dblclick", function(d) {
+			d3_utils.load_json(d);
 		});
 		
 	// On affiche un titre lorsqu'on passe la souris
@@ -223,65 +200,19 @@ D3_GrapheRepresentation.load = function(json) {
 		});
 	});
 
-	d3.selectAll('.zoom').on('click', zoomClick);
-}
-
-function zoomClick() {
-
-	var width = $("#contentCenter").width();
-	var height = $("#contentCenter").height();
-
-	var clicked = d3.event.target,
-		direction = 1,
-		factor = 0.2,
-		target_zoom = 1,
-		center = [width / 2, height / 2],
-		extent = zoom.scaleExtent(),
-		translate = zoom.translate(),
-		translate0 = [],
-		l = [],
-		view = {x: translate[0], y: translate[1], k: zoom.scale()};
-
-	d3.event.preventDefault();
+	// Si on clique sur le bouton ayant la classe
+	// zoom on appelle la fonction zoomClick
+	d3.selectAll('.zoom').on('click', d3_utils.zoomClick);
 	
-	translate0 = [(center[0] - view.x) / view.k, (center[1] - view.y) / view.k];
-	
-		// On revient sur la taille initiale
-	if(this.id === 'intial_scale'){
-		view.k = 1;
-	}
-	// Zoom / Dezoom
-	else {
-		direction = (this.id === 'zoom_in') ? 1 : -1;
-		target_zoom = zoom.scale() * (1 + factor * direction);
-		view.k = target_zoom;
-	}
-	l = [translate0[0] * view.k + view.x, translate0[1] * view.k + view.y];
+	// Si on clique sur le bouton ayant la classe
+	// dragAndDrop on appelle la fonction dragAndDrop
+	d3.selectAll('.dragAndDrop')
+		.attr("value", "0")
+		.on('click', function(){
+			d3_utils.dragAndDrop(force);
+		});
 
-	view.x += center[0] - l[0];
-	view.y += center[1] - l[1];
+	// On désactive les boutons inutiles pour cette vue
+	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
 
-	interpolateZoom([view.x, view.y], view.k);
-}
-
-function zoomed() {
-	var container = d3.select(".representationContainer");
-	container.attr("transform",
-		"translate(" + zoom.translate() + ")" +
-		"scale(" + zoom.scale() + ")"
-	);
-}
-
-function interpolateZoom (translate, scale) {
-	var self = this;
-	return d3.transition().duration(350).tween("zoom", function () {
-		var iTranslate = d3.interpolate(zoom.translate(), translate),
-			iScale = d3.interpolate(zoom.scale(), scale);
-		return function (t) {
-		zoom
-			.scale(iScale(t))
-			.translate(iTranslate(t));
-		zoomed();
-		};
-	});
 }

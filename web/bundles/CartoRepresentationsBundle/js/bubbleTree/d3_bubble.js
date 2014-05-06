@@ -1,9 +1,12 @@
 function D3_BubbleRepresentation(){}
 
-var zoom = null;
-
+/** 
+ * Fonction show : appelle la fonction load en lui passant le json
+ *
+ * @param data : le json sous forme d'objet json ou de chaine de caractères
+ */
 D3_BubbleRepresentation.prototype.show = function(data) {
-		// data is file path
+	// data is file path
 	if(typeof data === "string"){
 		d3.json(data, function(error, root) {
 			if (error) alert(error);
@@ -16,14 +19,19 @@ D3_BubbleRepresentation.prototype.show = function(data) {
 	}
 }
 
+/** 
+ * Fonction load : ajoute les balises svg au conteneur pour afficher la vue bubble pour le json donné
+ *
+ * @param json : fichier json rendu par la recherche
+ */
 D3_BubbleRepresentation.load = function(json) {
 
+	//On transforme le json format commun en json format tree accepté par D3
 	var formatter = new D3_Formatter();
 	var treeJson = formatter.to_tree(json);
-	var zoomvar = d3.behavior.zoom()
-			.scaleExtent([1, 10])
-			.on("zoom", zoomed);
 
+
+	//Variables indiquant les paramètres de notre visualisation (marges, taille, couleurs)
 	var margin = 20,
 			diameter = $("#contentCenter").width();
 
@@ -32,11 +40,14 @@ D3_BubbleRepresentation.load = function(json) {
 			.range(["hsl(152,80%,80%)", "hsl(228,30%,40%)"])
 			.interpolate(d3.interpolateHcl);
 
+
+	//Le packlayout de D3 permet d'agencer des ensembles de cercles dans des cercles
 	var pack = d3.layout.pack()
 			.padding(2)
 			.size([diameter - margin, diameter - margin])
 			.value(function(d) { return d.size; })
 
+	//On configure le svg qui contiendra toute la figure
 	var svg = d3.select("#contentCenter").append("svg")
 			.attr("width", diameter)
 			.attr("height", diameter)
@@ -46,57 +57,45 @@ D3_BubbleRepresentation.load = function(json) {
 	var container = svg.append("g")
 	.attr("class", "representationContainer");
 
-	var focus = treeJson,
-			nodes = pack.nodes(treeJson),
-			view;
+	//focus indique sur quel noeud doit se centrer la vue (au départ c'est la racine)
+	var focus = treeJson;
+	//view contiendra un vecteur correspondant au zoom sur le focus (vecteur (x,y,r) où (x,y) = coordonnées du centre et r = taille de la zone visible)
+	var view;
 
+	//pack.nodes transforme le treeJson en un objet contenant les infos nécessaires au packlayout.
+	//ces infos sont calculées automatiquement par D3 à partir du json qu'on lui fournit.
+	var nodes = pack.nodes(treeJson);
+
+
+
+	//On ajoute les cercles représentant les noeuds de l'arbre
 	var circle = container.selectAll("circle")
 			.data(nodes)
 		.enter().append("circle")
 			.attr("class", function(d) { return d.parent ? d.children ? "node" : "node node--leaf" : "node node--treeJson"; })
 			.style("fill", function(d) { return d.children ? color(d.depth) : null; })
-			.on("click", function(d) { 
-					if (focus !== d) zoom(d), d3.event.stopPropagation(); 
+			.on("click", function(d) {
+					//Le click sur un cercle provoque 2 choses :
+						//La vue se centre sur ce cercle
+					if (focus !== d) zoomfonc(d), d3.event.stopPropagation();
+						//Le résultat d'une recherche wikipedia s'affiche dans le cadre wikipedia
+						//Si le noeud a un nom contenant des espaces, on cherche un mot sans espace dans son voisinage pour faire la recherche.
 					var sansEspace = new RegExp(/\s/); 
 					var d3_utils = new D3_Utils();
 					if(sansEspace.test(d.name.toString()) == false) d3_utils.show_wikipedia(d.name); 
 					else if(sansEspace.test(d.children[0].name.toString()) == false) d3_utils.show_wikipedia(d.children[0].name);
 					else if(sansEspace.test(d.parent.name.toString()) == false) d3_utils.show_wikipedia(d.parent.name);
+
 			})
 			.on("dblclick", function(d){
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // CÃ©line
+				var d3_utils = new D3_Utils();
 				var sansEspace = new RegExp(/\s/); 
-				if(sansEspace.test(d.name.toString()) == false) var nom = d.name; 
-				else if(sansEspace.test(d.children[0].name.toString()) == false) var nom = d.children[0].name;
-				else if(sansEspace.test(d.parent.name.toString()) == false) var nom = d.parent.name;
-				$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
-				$.ajax({
-					type: "POST",
-					url: url,
-					data: {
-						cmd: 'search_action',
-						search: nom
-					},
-					cache: false,
-					success: function(response) {
-						var result = $.parseJSON(response);
-						if(result.success){
-							var data = result.data;
-							if(representation){
-								$('svg').remove();
-								$('.relation').remove();
-							}
-							representation.show(data);
-							$("#loading").hide();
-						}
-					}
-				});
-				return false;
+				if(sansEspace.test(d.name.toString()) == false) d3_utils.load_json(d); 
+				else if(sansEspace.test(d.children[0].name.toString()) == false) d3_utils.load_json(d.children[0]);
+				else if(sansEspace.test(d.parent.name.toString()) == false) d3_utils.load_json(d.parent.name);
 			});
 
-
+	//On ajoute le texte représentant le noeud dans chaque cercle.
 	var text = container.selectAll("text")
 			.data(nodes)
 		.enter().append("text")
@@ -106,19 +105,19 @@ D3_BubbleRepresentation.load = function(json) {
 			.style("font-size", function(d) { if (d.name.length > 20) { return '10px'; } else if (d.name.length > 10) { return '15px'; } return '20px'; })
 			.text(function(d) { if (d.name.length > 20) {return (d.name.substring(0,17) + '...');} return d.name; });
 			
-
+	//On ajoute un title pour voir les définitions en entier lorsque les noeuds contiennent plus d'un mot
 	var node = container.selectAll("circle,text");
-
 	node.append("title")
 		.text(function(d) { return d.name; });
 
+	//Gestion du zoom pour faire un focus sur un cercle
 	d3.select("#contentCenter")
 			.style("background", color(-1))
-			.on("click", function() { zoom(treeJson); });
+			.on("click", function() { zoomfonc(treeJson); });
 
 	zoomTo([treeJson.x, treeJson.y, treeJson.r * 2 + margin]);
 
-	function zoom(d) {
+	function zoomfonc(d) {
 		var focus0 = focus; focus = d;
 
 		var transition = d3.transition()
@@ -142,57 +141,11 @@ D3_BubbleRepresentation.load = function(json) {
 	}
 
 	d3.select(self.frameElement).style("height", diameter + "px");
-	d3.selectAll('.zoom').on('click', zoomClick);
 
-	function zoomClick() {
-		var width = $("#contentCenter").width();
-		var height = $("#contentCenter").height();
-
-		var clicked = d3.event.target,
-			direction = 1,
-			factor = 0.2,
-			target_zoom = 1,
-			center = [0,0],
-			extent = zoomvar.scaleExtent(),
-			scale = 0;
-		
-		d3.event.preventDefault();
-	
-		// On revient sur la taille initiale
-		if(this.id === 'intial_scale'){
-			scale = 1;
-		}
-		// Zoom / Dezoom
-		else {
-			direction = (this.id === 'zoom_in') ? 1 : -1;
-			target_zoom = zoomvar.scale() * (1 + factor * direction);
-			scale = target_zoom;
-		}
-
-		interpolateZoom(center, scale);
-	}
-
-	function zoomed(center) 
-	{
-		var container = d3.select(".representationContainer");
-		container.attr("transform",
-			"translate(" + center[0] + "," + center[1] + ")"  +
-			"scale(" + zoomvar.scale() + ")"
-		);
-	}
-
-	function interpolateZoom (translate, scale) 
-	{
-		var self = this;
-		return d3.transition().duration(350).tween("zoom", function () {
-			var iScale = d3.interpolate(zoomvar.scale(), scale);
-			return function (t) {
-			zoomvar
-				.scale(iScale(t))
-			zoomed(translate);
-			};
-		});
-	}
+	//On désactive les boutons inutiles
+	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
+	d3.selectAll('.dragAndDrop').attr("value","0").attr("class","inactif");
+	d3.selectAll('.zoom').attr("class","inactif");
 
 }
 

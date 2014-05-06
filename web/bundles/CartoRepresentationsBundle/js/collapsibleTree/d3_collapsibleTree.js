@@ -20,6 +20,8 @@ D3_TreeRepresentation.load = function(json) {
 	/***************************/
 	/*		Graphe	 		   */
 	/**************************/
+	
+	// On recupere la taille de la div pour mettre le svg
 	var widthContentCenter = $("#contentCenter").width(),
     heightContentCenter = $("#contentCenter").height();
 
@@ -33,19 +35,31 @@ D3_TreeRepresentation.load = function(json) {
 		duration = 400,
 		root;
 
+	//Le layout de D3 permet d'agencer sous forme d'arbre
 	var tree = d3.layout.tree()
 		.size([0, 100]);
 
 	var diagonal = d3.svg.diagonal()
 		.projection(function(d) { return [d.y, d.x]; });
-
-	var svg = d3.select("#contentCenter").append("svg")
-		.attr("height", heightContentCenter)
-		.attr("width", widthContentCenter);
 		
-	var container = svg.append("g")
+	// On cree un nouveau noeud <svg>
+	//On configure le svg qui contiendra toute la figure
+	var svg = d3.select("#contentCenter").append("svg")
+		.attr("width", widthContentCenter)
+		.attr("class", "svgContainer");
+		
+	// On specifie une origine
+	var d = [{ x: 20, y: 30 }];
+	// On cree un nouveau noeud <g> pour mettre plusieurs attributs
+	var container = d3.select('.svgContainer')
+		.data(d)
+		.append("g")
 		.attr("class", "representationContainer")
-		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+		.attr("id","representationContainer")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+		.attr("tx",  20)
+		.attr("ty", 30)
+		.attr("sc", 1);
 		
 	/***************************************************/
 	/*		Transformation du json generique 		   */
@@ -56,31 +70,24 @@ D3_TreeRepresentation.load = function(json) {
 	var treeJson = formatter.to_tree(json);
 	treeJson.x0 = 0;
 	treeJson.y0 = 0;
-	update(root = treeJson);
 	
-	/***************************/
-	/*		Update	 		   */
-	/**************************/
-
-function update(source) {
-
+	/***************************************************/
+	/*					Outils						   */
+	/***************************************************/
+	var d3_utils = new D3_Utils();
+	
 	/***************************/
 	/*		Relations 		   */
 	/**************************/
 	
-	var data = treeJson.relationsUsed;
-	var paragraphs = d3.select('.selectRelation')
-		.on("change",change)
-		.selectAll(".relation")
-			.data(data)
-				.enter()
-				.append("option")
-				.attr("class", "relation");
+	d3_utils.showRelation(treeJson, "tree");
+	
+	/***************************/
+	/*		Update	 		   */
+	/**************************/
+	update(root = treeJson);
 
-	// On configure le texte
-	paragraphs
-		.attr("value", function (d) { return d;})
-		.text(function (d) { return d; });
+function update(source) {
 		
 	/***************************/
 	/*		Graphe	 		   */
@@ -92,32 +99,32 @@ function update(source) {
 
 	var colorLink = d3.scale.category20();
 
-	// Compute the flattened node list. TODO use d3.layout.hierarchy.
+	// On recupere les noeuds du json grace a la fonction de d3
 	var nodes = tree.nodes(root);
 	
 	var height = Math.max(500, nodes.length * barHeight + margin.top + margin.bottom);
 
-	d3.select(".representationContainer")
-	  .attr("height", height);
+	d3.select("svg")
+		.attr("height", height);
 
 	d3.select(self.frameElement)
-	  .style("height", height + "px");
+		.style("height", height + "px");
 
-	// Compute the "layout".
 	nodes.forEach(function(n, i) {
 	n.x = i * barHeight;
 	});
 
-	// Update the nodes
+	// On recupere les noeuds de nodes
 	var node = container.selectAll("g.node")
 	  .data(nodes, function(d) { return d.id || (d.id = ++i); });
 
+	// On cree les noeuds de la representation
 	var nodeEnter = node.enter().append("g")
 	  .attr("class", "node")
 	  .attr("transform", function(d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
 	  .style("opacity", 1e-6);
 
-	// Enter any new nodes at the parent's previous position.
+	// Les noeuds sont representes par des rectangles
 	nodeEnter.append("rect")
 	  .attr("y", -barHeight / 2)
 	  .attr("height", barHeight)
@@ -136,47 +143,17 @@ function update(source) {
 		})
 		.attr("cursor","pointer")
 		.on("click", function(d) {
-			var d3_utils = new D3_Utils();
 			d3_utils.show_wikipedia(d.name);
 		})
-		.on("dblclick", function(d){
-			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-			var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; //Céline
-			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
-			$.ajax({
-				type: "POST",
-				url: url,
-				data: {
-					cmd: 'search_action',
-					search: d.name
-				},
-				cache: false,
-				success: function(response) {
-					var result = $.parseJSON(response);
-					if(result.success){
-						var data = result.data;
-						if(representation){
-							$('svg').remove();
-						}
-						representation.show(data);
-						$("#loading").hide();
-					}
-				}
-			});
-			return false;
+		.on("dblclick", function(d) {
+			d3_utils.load_json(d);
 		});
 		  
 	// On affiche un titre lorsqu'on passe la souris
 	node.append("title")
 		.text(function(d) { return d.name; });
 
-	// Transition nodes to their new position.
-	nodeEnter.transition()
-	  .duration(duration)
-	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
-	  .style("opacity", 1);
-
+	// Nouvelle position du noeud si on clique dessus
 	node.transition()
 	  .duration(duration)
 	  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
@@ -184,7 +161,8 @@ function update(source) {
 	.select("rect")
 	  .style("fill", color);
 
-	// Transition exiting nodes to the parent's new position.
+	// On enleve les noeuds si le parent a ete clique
+	// On les place a la meme position que le parent
 	node.exit().transition()
 	  .duration(duration)
 	  .attr("transform", function(d) { return "translate(" + source.y + "," + source.x + ")"; })
@@ -193,11 +171,11 @@ function update(source) {
 
 	// On recupere tous les liens du json
 	var links = getLinks(nodes);
-	// Update the links
+	// On met a jour les liens
 	var link = container.selectAll("path.link")
 	  .data(links, function(d) { return d.target.id; });
 
-	// Enter any new links at the parent's previous position.
+	// On ajoute les liens
 	link.enter().insert("path", "g")
 		.attr("class", "link")
 		.attr("id", function(d) { return d.name; })
@@ -211,12 +189,12 @@ function update(source) {
 		.duration(duration)
 		.attr("d", diagonal);
 
-	// Transition links to their new position.
+	// On met les liens a leur nouvelle position
 	link.transition()
 		.duration(duration)
 		.attr("d", diagonal);
 
-	// Transition exiting nodes to the parent's new position.
+	// On place les liens a ne pas afficher a la position du parent
 	link.exit().transition()
 		.duration(duration)
 		.attr("d", function(d) {
@@ -224,37 +202,15 @@ function update(source) {
 			return diagonal({source: o, target: o});
 		})
 		.remove();
-	  
-	// Quand on clique sur une relation on affiche
-	// les liens en couleur
-	function change(){
-		// On recupere ce que l'utilisateur a choisi
-		nameRelation = this.options[this.selectedIndex].value;
-		// On redessine les liens en couleur de base
-		d3.selectAll("path")
-				.style("stroke-width", function(d) { return Math.sqrt(d.value); })
-				.style("stroke", "#999");
-		// Pour tous les liens du graphe
-		links.forEach(
-			function(d){
-				// Si le lien a la relation selectionnee alors on met en couleur
-				if(d.name.localeCompare(nameRelation) == 0){
-					d3.selectAll('#' + d.name)
-						.style("stroke-width", 3)
-						.style("stroke",  colorLink(d.value));
-				}
-			}
-		);
-	};
 
-	// Stash the old positions for transition.
+	// Pour tous les noeuds on affecte la nouvelle position
 	nodes.forEach(function(d) {
 	d.x0 = d.x;
 	d.y0 = d.y;
 	});
 	}
 
-	// Toggle children on click.
+	// Lorsqu'on clique sur un noeud
 	function click(d) {
 	  if (d.children) {
 		d._children = d.children;
@@ -270,6 +226,9 @@ function update(source) {
 		var colorLink = d3.scale.category20();
 		return d._children ? /*"#3182bd"*/colorLink(d.group) : d.children ? "#c6dbef" : "#fd8d3c";
 	}
+	
+	// On recupere le liens du json mis a jour a chaque fois 
+	// qu'on clique sur un noeud pour avoir le nom de la relation
 	function getLinks(nodes){
 		var d3_links = tree.links(nodes);
 		var allLinks = treeJson.links;
@@ -284,54 +243,12 @@ function update(source) {
 		return newLinks;
 	}
 	
-	d3.selectAll('.zoom').on('click', zoomClick);
-}
-
-function zoomClick() {
+	d3.selectAll('.zoom').on('click', d3_utils.zoomClick);
 	
-	var margin = {top: 30, right: 20, bottom: 30, left: 20};
-
-	var clicked = d3.event.target,
-		direction = 1,
-		factor = 0.2,
-		target_zoom = 1,
-		center = [margin.left, margin.top],
-		extent = zoom.scaleExtent(),
-		scale = 0;
-		
-	d3.event.preventDefault();
-	
-	// On revient sur la taille initiale
-	if(this.id === 'intial_scale'){
-		scale = 1;
-	}
-	// Zoom / Dezoom
-	else {
-		direction = (this.id === 'zoom_in') ? 1 : -1;
-		target_zoom = zoom.scale() * (1 + factor * direction);
-		scale = target_zoom;
-	}
-
-	interpolateZoom(center, scale);
-}
-
-function zoomed(center) {
-	var container = d3.select(".representationContainer");
-	container.attr("transform",
-		"translate(" + center[0] + "," + center[1] + ")"  +
-		"scale(" + zoom.scale() + ")"
-	);
-}
-
-function interpolateZoom (translate, scale) {
-	var self = this;
-	return d3.transition().duration(350).tween("zoom", function () {
-		var iScale = d3.interpolate(zoom.scale(), scale);
-		return function (t) {
-		zoom
-			.scale(iScale(t))
-		zoomed(translate);
-		};
-	});
+	// Si on clique sur le bouton ayant la classe
+	// dragAndDrop on appelle la fonction dragAndDrop
+	d3.selectAll('.dragAndDrop')
+		.attr("value", "0")
+		.on('click', d3_utils.dragAndDrop);
 }
 

@@ -1,0 +1,11 @@
+carto_livre_or_homepage:
+    pattern:  /
+    defaults: { _controller: CartoLivreOrBundle:Default:index }
+
+carto_livre_or_admin:
+    pattern:  /admin
+    defaults: { _controller: CartoLivreOrBundle:Default:admin }
+
+carto_livre_or_admin_supprimer:
+    pattern:  /admin/supprimer/{id}
+    defaults: { _controller: CartoLivreOrBundle:Default:supprimer }

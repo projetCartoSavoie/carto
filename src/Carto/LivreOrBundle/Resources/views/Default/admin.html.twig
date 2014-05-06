@@ -1,0 +1,17 @@
+{% extends "CartoLivreOrBundle:Layouts:layout.html.twig" %}
+{% block body %}
+
+	<h1>{{"livre" | trans}} -- {{ 'Gérer'|trans }}</h1>
+<div class="livre" style="width:100%">
+<table>
+{% for com in comments %}
+			<tr><td class="auteur">{{ com.auteur }}, le {{ com.date | date("d/m/Y")}}</td></tr>
+			<tr class="comment"><td>{{ com.contenu }}</td></tr>
+			{% if is_granted('ROLE_ADMIN') %}
+			<tr><td><a href="{{ path('carto_livre_or_admin_supprimer',{'id':com.id}) }}">Supprimer</a></td></tr>
+			{% endif %}
+		<tr class="separation"><td> </td></tr>
+{% endfor %}
+</table>
+</div>
+{% endblock %}

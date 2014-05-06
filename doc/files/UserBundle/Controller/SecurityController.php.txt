@@ -1,12 +1,39 @@
 <?php
+/**
+ * Controleur pour la page de login d'administateur
+ *
+ *
+ * @author Rémy Cluze <Remy.Cluze@etu.univ-savoie.fr>
+ * @author Anthony Di Lisio <Anthony.Di-Lisio@etu.univ-savoie.fr>
+ * @author Juliana Leclaire <Juliana.Leclaire@etu.univ-savoie.fr>
+ * @author Rémi Mollard <Remi.Mollard@etu.univ-savoie.fr>
+ * @author Céline de Roland <Celine.de-Roland@etu.univ-savoie.fr>
+ *
+ * @version 1.0
+ */
 
 namespace Carto\UserBundle\Controller;
  
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Security\Core\SecurityContext;
 
+/**
+ * Controleur pour la page de login d'administateur
+ *
+ * Pour enregistrer des données en bdd, on demande à l'administrateur de se connecter
+ * @todo bouton déconnecter
+*/
 class SecurityController extends Controller
 {
+
+	/**
+	 * Gestion d'identification
+	 *
+	 * Si le visiteur est déjà identifié, on le redirige vers l'accueil
+	 * Sinon on tente de le loguer
+	 *
+	 * @return vue twig
+	 */
   public function loginAction()
   {
     // Si le visiteur est déjà identifié, on le redirige vers l'accueil
@@ -36,3 +63,4 @@ class SecurityController extends Controller
     ));
   }
 }
+

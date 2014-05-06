@@ -41,22 +41,41 @@ html{
 }
 #contentCenter{
 	background-color: #FDFAFA;
-	width: 1000px;
-	height: auto;
+
+/*	width: 1000px;*/
+/*	height: auto;*/
+
+	width: 950px;
+
 	border-left: solid 1px;
 	border-right: solid 1px;
+	vertical-align:top;
+	padding:15px;
 }
 #contentCenter #loading {
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
+
 .contentLeft{
+	background-image:url('/bundles/CartoAccueilBundle/images/left.png');
+	background-size:100% 100%;
+	color:black;
+	width:300px;
+	height:100%;
+	padding:30px;
 	border-left: solid 1px;
 	padding: 0px;
-	height: 100%;
-	width: 350px;
 	vertical-align: top;
+}
+
+.utilsLeft div{
+	padding-bottom: 10px;
+}
+
+.utilsLeft{
+	padding: 10px;
 }
 
 .contentLeft #wikipedia{
@@ -261,4 +280,23 @@ html[xmlns] .nav {
 
 .language_selector a{
 	text-decoration: none !important;
+}
+
+/************
+	LOGIN
+*************/
+
+.login a{
+	text-decoration: none;
+	font-size: 120%;
+	color : rgb(20, 94, 121);
+	cursor : pointer;
+}
+
+.login a:hover{
+	color: rgba(20, 94, 121, 0.5);
+}
+
+.text_login{
+	display	: inline-block;
 }

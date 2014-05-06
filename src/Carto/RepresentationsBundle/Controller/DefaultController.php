@@ -78,10 +78,15 @@ class DefaultController extends Controller
 	{
 		return $this->render('CartoRepresentationsBundle:Default:representation4.html.twig');
 	}
-	
 
-	public function jsonRechercher()
+/**
+ * Dependency Wheel
+ *
+ * @return vue twig
+ */
+	public function representation6Action()
 	{
-		return "{success:true}";
+		return $this->render('CartoRepresentationsBundle:Default:representation6.html.twig');
 	}
+	
 }
