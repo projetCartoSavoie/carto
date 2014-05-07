@@ -72,9 +72,8 @@
 				if(result.success){
 					var data = result.data;
 					for (var d in data){
-						$('.showOptions').append('<div><input type="checkbox" name="options[]" value="' + data[d] + '" onclick="filterRelations(this)"/>' + data[d] + '</div>');
+						$('.showOptions').append('<div><input type="checkbox" name="options" value="' + data[d] + '" onclick="filterRelations(this)"/>' + data[d] + '</div>');
 					}
-					$('.showOptions').append('<button class="buttonSearch" type="submit">Valider</button>');
 				}
 			}
 		});
@@ -88,6 +87,12 @@
 		}
 		
 		$("#form_recherche").submit(function(){
+			// On recupere les relations selectionnees par l'utilisateur pour le filtre
+			var valeurs = [];
+			$('input:checked[name = options]').each(function() {
+				valeurs.push($(this).val());
+			});
+			
 			var search = $('#search').val(); //Récupération du mot demandé
 			var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
 			//Url permettant de faire la recherche demandée
@@ -111,14 +116,14 @@
 			}
 
 			//Utilisation d'ajax pour placer le résultat dans le conteneur
-
 			$("#contentCenter").html('<img id="loading" src="{{ asset('bundles/CartoRepresentationsBundle/images/ajax-loader.gif') }}">');
 			$.ajax({
 				type: "POST",
 				url: url,
 				data: {
 					cmd: 'search_action',
-					search: search
+					search: search,
+					options: valeurs
 				},
 				cache: false,
 				success: function(response) {
@@ -160,7 +165,7 @@
 			<span>Options</span>
 			<img class="click imgOptions" src="{{ asset('bundles/CartoRepresentationsBundle/images/optionsValidate.png') }}">
 		</div>
-		<div class="showOptions"></div>
+		<form id="form_options" action="" method="post" class="showOptions"></form>
 		
 		<form id="form_recherche" action="" method="post">
 			{# Entrer un mot à chercher #}
