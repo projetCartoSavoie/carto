@@ -56,12 +56,12 @@
 	}
 	
 	function showOptionsWN(){
-		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-		//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
+		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remy
+		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Celine
+		//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remi
 		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Juliana
-		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony
+		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony2
 		
 		$.ajax({
 			type: "POST",
@@ -74,6 +74,7 @@
 					for (var d in data){
 						$('.showOptions').append('<div><input type="checkbox" name="options[]" value="' + data[d] + '" onclick="filterRelations(this)"/>' + data[d] + '</div>');
 					}
+					$('.showOptions').append('<button class="buttonSearch" type="submit">Valider</button>');
 				}
 			}
 		});
