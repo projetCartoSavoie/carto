@@ -101,23 +101,25 @@ class WNController extends Controller
 	public function relationsAction()
 	{
 		$tab = array(
-				'derive',
-				'pertainym',
-				'build',
-				'participle',
-				'hypernym',
-				'troponym',
-				'hyponym',
-				'meronym',
-				'entails',
-				'holonym',
-				'antonym',
-				'attribut',
-				'cause',
-				'consequence',
-				'similar',
-				'estdans',
-				'contient');
+			'derivation',
+			'pertainymie',
+			'construction',
+			'participe_passe',
+			'hypernymie',
+			'hyponymie',
+			'meronymie',
+			'holonymie',
+			'troponymie',
+			'verbe_hyponymie',
+			'holonymie_meronymie',
+			'entailments',
+			'antonymie',
+			'attribut',
+			'cause',
+			'consequence',
+			'similar',
+			'synonymie'
+		);
 		$text = json_encode($tab);
 		return new Response($text);
 	}

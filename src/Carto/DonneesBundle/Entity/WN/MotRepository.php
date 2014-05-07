@@ -41,6 +41,12 @@ class MotRepository extends EntityRepository
  */
 	private $mot;
 
+	private $profondeur;
+
+	private $numero = 0;
+
+	private $profondeurMax = 5;
+
 	/**
 	 * fonction trouve
 	 *
@@ -116,170 +122,56 @@ class MotRepository extends EntityRepository
 		return $c;
 	}
 
-	/**
-	 * Ajoute un tableau de résultats en relation avec une source
-	 *
-	 * @param $entree : les résultats
-	 * @param $relation : la relation entre la source et les résultats
-	 * @param $inverseRelation : la relation entre les résultats et la source
-	 * @param $type : le type des entrées
-	 * @param $srctype : le type de la source
-	 * @param $src : la source
-	**/
-	private function ajoutResultat($entree,$relation,$inverseRelation,$type,$srctype,$src)
-	{
-			//Préparation du noeud : 'id':'...','nom':'...','type':'...'
-			if ($srctype == 'M') { $nom = $src -> getMot(); }
-			else { $nom = $src -> getDefinition(); }
-			$n = array(
-				'id' => $srctype.$src -> getId(),
-				'nom' => $nom,
-				'type' => $srctype
-			);
-
-			//Ajout du noeud dans la liste si il n'y est pas déjà
-			if (!in_array($n,$this -> resultat['noeuds'])) { $this -> resultat['noeuds'][] = $n; }
-			if (!isset($this -> resultat['graphe'][$srctype.$src -> getId()])) 
-			{
-				$this -> resultat['graphe'][$srctype.$src -> getId()] = array( 'noeud' => $srctype.$src -> getId() );
-			}
-
-		foreach ($entree as $valeur) 
-		{ 
-			//Préparation du noeud : 'id':'...','nom':'...','type':'...'
-			if ($type == 'M') { $nom = $valeur -> getMot(); }
-			else { $nom = $valeur -> getDefinition(); }
-			$n = array(
-				'id' => $type.$valeur -> getId(),
-				'nom' => $nom,
-				'type' => $type
-			);
-
-			//Ajout du noeud dans la liste si il n'y est pas déjà
-			if (!in_array($n,$this -> resultat['noeuds'])) { $this -> resultat['noeuds'][] = $n; }
-			if (!isset($this -> resultat['graphe'][$type.$valeur -> getId()])) 
-			{
-				$this -> resultat['graphe'][$type.$valeur -> getId()] = array( 'noeud' => $type.$valeur -> getId() );
-			}
-
-			//Ajout de la relation
-			$this -> resultat['graphe'][$srctype.$src -> getId()][$relation][] = $type.$valeur -> getId();
-
-			//Ajout de la relation inverse
-			$this -> resultat['graphe'][$type.$valeur -> getId()][$inverseRelation][] = $srctype.$src -> getId();
-		}
-	}
-
-	/**
-	 * Ajoute un résultat unique en relation avec une source (pour les relations OneToOne)
-	 *
-	 * inutile de spécifier les types : les seules relations OneToOne qui existent sont entre deux mots
-	 *
-	 * @param $entree : le résultat
-	 * @param $relation : la relation entre la source et le résultat
-	**/
-	private function ajoutResultatOne($entree,$relation)
-	{
-		if ($entree != NULL) 
-		{ 
-			//Préparation du noeud : 'id':'...','nom':'...','type':'...'
-			$n = array(
-				'id' => 'M'.$entree -> getId(),
-				'nom' => $entree -> getMot(),
-				'type' => 'M'
-			);
-			//Ajout du noeud dans la liste si il n'y est pas déjà
-			if (!in_array($n,$this -> resultat['noeuds'])) { $this -> resultat['noeuds'][] = $n; }
-
-			//Ajout de la relation
-			$this -> resultat['graphe']['M'.$this -> mot -> getId()][$relation][] = 'M'.$entree -> getId(); 
-			$this -> resultat['graphe']['M'.$entree -> getId()][$relation][] = 'M'.$this -> mot -> getId(); 
-		}
-	}
-
-	/**
-	 * Ajoute tous les mots d'un synset donné
-	 *
-	 * @param $entree : la liste des synsets
-	 * @param $type : le type de synset
-	**/
-	private function ajoutMots($entree,$type)
-	{
-		foreach($entree as $valeur)
-		{
-			$mots = $valeur -> getMots();
-			foreach ($mots as $mot)
-			{
-				//Ajout du mot dans la liste de noeuds et dans le graphe si il n'y est pas déjà
-				if (!isset($this -> resultat['graphe']['M'.$mot -> getId()])) 
-				{
-					$this -> resultat['noeuds'][] = array(
-						'id' => 'M'.$mot -> getId(),
-						'nom' => $mot -> getMot(),
-						'type' => 'M'
-					);
-					$this -> resultat['graphe']['M'.$mot -> getId()] = array( 'noeud' => 'M'.$mot -> getId() );
-				}
-				//Création de la relation 'est dans' pour ce mot si elle n'existe pas déjà
-				if (!isset($this -> resultat['graphe']['M'.$mot -> getId()]['estdans']))
-				{ 
-					$this -> resultat['graphe']['M'.$mot -> getId()]['estdans'] = array();
-				}
-				//Ajout de la relation 'est dans'
-				if (!in_array($type.$valeur -> getId(),$this -> resultat['graphe']['M'.$mot -> getId()]['estdans']))
-				{
-					$this -> resultat['graphe']['M'.$mot -> getId()]['estdans'][] = $type.$valeur -> getId();
-				}
-				//Ajout de la relation 'contient'
-				if (!isset($this -> resultat['graphe'][$type.$valeur -> getId()]['contient']))
-				{ 
-					$this -> resultat['graphe'][$type.$valeur -> getId()]['contient'] = array();
-				}
-				if (!in_array('M'.$mot -> getId(),$this -> resultat['graphe'][$type.$valeur -> getId()]['contient']))
-				{
-					$this -> resultat['graphe'][$type.$valeur -> getId()]['contient'][] = 'M'.$mot -> getId();
-				}
-			}
-		}
-	}
-
-	/**
-	 * fabrique un tableau php qui représente le graphe correspondant à une recherche de profondeur 3 à partir du mot demandé
-	 *
-	 * @param string $recherche
-	 * @return array
-	*/
 	public function fabriqueGraphe($recherche,$options)
 	{
 
+		$this -> profondeur = array(
+				'hypernymie' => 0,
+				'hyponymie' => 0,
+				'meronymie' => 0,
+				'holonymie' => 0,
+				'troponymie' => 0,
+				'verbe_hyponymie' => 0,
+				'entailments' => 0,
+				'verbe_holonymie' => 0,
+				'antonymie' => 0,
+				'attribut' => 0,
+				'cause' => 0,
+				'consequence' => 0,
+				'similar' => 0,
+				'synonymie' => 0
+		);
 		if ($options == 'all')
 		{
-			$options = array(
-				'derive',
-				'pertainym',
-				'build',
-				'participle',
-				'hypernym',
-				'troponym',
-				'hyponym',
-				'meronym',
-				'entails',
-				'holonym',
-				'antonym',
+			$relations = array(
+				'derivation',
+				'pertainymie',
+				'construction',
+				'participe_passe',
+				'hypernymie',
+				'hyponymie',
+				'meronymie',
+				'holonymie',
+				'troponymie',
+				'verbe_hyponymie',
+				'holonymie_meronymie',
+				'entailments',
+				'antonymie',
 				'attribut',
 				'cause',
 				'consequence',
 				'similar',
-				'estdans',
-				'contient'
+				'synonymie'
 			);
 		}
-		else { $options = explode(',',$options); }
+		else { $relations = explode(',',$options); }
+		//echo '<style>td { border:solid 1px; }</style>';
+		//echo '<table>';
 		
 		//Initialisation du tableau résultat, qui sera ensuite encodé en json
 		$this -> resultat = array(
 			'noeuds' => array(), 
-			'relations' => $options,
+			'relations' => $relations,
 			'graphe' => array()
 		);
 
@@ -291,144 +183,227 @@ class MotRepository extends EntityRepository
 			'type' => 'M'
 		);
 		$this -> resultat['graphe']['M'.$this -> mot -> getId()] = array( 'noeud' => 'M'.$this -> mot -> getId() );
+		$this -> listeid = array('M'.$this -> mot -> getId());
 
-		//Recherche des relations du mot
-		if (in_array('derive',$options)) 
-		{ 
-			$this -> ajoutResultat($this -> mot -> getDeriveFrom(),'derive','derive','M','M',$this -> mot);
-			$this -> ajoutResultat($this -> mot -> getDeriveTo(),'derive','derive','M','M',$this -> mot); 
-		}
-		if (in_array('pertainym',$options)) 
-		{ 
-			$this -> ajoutResultat($this -> mot -> getPertainFrom(),'pertainym','pertainym','M','M',$this -> mot);
-			$this -> ajoutResultat($this -> mot -> getPertainTo(),'pertainym','pertainym','M','M',$this -> mot);
-		}
-		if (in_array('participle',$options)) 
-		{ 
-			$this -> ajoutResultatOne($this -> mot -> getParticipleOf(),'participle');
-			$this -> ajoutResultatOne($this -> mot -> getParticipleTo(),'participle');
-		}
-		if (in_array('build',$options)) 
-		{ 
-			$this -> ajoutResultatOne($this -> mot -> getBuiltFrom(),'build');
-			$this -> ajoutResultatOne($this -> mot -> getBuild(),'build');
-		}
+		//On cherche les relations entre mots
+		$relations_mots = array(
+				'derivation',
+				'pertainymie',
+				'construction',
+				'participe_passe'
+		);
+		$this -> relationsentremots($this -> mot,array_intersect($relations_mots,$relations));
 
-		//Recherche des synsets du mot
-		$this -> ajoutResultat($this -> mot -> getNsynsets(),'estdans','contient','N','M',$this -> mot);
-		$this -> ajoutResultat($this -> mot -> getVsynsets(),'estdans','contient','V','M',$this -> mot);
-		$this -> ajoutResultat($this -> mot -> getAsynsets(),'estdans','contient','A','M',$this -> mot);
-		$this -> ajoutResultat($this -> mot -> getRsynsets(),'estdans','contient','R','M',$this -> mot);
 
-		//Recherche des mots des synsets
-		$this -> ajoutMots($this -> mot -> getNSynsets(),'N');
-		$this -> ajoutMots($this -> mot -> getVSynsets(),'V');
-		$this -> ajoutMots($this -> mot -> getASynsets(),'A');
-		$this -> ajoutMots($this -> mot -> getRSynsets(),'R');
-
-		//Recherche des relations des synsets et de leurs mots
-		foreach ($this -> mot -> getNSynsets() as $valeur)
+		//Si on veut d'autres relations, on cherche les synsets du mot et leurs relations
+		if (count(array_diff($relations,$relations_mots)) != 0)
 		{
-			if (in_array('hypernym',$options)) 
-			{ 
-				$this -> ajoutResultat($valeur -> getHypernyms(),'hypernym','hyponym','N','N',$valeur);
-				$this -> ajoutMots($valeur -> getHypernyms(),'N');
-			}
-			if (in_array('hyponym',$options))
-			{
-				$this -> ajoutResultat($valeur -> getHyponyms(),'hyponym','hypernym','N','N',$valeur);
-				$this -> ajoutMots($valeur -> getHyponyms(),'N');
-			}
-			if (in_array('meronym',$options)) 
-			{ 
-				$this -> ajoutResultat($valeur -> getMeronyms(),'meronym','holonym','N','N',$valeur);
-				$this -> ajoutMots($valeur -> getMeronyms(),'N');
-			}
-			if (in_array('holonym',$options)) 
-			{ 
-				$this -> ajoutResultat($valeur -> getHolonyms(),'holonym','meronym','N','N',$valeur);
-				$this -> ajoutMots($valeur -> getHolonyms(),'N');
-			}
-			if (in_array('antonym',$options)) 
-			{ 
-				$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','N','N',$valeur);
-				$this -> ajoutMots($valeur -> getAntonyms(),'N');
-			}
-			if (in_array('attribut',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getHasAttribute(),'attribut','attribut','A','N',$valeur);
-				$this -> ajoutMots($valeur -> getHasAttribute(),'N');
-			}
-		}
-		foreach ($this -> mot -> getVSynsets() as $valeur)
-		{
-			if (in_array('troponym',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getTroponyms(),'troponym','hyponym','V','V',$valeur);
-				$this -> ajoutMots($valeur -> getTroponyms(),'V');
-			}
-			if (in_array('hyponym',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getHyponyms(),'hyponym','troponym','V','V',$valeur);
-				$this -> ajoutMots($valeur -> getHyponyms(),'V');
-			}
-			if (in_array('entails',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getEntails(),'entails','holonym','V','V',$valeur);
-				$this -> ajoutMots($valeur -> getEntails(),'V');
-			}
-			if (in_array('holonym',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getHolonyms(),'holonym','entails','V','V',$valeur);
-				$this -> ajoutMots($valeur -> getHolonyms(),'V');
-			}
-			if (in_array('antonym',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','V','V',$valeur);
-				$this -> ajoutMots($valeur -> getAntonyms(),'V');
-			}
-			if (in_array('cause',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getCauses(),'cause','consequence','V','V',$valeur);
-				$this -> ajoutMots($valeur -> getCauses(),'V');
-			}
-			if (in_array('consequence',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getConsequences(),'consequence','cause','V','V',$valeur);
-				$this -> ajoutMots($valeur -> getConsequences(),'V');
-			}
-		}
-		foreach ($this -> mot -> getASynsets() as $valeur)
-		{
-			if (in_array('antonym',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','A','A',$valeur);
-				$this -> ajoutMots($valeur -> getAntonyms(),'A');
-			}
-			if (in_array('attribut',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getIsAttributeOf(),'attribut','attribut','N','A',$valeur);
-				$this -> ajoutMots($valeur -> getIsAttributeOf(),'A');
-			}
-			if (in_array('similar',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getSimilars(),'similar','similar','A','A',$valeur);
-				$this -> ajoutMots($valeur -> getSimilars(),'A');
-			}
-		}
-		foreach ($this -> mot -> getRSynsets() as $valeur)
-		{
-			if (in_array('antonym',$options)) 
-			{
-				$this -> ajoutResultat($valeur -> getAntonyms(),'antonym','antonym','R','R',$valeur);
-				$this -> ajoutMots($valeur -> getAntonyms(),'R');
-			}
+			$this -> parcourirMot($this -> mot,$relations);
 		}
 
+		//echo '</table>';
 		//On enlève les clés du tableau graphe pour correspondre au format commun
 		$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
 
 		//On retourne le tableau obtenu
 		return $this -> resultat;
+
 	}
+
+/****************************
+  RELATIONS ENTRE MOTS
+****************************/
+	private function relationsentremots($motdep,$relations)
+	{
+		if (in_array('derivation',$relations))
+		{
+			$derivation = $motdep -> getAllDerive();
+			$this -> parcourir($motdep,$derivation,'derivation',$relations);
+		}
+		if (in_array('pertainymie',$relations))
+		{
+			$pertainymie = $motdep -> getAllPertainym();
+			$this -> parcourir($motdep,$pertainymie,'pertainymie',$relations);
+		}
+		if (in_array('construction',$relations))
+		{
+			$construction = $motdep -> getAllBuild();
+			$this -> parcourir($motdep,$construction,'construction',$relations);
+		}
+		if (in_array('participe_passe',$relations))
+		{
+			$participe_passe = $motdep -> getAllParticiple();
+			$this -> parcourir($motdep,$participe_passe,'participe_passe',$relations);
+		}
+	}
+
+	private function parcourir($motdep,$resultat,$nomrelation,$relations)
+	{
+		foreach($resultat as $mot)
+		{
+			$id = 'M'.$mot -> getId();
+			if (!isset($this -> resultat['graphe'][$id][$nomrelation]))
+			{
+				$this -> resultat['graphe']['M'.$motdep -> getId()][$nomrelation][] = $id;
+			}
+			if (!in_array($id,$this -> listeid))
+			{
+				$this -> resultat['noeuds'][] = array(
+					'id' => $id,
+					'nom' => $mot -> getMot(),
+					'type' => 'M'
+				);
+				$this -> resultat['graphe'][$id]['noeud'] = $id;
+				$this -> listeid[] = $id;
+				$this -> relationsentremots($mot,$relations);
+			}
+		}
+	}
+
+/****************************
+  RELATIONS ENTRE SYNSETS : SYNONYMIE
+****************************/
+
+	private function ajouterSynsets($mot,$syn)
+	{
+		$type = $syn -> getType();
+		$id = $type.$syn -> getId();
+		if (!in_array($id,$this -> listeid))
+		{
+			$this -> resultat['noeuds'][] = array(
+				'id' => $id,
+				'nom' => $syn -> getDefinition(),
+				'type' => $type
+			);
+			$this -> resultat['graphe'][$id]['noeud'] = $id;
+			$this -> listeid[] = $id;
+		}
+		$this -> resultat['graphe']['M'.$mot -> getId()]['synonymie'][] = $id;
+	}
+
+	private function parcourirSynset($synset,$relations)
+	{
+		$mots = $synset -> getMots();
+		$type = $synset -> getType();
+		foreach($mots as $mot)
+		{
+			//echo '<tr><td>'.$this -> numero++.'</td><td>' . $synset -> getId() . ' ' . $synset -> getDefinition() . '</td><td> Syno </td><td> ' . $mot -> getId() . ' ' . $mot -> getMot() . '</td></tr>';
+			$id = 'M'.$mot -> getId();
+			if (!isset($this -> resultat['graphe'][$id]['synonymie']))
+			{
+				//////echo '<tr><td colspan=4 style="text-align:center;font-weight:bold;padding:5px;">J\'ECRIS</td></tr>';
+				$this -> resultat['graphe'][$type.$synset -> getId()]['synonymie'][] = $id;
+			}
+			else
+			{
+				//////echo '<tr><td colspan=4 style="text-align:center;font-weight:bold;padding:5px;">JE N\'ECRIS PAS CAR [' . $id . '][synonymie] EXISTE DEJA</td></tr>';
+			}
+			if (!in_array($id,$this -> listeid))
+			{
+				$this -> resultat['noeuds'][] = array(
+					'id' => $id,
+					'nom' => $mot -> getMot(),
+					'type' => 'M'
+				);
+				$this -> resultat['graphe'][$id]['noeud'] = $id;
+				$this -> listeid[] = $id;
+				if ($this -> profondeur['synonymie'] < $this -> profondeurMax and (in_array('synonymie',$relations) or $this -> profondeur['synonymie'] = 0))
+				{
+					$this -> profondeur['synonymie']++;
+					$this -> parcourirMot($mot,$relations);
+				}
+			}
+		}
+	}
+
+	private function parcourirMot($mot,$relations)
+	{
+		$synsets = array_merge($mot -> getASynsets() -> toArray(),$mot -> getNSynsets() -> toArray(),$mot -> getVSynsets() -> toArray(),$mot -> getRSynsets() -> toArray());
+		foreach($synsets as $syn) { $this -> ajouterSynsets($mot,$syn); }
+
+		//On parcourt la relation de synonymie
+		if (in_array('synonymie',$relations) or $this -> profondeurSyn = 0)
+		{
+			foreach($synsets as $syn) { $this -> parcourirSynset($syn,$relations); }
+		}
+
+		//Relations des nsynsets :
+		$nsynsets = $mot -> getNSynsets();
+		$asynsets = $mot -> getASynsets();
+		$vsynsets = $mot -> getVSynsets();
+		$rsynsets = $mot -> getRSynsets();
+
+		foreach($nsynsets as $syn)
+		{
+			if (in_array('hypernymie',$relations)) { $this -> parcourirRelSynset($syn,$relations,'hypernymie','Hypernyms'); }
+			if (in_array('hyponymie',$relations)) { $this -> parcourirRelSynset($syn,$relations,'hyponymie','Hyponyms'); }
+			if (in_array('meronymie',$relations)) { $this -> parcourirRelSynset($syn,$relations,'meronymie','Meronyms'); }
+			if (in_array('holonymie',$relations)) { $this -> parcourirRelSynset($syn,$relations,'holonymie','Holonyms'); }
+			if (in_array('attribut',$relations)) { $this -> parcourirRelSynset($syn,$relations,'attribut','HasAttribute'); }
+			if (in_array('antonymie',$relations))  { $this -> parcourirRelSynset($syn,$relations,'antonymie','Antonyms'); }
+		}
+
+		foreach($asynsets as $syn)
+		{
+			if (in_array('attribut',$relations)) { $this -> parcourirRelSynset($syn,$relations,'attribut','IsAttributeOf'); }
+			if (in_array('antonymie',$relations))  { $this -> parcourirRelSynset($syn,$relations,'antonymie','Antonyms'); }
+			if (in_array('similar',$relations))  { $this -> parcourirRelSynset($syn,$relations,'similar','Similars'); }
+		}
+
+		foreach($vsynsets as $syn) 
+		{
+			if (in_array('troponymie',$relations)) { $this -> parcourirRelSynset($syn,$relations,'troponymie','Troponyms'); }
+			if (in_array('verbe_hyponymie',$relations)) { $this -> parcourirRelSynset($syn,$relations,'verbe_hyponymie','Hyponyms'); }
+			if (in_array('entailments',$relations)) { $this -> parcourirRelSynset($syn,$relations,'entailments','Entails'); }
+			if (in_array('verbe_holonymie',$relations)) { $this -> parcourirRelSynset($syn,$relations,'verbe_holonymie','Holonyms'); }
+			if (in_array('cause',$relations)) { $this -> parcourirRelSynset($syn,$relations,'cause','Causes'); }
+			if (in_array('consequence',$relations)) { $this -> parcourirRelSynset($syn,$relations,'consequence','Consequences'); }
+			if (in_array('antonymie',$relations))  { $this -> parcourirRelSynset($syn,$relations,'antonymie','Antonyms'); }
+		}
+
+		foreach($rsynsets as $syn) 
+		{
+			if (in_array('antonymie',$relations))  { $this -> parcourirRelSynset($syn,$relations,'antonymie','Antonyms'); }
+		}
+	}
+
+/****************************
+  RELATIONS ENTRE SYNSETS : GENERAL
+****************************/
+	private function parcourirRelSynset($synsrc,$relations,$relation,$getter)
+	{
+		//echo 'Je parcours ' . $synsrc -> getType() . $synsrc -> getDefinition() . '<br/>';
+		if ($getter == 'HasAttribute') { $getterinv = 'IsAttributeOf'; }
+		else if ($getter == 'IsAttributeOf') { $getterinv = 'HasAttribute'; }
+		else { $getterinv = $getter; }
+		$fonc = 'get' . $getter;
+		$rels = $synsrc -> $fonc() -> toArray();
+		foreach($rels as $syndest)
+		{
+			$id = $syndest -> getType().$syndest -> getId();
+			if (!isset($this -> resultat['graphe'][$id][$relation]))
+			{
+				$this -> resultat['graphe'][$synsrc -> getType().$synsrc -> getId()][$relation][] = $id;
+			}
+			$this -> parcourirSynset($syndest,$relations);
+
+			if (!in_array($id,$this -> listeid))
+			{
+				$this -> resultat['noeuds'][] = array(
+					'id' => $id,
+					'nom' => $syndest -> getDefinition(),
+					'type' => $syndest -> getType()
+				);
+				$this -> resultat['graphe'][$id]['noeud'] = $id;
+				$this -> listeid[] = $id;
+				if ($this -> profondeur[$relation] < $this -> profondeurMax and (in_array($relation,$relations)))
+				{
+					$this -> profondeur[$relation]++;
+					$this -> parcourirRelSynset($syndest,$relations,$relation,$getterinv);
+				}
+			}
+		}
+	}
+
+
 }
