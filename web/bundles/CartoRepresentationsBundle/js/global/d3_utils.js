@@ -231,6 +231,12 @@ D3_Utils.prototype.showRelation = function(json, representation) {
 }
 
 /**
+* Filtre les relations
+*/
+D3_Utils.prototype.filter = function() {
+}
+
+/**
 * Zoom la representation
 */
 D3_Utils.prototype.zoomClick = function() {
