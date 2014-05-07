@@ -149,10 +149,6 @@ function stopDragAndDrop(force) {
 		// On enleve  le drag and drop
 		var svg = d3.select(".svgContainer");
 		svg.call(d3.behavior.drag().on("drag", null));
-		//svg.call(force.drag);
-		var node_drag = d3.behavior.drag()
-			.on("drag", force.drag);
-		svg.select(".representationContainer").selectAll("g.node").call(node_drag);
 		$(".svgContainer").removeAttr('cursor');
 	}
 	else{
