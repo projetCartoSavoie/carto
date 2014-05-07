@@ -26,6 +26,11 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 * @param d : objet node sur lequel l'utilisateur a clique
 */
 D3_Utils.prototype.load_json = function(d) {
+	// On recupere les relations selectionnees par l'utilisateur pour le filtre
+	var valeurs = [];
+	$('input:checked[name = options]').each(function() {
+		valeurs.push($(this).val());
+	});
 	var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
 	//Url permettant de faire la recherche demandpend de la source)
 	if (wordnet)
@@ -52,7 +57,8 @@ D3_Utils.prototype.load_json = function(d) {
 		url: url,
 		data: {
 			cmd: 'search_action',
-			search: d.name
+			search: d.name,
+			options: valeurs
 		},
 		cache: false,
 		success: function(response) {
@@ -143,10 +149,6 @@ function stopDragAndDrop(force) {
 		// On enleve  le drag and drop
 		var svg = d3.select(".svgContainer");
 		svg.call(d3.behavior.drag().on("drag", null));
-		//svg.call(force.drag);
-		var node_drag = d3.behavior.drag()
-			.on("drag", force.drag);
-		svg.select(".representationContainer").selectAll("g.node").call(node_drag);
 		$(".svgContainer").removeAttr('cursor');
 	}
 	else{
@@ -228,6 +230,12 @@ D3_Utils.prototype.showRelation = function(json, representation) {
 	paragraphs
 		.attr("value", function (d) { return d;})
 		.text(function (d) { return d; });
+}
+
+/**
+* Filtre les relations
+*/
+D3_Utils.prototype.filter = function() {
 }
 
 /**

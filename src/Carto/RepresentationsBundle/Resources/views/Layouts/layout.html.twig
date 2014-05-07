@@ -37,35 +37,62 @@
 			$('.showOptions').hide();
 		}
 	});
+	
+	function filterRelations(relation){
+		var d3_utils = new D3_Utils();
+		d3_utils.filter();
+	}
+	
+	function loadOptions(){
+		var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
+		//Url permettant de faire la recherche demandpend de la source)
+		if (wordnet){
+			showOptionsWN();
+		}
+		else{
+			$('.imgOptions').attr("src", "{{ asset('bundles/CartoRepresentationsBundle/images/optionsValidate.png') }}");
+			$('.showOptions').empty();
+		}
+	}
+	
+	function showOptionsWN(){
+		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remy
+		var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Celine
+		//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remi
+		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Juliana
+		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony
+		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony2
+		
+		$.ajax({
+			type: "POST",
+			url: url,
+			cache: false,
+			success: function(response) {
+				var result = $.parseJSON(response);
+				if(result.success){
+					var data = result.data;
+					for (var d in data){
+						$('.showOptions').append('<div><input type="checkbox" name="options" value="' + data[d] + '" onclick="filterRelations(this)"/>' + data[d] + '</div>');
+					}
+				}
+			}
+		});
+	}
 
 	$(document).ready(function(){
 		var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
 		//Url permettant de faire la recherche demandpend de la source)
 		if (wordnet){
-			//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-			var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Celine
-			//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
-			//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Juliana
-			//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-			//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
-			
-			$.ajax({
-				type: "POST",
-				url: url,
-				cache: false,
-				success: function(response) {
-					var result = $.parseJSON(response);
-					if(result.success){
-						var data = result.data;
-						for (var d in data){
-							$('.showOptions').append('<div><input type="checkbox" name="option1" value="' + data[d] + '"/>' + data[d] + '</div>');
-						}
-					}
-				}
-			});
+			showOptionsWN();
 		}
 		
 		$("#form_recherche").submit(function(){
+			// On recupere les relations selectionnees par l'utilisateur pour le filtre
+			var valeurs = [];
+			$('input:checked[name = options]').each(function() {
+				valeurs.push($(this).val());
+			});
+			
 			var search = $('#search').val(); //Récupération du mot demandé
 			var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
 			//Url permettant de faire la recherche demandée
@@ -89,14 +116,14 @@
 			}
 
 			//Utilisation d'ajax pour placer le résultat dans le conteneur
-
 			$("#contentCenter").html('<img id="loading" src="{{ asset('bundles/CartoRepresentationsBundle/images/ajax-loader.gif') }}">');
 			$.ajax({
 				type: "POST",
 				url: url,
 				data: {
 					cmd: 'search_action',
-					search: search
+					search: search,
+					options: valeurs
 				},
 				cache: false,
 				success: function(response) {
@@ -125,11 +152,11 @@
 	
 		{# Sélectionner la source de données (Wordnet ou Dbpedia) #}
 		<div class="toggle-btn-grp joint-toggle">
-			<label for="WN" onclick="" class="toggle-btn">
-				<input id="WN" type="radio" name="choixsource" value="WN" checked/>Wordnet
+			<label for="WN" class="toggle-btn">
+				<input id="WN" type="radio" name="choixsource" value="WN" onclick="loadOptions()" checked/>Wordnet
 			</label>
-			<label for="DB" onclick="" class="toggle-btn">
-				<input id="DB" type="radio" name="choixsource" value="DB"/>DpPedia
+			<label for="DB" class="toggle-btn">
+				<input id="DB" type="radio" name="choixsource" value="DB" onclick="loadOptions()"/>DpPedia
 			</label>
 		</div>
 		
@@ -138,7 +165,7 @@
 			<span>Options</span>
 			<img class="click imgOptions" src="{{ asset('bundles/CartoRepresentationsBundle/images/optionsValidate.png') }}">
 		</div>
-		<div class="showOptions"></div>
+		<form id="form_options" action="" method="post" class="showOptions"></form>
 		
 		<form id="form_recherche" action="" method="post">
 			{# Entrer un mot à chercher #}
