@@ -314,7 +314,7 @@ class MotRepository extends EntityRepository
 	private function parcourirMot($mot,$relations,$relation)
 	{
 		$synsets = array_merge($mot -> getASynsets() -> toArray(),$mot -> getNSynsets() -> toArray(),$mot -> getVSynsets() -> toArray(),$mot -> getRSynsets() -> toArray());
-		foreach($synsets as $syn) { $this -> ajouterSynsets($mot,$syn); }
+		foreach($synsets as $syn) { $this -> ajouterSynsets($mot,$syn,$relation); }
 
 		//On parcourt la relation de synonymie
 		//if (in_array('synonymie',$relations) and $this -> profondeur['synonymie'] < $this -> profondeurMax)
