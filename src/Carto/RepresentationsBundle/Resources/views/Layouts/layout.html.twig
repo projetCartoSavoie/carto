@@ -1,13 +1,10 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}{{ parent() }}
-{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' %}
+{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' 'bundles/CartoRepresentationsBundle/css/fullscreen.css' 'bundles/CartoRepresentationsBundle/css/utils.css' %}
 	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 
-{% stylesheets 'bundles/CartoRepresentationsBundle/css/fullscreen.css' %}
-	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-{% endstylesheets %}
 {% endblock %}
 
 {% block javascripts %}{{ parent() }}
