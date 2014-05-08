@@ -45,7 +45,7 @@ class MotRepository extends EntityRepository
 
 	private $numero = 0;
 
-	private $profondeurMax = 5;
+	private $profondeurMax;
 
 	/**
 	 * fonction trouve
@@ -122,9 +122,9 @@ class MotRepository extends EntityRepository
 		return $c;
 	}
 
-	public function fabriqueGraphe($recherche,$options)
+	public function fabriqueGraphe($recherche,$options,$profondeur)
 	{
-
+		$this -> profondeurMax = $profondeur;
 		$this -> profondeur = array(
 				'hypernymie' => 0,
 				'hyponymie' => 0,

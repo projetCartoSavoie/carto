@@ -87,12 +87,12 @@ class WNController extends Controller
 	 * @param string $recherche
 	 * @return Vue twig
 	*/
-	public function jsonAction($recherche,$relations)
+	public function jsonAction($recherche,$relations,$profondeur)
 	{
 		$manager = $this -> getDoctrine() -> getManager();
 		$mrep = $manager -> getRepository('CartoDonneesBundle:WN\Mot');
 
-		$text = json_encode($mrep -> fabriqueGraphe($recherche,$relations));
+		$text = json_encode($mrep -> fabriqueGraphe($recherche,$relations,$profondeur));
 
 		//On retourne le json obtenu
 		return new Response($text);
