@@ -111,7 +111,6 @@ class WNController extends Controller
 			'holonymie',
 			'troponymie',
 			'verbe_hyponymie',
-			'holonymie_meronymie',
 			'entailments',
 			'antonymie',
 			'attribut',

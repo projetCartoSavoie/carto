@@ -154,24 +154,21 @@ class MotRepository extends EntityRepository
 				'holonymie',
 				'troponymie',
 				'verbe_hyponymie',
-				'holonymie_meronymie',
 				'entailments',
 				'antonymie',
 				'attribut',
 				'cause',
 				'consequence',
 				'similar',
-				'synonymie'
+				'synonymie',
 			);
 		}
 		else { $relations = explode(',',$options); }
-		//echo '<style>td { border:solid 1px; }</style>';
-		//echo '<table>';
 		
 		//Initialisation du tableau résultat, qui sera ensuite encodé en json
 		$this -> resultat = array(
 			'noeuds' => array(), 
-			'relations' => $relations,
+			'relations' => array_merge($relations,array('groupe_initial')),
 			'graphe' => array()
 		);
 
@@ -196,12 +193,12 @@ class MotRepository extends EntityRepository
 
 
 		//Si on veut d'autres relations, on cherche les synsets du mot et leurs relations
-		if (count(array_diff($relations,$relations_mots)) != 0)
+		$relationsentresynsets = array_diff($relations,$relations_mots);
+		if (count($relationsentresynsets) != 0)
 		{
-			$this -> parcourirMot($this -> mot,$relations);
+			if (in_array('synonymie',$relations)) { $this -> parcourirMot($this -> mot,$relations,'synonymie'); }
+			else { $this -> parcourirMot($this -> mot,$relations,'groupe_initial'); }
 		}
-
-		//echo '</table>';
 		//On enlève les clés du tableau graphe pour correspondre au format commun
 		$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
 
@@ -264,7 +261,7 @@ class MotRepository extends EntityRepository
   RELATIONS ENTRE SYNSETS : SYNONYMIE
 ****************************/
 
-	private function ajouterSynsets($mot,$syn)
+	private function ajouterSynsets($mot,$syn,$relation='synonymie')
 	{
 		$type = $syn -> getType();
 		$id = $type.$syn -> getId();
@@ -278,25 +275,19 @@ class MotRepository extends EntityRepository
 			$this -> resultat['graphe'][$id]['noeud'] = $id;
 			$this -> listeid[] = $id;
 		}
-		$this -> resultat['graphe']['M'.$mot -> getId()]['synonymie'][] = $id;
+		$this -> resultat['graphe']['M'.$mot -> getId()][$relation][] = $id;
 	}
 
-	private function parcourirSynset($synset,$relations)
+	private function parcourirSynset($synset,$relations,$relation='synonymie')
 	{
 		$mots = $synset -> getMots();
 		$type = $synset -> getType();
 		foreach($mots as $mot)
 		{
-			//echo '<tr><td>'.$this -> numero++.'</td><td>' . $synset -> getId() . ' ' . $synset -> getDefinition() . '</td><td> Syno </td><td> ' . $mot -> getId() . ' ' . $mot -> getMot() . '</td></tr>';
 			$id = 'M'.$mot -> getId();
-			if (!isset($this -> resultat['graphe'][$id]['synonymie']))
+			if (!isset($this -> resultat['graphe'][$id][$relation]))
 			{
-				//////echo '<tr><td colspan=4 style="text-align:center;font-weight:bold;padding:5px;">J\'ECRIS</td></tr>';
-				$this -> resultat['graphe'][$type.$synset -> getId()]['synonymie'][] = $id;
-			}
-			else
-			{
-				//////echo '<tr><td colspan=4 style="text-align:center;font-weight:bold;padding:5px;">JE N\'ECRIS PAS CAR [' . $id . '][synonymie] EXISTE DEJA</td></tr>';
+				$this -> resultat['graphe'][$type.$synset -> getId()][$relation][] = $id;
 			}
 			if (!in_array($id,$this -> listeid))
 			{
@@ -307,25 +298,29 @@ class MotRepository extends EntityRepository
 				);
 				$this -> resultat['graphe'][$id]['noeud'] = $id;
 				$this -> listeid[] = $id;
-				if ($this -> profondeur['synonymie'] < $this -> profondeurMax and (in_array('synonymie',$relations) or $this -> profondeur['synonymie'] = 0))
+				if ($relation == 'synonymie' and $this -> profondeur['synonymie'] < $this -> profondeurMax)
 				{
 					$this -> profondeur['synonymie']++;
-					$this -> parcourirMot($mot,$relations);
+					$this -> parcourirMot($mot,$relations,$relation);
 				}
+				/*else if ($relation != 'synonymie')
+				{
+					$this -> parcourirMot($mot,$relations,$relation);
+				}*/
 			}
 		}
 	}
 
-	private function parcourirMot($mot,$relations)
+	private function parcourirMot($mot,$relations,$relation)
 	{
 		$synsets = array_merge($mot -> getASynsets() -> toArray(),$mot -> getNSynsets() -> toArray(),$mot -> getVSynsets() -> toArray(),$mot -> getRSynsets() -> toArray());
 		foreach($synsets as $syn) { $this -> ajouterSynsets($mot,$syn); }
 
 		//On parcourt la relation de synonymie
-		if (in_array('synonymie',$relations) or $this -> profondeurSyn = 0)
-		{
-			foreach($synsets as $syn) { $this -> parcourirSynset($syn,$relations); }
-		}
+		//if (in_array('synonymie',$relations) and $this -> profondeur['synonymie'] < $this -> profondeurMax)
+		//{
+			foreach($synsets as $syn) { $this -> parcourirSynset($syn,$relations,$relation); }
+		//}
 
 		//Relations des nsynsets :
 		$nsynsets = $mot -> getNSynsets();
@@ -372,7 +367,6 @@ class MotRepository extends EntityRepository
 ****************************/
 	private function parcourirRelSynset($synsrc,$relations,$relation,$getter)
 	{
-		//echo 'Je parcours ' . $synsrc -> getType() . $synsrc -> getDefinition() . '<br/>';
 		if ($getter == 'HasAttribute') { $getterinv = 'IsAttributeOf'; }
 		else if ($getter == 'IsAttributeOf') { $getterinv = 'HasAttribute'; }
 		else { $getterinv = $getter; }
@@ -385,7 +379,7 @@ class MotRepository extends EntityRepository
 			{
 				$this -> resultat['graphe'][$synsrc -> getType().$synsrc -> getId()][$relation][] = $id;
 			}
-			$this -> parcourirSynset($syndest,$relations);
+			$this -> parcourirSynset($syndest,$relations,$relation);
 
 			if (!in_array($id,$this -> listeid))
 			{
