@@ -26,6 +26,10 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 * @param d : objet node sur lequel l'utilisateur a clique
 */
 D3_Utils.prototype.load_json = function(d) {
+
+	// On recupere la profondeur
+	var profondeur = $("#quantite").val();
+	
 	// On recupere les relations selectionnees par l'utilisateur pour le filtre
 	var valeurs = [];
 	$('input:checked[name = options]').each(function() {
@@ -58,7 +62,8 @@ D3_Utils.prototype.load_json = function(d) {
 		data: {
 			cmd: 'search_action',
 			search: d.name,
-			options: valeurs
+			options: valeurs,
+			profondeur: profondeur
 		},
 		cache: false,
 		success: function(response) {
