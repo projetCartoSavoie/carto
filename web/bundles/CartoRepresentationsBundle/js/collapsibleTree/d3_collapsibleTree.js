@@ -136,7 +136,6 @@ function update(source) {
 	nodeEnter.append("text")
 		.attr("dy", 3.5)
 		.attr("dx", 5.5)
-		.style("stroke", "black")
 		.text(function(d) { 
 			var sansEspace = new RegExp(/\s/); 
 			if(sansEspace.test(d.name.toString()) == false) return d.name; 
