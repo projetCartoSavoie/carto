@@ -2,12 +2,16 @@
 	if (isset($_POST['search'])){
 		$cmd = $_POST['search'];
 		$options = $_POST['options'];//liste des relations à prendre en
+		$optionsProfondeur = $_POST['profondeur'];
 		$relations = "all";
 		if(empty($options) == false){
 			$relations = implode(",", $options);
 		}
 		//Gérer ici la profondeur de la recherche
-		$profondeur = 20;
+		$profondeur = 3;
+		if(empty($optionsProfondeur) == false){
+			$profondeur = $optionsProfondeur;
+		}
 	}
 	else { $cmd = 'entity'; }
 

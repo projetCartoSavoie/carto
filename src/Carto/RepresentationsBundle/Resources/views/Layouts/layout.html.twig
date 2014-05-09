@@ -22,32 +22,21 @@
 {% endblock %}
 
 {% block script %}
-
-	// Pour mettre les checkbox caches ou non
-	$('.showOptions').hide();
-	$('.click').click(function () {
-		if ($('.showOptions').is(':hidden')) {
-			$('.imgOptions').attr("src", "{{ asset('bundles/CartoRepresentationsBundle/images/optionsQuit.png') }}");
-			$('.showOptions').show();
-		} else {
-			$('.imgOptions').attr("src", "{{ asset('bundles/CartoRepresentationsBundle/images/optionsValidate.png') }}");
-			$('.showOptions').hide();
-		}
-	});
 	
+	// Montre les options suivant la source de donnees selectionnee
 	function loadOptions(){
 		var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
 		//Url permettant de faire la recherche demandpend de la source)
 		if (wordnet){
-			showOptionsWN();
+			$('.showOptionsRelations').show();
 		}
 		else{
-			$('.imgOptions').attr("src", "{{ asset('bundles/CartoRepresentationsBundle/images/optionsValidate.png') }}");
-			$('.showOptions').empty();
+			$('.showOptionsRelations').hide();
 		}
 	}
 	
-	function showOptionsWN(){
+	// Montre toutes les relations possibles
+	function showRelations(){
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remy
 		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Celine
 		//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remi
@@ -63,19 +52,41 @@
 				var result = $.parseJSON(response);
 				if(result.success){
 					var data = result.data;
+					$('.showOptionsRelations').append('<legend>Choisissez vos relations:</legend>');
 					for (var d in data){
-						$('.showOptions').append('<div><input type="checkbox" name="options" value="' + data[d] + '" onclick="filterRelations(this)"/>' + data[d] + '</div>');
+						$('.showOptionsRelations').append('<div><input type="checkbox" name="options" value="' + data[d] + '"/>' + data[d] + '</div>');
 					}
 				}
 			}
 		});
 	}
+	
+	// Propose une profondeur a selectionner
+	function showProfondeur(){
+		$('.showOptionsProfondeur').append('<legend>Choisissez votre profondeur:</legend>');
+		$('.showOptionsProfondeur').append('<div><input type="number" name="nombre" id="quantite">');
+	}
+	
+	// Montrer les options de WN
+	function showOptionsWN(){
+		showProfondeur();
+		showRelations();
+	}
+	
+	// Montre les options de BB
+	function showOptionsDBpedia(){
+		showProfondeur();
+	}
 
+	// Lorsque la page est prete
 	$(document).ready(function(){
 		var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
 		//Url permettant de faire la recherche demandpend de la source)
 		if (wordnet){
 			showOptionsWN();
+		}
+		else{
+			showOptionsDBpedia();
 		}
 		
 		$("#form_recherche").submit(function(){
@@ -84,6 +95,8 @@
 			$('input:checked[name = options]').each(function() {
 				valeurs.push($(this).val());
 			});
+			
+			var profondeur = $("#quantite").val();
 			
 			var search = $('#search').val(); //Récupération du mot demandé
 			var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
@@ -115,7 +128,8 @@
 				data: {
 					cmd: 'search_action',
 					search: search,
-					options: valeurs
+					options: valeurs,
+					profondeur: profondeur
 				},
 				cache: false,
 				success: function(response) {
@@ -153,11 +167,13 @@
 		</div>
 		
 		{# Montrer les options #}
-		<div class="options">
-			<span>Options</span>
-			<img class="click imgOptions" src="{{ asset('bundles/CartoRepresentationsBundle/images/optionsValidate.png') }}">
-		</div>
-		<form id="form_options" action="" method="post" class="showOptions"></form>
+		<form id="form_options" action="" method="post">
+			<details>
+				<summary>Options</summary>
+				<p class="showOptionsProfondeur"></p>
+				<p class="showOptionsRelations"></p>
+			</details>
+		</form>
 		
 		<form id="form_recherche" action="" method="post">
 			{# Entrer un mot à chercher #}

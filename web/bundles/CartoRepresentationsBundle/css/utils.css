@@ -327,30 +327,40 @@ On click the images will be displayed at normal size to complete the effect
 	OPTIONS
 **************/
 
-.options {
-    padding:3px;
-    margin-bottom: 10px;
-    -webkit-border-radius:4px;
-    -moz-border-radius:4px;
-    border-radius:4px;
-    -webkit-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
-    -moz-box-shadow: 0 3px 0 #ccc, 0 -1px #fff inset;
-    background: #36A9C7;
-    color:white;
-	text-shadow: 0 -1px rgba(0,0,0,0.15);
-	box-shadow: 0 1px 2px rgba(0,0,0,0.2);
-    border:none;
-    outline:none;
-    display: inline-block;
-    cursor:pointer;
+details {
+	border: 1px solid #E1E1E1;
+	border-radius: 5px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .4);
+	color: #363636;
+	margin: 0 0 .4em;
+	padding: 1%;
 }
 
-.options:hover{
-	background: #4A72A9; 
-	box-shadow: 0 1px 2px rgba(0,0,0,0.3); 
-	-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.3); 
+summary {
+	background: -webkit-linear-gradient(top, #FAFAFA 50%, #E1E1E1 50%);
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: .8em;
+	font-weight: bold;
+	margin: -1%;
+	padding: 8px 0;
+	position: relative;
+	width: 102%;
 }
 
-.imgOptions{
-	vertical-align: middle;
+summary:hover, details[open] summary {
+	background: #E1E1E1;
+}
+
+summary:before {
+	border-radius: 5px;
+	color: #363636;
+	display: block;
+	float: left;
+	font-size: 1.5em;
+	font-weight: bold;
+	margin: -2px 10px 0 10px;
+	padding: 0;
+	text-align: center;
+	width: 20px;
 }
