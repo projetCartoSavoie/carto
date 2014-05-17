@@ -34,6 +34,7 @@ D3_GrapheRepresentation.load = function(json) {
 
 	var formatter = new D3_Formatter();
 	var graph = formatter.to_graph(json);
+	console.log(graph);
 	
 	/***************************************************/
 	/*					Outils						   */
@@ -67,7 +68,7 @@ D3_GrapheRepresentation.load = function(json) {
 		.charge(-400)
 		.linkDistance(20)
 		.size([width, height]);
-		
+	
 	force
 		.nodes(graph.nodes)
 		.links(graph.links)

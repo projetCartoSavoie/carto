@@ -60,7 +60,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 
 	//Le layout de D3 permet d'agencer sous forme d'arbre
 	var tree = d3.layout.tree()
-		.size([360, diameter / 2 - 200])
+		.size([360, diameter / 2 - 100])
 		.separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
 	var diagonal = d3.svg.diagonal.radial()
