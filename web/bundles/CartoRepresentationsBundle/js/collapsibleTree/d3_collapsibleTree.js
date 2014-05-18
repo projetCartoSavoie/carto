@@ -147,10 +147,6 @@ function update(source) {
 		.on("dblclick", function(d) {
 			d3_utils.load_json(d);
 		});
-		  
-	// On affiche un titre lorsqu'on passe la souris
-	node.append("title")
-		.text(function(d) { return d.name; });
 
 	// Nouvelle position du noeud si on clique dessus
 	node.transition()
@@ -241,6 +237,16 @@ function update(source) {
 		}
 		return newLinks;
 	}
+	
+	// On ajoute des etiquettes sur les noeuds
+	$('svg g rect').tipsy({ 
+		gravity: 'w', 
+		html: true, 
+		title: function() {
+		  var d = this.__data__;
+		  return "<span class='floatingp'>"+d.name+"</span>";
+		}
+	});
 	
 	d3.selectAll('.zoom').on('click', d3_utils.zoomClick);
 	

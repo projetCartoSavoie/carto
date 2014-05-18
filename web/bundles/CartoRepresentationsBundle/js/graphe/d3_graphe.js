@@ -200,6 +200,16 @@ D3_GrapheRepresentation.load = function(json) {
 			return "translate(" + d.x + "," + d.y + ")"; 
 		});
 	});
+	
+	// On ajoute des etiquettes sur les noeuds
+	$('svg g circle').tipsy({ 
+		gravity: 'w', 
+		html: true, 
+		title: function() {
+		  var d = this.__data__;
+		  return "<span class='floatingp'>"+d.name+"</span>";
+		}
+	});
 
 	// Si on clique sur le bouton ayant la classe
 	// zoom on appelle la fonction zoomClick
@@ -215,5 +225,4 @@ D3_GrapheRepresentation.load = function(json) {
 
 	// On désactive les boutons inutiles pour cette vue
 	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
-
 }

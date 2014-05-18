@@ -1,7 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}{{ parent() }}
-{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' 'bundles/CartoRepresentationsBundle/css/fullscreen.css' 'bundles/CartoRepresentationsBundle/css/utils.css' %}
+{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' 'bundles/CartoRepresentationsBundle/css/fullscreen.css' 'bundles/CartoRepresentationsBundle/css/utils.css' 'bundles/CartoRepresentationsBundle/css/jquery.tipsy.css' %}
 	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 
@@ -9,6 +9,9 @@
 
 {% block javascripts %}{{ parent() }}
 {% javascripts 'bundles/CartoRepresentationsBundle/js/global/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/global/ux/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}
