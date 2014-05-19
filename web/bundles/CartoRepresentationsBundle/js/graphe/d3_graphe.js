@@ -185,10 +185,6 @@ D3_GrapheRepresentation.load = function(json) {
 		.on("dblclick", function(d) {
 			d3_utils.load_json(d);
 		});
-		
-	// On affiche un titre lorsqu'on passe la souris
-	node.append("title")
-		.text(function(d) { return d.name; });
 	
 	force.on("tick", function() {
 		link.attr("x1", function(d) { return d.source.x; })
