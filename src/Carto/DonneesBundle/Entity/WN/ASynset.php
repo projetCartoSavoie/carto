@@ -83,6 +83,12 @@ class ASynset
 	$this -> setWnid($wnid);
 	}
 
+
+	public function getType()
+	{
+		return 'A';
+	}
+
 	/**
 	 * Get id
 	 *

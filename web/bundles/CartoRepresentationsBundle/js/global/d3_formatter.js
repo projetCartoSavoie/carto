@@ -60,7 +60,7 @@ D3_Formatter.prototype.to_graph = function(graph){
 					
 						// Si le graphe a la relation
 						if(graphe[relation]){
-							// On parcours l'ensemble des targets de la relation
+							// On parcourt l'ensemble des targets de la relation
 							graphe[relation].forEach(
 								function(target) {
 									nameRelation = [];

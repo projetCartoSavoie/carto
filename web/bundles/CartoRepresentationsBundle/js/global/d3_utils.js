@@ -26,23 +26,32 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 * @param d : objet node sur lequel l'utilisateur a clique
 */
 D3_Utils.prototype.load_json = function(d) {
+
+	// On recupere la profondeur
+	var profondeur = $("#quantite").val();
+	
+	// On recupere les relations selectionnees par l'utilisateur pour le filtre
+	var valeurs = [];
+	$('input:checked[name = options]').each(function() {
+		valeurs.push($(this).val());
+	});
 	var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
 	//Url permettant de faire la recherche demandpend de la source)
 	if (wordnet)
 	{
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
 		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-		var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 	}
 	else
 	{
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
 		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
-		var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 	}
 	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif>');
 	
@@ -52,7 +61,9 @@ D3_Utils.prototype.load_json = function(d) {
 		url: url,
 		data: {
 			cmd: 'search_action',
-			search: d.name
+			search: d.name,
+			options: valeurs,
+			profondeur: profondeur
 		},
 		cache: false,
 		success: function(response) {
@@ -99,7 +110,6 @@ D3_Utils.prototype.rotate = function() {
 	var tx = Number($("#representationContainer").attr('tx'));
 	var ty = Number($("#representationContainer").attr('ty'));
 	var sc = Number($("#representationContainer").attr('sc'));
-	console.log(tx + " , " + ty);
 	d3.select('.rotate').attr("value", actual);
 	var container = d3.select(".svgContainer");
 	// Va recuperer les donnees de l'element se trouvant dans le svg
@@ -144,10 +154,6 @@ function stopDragAndDrop(force) {
 		// On enleve  le drag and drop
 		var svg = d3.select(".svgContainer");
 		svg.call(d3.behavior.drag().on("drag", null));
-		//svg.call(force.drag);
-		var node_drag = d3.behavior.drag()
-			.on("drag", force.drag);
-		svg.select(".representationContainer").selectAll("g.node").call(node_drag);
 		$(".svgContainer").removeAttr('cursor');
 	}
 	else{
@@ -166,7 +172,7 @@ function changeTree(links, nameRelation, colorLink){
 	links.forEach(
 		function(d){
 			// Si le lien a la relation selectionnee alors on met en couleur
-			if(d.name.localeCompare(nameRelation) == 0){
+			if(d.name === nameRelation){//d.name.localeCompare(nameRelation) == 0){
 				d3.selectAll('#' + d.name)
 					.style("stroke-width", 3)
 					.style("stroke",  colorLink(d.value));
@@ -202,8 +208,7 @@ function changeGraph(links, nameRelation, colorLink){
 * @param json : json transforme pour recuperer le nom des relations
 * @param representation : pour savoir si la representation est un arbre ou un graphe
 */
-D3_Utils.prototype.showRelation = function(json, representation) {
-	var colorLink = d3.scale.category20();
+D3_Utils.prototype.showRelation = function(json, representation, colorLink) {
 	// On recupere les relations utilisees pour ce json
 	var data = json.relationsUsed;
 	var paragraphs = d3.select('.selectRelation')

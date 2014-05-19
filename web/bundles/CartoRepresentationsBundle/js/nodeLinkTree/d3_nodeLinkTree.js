@@ -17,7 +17,6 @@ D3_NodeLinkTreeRepresentation.prototype.show = function(data) {
 	
 D3_NodeLinkTreeRepresentation.load = function(json) {
 
-
 	/***************************************************/
 	/*		Transformation du json generique 		   */
 	/***************************************************/
@@ -36,8 +35,8 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	/***************************/
 	/*		Relations 		   */
 	/**************************/
-	
-	d3_utils.showRelation(json, "tree");
+	var colorLink = d3.scale.category20();
+	d3_utils.showRelation(json, "tree", colorLink);
 		
 	/***************************/
 	/*		Graphe	 		   */
@@ -56,11 +55,10 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	var diameter = width;
 	
 	var color = d3.scale.category20();
-	var colorLink = d3.scale.category20();
-
+		
 	//Le layout de D3 permet d'agencer sous forme d'arbre
 	var tree = d3.layout.tree()
-		.size([360, diameter / 2 - 200])
+		.size([360, diameter / 2 - 150])
 		.separation(function(a, b) { return (a.parent == b.parent ? 1 : 2) / a.depth; });
 
 	var diagonal = d3.svg.diagonal.radial()
@@ -70,7 +68,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.attr("width", diameter)
 		.attr("height", diameter - 150)
 		.attr("class", "svgContainer");
-		
+				
 	// On specifie une origine
 	var d = [{ x: diameter/2, y: diameter/2 }];
 	// On cree un nouveau noeud <g> pour mettre plusieurs attributs
@@ -111,12 +109,9 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 
 	// Les noeuds sont representes par des cercles
 	node.append("circle")
+		.attr("class", "circle")
 		.attr("r", 5)
 		.style("fill", function(d) { return color(d.group); });
-		
-	// On affiche un titre lorsqu'on passe la souris
-	node.append("title")
-		.text(function(d) { return d.name; });
 
 	// On ajoute du texte aux noeuds
 	node.append("text")
@@ -134,6 +129,16 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		.on("dblclick", function(d) {
 			d3_utils.load_json(d);
 		});
+		
+	// On ajoute des etiquettes sur les noeuds
+	$('svg g circle').tipsy({ 
+		gravity: 'w', 
+		html: true, 
+		title: function() {
+		  var d = this.__data__;
+		  return "<span class='floatingp'>"+d.name+"</span>";
+		}
+	});
 
 	d3.selectAll('.zoom').on('click', d3_utils.zoomClick);
 	

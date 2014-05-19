@@ -101,6 +101,12 @@ class NSynset
 		$this -> setWnid($wnid);
 	}
 
+
+	public function getType()
+	{
+		return 'N';
+	}
+
 	/**
 	 * Get id
 	 *
