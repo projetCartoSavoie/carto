@@ -13,8 +13,7 @@
 {% endjavascripts %}
 {% endblock %}
 
-{% block script %}
+{% block script %}{{ parent() }}
 	var representation = new D3_DependencyWheelRepresentation();
-	{{ parent() }}
 {% endblock %}
 
