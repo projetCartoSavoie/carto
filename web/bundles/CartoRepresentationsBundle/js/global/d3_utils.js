@@ -171,7 +171,6 @@ function changeTree(links, nameRelation, colorLink){
 	// Pour tous les liens du graphe
 	links.forEach(
 		function(d){
-			console.log(d.name.localeCompare(nameRelation));
 			// Si le lien a la relation selectionnee alors on met en couleur
 			if(d.name === nameRelation){//d.name.localeCompare(nameRelation) == 0){
 				d3.selectAll('#' + d.name)
@@ -209,8 +208,7 @@ function changeGraph(links, nameRelation, colorLink){
 * @param json : json transforme pour recuperer le nom des relations
 * @param representation : pour savoir si la representation est un arbre ou un graphe
 */
-D3_Utils.prototype.showRelation = function(json, representation) {
-	var colorLink = d3.scale.category20();
+D3_Utils.prototype.showRelation = function(json, representation, colorLink) {
 	// On recupere les relations utilisees pour ce json
 	var data = json.relationsUsed;
 	var paragraphs = d3.select('.selectRelation')
