@@ -93,6 +93,10 @@
 		}
 		
 		$("#form_recherche").submit(function(){
+		
+			// On va montrer des informations wikipedia pour le mot recherche par l'utilisateur
+			d3_utils = new D3_Utils();
+			
 			// On recupere les relations selectionnees par l'utilisateur pour le filtre
 			var valeurs = [];
 			$('input:checked[name = options]').each(function() {
@@ -146,6 +150,7 @@
 							$('.dragAndDrop').attr("value", "0");
 						}
 						representation.show(data);
+						d3_utils.show_wikipedia(search);
 						$("#loading").hide();
 					}
 				}
