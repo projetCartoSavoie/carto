@@ -1,4 +1,4 @@
-function D3_DependencyWheelRepresentation(){}
+function D3_DependencyWheel(){}
 
 /**
  * Dependency wheel chart for d3.js

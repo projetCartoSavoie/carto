@@ -1,0 +1,3 @@
+    ActionWN: 'http://127.0.0.1/fr/donnees/json/'
+    ActionDB: 'http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php'
+    Json: 'http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php'
