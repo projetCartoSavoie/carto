@@ -44,8 +44,8 @@ D3_GrapheRepresentation.load = function(json) {
 	/***************************/
 	/*		Relations 		   */
 	/**************************/
-	
-	d3_utils.showRelation(json, "graph");
+	var colorLink = d3.scale.category20();
+	d3_utils.showRelation(json, "graph", colorLink);
 		
 	/***************************/
 	/*		Graphe	 		   */
@@ -61,7 +61,6 @@ D3_GrapheRepresentation.load = function(json) {
     height = $("#contentCenter").height();
 	
 	var color = d3.scale.category20();
-	var colorLink = d3.scale.category20();
 
 	//Le layout de D3 permet d'agencer sous forme de graphe
 	var force = d3.layout.force()

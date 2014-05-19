@@ -35,8 +35,8 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	/***************************/
 	/*		Relations 		   */
 	/**************************/
-	
-	d3_utils.showRelation(json, "tree");
+	var colorLink = d3.scale.category20();
+	d3_utils.showRelation(json, "tree", colorLink);
 		
 	/***************************/
 	/*		Graphe	 		   */
@@ -55,7 +55,6 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 	var diameter = width;
 	
 	var color = d3.scale.category20();
-	var colorLink = d3.scale.category20();
 		
 	//Le layout de D3 permet d'agencer sous forme d'arbre
 	var tree = d3.layout.tree()
