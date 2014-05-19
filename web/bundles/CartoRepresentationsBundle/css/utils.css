@@ -250,6 +250,7 @@ padding: 0 0 0 6px;
     outline:none;
     display: inline-block;
     cursor:pointer;
+	margin-bottom: 10px;
 }
 
 .selectRelation:hover{
@@ -320,4 +321,46 @@ On click the images will be displayed at normal size to complete the effect
 .slider input[name='slide_switch']:checked+label+img {
 	opacity: 1;
 	transform: scale(1);
+}
+
+/*************
+	OPTIONS
+**************/
+
+details {
+	border: 1px solid #E1E1E1;
+	border-radius: 5px;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, .4);
+	color: #363636;
+	margin: 0 0 .4em;
+	padding: 1%;
+}
+
+summary {
+	background: -webkit-linear-gradient(top, #FAFAFA 50%, #E1E1E1 50%);
+	border-radius: 5px;
+	cursor: pointer;
+	font-size: .8em;
+	font-weight: bold;
+	margin: -1%;
+	padding: 8px 0;
+	position: relative;
+	width: 102%;
+}
+
+summary:hover, details[open] summary {
+	background: #E1E1E1;
+}
+
+summary:before {
+	border-radius: 5px;
+	color: #363636;
+	display: block;
+	float: left;
+	font-size: 1.5em;
+	font-weight: bold;
+	margin: -2px 10px 0 10px;
+	padding: 0;
+	text-align: center;
+	width: 20px;
 }

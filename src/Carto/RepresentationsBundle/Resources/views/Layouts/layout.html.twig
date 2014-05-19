@@ -1,17 +1,17 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}{{ parent() }}
-{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' %}
+{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' 'bundles/CartoRepresentationsBundle/css/fullscreen.css' 'bundles/CartoRepresentationsBundle/css/utils.css' 'bundles/CartoRepresentationsBundle/css/jquery.tipsy.css' %}
 	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 
-{% stylesheets 'bundles/CartoRepresentationsBundle/css/fullscreen.css' %}
-	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
-{% endstylesheets %}
 {% endblock %}
 
 {% block javascripts %}{{ parent() }}
 {% javascripts 'bundles/CartoRepresentationsBundle/js/global/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/global/ux/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}
@@ -25,41 +25,118 @@
 {% endblock %}
 
 {% block script %}
+	
+	// Montre les options suivant la source de donnees selectionnee
+	function loadOptions(){
+		var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
+		//Url permettant de faire la recherche demandpend de la source)
+		if (wordnet){
+			$('.showOptionsRelations').show();
+		}
+		else{
+			$('.showOptionsRelations').hide();
+		}
+	}
+	
+	// Montre toutes les relations possibles
+	function showRelations(){
+		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remy
+		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Celine
+		//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remi
+		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Juliana
+		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony
+		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony2
+		
+		$.ajax({
+			type: "POST",
+			url: url,
+			cache: false,
+			success: function(response) {
+				var result = $.parseJSON(response);
+				if(result.success){
+					var data = result.data;
+					$('.showOptionsRelations').append('<legend>Choisissez vos relations:</legend>');
+					for (var d in data){
+						$('.showOptionsRelations').append('<div><input type="checkbox" name="options" value="' + data[d] + '"/>' + data[d] + '</div>');
+					}
+				}
+			}
+		});
+	}
+	
+	// Propose une profondeur a selectionner
+	function showProfondeur(){
+		$('.showOptionsProfondeur').append('<legend>Choisissez votre profondeur:</legend>');
+		$('.showOptionsProfondeur').append('<div><input type="number" name="nombre" id="quantite">');
+	}
+	
+	// Montrer les options de WN
+	function showOptionsWN(){
+		showProfondeur();
+		showRelations();
+	}
+	
+	// Montre les options de BB
+	function showOptionsDBpedia(){
+		showProfondeur();
+	}
+
+	// Lorsque la page est prete
 	$(document).ready(function(){
+		var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
+		//Url permettant de faire la recherche demandpend de la source)
+		if (wordnet){
+			showOptionsWN();
+		}
+		else{
+			showOptionsDBpedia();
+		}
+		
 		$("#form_recherche").submit(function(){
 		
-			var search = $('#search').val();
+			// On va montrer des informations wikipedia pour le mot recherche par l'utilisateur
+			d3_utils = new D3_Utils();
+			
+			// On recupere les relations selectionnees par l'utilisateur pour le filtre
+			var valeurs = [];
+			$('input:checked[name = options]').each(function() {
+				valeurs.push($(this).val());
+			});
+			
+			var profondeur = $("#quantite").val();
+			
 			var search = $('#search').val(); //Récupération du mot demandé
 			var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
 			//Url permettant de faire la recherche demandée
 			if (wordnet)
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
 				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-				var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 			}
 			else
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
 				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
-				var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 			}
 
 			//Utilisation d'ajax pour placer le résultat dans le conteneur
-
-			$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif">');
+			$("#contentCenter").html('<img id="loading" src="{{ asset('bundles/CartoRepresentationsBundle/images/ajax-loader.gif') }}">');
 			$.ajax({
 				type: "POST",
 				url: url,
 				data: {
 					cmd: 'search_action',
-					search: search
+					search: search,
+					options: valeurs,
+					profondeur: profondeur
 				},
 				cache: false,
 				success: function(response) {
@@ -73,6 +150,7 @@
 							$('.dragAndDrop').attr("value", "0");
 						}
 						representation.show(data);
+						d3_utils.show_wikipedia(search);
 						$("#loading").hide();
 					}
 				}
@@ -85,18 +163,27 @@
 {# On affiche la partie à gauche, permettant de lancer une recherche, voir les articles wikipedia, colorier les relations #}
 {% block utilsLeft %}
 	<div class="utilsLeft">
+	
+		{# Sélectionner la source de données (Wordnet ou Dbpedia) #}
+		<div class="toggle-btn-grp joint-toggle">
+			<label for="WN" class="toggle-btn">
+				<input id="WN" type="radio" name="choixsource" value="WN" onclick="loadOptions()" checked/>Wordnet
+			</label>
+			<label for="DB" class="toggle-btn">
+				<input id="DB" type="radio" name="choixsource" value="DB" onclick="loadOptions()"/>DpPedia
+			</label>
+		</div>
+		
+		{# Montrer les options #}
+		<form id="form_options" action="" method="post">
+			<details>
+				<summary>Options</summary>
+				<p class="showOptionsProfondeur"></p>
+				<p class="showOptionsRelations"></p>
+			</details>
+		</form>
+		
 		<form id="form_recherche" action="" method="post">
-
-			{# Sélectionner la source de données (Wordnet ou Dbpedia) #}
-			<div class="toggle-btn-grp joint-toggle">
-				<label for="WN" onclick="" class="toggle-btn">
-					<input id="WN" type="radio" name="choixsource" value="WN" checked/>Wordnet
-				</label>
-				<label for="DB" onclick="" class="toggle-btn">
-					<input id="DB" type="radio" name="choixsource" value="DB"/>DpPedia
-				</label>
-			</div>
-
 			{# Entrer un mot à chercher #}
 			<div id="recherche">
 				<div id="search_keywords">
@@ -107,6 +194,7 @@
 				</div>
 			</div>
 		</form>
+			
 		{# Sélectionner une relation pour la mettre en couleur #}
 		<div id="relations">
 			<p>Selectionnez une relation:</p>
