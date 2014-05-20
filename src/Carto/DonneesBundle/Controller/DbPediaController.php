@@ -135,7 +135,7 @@ SELECT DISTINCT * WHERE
 		{
 			$jsoncommun['relations'][] = $valeur;
 		}
-		
+
 		//Coder les relations
 		foreach ($resultats as $cle => $chaine) //Un résultat est une chaine d'objets liés par des relations
 		{
@@ -181,7 +181,7 @@ SELECT DISTINCT * WHERE
 
 				$jsoncommun['noeuds'][$cle] = array('id' => $cle, 'nom' => 'toto');
 			}
-			
+
 
 		}
 		$jsoncommun['noeuds'] = array_values($jsoncommun['noeuds']);
