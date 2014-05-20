@@ -27,7 +27,8 @@ D3_GrapheRepresentation.prototype.show = function(data) {
  * @param json : fichier json rendu par la recherche
  */
 D3_GrapheRepresentation.load = function(json) {
-
+//d3.chart.dependencyWheel = function(options) {
+	
 	/***************************************************/
 	/*		Transformation du json generique 		   */
 	/***************************************************/
