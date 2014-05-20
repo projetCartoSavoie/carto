@@ -21,6 +21,8 @@ D3_TreeRepresentation.load = function(json) {
 	/*		Graphe	 		   */
 	/**************************/
 	
+	var color = d3.scale.category20();
+	
 	// On recupere la taille de la div pour mettre le svg
 	var widthContentCenter = $("#contentCenter").width(),
     heightContentCenter = $("#contentCenter").height();
@@ -127,7 +129,7 @@ D3_TreeRepresentation.load = function(json) {
 		  .attr("y", -barHeight / 2)
 		  .attr("height", barHeight)
 		  .attr("width", barWidth)
-		  .style("fill", color)
+		  .style("fill", function(d) { return color(d.group); })
 		  .on("click", click);
 			  
 		// A chaque noeud on affiche son nom
@@ -135,12 +137,25 @@ D3_TreeRepresentation.load = function(json) {
 			.attr("dy", 3.5)
 			.attr("dx", 5.5)
 			.text(function(d) { 
+				// On met du texte seulement si c'est un mot sinon on se limite à 17 caracteres
 				var sansEspace = new RegExp(/\s/); 
-				if(sansEspace.test(d.name.toString()) == false) return d.name; 
+				if(sansEspace.test(d.name.toString()) == false){
+					return d.name;
+				}else{
+					if (d.name.length > 20){
+						return d.name.substring(0,17) + '...';
+					}else{
+						return d.name.substring(0,17);
+					}
+				}
 			})
 			.attr("cursor","pointer")
 			.on("click", function(d) {
-				d3_utils.show_wikipedia(d.name);
+				// On va chercher sur wikipedia seulement si on clique sur un mot et pas une phrase
+				var sansEspace = new RegExp(/\s/); 
+				if(sansEspace.test(d.name.toString()) == false){
+					d3_utils.show_wikipedia(d.name);
+				}
 			})
 			.on("dblclick", function(d) {
 				d3_utils.load_json(d);
@@ -152,7 +167,7 @@ D3_TreeRepresentation.load = function(json) {
 		  .attr("transform", function(d) { return "translate(" + d.y + "," + d.x + ")"; })
 		  .style("opacity", 1)
 		.select("rect")
-		  .style("fill", color);
+		  .style("fill", function(d) { return color(d.group); });
 
 		// On enleve les noeuds si le parent a ete clique
 		// On les place a la meme position que le parent
@@ -222,7 +237,7 @@ D3_TreeRepresentation.load = function(json) {
 			});
 			
 			
-			// On ajoute des etiquettes sur les noeuds
+		// On ajoute des etiquettes sur les noeuds
 		$('svg g .node').tipsy({ 
 			gravity: 'w', 
 			html: true, 
@@ -245,10 +260,10 @@ D3_TreeRepresentation.load = function(json) {
 		update(d);
 	}
 
-	function color(d) {
+	/*function color(d) {
 		var colorLink = d3.scale.category20();
-		return d._children ? /*"#3182bd"*/colorLink(d.group) : d.children ? "#c6dbef" : "#fd8d3c";
-	}
+		return d._children ? colorLink(d.group) : d.children ? "#c6dbef" : "#fd8d3c";
+	}*/
 	
 	// On recupere le liens du json mis a jour a chaque fois 
 	// qu'on clique sur un noeud pour avoir le nom de la relation
