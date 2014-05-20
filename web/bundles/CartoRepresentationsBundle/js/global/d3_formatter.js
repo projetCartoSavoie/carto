@@ -1,5 +1,4 @@
 function D3_Formatter(){}
-
 /**
  * Transforme le json generique en json compris par d3js pour la representation "graph"
  * @param json : graph -> JSON generique a transformer

@@ -81,8 +81,14 @@ D3_Utils.prototype.load_json = function(d) {
 						.style("background-color", "#d0cbcb")
 						.attr("value", "0");
 				}
-				representation.show(data);
-				$("#loading").hide();
+				if(data.error != null){
+					alert("Error" + data.error);
+				}else{
+					representation.show(data);
+					$("#loading").hide();
+				}
+			}else{
+				alert("Request Error");
 			}
 		}
 	});

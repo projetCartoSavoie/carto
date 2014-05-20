@@ -149,9 +149,15 @@
 							$('.dragAndDrop').css("background-color", "#d0cbcb");
 							$('.dragAndDrop').attr("value", "0");
 						}
-						representation.show(data);
-						d3_utils.show_wikipedia(search);
-						$("#loading").hide();
+						if(data.error != null){
+							alert("Error" + data.error);
+						}else{
+							representation.show(data);
+							d3_utils.show_wikipedia(search);
+							$("#loading").hide();
+						}
+					}else{
+						alert("Request Error");
 					}
 				}
 			});
