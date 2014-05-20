@@ -1,6 +1,6 @@
 {% extends "CartoDocumentationBundle:Layouts:layoutWN.html.twig" %}
 {% block contenu %}
-<h1>{{ "Documentation" | trans }}</h1>
+<h1>Documentation</h1>
 <h2>WordNet</h2>
 <p>
 {% trans %}
@@ -14,8 +14,8 @@ WordNet différencie les synsets contenant des noms, de ceux contenant des verbe
 </p>
 <p>
 {% trans %}
-Exemple simplifié : 
-{% endtrans %}
+Exemple simplifié 
+{% endtrans %} :
 </p>
 <img src="{{ asset('bundles/CartoDocumentationBundle/images/crfig1.png') }}" width="50%" style="margin-left:25%;"/>
 <p>
@@ -28,7 +28,7 @@ Pour bien comprendre le fonctionnement de WordNet, il faut voir que certaines re
 Les synsets sont différenciés au sein de la base de données wordnet par leur type et un numéro d'identifiant à 8 chiffres. Ils sont caractérisés par l'ensemble des mots qui les constituent et une définition (attention, deux synsets peuvent avoir exactement le même ensemble de mots mais un type, un numéro et/ou une définition différente!
 {% endtrans %}
 </p>
-Exemple :<br/>
+{{ "Exemple" | trans }} :<br/>
 <table class="donnees">
 <tr>
 	<th>Type</th><th>{{ "Numéro" | trans }}</th><th>{{ "Ensemble de mots" | trans }}</th><th>{{ "Définition" | trans }}</th>

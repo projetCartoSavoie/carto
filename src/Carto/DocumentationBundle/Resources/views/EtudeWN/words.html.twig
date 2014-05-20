@@ -3,7 +3,7 @@
 <h1>{{ "Documentation" | trans }}</h1>
 <h2>WordNet</h2>
 
-<h3>{{ "Relations entre les mots" | trans }}</h3>
+<h3>{{ "Relations entre les" | trans }} {{ "mots" | trans}}</h3>
 <ul>
 	<li>{{ "Un adjectif ou un verbe dérive d'un nom" | trans }} (ManyToMany).</li>
 	<li>{{ "Un adjectif est le participe passé d'un verbe" | trans }} (OneToOne)</li>
@@ -28,7 +28,7 @@ Nous n'utiliserons pas tous les fichiers offerts par WordNet. Nous utiliserons l
 </p>
 <p>
 {% trans %}
-Les fichiers index.suffixe recensent tous les mots de WordNet avec les synsets auxquels ils appartiennent. Leurs lignes sont construites de la façon suivante
+Les fichiers index.suffix recensent tous les mots de WordNet avec les synsets auxquels ils appartiennent. Leurs lignes sont construites de la façon suivante
 {% endtrans %} :
 <pre>{{ "mot" | trans }} infos [{{ "synsets de type indiqué par le suffixe" | trans }}] </pre>
 </p>
@@ -71,13 +71,8 @@ Deux remarques concernant les fichiers de WordNet et la manière dont nous allon
 	<li>{{ "Les relations entre mots sont définis dans les fichiers concernant les synsets, elles sont donc définies plusieurs fois (dans chaque synset contenant les mots concernés par la relation) et la recherche d'un mot en relation avec un autre nous oblige à chercher plusieurs lignes dans des fichiers data différents." | trans }}</li>
 </ul>
 {{ "Nous allons donc adapter les fichiers de la façon suivante" | trans }} :
-<ul>
-	<li>{{ "Un seul fichier index.words rédigé ainsi" | trans }} :
+{{ "Un seul fichier index.words rédigé ainsi" | trans }} :
 		<pre>mot a [ASynsets] n [NSynsets] r [RSynsets] v [VSynsets]</pre>
-		Exemples :
-		<pre></pre>
-	</li>
-</ul>
 </p>
 <p>
 	{{ "script de simplification et mélange de tous les fichiers index.suffixe" | trans }}
