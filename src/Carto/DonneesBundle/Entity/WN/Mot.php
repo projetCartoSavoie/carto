@@ -575,4 +575,40 @@ class Mot
 	{
 		return $this->build;
 	}
+
+
+	public function getAllDerive()
+	{
+		return array_merge($this -> getDeriveFrom() -> toArray(),$this -> getDeriveTo() -> toArray());
+	}
+
+	public function getAllBuild()
+	{
+		$construction = array();
+		$build = $this -> getBuild();
+		if ($build != NULL) { $construction[] = $build; }
+		$built = $this -> getBuiltFrom();
+		if ($built != NULL) { $construction[] = $built; }
+		return $construction;
+	}
+
+	public function getAllParticiple()
+	{
+		$participe_passe = array();
+		$participeOf = $this -> getParticipleOf();
+		if ($participeOf != NULL) { $participe_passe[] = $participeOf; }
+		$participeTo = $this -> getParticipleTo();
+		if ($participeTo != NULL) { $participe_passe[] = $participeTo; }
+		return $participe_passe;
+	}
+
+	public function getAllPertainym()
+	{
+		return array_merge($this -> getPertainFrom() -> toArray(),$this -> getPertainTo() -> toArray());
+	}
+
+	public function getAllSynsets()
+	{
+		return array_merge($this -> getASynsets() -> toArray(),$this -> getNSynsets() -> toArray(),$this -> getVSynsets() -> toArray(),$this -> getRSynsets() -> toArray());
+	}
 }

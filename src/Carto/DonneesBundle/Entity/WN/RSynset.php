@@ -72,6 +72,11 @@ class RSynset
 		$this -> setWnid($wnid);
 	}
 
+	public function getType()
+	{
+		return 'R';
+	}
+
 	/**
 	 * Get id
 	 *

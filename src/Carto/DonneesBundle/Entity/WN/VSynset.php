@@ -149,6 +149,12 @@ class VSynset
 		$this -> setWnid($wnid);
 	}
 
+	public function getType()
+	{
+		return 'V';
+	}
+
+
 	/**
 	 * Get id
 	 *

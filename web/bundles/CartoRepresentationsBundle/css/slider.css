@@ -1,0 +1,31 @@
+/**
+ * Arrows
+ */
+.jssora03l, .jssora03r, .jssora03ldn, .jssora03rdn
+{
+    position: absolute;
+    cursor: pointer;
+    display: block;
+    background: url(../bundles/CartoRepresentationsBundle/images/d03.png) no-repeat;
+    overflow:hidden;
+}
+.jssora03l { background-position: -3px -33px; }
+.jssora03r { background-position: -63px -33px; }
+.jssora03l:hover { background-position: -123px -33px; }
+.jssora03r:hover { background-position: -183px -33px; }
+.jssora03ldn { background-position: -243px -33px; }
+.jssora03rdn { background-position: -303px -33px; }
+
+/**
+ * Bullets
+ */
+.jssorb03 div, .jssorb03 div:hover, .jssorb03 .av
+{
+    background: url(../bundles/CartoRepresentationsBundle/images/n03.png) no-repeat;
+    overflow:hidden;
+    cursor: pointer;
+}
+.jssorb03 div { background-position: -5px -4px; }
+.jssorb03 div:hover, .jssorb03 .av:hover { background-position: -35px -4px; }
+.jssorb03 .av { background-position: -65px -4px; }
+.jssorb03 .dn, .jssorb03 .dn:hover { background-position: -95px -4px; }

@@ -27,13 +27,15 @@ D3_GrapheRepresentation.prototype.show = function(data) {
  * @param json : fichier json rendu par la recherche
  */
 D3_GrapheRepresentation.load = function(json) {
-
+//d3.chart.dependencyWheel = function(options) {
+	
 	/***************************************************/
 	/*		Transformation du json generique 		   */
 	/***************************************************/
 
 	var formatter = new D3_Formatter();
-	var graph = formatter.to_graph(json);	
+	var graph = formatter.to_graph(json);
+	console.log(graph);
 	
 	/***************************************************/
 	/*					Outils						   */
@@ -43,8 +45,8 @@ D3_GrapheRepresentation.load = function(json) {
 	/***************************/
 	/*		Relations 		   */
 	/**************************/
-	
-	d3_utils.showRelation(json, "graph");
+	var colorLink = d3.scale.category20();
+	d3_utils.showRelation(json, "graph", colorLink);
 		
 	/***************************/
 	/*		Graphe	 		   */
@@ -60,14 +62,13 @@ D3_GrapheRepresentation.load = function(json) {
     height = $("#contentCenter").height();
 	
 	var color = d3.scale.category20();
-	var colorLink = d3.scale.category20();
 
 	//Le layout de D3 permet d'agencer sous forme de graphe
 	var force = d3.layout.force()
 		.charge(-400)
 		.linkDistance(20)
 		.size([width, height]);
-		
+	
 	force
 		.nodes(graph.nodes)
 		.links(graph.links)
@@ -184,10 +185,6 @@ D3_GrapheRepresentation.load = function(json) {
 		.on("dblclick", function(d) {
 			d3_utils.load_json(d);
 		});
-		
-	// On affiche un titre lorsqu'on passe la souris
-	node.append("title")
-		.text(function(d) { return d.name; });
 	
 	force.on("tick", function() {
 		link.attr("x1", function(d) { return d.source.x; })
@@ -198,6 +195,16 @@ D3_GrapheRepresentation.load = function(json) {
 		node.attr("transform", function(d) { 
 			return "translate(" + d.x + "," + d.y + ")"; 
 		});
+	});
+	
+	// On ajoute des etiquettes sur les noeuds
+	$('svg g circle').tipsy({ 
+		gravity: 'w', 
+		html: true, 
+		title: function() {
+		  var d = this.__data__;
+		  return "<span class='floatingp'>"+d.name+"</span>";
+		}
 	});
 
 	// Si on clique sur le bouton ayant la classe
@@ -214,5 +221,4 @@ D3_GrapheRepresentation.load = function(json) {
 
 	// On désactive les boutons inutiles pour cette vue
 	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");
-
 }
