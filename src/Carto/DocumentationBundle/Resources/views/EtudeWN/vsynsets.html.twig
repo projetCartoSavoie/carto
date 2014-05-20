@@ -3,7 +3,7 @@
 <h1>{{ "Documentation" | trans }}</h1>
 <h2>WordNet</h2>
 
-<h3>{{ "Relations entre les vsynsets" | trans }}</h3>
+<h3>{{ "Relations entre les" | trans }} vsynsets</h3>
 <ul>
 	<li>Antonymie (ManyToMany, {{ "inversé par" | trans }} Antonymie).</li>
 	<li>Hyponymie (ManyToMany, {{ "inversé par" | trans }} Troponymie).</li>
@@ -16,13 +16,13 @@
 <h3>{{ "Les fichiers de la base de données WordNet" | trans }}</h3>
 
 <p>
-{% trans %}
-Nous utiliserons le fichier data.verb, que nous modifierons pour correspondre à nos besoins.
+{% trans with {'%file%': 'data.verb'} %}
+Nous utiliserons le fichier %file%, que nous modifierons pour correspondre à nos besoins.
 {% endtrans %}
 </p>
 <p>
-{% trans %}
-Voici quelques exemples de lignes du fichier data.verb
+{% trans with {'%file%': 'data.verb'} %}
+Voici quelques exemples de lignes du fichier %file%
 {% endtrans %} :
 <pre>
 00008595 29 v 02 squint 0 squinch 0 003 @ 00034281 v 0000 + 10663166 n 0101 + 00880006 n 0101 01 + 02 00 | cross one's eyes as if in strabismus; "The children squinted so as to scare each other"  
@@ -42,8 +42,8 @@ Voici quelques exemples de lignes du fichier data.verb
 {{ "Voici tous les symboles que nous pouvons trouver dans ce fichier" | trans }}
 <ul>
 <li>!    Antonym : {{ "Antonymie" | trans }}</li><li>
-@    Hypernym : {{ "Hypernymie" | trans }}</li><li>
-~    Hyponym : {{ "inverse de hypernyme, inutile donc de le traiter deux fois" | trans }}</li><li>
+@    Hypernym : {{ "Troponymie" | trans }}</li><li>
+~    Hyponym : {{ "inverse de %relation%, inutile donc de le traiter deux fois" | trans({'%relation%': 'hypernyme'}) }}</li><li>
 *    Entailment </li><li>
 >    Cause </li><li>
 ^    Also see {{ "non traité dans le cadre du projet" | trans }}</li><li>
@@ -59,12 +59,12 @@ $    Verb Group {{ "non traité dans le cadre du projet" | trans }}</li><li>
 <ul>
 	<li>{{ "numero du synset (8 chiffres)" | trans }}<pre>00021914</pre></li>
 	<li>{{ "numeros à moins de 8 chiffres pour les fichiers lexicographer (on ne les utilisera pas), la lettre v pour verbe (inutile car dans data.verb c'est toujours v), les mots du synset (nous les enlèverons car la relation un mot appartient à un synset est déjà codée dans index.words)" | trans }}<pre>29 v 02 squint 0 squinch 0 003</pre></li>
-	<li>{{ "des blocs de type : un symbole, un numero de synset, une lettre pour le type de synset (inutile pour nous car nous savons que ce sont toujours des nsynsets) et un numéro à quatre chiffres servant à indiquer si la relation est entre des mots ou entre des synsets (inutile pour nous car nous avons déjà travaillé les relations entre les mots)" | trans }}<pre>> 00020252 v 0000</pre> {{ "nous laisserons seulement le symbole et le numéro du synset, nous enlèverons tout le bloc pour les relations dont on a déjà traité l'inverse et celles que nous ne souhaitons pas traiter" | trans }}</li>
+	<li>{{ "des blocs de type : un symbole, un numero de synset, une lettre pour le type de synset (inutile pour nous car nous savons que ce sont toujours des vsynsets) et un numéro à quatre chiffres servant à indiquer si la relation est entre des mots ou entre des synsets (inutile pour nous car nous avons déjà travaillé les relations entre les mots)" | trans }}<pre>> 00020252 v 0000</pre> {{ "nous laisserons seulement le symbole et le numéro du synset, nous enlèverons tout le bloc pour les relations dont on a déjà traité l'inverse et celles que nous ne souhaitons pas traiter" | trans }}</li>
 	<li>{{ "Le symbole | suivi de la définition du synset" | trans }}</li>
 </ul>
 </p>
 
-<h3>{{ "Transformation du fichier data.verb" | trans }}</h3>
+<h3>{{ "Transformation du fichier %file%" | trans({'%file%': 'data.verb'}) }}</h3>
 <p>{{ "Voici les quelques lignes données en exemple sous leur forme simplifiée" | trans }} :
 <pre>
 00008595 @ 00034281 | cross one's eyes as if in strabismus; "The children squinted so as to scare each other"  
@@ -79,7 +79,7 @@ $    Verb Group {{ "non traité dans le cadre du projet" | trans }}</li><li>
 
 00036925 * 00036355 @ 00035769 | rub soap all over, usually with the purpose of cleaning  
 </pre>
-<p>{{ "Voici le script que nous avons utilisé pour simplifier le fichier data.verb" | trans }}
+<p>{{ "Voici le script que nous avons utilisé pour simplifier le fichier %file%" | trans({'%file%': 'data.verb'}) }}
 <pre>public function simplifierdataverbAction()
 {
   $reponse = '';

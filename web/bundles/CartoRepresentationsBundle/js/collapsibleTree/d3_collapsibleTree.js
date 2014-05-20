@@ -243,7 +243,7 @@ D3_TreeRepresentation.load = function(json) {
 			html: true, 
 			title: function() {
 			  var d = this.__data__;
-			  return "<span class='floatingp'>"+d.name+"</span>";
+			  return "<div>"+ d.type + "</div><div class='floatingp'>"+d.name+"</div>";
 			}
 		});
 	}

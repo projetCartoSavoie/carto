@@ -131,12 +131,12 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		});
 		
 	// On ajoute des etiquettes sur les noeuds
-	$('svg g circle').tipsy({ 
+	$('svg g .node').tipsy({ 
 		gravity: 'w', 
 		html: true, 
 		title: function() {
 		  var d = this.__data__;
-		  return "<span class='floatingp'>"+d.name+"</span>";
+		  return "<div>"+ d.type + "</div><div class='floatingp'>"+d.name+"</div>";
 		}
 	});
 

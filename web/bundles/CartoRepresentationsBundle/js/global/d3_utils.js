@@ -207,6 +207,7 @@ function changeGraph(links, nameRelation, colorLink){
 * Affiche les relations en couleur pour une representation en arbre ou en graphe
 * @param json : json transforme pour recuperer le nom des relations
 * @param representation : pour savoir si la representation est un arbre ou un graphe
+* @param colorLink : fonction d3 pour mettre une couleur avec en parametre une valeur
 */
 D3_Utils.prototype.showRelation = function(json, representation, colorLink) {
 	// On recupere les relations utilisees pour ce json
