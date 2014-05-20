@@ -141,6 +141,17 @@ D3_BubbleRepresentation.load = function(json) {
 	}
 
 	d3.select(self.frameElement).style("height", diameter + "px");
+	
+	
+	// On ajoute des etiquettes sur les noeuds
+	$('svg g circle').tipsy({ 
+		gravity: 'w', 
+		html: true, 
+		title: function() {
+		  var d = this.__data__;
+		  return "<span class='floatingp'>"+d.name+"</span>";
+		}
+	});
 
 	//On désactive les boutons inutiles
 	d3.selectAll('.rotate').attr("value","0").attr("class","inactif");

@@ -1,7 +1,7 @@
 {% extends "::base.html.twig" %}
 
 {% block stylesheets %}{{ parent() }}
-{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' 'bundles/CartoRepresentationsBundle/css/fullscreen.css' 'bundles/CartoRepresentationsBundle/css/utils.css' %}
+{% stylesheets 'bundles/CartoRepresentationsBundle/css/style.css' 'bundles/CartoRepresentationsBundle/css/fullscreen.css' 'bundles/CartoRepresentationsBundle/css/utils.css' 'bundles/CartoRepresentationsBundle/css/jquery.tipsy.css' %}
 	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 {% endstylesheets %}
 
@@ -9,6 +9,9 @@
 
 {% block javascripts %}{{ parent() }}
 {% javascripts 'bundles/CartoRepresentationsBundle/js/global/*' %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+{% endjavascripts %}
+{% javascripts 'bundles/CartoRepresentationsBundle/js/global/ux/*' %}
     <script type="text/javascript" src="{{ asset_url }}"></script>
 {% endjavascripts %}
 {% endblock %}
@@ -90,6 +93,10 @@
 		}
 		
 		$("#form_recherche").submit(function(){
+		
+			// On va montrer des informations wikipedia pour le mot recherche par l'utilisateur
+			d3_utils = new D3_Utils();
+			
 			// On recupere les relations selectionnees par l'utilisateur pour le filtre
 			var valeurs = [];
 			$('input:checked[name = options]').each(function() {
@@ -143,6 +150,7 @@
 							$('.dragAndDrop').attr("value", "0");
 						}
 						representation.show(data);
+						d3_utils.show_wikipedia(search);
 						$("#loading").hide();
 					}
 				}
