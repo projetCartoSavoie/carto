@@ -3,7 +3,7 @@
 <h1>{{ "Documentation" | trans }}</h1>
 <h2>WordNet</h2>
 
-<h3>{{ "Relations entre les rsynsets" | trans }}</h3>
+<h3>{{ "Relations entre les" | trans }} rsynsets</h3>
 <ul>
 	<li>Antonymie (ManyToMany, {{ "inversé par" | trans }} Antonymie).</li>
 </ul>
@@ -13,13 +13,13 @@
 <h3>{{ "Les fichiers de la base de données WordNet" | trans }}</h3>
 
 <p>
-{% trans %}
-Nous utiliserons le fichier data.adv, que nous modifierons pour correspondre à nos besoins.
+{% trans with {'%file%': 'data.adv'} %}
+Nous utiliserons le fichier %file%, que nous modifierons pour correspondre à nos besoins.
 {% endtrans %}
 </p>
 <p>
-{% trans %}
-Voici quelques exemples de lignes du fichier data.adv
+{% trans with {'%file%': 'data.adv'} %}
+Voici quelques exemples de lignes du fichier %file%
 {% endtrans %} :
 <pre>
 00033808 02 r 04 instantaneously 0 outright 2 instantly 2 in_a_flash 0 001 \ 00982222 a 0101 | without any delay; "he was killed outright"  
@@ -51,7 +51,7 @@ Voici quelques exemples de lignes du fichier data.adv
 </ul>
 </p>
 
-<h3>{{ "Transformation du fichier data.adv" | trans }}</h3>
+<h3>{{ "Transformation du fichier %file%" | trans({'%file%': 'data.adv'}) }}</h3>
 <p>{{ "Voici les quelques lignes données en exemple sous leur forme simplifiée" | trans }} :
 <pre>
 00033808 | without any delay; "he was killed outright"  
@@ -62,7 +62,7 @@ Voici quelques exemples de lignes du fichier data.adv
 
 00035445 ! 00035772 ! 00376350 | many times at short intervals; "we often met over a cup of coffee"  
 </pre>
-<p>{{ "Voici le script que nous avons utilisé pour simplifier le fichier data.adv" | trans }}
+<p>{{ "Voici le script que nous avons utilisé pour simplifier le fichier %file%" | trans({'%file%': 'data.adv'}) }}
 <pre>public function simplifierdataadvAction()
 {
   $reponse = '';

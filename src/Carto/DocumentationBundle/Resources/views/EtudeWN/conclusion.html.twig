@@ -5,7 +5,9 @@
 <h3>
 {{ "Voici toutes les relations que nous avons recensées dans WordNet" | trans }} :
 </h3>
-{% include "CartoDocumentationBundle:EtudeWN:relMotSynset.html.twig" %}
+<ul>
+	<li>{{ "Un mot appartient à un Synset" | trans }} (ManyToMany, {{ "inversé par" | trans }} Contains)</li>
+</ul>
 <ul>
 	<li>{{ "Un adjectif ou un verbe dérive d'un nom" | trans }} (ManyToMany).</li>
 	<li>{{ "Un adjectif est le participe passé d'un verbe" | trans }} (OneToOne)</li>

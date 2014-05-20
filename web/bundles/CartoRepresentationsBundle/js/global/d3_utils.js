@@ -48,10 +48,10 @@ D3_Utils.prototype.load_json = function(d) {
 	else
 	{
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+		var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
 		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
-		var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 	}
 	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif>');
 	
