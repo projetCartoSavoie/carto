@@ -44,7 +44,9 @@
 						</div>
 						{% endif %}
 						<div>
-							<img class="logo" src="{{ asset('bundles/CartoAccueilBundle/images/logo.png')}}" title="Cartographie de données" alt="Cartographie de données">
+							<a href="{{ path('carto_accueil_homepage')}}">
+								<img class="logo" src="{{ asset('bundles/CartoAccueilBundle/images/logo.png')}}" title="Cartographie de données" alt="Cartographie de données">
+							</a>
 							<nav>
 								<ul class="nav">
 									{# Quand on clique sur un <li> on attribue une class current pour le laisser en couleur #}

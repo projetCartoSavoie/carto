@@ -6,12 +6,22 @@
 'Datas' : 'Données'
 'Study wordnet': 'Etude de wordnet'
 'Representations': 'Représentations'
-'Representation 1': 'Représentation 1'
 'About us': 'A propos'
 'Contact us': 'Contacts'
-'livre': "Livre d'or"
+'Livre': "Livre d'or"
 'auteur': 'Auteur'
 'comment': "Votre commentaire"
 'captcha': "Recopiez la captcha"
-'letworld': "Laissez nous un petit mot"
+'letword': "Laissez nous un petit mot"
 'submit': "Envoyer"
+'Manage': 'Gérer'
+'Simple research': 'Recherche simple'
+'Save Datas': 'Enregistrer les données'
+'Generate json': 'Générer json'
+'Generate DbPedia json': 'Générer DbPedia json'
+'Deconnexion': 'Déconnexion'
+'Description site': "Ce site web vous offre différentes visualisations graphiques pour des données provenant de WordNet et DpPedia. C'est un projet universitaire réalisé par les étudiants de L3 STIC INFO de l'Université de Savoie, sous la direction de Christophe Roche."
+'Description documentation': "Dans la section Documentation, vous trouverez des articles que nous avons écrit expliquant les outils et technologies que nous avons utilisé et la méthode que nous avons utilisé pour les exploiter."
+'Description representation': "Dans la section Représentations, vous pouvez effectuer des recherches sur nos sources de données (WordNet et DpPedia) et visualiser le résultat graphiquement."
+'Description a propos': "Dans la section A Propos, vous trouverez comment nous contacter et la liste des liens qui nous ont été utiles pour ce projet."
+'Description livre': "Pour toute question, remarque, ou commentaire, n'hésitez pas à nous laisser un petit mot dans le livre d'or."

@@ -6,13 +6,22 @@
 'Données' : 'Datas'
 'Etude de wordnet': 'Study wordnet'
 'Représentations': 'Representations'
-'Représentation 1': 'Representation 1'
 'A propos': 'About us'
 'Contacts': 'Contact us'
-'livre': "Visitors Book"
+'Livre': 'Visitors Book'
 'auteur': 'Author'
 'comment': "Your comment"
 'captcha': "Copy the captcha"
-'letworld': "Leave a comment"
-'submit': "submit"
-'Gérer': "Manage"
+'letword': "Leave a comment"
+'submit': "Submit"
+'Gérer': 'Manage'
+'Recherche simple': 'Simple research'
+'Enregistrer les données': 'Save Datas'
+'Générer json': 'Generate json'
+'Générer DbPedia json': 'Generate DbPedia json'
+'Déconnexion': 'Deconnexion'
+'Description site': "This website offers you to see differents visulisations for represents WordNet and BpPedia datas. This is an universitary project achieve by L3 STIC INFO students University of Savoy, with the management to Christophe Roche."
+'Description documentation': "In Documentation, you can find articles that we have written, which explaining the tools and technologies that we used and the method which we used to exploit them."
+'Description representation': "In Representations, you can do searches about our datas sources (WordNet and DpPedia) and visualize the result graphically."
+'Description a propos': "In About Us, you will find how we can contact us and list of links which we used for this project."
+'Description livre': "If you have any questions, suggestions, or comments, leave us a message in Visitors Book."
