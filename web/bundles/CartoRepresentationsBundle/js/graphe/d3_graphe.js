@@ -197,12 +197,16 @@ D3_GrapheRepresentation.load = function(json) {
 	});
 	
 	// On ajoute des etiquettes sur les noeuds
-	$('svg g .node').tipsy({ 
+	$('svg g circle').tipsy({ 
 		gravity: 'w', 
 		html: true, 
 		title: function() {
-		  var d = this.__data__;
-		  return "<div>"+ d.type + "</div><div class='floatingp'>"+d.name+"</div>";
+			var d = this.__data__;
+			if(d.type != null){
+				return "<div>"+ d.type + "</div><div class='floatingp'>"+d.name+"</div>";
+			}else{
+				return "</div><div class='floatingp'>"+d.name+"</div>";
+			}
 		}
 	});
 
