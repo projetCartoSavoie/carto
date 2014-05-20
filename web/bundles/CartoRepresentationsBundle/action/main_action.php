@@ -13,7 +13,11 @@
 			$profondeur = $optionsProfondeur;
 		}
 	}
-	else { $cmd = 'entity'; }
+	else { 
+		$cmd = 'entity'; 
+		$relations = "all";
+		$profondeur = 3;
+	}
 
 	$curlSession = curl_init();
 
