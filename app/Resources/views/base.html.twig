@@ -38,7 +38,9 @@
 						</div>
 						{% else %}
 						<div class="login">
-							<a href="{{ path('carto_donnees_admin_dashboard')}}">{{"S'identifier"| trans}}</a>
+							<a href="{{ path('carto_donnees_admin_dashboard')}}">
+								<img src="{{ asset('bundles/CartoAccueilBundle/images/icone_cadenas.png') }}" title="Cadenas" alt="Cadenas">
+							</a>
 						</div>
 						{% endif %}
 						<div>
@@ -84,9 +86,11 @@
 											<li>
 												<a href="{{ path('carto_donnees_simple') }}">{{"Recherche simple" | trans}}</a>
 											</li>
+											{% if app.user %}
 											<li>
 												<a href="{{ path('carto_donnees_admin_enregistre') }}">{{"Enregistrer les données" | trans}}</a>
 											</li>
+											{% endif %}
 											<li>
 												<a href="{{ path('carto_donnees_json') }}">{{"Générer json" | trans}}</a>
 											</li>
