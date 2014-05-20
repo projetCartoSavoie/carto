@@ -90,13 +90,13 @@
 											<li>
 												<a href="{{ path('carto_donnees_admin_enregistre') }}">{{"Enregistrer les données" | trans}}</a>
 											</li>
-											{% endif %}
 											<li>
 												<a href="{{ path('carto_donnees_json') }}">{{"Générer json" | trans}}</a>
 											</li>
 											<li>
 												<a href="{{ path('carto_donnees_dbpedia_json') }}">{{"Générer dbPedia json" | trans}}</a>
 											</li>
+											{% endif %}
 										</ul>
 									</li>
 									<li id="about" {% if "about" in path(app.request.attributes.get('_route')) %}class="current"{% endif %} >
@@ -104,11 +104,13 @@
 									</li>
 									<li id="contact" {% if "livre-d-or" in path(app.request.attributes.get('_route')) %}class="current"{% endif %} >
 										<a href="{{ path('carto_livre_or_homepage') }}">{{"livre" | trans}}</a>
+										{% if app.user %}
 										<ul>
 											<li>
 												<a href="{{ path('carto_livre_or_admin') }}">{{"Gérer" | trans}}</a>
 											</li>
 										</ul>
+										{% endif %}
 									</li>
 								</ul>
 							</nav>
