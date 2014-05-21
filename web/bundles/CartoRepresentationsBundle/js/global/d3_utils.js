@@ -169,7 +169,7 @@ function stopDragAndDrop(force) {
 
 // Quand on clique sur une relation on affiche
 // les liens en couleur
-function changeTree(links, nameRelation, colorLink){
+function changeTree(links, nameRelations, colorLink){
 	// On redessine les liens en couleur de base
 	d3.selectAll("path")
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
@@ -177,11 +177,13 @@ function changeTree(links, nameRelation, colorLink){
 	// Pour tous les liens du graphe
 	links.forEach(
 		function(d){
-			// Si le lien a la relation selectionnee alors on met en couleur
-			if(d.name === nameRelation){//d.name.localeCompare(nameRelation) == 0){
-				d3.selectAll('#' + d.name)
-					.style("stroke-width", 3)
-					.style("stroke",  colorLink(d.value));
+			for(i=0; i < nameRelations.length; i++){
+				// Si le lien a la relation selectionnee alors on met en couleur
+				if(d.name === nameRelations[i]){//d.name.localeCompare(nameRelation) == 0){
+					d3.selectAll('#' + d.name)
+						.style("stroke-width", 3)
+						.style("stroke",  colorLink(d.value));
+				}
 			}
 		}
 	);
@@ -189,7 +191,7 @@ function changeTree(links, nameRelation, colorLink){
 
 // Quand on clique sur une relation on affiche
 // les liens en couleur
-function changeGraph(links, nameRelation, colorLink){
+function changeGraph(links, nameRelations, colorLink){
 	// On redessine les liens en couleur de base
 	d3.selectAll("line")
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
@@ -199,10 +201,12 @@ function changeGraph(links, nameRelation, colorLink){
 		function(d){
 			// Si le lien a la relation selectionnee alors on met en couleur
 			for(var i=0; i < d.name.length; i++){
-				if(d.name[i].localeCompare(nameRelation) == 0){
-					d3.selectAll('.' + d.name[i])
-						.style("stroke-width", 3)
-						.style("stroke",  colorLink(d.value));
+				for(var j=0; j < nameRelations.length; j++){
+					if(d.name[i].localeCompare(nameRelations[j]) == 0){
+						d3.selectAll('.' + d.name[i])
+							.style("stroke-width", 3)
+							.style("stroke",  colorLink(d.value));
+					}
 				}
 			}
 		}
@@ -221,12 +225,12 @@ D3_Utils.prototype.showRelation = function(json, representation, colorLink) {
 	var paragraphs = d3.select('.selectRelation')
 		.on("change",function() {
 				// On recupere ce que l'utilisateur a choisi
-				nameRelation = this.options[this.selectedIndex].value;
+				nameRelations = $( ".selectRelation" ).val() || [];
 				if(representation === "tree"){
-					changeTree(json.links, nameRelation, colorLink);
+					changeTree(json.links, nameRelations, colorLink);
 				}
 				else{
-					changeGraph(json.links, nameRelation, colorLink);
+					changeGraph(json.links, nameRelations, colorLink);
 				}
 			}
 		)
