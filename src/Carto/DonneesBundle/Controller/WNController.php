@@ -82,10 +82,12 @@ class WNController extends Controller
 	 * fonction json
 	 *
 	 * Renvoie un fichier json correspondant au format commun établi.
-	 * correspondant à une recherche de profondeur 3 à partir du mot demandé
+	 * correspondant à une recherche.
 	 *
-	 * @param string $recherche
-	 * @return Vue twig
+	 * @param string $recherche : mot demandé
+	 * @param string $relations : liste des relations à prendre en compte
+	 * @param integer $profondeur : niveau de profondeur demandé
+	 * @return Réponse http
 	*/
 	public function jsonAction($recherche,$relations,$profondeur)
 	{
@@ -98,6 +100,14 @@ class WNController extends Controller
 		return new Response($text);
 	}
 
+	/**
+	 * fonction relations
+	 *
+	 * Renvoie un fichier json indiquant l'ensemble des options.
+	 *
+	 * @param string $recherche
+	 * @return Réponse http
+	*/
 	public function relationsAction()
 	{
 		$tab = array(
