@@ -58,6 +58,9 @@ html{
     margin-right: auto;
 }
 
+#contentCenter h1 {
+	color : rgb(20, 94, 121);
+}
 .contentLeft{
 	background-image:url('/bundles/CartoAccueilBundle/images/left.png');
 	background-size:100% 100%;
