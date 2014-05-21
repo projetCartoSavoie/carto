@@ -307,31 +307,35 @@ html[xmlns] .nav {
 .accueilBlock{
 float:left;
 width:100%;
-margin-top: 50px;
+margin-top: 30px;
+border-style: solid;
+border-width: 2px;
+border-color: rgb(20, 94, 121);
+padding-top: 5px;
 }
 
 .documentationBlock{
 float:left;
 width:50%;
-height:250px;
+height:230px;
 }
 
 .representationBlock{
 display:inline-block;
 width:50%;
-height:250px;
+height:230px;
 }
 
 .aboutusBlock{
 float:left;
 width:50%;
-height:250px;
+height:230px;
 }
 
 .bookBlock{
 display:inline-block;
 width:50%;
-height:250px;
+height:230px;
 }
 
 .accueilBlock a{
@@ -350,4 +354,39 @@ height:250px;
 	width: 150px;
 	height:150px;
 
+}
+.accueilBannerBlock{
+	display: inline-block;
+}
+.accueilBannerBlock img{
+	width: 100%;
+	height:100%;
+}
+
+.imageUnivSavoie{
+	float:left;
+	width:25%;
+	height:70px;
+	padding-right: 10px;
+	margin-top: 20px;
+}
+
+.imageSfa{
+	float:left;
+	width:25%;
+	height:70px;
+	padding-right: 10px;
+	margin-top: 20px;
+}
+
+.imageWordNet{
+	float:left;
+	width:25%;
+	height:70px;
+	padding-right: 10px;
+	margin-top: 20px;
+}
+
+.credit{
+	height:70px;
 }
