@@ -296,3 +296,55 @@ html[xmlns] .nav {
 .text_login{
 	display	: inline-block;
 }
+
+/******************
+	BLOCKS ACCUEIL
+*******************/
+
+.accueilBlock{
+float:left;
+width:100%;
+margin-top: 50px;
+}
+
+.documentationBlock{
+float:left;
+width:50%;
+height:250px;
+}
+
+.representationBlock{
+display:inline-block;
+width:50%;
+height:250px;
+}
+
+.aboutusBlock{
+float:left;
+width:50%;
+height:250px;
+}
+
+.bookBlock{
+display:inline-block;
+width:50%;
+height:250px;
+}
+
+.accueilBlock a{
+	text-decoration: none;
+	font-size: 120%;
+	color : rgb(20, 94, 121);
+	cursor : pointer;
+}
+
+.accueilBlock a:hover{
+	color: rgba(20, 94, 121, 0.5);
+}
+
+.accueilBlock img{
+	float: left;
+	width: 150px;
+	height:150px;
+
+}
