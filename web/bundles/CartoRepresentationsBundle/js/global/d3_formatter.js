@@ -253,6 +253,7 @@ D3_Formatter.prototype.to_tree = function(tree){
 	d3_tree.typeNode = typeNode;
 	d3_tree.relationsUsed = tree.relationsUsed;
 	d3_tree.links = tree.links;
+	console.log(d3_tree);
 	return d3_tree;
 }
 

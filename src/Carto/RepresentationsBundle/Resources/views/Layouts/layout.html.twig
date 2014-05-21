@@ -37,51 +37,15 @@
 			$('.showOptionsRelations').hide();
 		}
 	}
-	
-	// Fonction d'impression du graphe
-	function PrintElem(elem)
-    {
-        Popup($(elem).html());
-    }
-
-    // Met dans une fenêtre d'impression le graphe 
-    function Popup(data) 
-    {
-        var mywindow = window.open('', 'contentCenter', 'height=400,width=600');
-        mywindow.document.write('<html><head><title>Réprésentation du mot ');
-        mywindow.document.write($('#search').val());
-        if ($('#quantite').val()){
-        	mywindow.document.write(' pour une profondeur de ');
-        	mywindow.document.write($('#quantite').val());
-        }
-        if ($('input:checked[name = options]')){
-        	mywindow.document.write(' avec la(les) relation(s) ');
-        	$('input:checked[name = options]').each(function() {
-				mywindow.document.write($(this).val());
-				mywindow.document.write(', ');
-			});
-        	mywindow.document.write('sélectionnée(s)');
-        }
-        mywindow.document.write('</title>');
-        /*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
-        mywindow.document.write('</head><body >');
-        mywindow.document.write(data);
-        mywindow.document.write('</body></html>');
-
-        mywindow.print();
-        mywindow.close();
-
-        return true;
-    }
 
 	// Montre toutes les relations possibles
 	function showRelations(){
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remy
 		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Celine
 		//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remi
-		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Juliana
+		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony
-		var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony2
+		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony2
 		
 		$.ajax({
 			type: "POST",
@@ -151,18 +115,18 @@
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
 				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
 				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-				var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 			}
 			else
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
 				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
 				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
-				var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 			}
 
 			//Utilisation d'ajax pour placer le résultat dans le conteneur
@@ -214,7 +178,7 @@
 				<input id="WN" type="radio" name="choixsource" value="WN" onclick="loadOptions()" checked/>Wordnet
 			</label>
 			<label for="DB" class="toggle-btn">
-				<input id="DB" type="radio" name="choixsource" value="DB" onclick="loadOptions()"/>DpPedia
+				<input id="DB" type="radio" name="choixsource" value="DB" onclick="loadOptions()"/>DbPedia
 			</label>
 		</div>
 		
@@ -243,7 +207,7 @@
 		<div id="relations">
 			<p>Selectionnez une relation:</p>
 			<label>
-				<select class="selectRelation">
+				<select class="selectRelation" multiple size="3">
 					<option selected> None... </option>
 				</select>
 			</label>
