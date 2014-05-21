@@ -20,7 +20,8 @@
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); //Céline  // .'/'.profondeur = 3
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); //Juliana
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // Anthony
-	curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // Anthony2
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // Anthony2
+	curl_setopt($curlSession, CURLOPT_URL, 'http://127.0.0.1/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // Remi
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur);
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/app_dev.php/en/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // remy
 
