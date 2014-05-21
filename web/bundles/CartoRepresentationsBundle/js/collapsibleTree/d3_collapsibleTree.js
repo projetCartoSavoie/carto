@@ -136,12 +136,17 @@ D3_TreeRepresentation.load = function(json) {
 		nodeEnter.append("text")
 			.attr("dy", 3.5)
 			.attr("dx", 5.5)
+			.attr("id", function(d){
+					// On met un id sans espace
+					var nameWithoutSpace = d.name.replace(' ', '');
+					return nameWithoutSpace; 
+				})
 			.text(function(d) { 
 				// On met du texte seulement si c'est un mot sinon on se limite à 17 caracteres
 				var sansEspace = new RegExp(/\s/);
 				var name = "";
 				if(d.children != null){
-					name += "+ ";
+					name += "- ";
 				}
 				if(sansEspace.test(d.name.toString()) == false){
 					name += d.name;
@@ -259,16 +264,25 @@ D3_TreeRepresentation.load = function(json) {
 
 	// Lorsqu'on clique sur un noeud
 	function click(d) {
+		// On recupere l'id egal au nom du noeud sans espace
+		var nameWithoutSpace = d.name.replace(' ', '');
+		
+		// On recupere ce qu'il y a dans la balise text
+		var text = document.getElementById(nameWithoutSpace).innerHTML;
 		if (d.children) {
 			d._children = d.children;
 			d.children = null;
-			d3.select('.node text')
-				.text(function(d){ return d.name.replace("- ", "+ ")});
+			
+			// On cache les enfants on met un + pour montrer qu'on peut deployer
+			var result = text.replace("- ", "+ ");
+			document.getElementById(nameWithoutSpace).innerHTML = result;
 		} else {
 			d.children = d._children;
 			d._children = null;
-			d3.select('.node text')
-				.text(function(d){ return d.name.replace("+ ", "- ")});
+			
+			// On deploie les enfants on met un - pour montrer qu'on peut cacher
+			var result = text.replace("+ ", "- ");
+			document.getElementById(nameWithoutSpace).innerHTML = result;
 		}
 		update(d);
 	}
