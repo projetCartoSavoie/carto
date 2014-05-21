@@ -1,4 +1,6 @@
 function D3_Formatter(){}
+
+
 /**
  * Transforme le json generique en json compris par d3js pour la representation "graph"
  * @param json : graph -> JSON generique a transformer
@@ -13,6 +15,10 @@ D3_Formatter.prototype.to_graph = function(graph){
 	graph.noeuds.forEach(
 		function(node) { 
 			node.name = node.nom;
+			
+			// Nous n'avons plus besoin de nom
+			delete node.nom;
+			
 			if(typeColor[node.type] == null){
 				typeColor[node.type] = i;
 				i++;
@@ -100,8 +106,14 @@ D3_Formatter.prototype.to_graph = function(graph){
 			}
 		}
 	);
+	// On supprime du json ce dont nous avons plus besoins
+	delete graph.noeuds;
+	delete graph.relations;
+	delete graph.graphe;
+
 	return graph;
 }
+
 
 D3_Formatter.getNode = function(tree, id){
 	if(tree.uid == id){
