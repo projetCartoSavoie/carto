@@ -138,16 +138,21 @@ D3_TreeRepresentation.load = function(json) {
 			.attr("dx", 5.5)
 			.text(function(d) { 
 				// On met du texte seulement si c'est un mot sinon on se limite à 17 caracteres
-				var sansEspace = new RegExp(/\s/); 
+				var sansEspace = new RegExp(/\s/);
+				var name = "";
+				if(d.children != null){
+					name += "+ ";
+				}
 				if(sansEspace.test(d.name.toString()) == false){
-					return d.name;
+					name += d.name;
 				}else{
 					if (d.name.length > 20){
-						return d.name.substring(0,17) + '...';
+						name += d.name.substring(0,17) + '...';
 					}else{
-						return d.name.substring(0,17);
+						name += d.name.substring(0,17);
 					}
 				}
+				return name;
 			})
 			.attr("cursor","pointer")
 			.on("click", function(d) {
@@ -257,17 +262,21 @@ D3_TreeRepresentation.load = function(json) {
 		if (d.children) {
 			d._children = d.children;
 			d.children = null;
+			d3.select('.node text')
+				.text(function(d){ return d.name.replace("- ", "+ ")});
 		} else {
 			d.children = d._children;
 			d._children = null;
+			d3.select('.node text')
+				.text(function(d){ return d.name.replace("+ ", "- ")});
 		}
 		update(d);
 	}
 
-	/*function color(d) {
+	function color(d) {
 		var colorLink = d3.scale.category20();
 		return d._children ? colorLink(d.group) : d.children ? "#c6dbef" : "#fd8d3c";
-	}*/
+	}
 	
 	// On recupere le liens du json mis a jour a chaque fois 
 	// qu'on clique sur un noeud pour avoir le nom de la relation
