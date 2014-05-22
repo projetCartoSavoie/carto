@@ -28,12 +28,13 @@
 	
 	// Montre les options suivant la source de donnees selectionnee
 	function loadOptions(){
-		var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
+		//Récupération de la source de données
+		var wordnet = $('#WN').attr('checked'); 
 		//Url permettant de faire la recherche demandpend de la source)
 		if (wordnet){
 			$('.showOptionsRelations').show();
 		}
-		else{
+		else {
 			$('.showOptionsRelations').hide();
 		}
 	}
@@ -41,11 +42,11 @@
 	// Montre toutes les relations possibles
 	function showRelations(){
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Celine
+		var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Celine
 		//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remi
 		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Juliana
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony
-		var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony2
+		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony2
 		
 		$.ajax({
 			type: "POST",
@@ -76,19 +77,23 @@
 		showRelations();
 	}
 	
-	// Montre les options de BB
+	// Montre les options de DBPedia
 	function showOptionsDBpedia(){
 		showProfondeur();
 	}
 
 	// Lorsque la page est prete
 	$(document).ready(function(){
-		var wordnet = $('#WN').attr('checked'); //Récupération de la source de donne
-		//Url permettant de faire la recherche demandpend de la source)
+		//Récupération de la source de données
+		var wordnet = $('#WN').attr('checked'); 
+		var dbpedia = $('#DB').attr('checked');
+		var autre = $('#Autres').attr('checked');
+
+		//Affichage des options
 		if (wordnet){
 			showOptionsWN();
 		}
-		else{
+		else if (dbpedia) {
 			showOptionsDBpedia();
 		}
 		
@@ -108,25 +113,32 @@
 			var search = $('#search').val(); //Récupération du mot demandé
 			if ( search == '' ) { alert('Vous devez entrer un mot'); search = 'pasderecherche' }
 
-			var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
+			//Récupération de la source de données demandée
+			var wordnet = $('#WN').attr('checked'); 
+			var dbpedia = $('#DB').attr('checked');
+			var autre = $('#Autres').attr('checked');
 			//Url permettant de faire la recherche demandée
 			if (wordnet)
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
 				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
 				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-				var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 			}
-			else
+			else if (dbpedia)
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
 				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
 				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
-				var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+			}
+			else
+			{
+				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_autres.php";
 			}
 
 			//Utilisation d'ajax pour placer le résultat dans le conteneur
@@ -179,6 +191,9 @@
 			</label>
 			<label for="DB" class="toggle-btn">
 				<input id="DB" type="radio" name="choixsource" value="DB" onclick="loadOptions()"/>DbPedia
+			</label>
+			<label for="Autres" class="toggle-btn">
+				<input id="Autres" type="radio" name="choixsource" value="Autres" onclick="loadOptions()"/>Autres
 			</label>
 		</div>
 		
