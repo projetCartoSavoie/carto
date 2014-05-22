@@ -16,44 +16,87 @@ html{
 /**************
 	HEADER
 ***************/
-.tableHeader{
+.header{
 	width: 100%;
-	border-spacing: 0px;
+	height: 230px;
 }
 
-.header{
-	border-bottom: 10px solid;
+.headerLeft{
+	float:left;
+	width: 20%;
+	height: 100%;
 }
 
 .headerCenter{
-	border-bottom: 10px solid;
-	width: 1000px;
+	float:left;
+	width: 70%;
+	height: 100%;
 }
 
+.headerRight{
+	float:left;
+	width: 10%;
+	height: 100%;
+}
 /*************
 	CONTENU
 **************/
 
-.tableContent {
+.content {
+	clear:both;
 	width: 100%;
-	height:100%;
-	border-spacing: 0px;
+	min-height:633px;
 }
+
+	/******************
+		    LEFT
+	*******************/
+
+.contentLeft{
+	background-image:url('/bundles/CartoAccueilBundle/images/left.png');
+	background-size:100% 100%;
+	width:20%;
+	height:620px;
+	/*border-left: solid 1px;*/
+	padding: 0px;
+	/*vertical-align: top;*/
+	float:left;
+}
+
+.utilsLeft{
+	padding: 10px;
+}
+
+.contentLeft #wikipedia{
+	border-top: solid 1px;
+	border-left: solid 1px;
+	border-bottom: solid 1px;
+	border-right: solid 1px;
+	height: 380px;
+	background-color: #eaeaea;
+}
+.borderLeft{
+	width: 100%;
+	height: 100%;
+}
+
+#form_options{
+	background-color: #eaeaea;
+}
+
 	/******************
 		   CENTER
 	*******************/
 #contentCenter{
 	background-color: #FDFAFA;
-
-/*	width: 1000px;*/
-/*	height: auto;*/
-
-	width: 950px;
-
+	float:left;
+	width: 70%;
 	border-left: solid 1px;
 	border-right: solid 1px;
 	vertical-align:top;
 	padding:15px;
+	min-height:600px;
+	height: 100%;
 }
 #contentCenter #loading {
     display: block;
@@ -73,50 +116,19 @@ html{
 	color : rgb(20, 94, 191);
 }
 
-	/******************
-		    LEFT
-	*******************/
-
-.contentLeft{
-	background-image:url('/bundles/CartoAccueilBundle/images/left.png');
-	background-size:100% 100%;
-	color:black;
-	width:300px;
-	height:100%;
-	padding:30px;
-	border-left: solid 1px;
-	padding: 0px;
-	vertical-align: top;
+.image_help img{
+	width:100%;
 }
 
-.utilsLeft{
-	padding: 10px;
-}
-
-.contentLeft #wikipedia{
-	border-top: solid 1px;
-	border-left: solid 1px;
-	border-bottom: solid 1px;
-	border-right: solid 1px;
-	height: 700px;
-	background-color: #eaeaea;
-}
-.borderLeft{
-	width: 100%;
-	height: 100%;
-}
-
-#form_options{
-	background-color: #eaeaea;
-}
 
 	/******************
 		    RIGHT
 	*******************/
 .contentRight{
 	height : 100%;
-	width : 250px;
-	float : right;
+	min-height: 620px;
+	width : 5%;
+	float : left;
 }
 
 .toolsRight{
@@ -124,6 +136,7 @@ html{
 	padding-top: 20px;
 	height: 100%;
 	width: 44px;
+	float: right;
 }
 
 /**************
@@ -396,6 +409,46 @@ height:230px;
 	height:100%;
 }
 
+/******************
+	   FOOTER
+*******************/
+
+.footer{
+	clear:both;
+	width: 100%;
+	height: 100px;
+}
+
+.footerLeft{
+	float:left;
+	width: 20%;
+	height: 100%;
+}
+
+.footerCenter{
+	float:left;
+	width: 72%;
+	height: 100%;
+	background-color: #FFFFFF;
+	border-left: solid 1px;
+	border-right: solid 1px;
+}
+
+.footerRight{
+	float:left;
+	width: 7%;
+	height: 100%;
+}
+
+.bannerBlock{
+	display: inline-block;
+	height: 100px;
+}
+.bannerBlock img{
+	width: 100%;
+	height:100%;
+}
+
 .imageUnivSavoie{
 	float:left;
 	width:24%;
@@ -422,7 +475,7 @@ height:230px;
 
 .credit{
 	float:left;
-	width:24%;
+	width:23%;
 	height:100px;
 	padding-right: 10px;
 }

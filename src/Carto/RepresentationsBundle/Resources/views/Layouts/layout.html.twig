@@ -20,8 +20,10 @@
 {% endblock %}
 
 {% block body %}{{ parent() }}
-<h1>Aide :</h1><br/>
-<img style="border:solid 1px grey;"src="{{ asset('bundles/CartoRepresentationsBundle/images/ManuelUtilisateur.png') }}"></img>
+	<h1>Aide :</h1>
+	<div class="image_help">
+		<img src="{{ asset('bundles/CartoRepresentationsBundle/images/ManuelUtilisateur.png') }}"></img>
+	</div>
 {% endblock %}
 
 {% block script %}
@@ -148,7 +150,7 @@
 			}
 
 			//Utilisation d'ajax pour placer le résultat dans le conteneur
-			$("#contentCenter").html('<img id="loading" src="{{ asset('bundles/CartoRepresentationsBundle/images/ajax-loader.gif') }}">');
+			$("#contentCenter").html('<img id="loading" src="{{ asset('bundles/CartoRepresentationsBundle/images/image-loader.gif') }}">');
 			$.ajax({
 				type: "POST",
 				url: url,
