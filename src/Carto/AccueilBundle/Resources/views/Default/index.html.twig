@@ -2,16 +2,61 @@
 {% block body %}
 <h1>{{"Bienvenue sur notre application web de cartographie" | trans}}</h1>
 <p>{{"Description site" | trans}}</p>
-
-<h2>Documentation</h2>
-<p>{{"Description documentation" | trans}}</p>
-
-<h2>{{ "Représentations"|trans }}</h2>
-<p>{{"Description representation" | trans}}</p>
-
-<h2>{{ "A propos"|trans }}</h2>
-<p>{{"Description a propos" | trans}}</p>
-
-<h2>{{ "Livre"|trans }}</h2>
-<p>{{"Description livre" | trans}}</p>
+<div class=accueilBlock>
+	<div class=documentationBlock>
+		<div class=imageDocumentationBlock>
+			<img src="{{ asset('bundles/CartoAccueilBundle/images/icon-manual.png') }}" title="Documentation" alt="manual">
+		</div>
+		<div class=textDocumentationBlock>
+			<a href="{{ path('carto_documentation_homepage') }}"><h2>Documentation</h2></a>
+			<p>{{"Description documentation" | trans}}</p>
+		</div>
+	</div>
+	<div class=representationBlock>
+		<div class=imageRepresentationBlock>
+			<img src="{{ asset('bundles/CartoAccueilBundle/images/icon-links.png') }}" title="Representations" alt="links">
+		</div>
+		<div class=textRepresentationBlock>
+			<a href="{{ path('carto_representations_homepage') }}"><h2>{{ "Représentations"|trans }}</h2></a>
+			<p>{{"Description representation" | trans}}</p>
+		</div>
+	</div>
+	<div class=aboutusBlock>
+		<div class=imageAboutUsBlock>
+			<img src="{{ asset('bundles/CartoAccueilBundle/images/icon-community.jpg') }}" title="About Us" alt="community">
+		</div>
+		<div class=textAboutUsBlock>
+			<a href="{{ path('carto_accueil_aboutus') }}"><h2>{{ "A propos"|trans }}</h2></a>
+			<p>{{"Description a propos" | trans}}</p>
+		</div>
+	</div>
+	<div class=bookBlock>
+		<div class=imageBookBlock>
+			<img src="{{ asset('bundles/CartoAccueilBundle/images/icon-book.png') }}" title="Visitor Book" alt="book">
+		</div>
+		<div class=textBookBlock>
+			<a href="{{ path('carto_livre_or_homepage') }}"><h2>{{ "Livre"|trans }}</h2></a>
+			<p>{{"Description livre" | trans}}</p>
+		</div>
+	</div>
+</div>
+<div class=accueilBannerBlock>
+	<div class=imageUnivSavoie>
+		<img src="{{ asset('bundles/CartoAccueilBundle/images/univ_savoie.jpg') }}" alt="Univ Savoie">
+	</div>
+	<div class=imageSfa>
+		<img src="{{ asset('bundles/CartoAccueilBundle/images/logo_sfa.jpg') }}" alt="sfa">
+	</div>
+	<div class=imageWordNet>
+		<img src="{{ asset('bundles/CartoAccueilBundle/images/logo_wordnet.png') }}" alt="WordNet">
+	</div>
+	<div class=credit>
+		<p> 
+			<strong>{{"Etudiants" | trans}}:</strong> Cluze Remy, de Roland Céline, Di Lisio Anthony, Leclaire Juliana, Mollard Rémi.
+		</p>
+		<p>
+			<strong>{{"Tuteur" | trans}}:</strong> Roche Christophe
+		</p>
+	</div>
+</div>
 {% endblock %}
