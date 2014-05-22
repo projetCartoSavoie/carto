@@ -13,16 +13,23 @@
 			$profondeur = $optionsProfondeur;
 		}
 	}
-	else { $cmd = 'entity'; }
+	else { 
+		$cmd = 'entity'; 
+		$relations = "all";
+		$profondeur = 3;
+	}
 
 	$curlSession = curl_init();
 
-	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); //Céline  // .'/'.profondeur = 3
-	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); //Juliana
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); //Céline 
+	curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); //Juliana
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // Anthony
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // Anthony2
+<<<<<<< HEAD
 	curl_setopt($curlSession, CURLOPT_URL, 'http://127.0.0.1/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // Remi
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur);
+=======
+>>>>>>> e38d3fe916cde78ef1fed88bcd1a660873952bbb
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/app_dev.php/en/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // remy
 
 	curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);

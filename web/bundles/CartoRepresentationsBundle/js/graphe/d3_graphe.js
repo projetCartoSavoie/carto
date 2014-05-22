@@ -35,7 +35,6 @@ D3_GrapheRepresentation.load = function(json) {
 
 	var formatter = new D3_Formatter();
 	var graph = formatter.to_graph(json);
-	console.log(graph);
 	
 	/***************************************************/
 	/*					Outils						   */
@@ -202,8 +201,12 @@ D3_GrapheRepresentation.load = function(json) {
 		gravity: 'w', 
 		html: true, 
 		title: function() {
-		  var d = this.__data__;
-		  return "<span class='floatingp'>"+d.name+"</span>";
+			var d = this.__data__;
+			if(d.type != null){
+				return "<div>"+ d.type + "</div><div class='floatingp'>"+d.name+"</div>";
+			}else{
+				return "</div><div class='floatingp'>"+d.name+"</div>";
+			}
 		}
 	});
 

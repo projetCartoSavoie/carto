@@ -37,13 +37,18 @@
 			$('.showOptionsRelations').hide();
 		}
 	}
-	
+
 	// Montre toutes les relations possibles
 	function showRelations(){
 		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remy
 		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Celine
+<<<<<<< HEAD
 		var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remi
 		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Juliana
+=======
+		//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remi
+		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Juliana
+>>>>>>> e38d3fe916cde78ef1fed88bcd1a660873952bbb
 		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony
 		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony2
 		
@@ -83,7 +88,7 @@
 
 	// Lorsque la page est prete
 	$(document).ready(function(){
-		var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
+		var wordnet = $('#WN').attr('checked'); //Récupération de la source de donne
 		//Url permettant de faire la recherche demandpend de la source)
 		if (wordnet){
 			showOptionsWN();
@@ -106,14 +111,21 @@
 			var profondeur = $("#quantite").val();
 			
 			var search = $('#search').val(); //Récupération du mot demandé
+			if ( search == '' ) { alert('Vous devez entrer un mot'); search = 'pasderecherche' }
+
 			var wordnet = $('#WN').attr('checked'); //Récupération de la source de données demandée
 			//Url permettant de faire la recherche demandée
 			if (wordnet)
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
 				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+<<<<<<< HEAD
 				var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
 				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+=======
+				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
+				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+>>>>>>> e38d3fe916cde78ef1fed88bcd1a660873952bbb
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 			}
@@ -121,8 +133,13 @@
 			{
 				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
 				//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
+<<<<<<< HEAD
 				var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
 				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+=======
+				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
+				var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
+>>>>>>> e38d3fe916cde78ef1fed88bcd1a660873952bbb
 				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
 				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
 			}
@@ -149,9 +166,15 @@
 							$('.dragAndDrop').css("background-color", "#d0cbcb");
 							$('.dragAndDrop').attr("value", "0");
 						}
-						representation.show(data);
-						d3_utils.show_wikipedia(search);
-						$("#loading").hide();
+						if(data.error != null){
+							alert("Error" + data.error);
+						}else{
+							representation.show(data);
+							d3_utils.show_wikipedia(search);
+							$("#loading").hide();
+						}
+					}else{
+						alert("Request Error");
 					}
 				}
 			});
@@ -170,7 +193,7 @@
 				<input id="WN" type="radio" name="choixsource" value="WN" onclick="loadOptions()" checked/>Wordnet
 			</label>
 			<label for="DB" class="toggle-btn">
-				<input id="DB" type="radio" name="choixsource" value="DB" onclick="loadOptions()"/>DpPedia
+				<input id="DB" type="radio" name="choixsource" value="DB" onclick="loadOptions()"/>DbPedia
 			</label>
 		</div>
 		
@@ -188,7 +211,7 @@
 			<div id="recherche">
 				<div id="search_keywords">
 						<p>
-							<input id="search" type="text" name="search" />
+							<input id="search" type="text" name="search" value="" />
 							<button class="buttonSearch" type="submit">Ok</button>
 						</p>
 				</div>
@@ -199,7 +222,7 @@
 		<div id="relations">
 			<p>Selectionnez une relation:</p>
 			<label>
-				<select class="selectRelation">
+				<select class="selectRelation" multiple size="3">
 					<option selected> None... </option>
 				</select>
 			</label>
@@ -228,13 +251,13 @@
 			<a class="tool-item gradient dragAndDrop" id="drag_and_drop" title="Drag and Drop" value="0">
 				<i class="icon-drag-and-drop"></i>
 			</a>
-			<a class="tool-item gradient rotate" id="rotate" title="rotate" value="0">
+			<a class="tool-item gradient rotate" id="rotate" title="Rotate" value="0">
 				<i class="icon-rotate"></i>
 			</a>
-			<a class="tool-item gradient fullscreen" id="full_screen" onClick="fullscreenClick();">
+			<a class="tool-item gradient fullscreen" id="full_screen" title="Full screen" onClick="fullscreenClick();">
 				<i class="icon-full-screen"></i>
 			</a>
-			<a href="#" class="tool-item gradient">
+			<a href="#" class="tool-item gradient print" id="print" title="Print" onClick="PrintElem('#contentCenter');">
 				<i class="icon-print"></i>
 			</a>
 		</div>

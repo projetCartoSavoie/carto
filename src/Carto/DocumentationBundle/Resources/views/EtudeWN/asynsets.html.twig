@@ -3,7 +3,7 @@
 <h1>{{ "Documentation" | trans }}</h1>
 <h2>WordNet</h2>
 
-<h3>{{ "Relations entre les asynsets" | trans }}</h3>
+<h3>{{ "Relations entre les" | trans }} asynsets</h3>
 <ul>
 	<li>Antonymie (ManyToMany, {{ "inversé par" | trans }} Antonymie).</li>
 	<li>Similar (ManyToMany, {{ "inversé par" | trans }} Similar.</li>
@@ -14,13 +14,13 @@
 <h3>{{ "Les fichiers de la base de données WordNet" | trans }}</h3>
 
 <p>
-{% trans %}
-Nous utiliserons le fichier data.adj, que nous modifierons pour correspondre à nos besoins.
+{% trans with {'%file%': 'data.adj'} %}
+Nous utiliserons le fichier %file%, que nous modifierons pour correspondre à nos besoins.
 {% endtrans %}
 </p>
 <p>
-{% trans %}
-Voici quelques exemples de lignes du fichier data.adj
+{% trans with {'%file%': 'data.adj'} %}
+Voici quelques exemples de lignes du fichier %file%
 {% endtrans %} :
 <pre>
 00003131 00 a 03 adducent 0 adductive 0 adducting 0 003 ;c 06090110 n 0000 + 01451829 v 0201 ! 00002956 a 0101 | especially of muscles; bringing together or drawing toward the midline of the body or toward an adjacent part  
@@ -57,7 +57,7 @@ Voici quelques exemples de lignes du fichier data.adj
 </ul>
 </p>
 
-<h3>{{ "Transformation du fichier data.adj" | trans }}</h3>
+<h3>{{ "Transformation du fichier %file%" | trans({'%file%': 'data.adj'}) }}</h3>
 <p>{{ "Voici les quelques lignes données en exemple sous leur forme simplifiée" | trans }} :
 <pre>
 00003131 ! 00002956 | especially of muscles; bringing together or drawing toward the midline of the body or toward an adjacent part  
@@ -68,7 +68,7 @@ Voici quelques exemples de lignes du fichier data.adj
 
 00003699 & 00003356 | bursting open with force, as do some ripe seed vessels  
 </pre>
-<p>{{ "Voici le script que nous avons utilisé pour simplifier le fichier data.adj" | trans }}
+<p>{{ "Voici le script que nous avons utilisé pour simplifier le fichier %file%" | trans({'%file%': 'data.adj'}) }}
 <pre>public function simplifierdataadjAction()
 {
   $reponse = '';

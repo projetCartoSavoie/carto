@@ -43,7 +43,7 @@ D3_BubbleRepresentation.load = function(json) {
 
 	//Le packlayout de D3 permet d'agencer des ensembles de cercles dans des cercles
 	var pack = d3.layout.pack()
-			.padding(2)
+			.padding(20)
 			.size([diameter - margin, diameter - margin])
 			.value(function(d) { return d.size; })
 
@@ -98,12 +98,15 @@ D3_BubbleRepresentation.load = function(json) {
 	//On ajoute le texte représentant le noeud dans chaque cercle.
 	var text = container.selectAll("text")
 			.data(nodes)
-		.enter().append("text")
+		.enter()//.append("rect")
+			.append("text")
 			.attr("class", "label")
-			.style("fill-opacity", function(d) { return d.parent === treeJson ? 1 : 0; })
-			.style("display", function(d) { return d.parent === treeJson ? null : "none"; })
-			.style("font-size", function(d) { if (d.name.length > 20) { return '10px'; } else if (d.name.length > 10) { return '15px'; } return '20px'; })
-			.text(function(d) { if (d.name.length > 20) {return (d.name.substring(0,17) + '...');} return d.name; });
+			.style("display", function(d) { 
+				var sansEspace = new RegExp(/\s/); 
+				return sansEspace.test(d.name.toString()) ? "none" : null;
+			 }) 
+			.style("font-size", '10px')
+			.text(function(d) { return d.name; });
 			
 	//On ajoute un title pour voir les définitions en entier lorsque les noeuds contiennent plus d'un mot
 	var node = container.selectAll("circle,text");
@@ -127,11 +130,11 @@ D3_BubbleRepresentation.load = function(json) {
 					return function(t) { zoomTo(i(t)); };
 				});
 
-		transition.selectAll("text")
+		/*transition.selectAll("text")
 			.filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-				.style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+				.style("fill-opacity", function(d) { return d.parent === focus ? 1 : 1; })
 				.each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-				.each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });
+				.each("end", function(d) { if (d.parent !== focus) this.style.display = "inline"; });*/
 	}
 
 	function zoomTo(v) {
@@ -148,8 +151,12 @@ D3_BubbleRepresentation.load = function(json) {
 		gravity: 'w', 
 		html: true, 
 		title: function() {
-		  var d = this.__data__;
-		  return "<span class='floatingp'>"+d.name+"</span>";
+			var d = this.__data__;
+			if(d.type != null){
+				return "<div>"+ d.type + "</div><div class='floatingp'>"+d.name+"</div>";
+			}else{
+				return "</div><div class='floatingp'>"+d.name+"</div>";
+			}
 		}
 	});
 
