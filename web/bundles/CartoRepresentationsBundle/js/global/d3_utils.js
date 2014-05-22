@@ -28,9 +28,9 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 D3_Utils.prototype.load_json = function(d) {
 	//Url permettant de faire la recherche demandée
 	//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-	//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+	var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
 	//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
-	var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+	//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 	//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 	//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 
@@ -42,8 +42,8 @@ D3_Utils.prototype.load_json = function(d) {
 	
 	var profondeur = $("#quantite").val();
 	
-	var search = $('#search').val(); //Récupération du mot demandé
-	if ( search == '' ) { alert('Vous devez entrer un mot'); search = 'pasderecherche' }
+	$('#search').val(d.name); //Mise à jour du mot demandé
+	var search = d.name;
 
 	//Récupération de la source de données demandée
 	var wordnet = $('#WN').attr('checked'); 
