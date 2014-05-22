@@ -25,32 +25,40 @@
 {% endblock %}
 
 {% block script %}
+	//Url permettant de faire la recherche demandée
+	//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
+	var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+	//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
+	//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+	//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+	//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 	
 	// Montre les options suivant la source de donnees selectionnee
 	function loadOptions(){
 		//Récupération de la source de données
 		var wordnet = $('#WN').attr('checked'); 
+		var dbpedia = $('#DB').attr('checked'); 
 		//Url permettant de faire la recherche demandpend de la source)
 		if (wordnet){
+			$('.showOptionsNbVoisins').hide();
+			$('.showOptionsProfondeur').show();
 			$('.showOptionsRelations').show();
 		}
-		else {
+		else if (dbpedia){
 			$('.showOptionsRelations').hide();
+			$('.showOptionsProfondeur').hide();
+			$('.showOptionsNbVoisins').show();
 		}
 	}
 
 	// Montre toutes les relations possibles
-	function showRelations(){
-		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remy
-		var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Celine
-		//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // remi
-		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; // Juliana
-		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony
-		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_options.php"; //Anthony2
-		
+	function showRelations(){		
 		$.ajax({
 			type: "POST",
 			url: url,
+			data: {
+					cmd: 'get_relations'
+			},
 			cache: false,
 			success: function(response) {
 				var result = $.parseJSON(response);
@@ -71,6 +79,12 @@
 		$('.showOptionsProfondeur').append('<div><input type="number" name="nombre" id="quantite">');
 	}
 	
+	// Propose un nombre de voisins a selectionner
+	function showNbVoisins(){
+		$('.showOptionsNbVoisins').append('<legend>Choisissez le nombre de voisins:</legend>');
+		$('.showOptionsNbVoisins').append('<div><input type="number" name="nombre" id="quantite">');
+	}
+	
 	// Montrer les options de WN
 	function showOptionsWN(){
 		showProfondeur();
@@ -79,7 +93,7 @@
 	
 	// Montre les options de DBPedia
 	function showOptionsDBpedia(){
-		showProfondeur();
+		showNbVoisins();
 	}
 
 	// Lorsque la page est prete
@@ -97,8 +111,11 @@
 			showOptionsDBpedia();
 		}
 		
-		$("#form_recherche").submit(function(){
+		// On montre les options suivant la source de donnees selectionnee
+		loadOptions();
 		
+		$("#form_recherche").submit(function(){
+			load_json();
 			// On va montrer des informations wikipedia pour le mot recherche par l'utilisateur
 			d3_utils = new D3_Utils();
 			
@@ -117,28 +134,18 @@
 			var wordnet = $('#WN').attr('checked'); 
 			var dbpedia = $('#DB').attr('checked');
 			var autre = $('#Autres').attr('checked');
-			//Url permettant de faire la recherche demandée
+			var cmdAction = "";	
 			if (wordnet)
 			{
-				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+				cmdAction = "search_action";
 			}
 			else if (dbpedia)
 			{
-				//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-				//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
-				//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
-				//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
-				//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+				cmdAction = "search_dbpeadia";
 			}
-			else
+			else if (autre)
 			{
-				var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_autres.php";
+				cmdAction = "search_autre";
 			}
 
 			//Utilisation d'ajax pour placer le résultat dans le conteneur
@@ -147,7 +154,7 @@
 				type: "POST",
 				url: url,
 				data: {
-					cmd: 'search_action',
+					cmd: cmdAction,
 					search: search,
 					options: valeurs,
 					profondeur: profondeur
@@ -164,7 +171,7 @@
 							$('.dragAndDrop').attr("value", "0");
 						}
 						if(data.error != null){
-							alert("Error" + data.error);
+							alert("Error " + data.error);
 						}else{
 							representation.show(data);
 							d3_utils.show_wikipedia(search);
@@ -202,6 +209,7 @@
 			<details>
 				<summary>Options</summary>
 				<p class="showOptionsProfondeur"></p>
+				<p class="showOptionsNbVoisins"></p>
 				<p class="showOptionsRelations"></p>
 			</details>
 		</form>
@@ -257,7 +265,7 @@
 			<a class="tool-item gradient fullscreen" id="full_screen" title="Full screen" onClick="fullscreenClick();">
 				<i class="icon-full-screen"></i>
 			</a>
-			<a href="#" class="tool-item gradient print" id="print" title="Print" onClick="PrintElem('#contentCenter');">
+			<a class="tool-item gradient print" id="print" title="Print" onClick="PrintElem('#contentCenter');">
 				<i class="icon-print"></i>
 			</a>
 		</div>
