@@ -26,6 +26,7 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 * @param d : objet node sur lequel l'utilisateur a clique
 */
 D3_Utils.prototype.load_json = function(d) {
+	alert(d.name);
 	//Url permettant de faire la recherche demandée
 	//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
 	var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
@@ -42,8 +43,9 @@ D3_Utils.prototype.load_json = function(d) {
 	
 	var profondeur = $("#quantite").val();
 	
-	var search = $('#search').val(); //Récupération du mot demandé
-	if ( search == '' ) { alert('Vous devez entrer un mot'); search = 'pasderecherche' }
+	//var search = $('#search').val(); //Récupération du mot demandé
+	//if ( search == '' ) { alert('Vous devez entrer un mot'); search = 'pasderecherche' }
+	var search = d.name;
 
 	//Récupération de la source de données demandée
 	var wordnet = $('#WN').attr('checked'); 
@@ -97,6 +99,7 @@ D3_Utils.prototype.load_json = function(d) {
 			}
 		}
 	});
+	alert('coucou');
 	return false;
 }
 
