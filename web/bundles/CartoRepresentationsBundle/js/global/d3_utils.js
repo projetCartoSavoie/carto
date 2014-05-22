@@ -26,65 +26,70 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 * @param d : objet node sur lequel l'utilisateur a clique
 */
 D3_Utils.prototype.load_json = function(d) {
+	//Url permettant de faire la recherche demandée
+	//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
+	//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+	//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
+	var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+	//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+	//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 
-	// On recupere la profondeur
-	var profondeur = $("#quantite").val();
-	
 	// On recupere les relations selectionnees par l'utilisateur pour le filtre
 	var valeurs = [];
 	$('input:checked[name = options]').each(function() {
 		valeurs.push($(this).val());
 	});
-	var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
-	//Url permettant de faire la recherche demandpend de la source)
+	
+	var profondeur = $("#quantite").val();
+	
+	var search = $('#search').val(); //Récupération du mot demandé
+	if ( search == '' ) { alert('Vous devez entrer un mot'); search = 'pasderecherche' }
+
+	//Récupération de la source de données demandée
+	var wordnet = $('#WN').attr('checked'); 
+	var dbpedia = $('#DB').attr('checked'); 
+	var cmdAction = "";	
 	if (wordnet)
 	{
-		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+		cmdAction = "search_action";
+	}
+	else if (dbpedia)
+	{
+		cmdAction = "search_dbpeadia";
 	}
 	else
 	{
-		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-		var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
-		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
-		//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+		cmdAction = "search_autre";
 	}
+
 	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif>');
 	
-	// On fait une requete ajax afin de ne pas recharger la page
+	//Utilisation d'ajax pour placer le résultat dans le conteneur
 	$.ajax({
 		type: "POST",
 		url: url,
 		data: {
-			cmd: 'search_action',
-			search: d.name,
+			cmd: cmdAction,
+			search: search,
 			options: valeurs,
 			profondeur: profondeur
 		},
 		cache: false,
 		success: function(response) {
 			var result = $.parseJSON(response);
-			// On verifie si la reponse a ete faite avec succes
 			if(result.success){
 				var data = result.data;
-				// On regarde si un graphe est deja dessine
 				if(representation){
-					// S'il y a deja une representation on l'enleve
 					$('svg').remove();
-					// On enleve le combobox pour les relations dans la barre d'outils a gauche
 					$('.relation').remove();
-					d3.select('.dragAndDrop')
-						.style("background-color", "#d0cbcb")
-						.attr("value", "0");
+					$('.dragAndDrop').css("background-color", "#d0cbcb");
+					$('.dragAndDrop').attr("value", "0");
 				}
 				if(data.error != null){
-					alert("Error" + data.error);
+					alert("Error " + data.error);
 				}else{
 					representation.show(data);
+					show_wikipedia(search);
 					$("#loading").hide();
 				}
 			}else{
