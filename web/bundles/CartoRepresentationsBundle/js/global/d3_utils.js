@@ -82,7 +82,7 @@ D3_Utils.prototype.load_json = function(d) {
 						.attr("value", "0");
 				}
 				if(data.error != null){
-					alert("Error" + data.error);
+					alert("Error " + data.error);
 				}else{
 					representation.show(data);
 					$("#loading").hide();
