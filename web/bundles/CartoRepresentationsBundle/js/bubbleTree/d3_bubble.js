@@ -43,7 +43,7 @@ D3_BubbleRepresentation.load = function(json) {
 
 	//Le packlayout de D3 permet d'agencer des ensembles de cercles dans des cercles
 	var pack = d3.layout.pack()
-			.padding(20)
+			.padding(50)
 			.size([diameter - margin, diameter - margin])
 			.value(function(d) { return d.size; })
 
@@ -59,6 +59,7 @@ D3_BubbleRepresentation.load = function(json) {
 
 	//focus indique sur quel noeud doit se centrer la vue (au départ c'est la racine)
 	var focus = treeJson;
+	console.log(treeJson);
 	//view contiendra un vecteur correspondant au zoom sur le focus (vecteur (x,y,r) où (x,y) = coordonnées du centre et r = taille de la zone visible)
 	var view;
 
@@ -98,9 +99,12 @@ D3_BubbleRepresentation.load = function(json) {
 	//On ajoute le texte représentant le noeud dans chaque cercle.
 	var text = container.selectAll("text")
 			.data(nodes)
-		.enter()//.append("rect")
+		.enter()
 			.append("text")
 			.attr("class", "label")
+			/*.style("fill-opacity", function(d) { return d.parent === treeJson ? 1 : 0; })
+			.style("display", function(d) { return d.parent === treeJson ? null : "none"; })
+			.text(function(d) { return d.name; });*/
 			.style("display", function(d) { 
 				var sansEspace = new RegExp(/\s/); 
 				return sansEspace.test(d.name.toString()) ? "none" : null;
@@ -120,6 +124,7 @@ D3_BubbleRepresentation.load = function(json) {
 
 	zoomTo([treeJson.x, treeJson.y, treeJson.r * 2 + margin]);
 
+	//Lance le zoom sur un noeud
 	function zoomfonc(d) {
 		var focus0 = focus; focus = d;
 
@@ -130,19 +135,21 @@ D3_BubbleRepresentation.load = function(json) {
 					return function(t) { zoomTo(i(t)); };
 				});
 
-		/*transition.selectAll("text")
-			.filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
-				.style("fill-opacity", function(d) { return d.parent === focus ? 1 : 1; })
-				.each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
-				.each("end", function(d) { if (d.parent !== focus) this.style.display = "inline"; });*/
+    /*transition.selectAll("text")
+      .filter(function(d) { return d.parent === focus || this.style.display === "inline"; })
+        .style("fill-opacity", function(d) { return d.parent === focus ? 1 : 0; })
+        .each("start", function(d) { if (d.parent === focus) this.style.display = "inline"; })
+        .each("end", function(d) { if (d.parent !== focus) this.style.display = "none"; });*/
 	}
 
+	//Zoom sur une position
 	function zoomTo(v) {
 		var k = diameter / v[2]; view = v;
 		node.attr("transform", function(d) { return "translate(" + (d.x - v[0]) * k + "," + (d.y - v[1]) * k + ")"; });
 		circle.attr("r", function(d) { return d.r * k; });
 	}
 
+	//On adapte la taille de la figure à la taille du conteneur
 	d3.select(self.frameElement).style("height", diameter + "px");
 	
 	
