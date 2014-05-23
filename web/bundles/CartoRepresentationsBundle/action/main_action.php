@@ -63,9 +63,9 @@
 		}
 
 		//return 'http://carto.localhost/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Céline 
-		return 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Juliana
+		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Juliana
 		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // Anthony
-		//return 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // Anthony2
+		return 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // Anthony2
 		//return 'http://localhost/app_dev.php/en/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // remy
  	}
 	
@@ -76,9 +76,9 @@
 		else { $cmd = 'entity'; }
 		
 		//return 'http://carto.localhost/fr/donnees/dbpedia/json/'.$cmd; //Céline
-		return 'http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/'.$cmd; //Juliana
+		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/'.$cmd; //Juliana
 		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/dbpedia/json/'.$cmd; // Anthony
-		//return 'http://carto.dev/fr/donnees/dbpedia/json/'.$cmd; // Anthony2
+		return 'http://carto.dev/fr/donnees/dbpedia/json/'.$cmd; // Anthony2
 		//return 'http://localhost/app_dev.php/en/donnees/dbpedia/json/'.$cmd; // remy
 	}
 
@@ -97,9 +97,9 @@
 
 	function get_relations(){
 		//return 'http://carto.localhost/fr/donnees/relations'; //Céline
-		return 'http://localhost/CartoSavoie/carto/web/fr/donnees/relations'; //Juliana
+		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/relations'; //Juliana
 		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/relations'; // Anthony
-		//return 'http://carto.dev/fr/donnees/relations'; // Anthony2
+		return 'http://carto.dev/fr/donnees/relations'; // Anthony2
 		//return 'http://localhost/app_dev.php/fr/donnees/relations'; // remy
 	}
  ?>
