@@ -59,13 +59,5 @@ class DefaultController extends Controller
 		return $this->render('CartoAccueilBundle:Default:aboutus.html.twig');
 	}
 	
-	/**
-	* Affiche nos adresses mails
-	*
-	*/
-	public function contactusAction()
-	{
-		return $this->render('CartoAccueilBundle:Default:contactus.html.twig');
-	}
 
 }

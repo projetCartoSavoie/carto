@@ -217,13 +217,13 @@ D3_Formatter.prototype.to_tree = function(tree){
 								graphe[relation].forEach(
 									function(child) {
 									
-										// Si le child est bien definie dans la liste des noeuds
+										// Si le child est bien defini dans la liste des noeuds
 										if(nodes[child] && !vu[child]){
 											vu[child] = true;
 											var nodeChild = {
 												uid: child,
 												name: nodes[child][0],
-												size: 100 + Math.floor(Math.random()*500),
+												size: 100 + Math.floor(Math.random()*200),
 												group: nodes[child][1].color,
 												type: nodes[child][1].type,
 												children: []
