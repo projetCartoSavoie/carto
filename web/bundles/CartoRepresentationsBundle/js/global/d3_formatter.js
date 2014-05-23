@@ -129,6 +129,11 @@ D3_Formatter.getNode = function(tree, id){
 	}
 };
 
+/**
+ * Transforme le json generique en json compris par d3js pour la representation "tree"
+ * @param json : graph -> JSON generique a transformer
+ * @return json : graph -> JSON generique bien forme
+ */
 D3_Formatter.prototype.to_tree = function(tree){
 	var d3_tree = {};
 	
@@ -171,7 +176,7 @@ D3_Formatter.prototype.to_tree = function(tree){
 				color: typeNode[node.type]
 			});
 
-			// On construit une map avec key l'id et value le nom
+			// On construit une map avec key l'id et value le nom et des infos supplémentaires
 			nodes[node.id] = infos;
 		}
 	);
@@ -253,7 +258,6 @@ D3_Formatter.prototype.to_tree = function(tree){
 	d3_tree.typeNode = typeNode;
 	d3_tree.relationsUsed = tree.relationsUsed;
 	d3_tree.links = tree.links;
-	console.log(d3_tree);
 	return d3_tree;
 }
 
