@@ -13,7 +13,7 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 	$('#wikipedia').html(
 			"<p><b>Informations on "+name+"</b> "+
 			"<iframe id='wikiframe' src='"+url+"' "+
-			"width='100%' frameborder='0'></iframe>"
+			"width='98%' frameborder='0'></iframe>"
 			);
 	var size = Math.round( $('#wikiframe').position().top
 			- $('#wikipedia').position().top );
