@@ -69,6 +69,11 @@ SELECT DISTINCT * WHERE
 		curl_setopt($ch,CURLOPT_URL,$searchUrl);
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 		$response = curl_exec($ch);
+		//print($response);
+		if ( strpbrk($response,'We are sorry')==True){
+			echo "{\"erreur\":[\"DbPediaEnMaintenance\"]}";
+			return new Response('');
+		}
 		curl_close($ch);
 
 		//Récupérer le tableau results[bindings] du json obtenu
@@ -135,7 +140,7 @@ SELECT DISTINCT * WHERE
 		{
 			$jsoncommun['relations'][] = $valeur;
 		}
-
+		
 		//Coder les relations
 		foreach ($resultats as $cle => $chaine) //Un résultat est une chaine d'objets liés par des relations
 		{
@@ -170,20 +175,22 @@ SELECT DISTINCT * WHERE
 		var_dump($jsoncommun['graphe']);*/
 
 		foreach( $jsoncommun['noeuds'] as $cle => $value){
-			if (strpbrk($value['nom'],'#')==False) // si il n'y a pas un # dans l'url
-			{
-			$tab=explode('/',$value['nom']);
-			$val=end($tab);
-			$jsoncommun['noeuds'][$cle] = array('id' => $cle, 'nom' => $val);
+			if (strpbrk($value['nom'],'#')==False){ // si il n'y a pas un # dans l'url
+				$tab=explode('/',$value['nom']);
+				$val=end($tab);
+				$jsoncommun['noeuds'][$cle] = array('id' => $cle, 'nom' => $val);
 			}
-			else { 
+			else{
 				unset($jsoncommun['noeuds'][$cle]);
-
-				$jsoncommun['noeuds'][$cle] = array('id' => $cle, 'nom' => 'toto');
 			}
-
-
 		}
+			
+		foreach( $jsoncommun['graphe'] as $cle => $value){
+				$tab=explode('/',$value['nom']);
+				$val=end($tab);
+				$jsoncommun['graphe'][$cle] = array('id' => $cle, 'nom' => $val);
+		}
+		
 		$jsoncommun['noeuds'] = array_values($jsoncommun['noeuds']);
 		$jsoncommun['graphe'] = array_values($jsoncommun['graphe']);
 
