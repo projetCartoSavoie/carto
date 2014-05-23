@@ -3,6 +3,8 @@ body{
 	background: #ebebeb;
 	color: #666;
 	height: 100%;
+	background-image: url('../bundles/CartoAccueilBundle/images/background.png');
+	background-size: 100% 100%;
 }
 
 a{
@@ -46,6 +48,8 @@ html{
 	clear:both;
 	width: 100%;
 	min-height:633px;
+	border-top: solid 10px;
+	border-top-color: #666;
 }
 
 	/******************
@@ -53,13 +57,11 @@ html{
 	*******************/
 
 .contentLeft{
-	background-image:url('/bundles/CartoAccueilBundle/images/left.png');
-	background-size:100% 100%;
 	width:20%;
 	height:620px;
 	/*border-left: solid 1px;*/
 	padding: 0px;
-	/*vertical-align: top;*/
+	vertical-align: top;
 	float:left;
 }
 
@@ -91,8 +93,9 @@ html{
 	background-color: #FDFAFA;
 	float:left;
 	width: 70%;
-	border-left: solid 1px;
-	border-right: solid 1px;
+	border-left: solid 3px;
+	border-right: solid 3px;
+	border-color: #666;
 	vertical-align:top;
 	padding:15px;
 	min-height:600px;
@@ -136,7 +139,7 @@ html{
 	padding-top: 20px;
 	height: 100%;
 	width: 44px;
-	float: right;
+	float: left;
 }
 
 /**************
@@ -427,11 +430,11 @@ height:230px;
 
 .footerCenter{
 	float:left;
-	width: 72%;
+	width: 71.8%;
 	height: 100%;
 	background-color: #FFFFFF;
-	border-left: solid 1px;
-	border-right: solid 1px;
+	border-left: solid 3px;
+	border-right: solid 3px;
 }
 
 .footerRight{
@@ -478,4 +481,62 @@ height:230px;
 	width:23%;
 	height:100px;
 	padding-right: 10px;
+}
+
+
+/******************
+	DOCUMENTATION
+*******************/
+
+.docBlock{
+	float:left;
+	width:100%;
+	margin-top: 30px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: rgb(20, 94, 121);
+	padding-top: 5px;
+}
+
+.docBlock a{
+	text-decoration: none;
+	font-size: 120%;
+	color : rgb(20, 94, 121);
+	cursor : pointer;
+}
+
+.docBlock a:hover{
+	color: rgba(20, 94, 121, 0.5);
+}
+
+.docBlock img{
+	float: left;
+	padding-right: 5px;
+	width: 150px;
+	height:150px;
+
+}
+
+.projectBlock{
+float:left;
+width:50%;
+height:230px;
+}
+
+.wordNetBlock{
+display:inline-block;
+width:50%;
+height:230px;
+}
+
+.dbPediaBlock{
+float:left;
+width:50%;
+height:230px;
+}
+
+.representationsBlock{
+display:inline-block;
+width:50%;
+height:230px;
 }
