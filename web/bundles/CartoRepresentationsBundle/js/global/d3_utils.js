@@ -26,63 +26,74 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 * @param d : objet node sur lequel l'utilisateur a clique
 */
 D3_Utils.prototype.load_json = function(d) {
+	//Url permettant de faire la recherche demandée
+	//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
+	//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+	//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
+	var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+	//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
+	//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 
-	// On recupere la profondeur
-	var profondeur = $("#quantite").val();
-	
 	// On recupere les relations selectionnees par l'utilisateur pour le filtre
 	var valeurs = [];
 	$('input:checked[name = options]').each(function() {
 		valeurs.push($(this).val());
 	});
-	var wordnet = $('#WN').attr('checked'); //Rration de la source de donne
-	//Url permettant de faire la recherche demandpend de la source)
+	
+	var profondeur = $("#quantite").val();
+	
+	$('#search').val(d.name); //Mise à jour du mot demandé
+	var search = d.name;
+
+	//Récupération de la source de données demandée
+	var wordnet = $('#WN').attr('checked'); 
+	var dbpedia = $('#DB').attr('checked'); 
+	var cmdAction = "";	
 	if (wordnet)
 	{
-		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-		var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
+		cmdAction = "search_action";
+	}
+	else if (dbpedia)
+	{
+		cmdAction = "search_dbpeadia";
 	}
 	else
 	{
-		//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // remy
-		//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Celine
-		//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; // Juliana
-		//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony
-		var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php"; //Anthony2
+		cmdAction = "search_autre";
 	}
+
 	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif>');
 	
-	// On fait une requete ajax afin de ne pas recharger la page
+	//Utilisation d'ajax pour placer le résultat dans le conteneur
 	$.ajax({
 		type: "POST",
 		url: url,
 		data: {
-			cmd: 'search_action',
-			search: d.name,
+			cmd: cmdAction,
+			search: search,
 			options: valeurs,
 			profondeur: profondeur
 		},
 		cache: false,
 		success: function(response) {
 			var result = $.parseJSON(response);
-			// On verifie si la reponse a ete faite avec succes
 			if(result.success){
 				var data = result.data;
-				// On regarde si un graphe est deja dessine
 				if(representation){
-					// S'il y a deja une representation on l'enleve
 					$('svg').remove();
-					// On enleve le combobox pour les relations dans la barre d'outils a gauche
 					$('.relation').remove();
-					d3.select('.dragAndDrop')
-						.style("background-color", "#d0cbcb")
-						.attr("value", "0");
+					$('.dragAndDrop').css("background-color", "#d0cbcb");
+					$('.dragAndDrop').attr("value", "0");
 				}
-				representation.show(data);
-				$("#loading").hide();
+				if(data.error != null){
+					alert("Error " + data.error);
+				}else{
+					representation.show(data);
+					show_wikipedia(search);
+					$("#loading").hide();
+				}
+			}else{
+				alert("Request Error");
 			}
 		}
 	});
@@ -163,7 +174,7 @@ function stopDragAndDrop(force) {
 
 // Quand on clique sur une relation on affiche
 // les liens en couleur
-function changeTree(links, nameRelation, colorLink){
+function changeTree(links, nameRelations, colorLink){
 	// On redessine les liens en couleur de base
 	d3.selectAll("path")
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
@@ -171,11 +182,13 @@ function changeTree(links, nameRelation, colorLink){
 	// Pour tous les liens du graphe
 	links.forEach(
 		function(d){
-			// Si le lien a la relation selectionnee alors on met en couleur
-			if(d.name === nameRelation){//d.name.localeCompare(nameRelation) == 0){
-				d3.selectAll('#' + d.name)
-					.style("stroke-width", 3)
-					.style("stroke",  colorLink(d.value));
+			for(i=0; i < nameRelations.length; i++){
+				// Si le lien a la relation selectionnee alors on met en couleur
+				if(d.name === nameRelations[i]){//d.name.localeCompare(nameRelation) == 0){
+					d3.selectAll('#' + d.name)
+						.style("stroke-width", 3)
+						.style("stroke",  colorLink(d.value));
+				}
 			}
 		}
 	);
@@ -183,7 +196,7 @@ function changeTree(links, nameRelation, colorLink){
 
 // Quand on clique sur une relation on affiche
 // les liens en couleur
-function changeGraph(links, nameRelation, colorLink){
+function changeGraph(links, nameRelations, colorLink){
 	// On redessine les liens en couleur de base
 	d3.selectAll("line")
 			.style("stroke-width", function(d) { return Math.sqrt(d.value); })
@@ -193,10 +206,12 @@ function changeGraph(links, nameRelation, colorLink){
 		function(d){
 			// Si le lien a la relation selectionnee alors on met en couleur
 			for(var i=0; i < d.name.length; i++){
-				if(d.name[i].localeCompare(nameRelation) == 0){
-					d3.selectAll('.' + d.name[i])
-						.style("stroke-width", 3)
-						.style("stroke",  colorLink(d.value));
+				for(var j=0; j < nameRelations.length; j++){
+					if(d.name[i].localeCompare(nameRelations[j]) == 0){
+						d3.selectAll('.' + d.name[i])
+							.style("stroke-width", 3)
+							.style("stroke",  colorLink(d.value));
+					}
 				}
 			}
 		}
@@ -207,6 +222,7 @@ function changeGraph(links, nameRelation, colorLink){
 * Affiche les relations en couleur pour une representation en arbre ou en graphe
 * @param json : json transforme pour recuperer le nom des relations
 * @param representation : pour savoir si la representation est un arbre ou un graphe
+* @param colorLink : fonction d3 pour mettre une couleur avec en parametre une valeur
 */
 D3_Utils.prototype.showRelation = function(json, representation, colorLink) {
 	// On recupere les relations utilisees pour ce json
@@ -214,12 +230,12 @@ D3_Utils.prototype.showRelation = function(json, representation, colorLink) {
 	var paragraphs = d3.select('.selectRelation')
 		.on("change",function() {
 				// On recupere ce que l'utilisateur a choisi
-				nameRelation = this.options[this.selectedIndex].value;
+				nameRelations = $( ".selectRelation" ).val() || [];
 				if(representation === "tree"){
-					changeTree(json.links, nameRelation, colorLink);
+					changeTree(json.links, nameRelations, colorLink);
 				}
 				else{
-					changeGraph(json.links, nameRelation, colorLink);
+					changeGraph(json.links, nameRelations, colorLink);
 				}
 			}
 		)

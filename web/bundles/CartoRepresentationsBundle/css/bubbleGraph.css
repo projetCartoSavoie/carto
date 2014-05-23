@@ -12,13 +12,8 @@
 }
 
 .label {
-  font: "Helvetica Neue", Helvetica, Arial, sans-serif;
-	font-weight:bold;
-	position:relative;
   text-anchor: middle;
-	border:solid 1px;
-	background-color:yellow;
-  text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, -1px 0 0 #fff, 0 -1px 0 #fff;
+  text-shadow: 0 0.5px 0 white, 0.5px 0 0 white, -0.5px 0 0 white, 0 -0.5px 0 white;
 }
 
 .label,

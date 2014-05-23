@@ -3,7 +3,7 @@
 <h1>{{ "Documentation" | trans }}</h1>
 <h2>WordNet</h2>
 
-<h3>{{ "Relations entre les nsynsets" | trans }}</h3>
+<h3>{{ "Relations entre les" | trans }} nsynsets</h3>
 <ul>
 	<li>Antonymie (ManyToMany, {{ "inversé par" | trans }} Antonymie).</li>
 	<li>Hyponymie (ManyToMany, {{ "inversé par" | trans }} Hypernymie).</li>
@@ -17,13 +17,13 @@
 <h3>{{ "Les fichiers de la base de données WordNet" | trans }}</h3>
 
 <p>
-{% trans %}
-Nous utiliserons le fichier data.noun, que nous modifierons pour correspondre à nos besoins.
+{% trans with {'%file%': 'data.noun'} %}
+Nous utiliserons le fichier %file%, que nous modifierons pour correspondre à nos besoins.
 {% endtrans %}
 </p>
 <p>
-{% trans %}
-Voici quelques exemples de lignes du fichier data.noun
+{% trans with {'%file%': 'data.noun'} %}
+Voici quelques exemples de lignes du fichier %file%
 {% endtrans %} :
 <pre>00021914 03 n 01 nutrient 1 002 @ 00020270 n 0000 ~ 07951744 n 0000 | any substance (such as a chemical element or inorganic compound) that can be taken in by a green plant and used in organic synthesis  
 
@@ -40,12 +40,12 @@ Voici quelques exemples de lignes du fichier data.noun
 <li>!    Antonym : {{ "Antonymie" | trans }}</li><li>
 @    Hypernym : {{ "Hypernymie" | trans }}</li><li>
 @i    Instance Hypernym : {{ "Cas particulier d'hypernymie" | trans }}</li><li>
- ~    Hyponym : {{ "inverse de hypernyme, inutile donc de le traiter deux fois" | trans }}</li><li>
- ~i    Instance Hyponym : {{ "inverse de hypernyme, inutile donc de le traiter deux fois" | trans }}</li><li>
-#m    Member holonym : {{ "inverse de méronyme, inutile donc de le traiter deux fois" | trans }}</li><li>
-#s    Substance holonym : {{ "inverse de méronyme, inutile donc de le traiter deux fois" | trans }}</li><li>
-#p    Part holonym : {{ "inverse de méronyme, inutile donc de le traiter deux fois" | trans }}</li><li>
-%m    Member meronym : {{ "pour plus de clareté dans nos représentations, nous rassemblons les différents types de méronymes en un seul, que nous noterons simplement %" | trans }}</li><li>
+ ~    Hyponym : {{ "inverse de %relation%, inutile donc de le traiter deux fois" | trans({'%relation%': 'hypernyme'}) }}</li><li>
+ ~i    Instance Hyponym : {{ "inverse de %relation%, inutile donc de le traiter deux fois" | trans({'%relation%': 'hypernyme'}) }}</li><li>
+#m    Member holonym : {{ "inverse de %relation%, inutile donc de le traiter deux fois" | trans({'%relation%': 'meronyme'}) }}</li><li>
+#s    Substance holonym : {{ "inverse de %relation%, inutile donc de le traiter deux fois" | trans({'%relation%': 'meronyme'}) }}</li><li>
+#p    Part holonym : {{ "inverse de %relation%, inutile donc de le traiter deux fois" | trans({'%relation%': 'meronyme'}) }}</li><li>
+%m    Member meronym : {{ "pour plus de clareté dans nos représentations, nous rassemblons les différents types de méronymes en un seul, que nous noterons simplement" | trans }} %</li><li>
 %s    Substance meronym : {{ "" | trans }}</li><li>
 %p    Part meronym : {{ "" | trans }}</li><li>
 =    Attribute : {{ "" | trans }}</li><li>
@@ -68,7 +68,7 @@ Voici quelques exemples de lignes du fichier data.noun
 </ul>
 </p>
 
-<h3>{{ "Transformation du fichier data.noun" | trans }}</h3>
+<h3>{{ "Transformation du fichier %file%" | trans({'%file%': 'data.noun'}) }}</h3>
 <p>{{ "Voici les quelques lignes données en exemple sous leur forme simplifiée" | trans }} :
 <pre>
 00021914 @ 00020270 | any substance (such as a chemical element or inorganic compound) that can be taken in by a green plant and used in organic synthesis  
@@ -79,7 +79,7 @@ Voici quelques exemples de lignes du fichier data.noun
 
 01328932 @ 00004475 % 01904773 | any organism of microscopic size  
 </pre>
-<p>{{ "Voici le script que nous avons utilisé pour simplifier le fichier data.noun" | trans }}
+<p>{{ "Voici le script que nous avons utilisé pour simplifier le fichier %file%" | trans({'%file%': 'data.noun'}) }}
 <pre>public function simplifierdatanounAction()
 {
   $reponse = '';

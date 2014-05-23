@@ -4,7 +4,7 @@
 
 {% block body %}{{ parent() }}
   	<div class="container">
-  		<div class="login">
+  		<div class="login_admin">
 			{# S'il y a une erreur, on l'affiche #}
 			{% if error %}
 			<div class="alert alert-error">{{ error.message }}</div>
@@ -12,10 +12,10 @@
 
 			{# Le formulaire, avec URL de soumission vers la route « carto_donnees_admin_login_check » comme on l'a vu #}
 			<form action="{{ path('carto_donnees_admin_login_check') }}" method="post">
-				<label for="username">{{'Identifiant :' | trans }}</label>
+				<label for="username">{{'Identifiant' | trans }} :</label>
 				<input type="text" id="username" name="_username" value="{{ last_username }}" />
 
-				<label for="password">{{'Mot de passe :' | trans }}</label>
+				<label for="password">{{'Mot de passe' | trans }} :</label>
 				<input type="password" id="password" name="_password" />
 				<br />
 				<input type="submit" value="{{'Connexion' | trans }}" id="submit" />

@@ -1,5 +1,6 @@
 function D3_Formatter(){}
 
+
 /**
  * Transforme le json generique en json compris par d3js pour la representation "graph"
  * @param json : graph -> JSON generique a transformer
@@ -14,16 +15,22 @@ D3_Formatter.prototype.to_graph = function(graph){
 	graph.noeuds.forEach(
 		function(node) { 
 			node.name = node.nom;
+			
+			// Nous n'avons plus besoin de nom
+			delete node.nom;
+			
 			if(typeColor[node.type] == null){
 				typeColor[node.type] = i;
 				i++;
 			}
 			node.group = typeColor[node.type];
+			
 			// On construit un tableau de noeud afin d'avoir leur position
 			// pour pouvoir creer les links du graphe
 			nodeArray.push(node.id);
 		}
 	);
+	
 	graph.nodes = graph.noeuds;
 	
 	// On met des couleurs pour chaque relation
@@ -99,8 +106,14 @@ D3_Formatter.prototype.to_graph = function(graph){
 			}
 		}
 	);
+	// On supprime du json ce dont nous avons plus besoins
+	delete graph.noeuds;
+	delete graph.relations;
+	delete graph.graphe;
+
 	return graph;
 }
+
 
 D3_Formatter.getNode = function(tree, id){
 	if(tree.uid == id){
@@ -142,18 +155,22 @@ D3_Formatter.prototype.to_tree = function(tree){
 	tree.links = [];
 	
 	var vu = {};
-	var typeColor = {};
+	var typeNode = {};
 	var i = 0;
 	tree.noeuds.forEach(
 		function(node) { 
 			infos = [];
 			vu[node.id] = false;
-			if(typeColor[node.type] == null){
-				typeColor[node.type] = i;
+			if(typeNode[node.type] == null){
+				typeNode[node.type] = i;
 				i++;
 			}
 			infos.push(node.nom);
-			infos.push(typeColor[node.type]);
+			infos.push({
+				type: node.type,
+				color: typeNode[node.type]
+			});
+
 			// On construit une map avec key l'id et value le nom
 			nodes[node.id] = infos;
 		}
@@ -175,7 +192,8 @@ D3_Formatter.prototype.to_tree = function(tree){
 						uid: root_id,
 						name: nodes[root_id][0],
 						size: 500,
-						group: nodes[root_id][1],
+						group: nodes[root_id][1].color,
+						type: nodes[root_id][1].type,
 						children: []
 					};
 					node = d3_tree;
@@ -199,14 +217,15 @@ D3_Formatter.prototype.to_tree = function(tree){
 								graphe[relation].forEach(
 									function(child) {
 									
-										// Si le child est bien definie dans la liste des noeuds
+										// Si le child est bien defini dans la liste des noeuds
 										if(nodes[child] && !vu[child]){
 											vu[child] = true;
 											var nodeChild = {
 												uid: child,
 												name: nodes[child][0],
-												size: 100 + Math.floor(Math.random()*500),
-												group: nodes[child][1],
+												size: 100 + Math.floor(Math.random()*200),
+												group: nodes[child][1].color,
+												type: nodes[child][1].type,
 												children: []
 											};
 											node.children.push(nodeChild);
@@ -231,8 +250,10 @@ D3_Formatter.prototype.to_tree = function(tree){
 			}
 		}
 	);
+	d3_tree.typeNode = typeNode;
 	d3_tree.relationsUsed = tree.relationsUsed;
 	d3_tree.links = tree.links;
+	console.log(d3_tree);
 	return d3_tree;
 }
 
