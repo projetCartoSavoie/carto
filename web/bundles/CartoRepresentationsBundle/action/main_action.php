@@ -74,7 +74,7 @@
 			$cmd = $postvar['search'];
 		}
 		else { $cmd = 'entity'; }
-
+		
 		//return 'http://carto.localhost/fr/donnees/dbpedia/json/'.$cmd; //Céline
 		return 'http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/'.$cmd; //Juliana
 		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/dbpedia/json/'.$cmd; // Anthony
