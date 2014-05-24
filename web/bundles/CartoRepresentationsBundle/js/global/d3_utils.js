@@ -28,9 +28,9 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 D3_Utils.prototype.load_json = function(d) {
 	//Url permettant de faire la recherche demandée
 	//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-	var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
+	//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
 	//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
-	//var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
+	var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
 	//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
 	//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 
@@ -61,9 +61,7 @@ D3_Utils.prototype.load_json = function(d) {
 	{
 		cmdAction = "search_autre";
 	}
-
 	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif>');
-	
 	//Utilisation d'ajax pour placer le résultat dans le conteneur
 	$.ajax({
 		type: "POST",
@@ -76,23 +74,28 @@ D3_Utils.prototype.load_json = function(d) {
 		},
 		cache: false,
 		success: function(response) {
-			var result = $.parseJSON(response);
-			if(result.success){
-				var data = result.data;
-				if(representation){
-					$('svg').remove();
-					$('.relation').remove();
-					$('.dragAndDrop').css("background-color", "#d0cbcb");
-					$('.dragAndDrop').attr("value", "0");
-				}
-				if(data.error != null){
-					alert("Error " + data.error);
+			var result;
+			try{
+				result = $.parseJSON(response);
+				if(result.success){
+					var data = result.data;
+					if(representation){
+						$('svg').remove();
+						$('.relation').remove();
+						$('.dragAndDrop').css("background-color", "#d0cbcb");
+						$('.dragAndDrop').attr("value", "0");
+					}
+					if(data.error != null){
+						alert("Error " + data.error);
+					}else{
+						representation.show(data);
+						show_wikipedia(search);
+						$("#loading").hide();
+					}
 				}else{
-					representation.show(data);
-					show_wikipedia(search);
-					$("#loading").hide();
+					alert("Request Error");
 				}
-			}else{
+			} catch(err){
 				alert("Request Error");
 			}
 		}
