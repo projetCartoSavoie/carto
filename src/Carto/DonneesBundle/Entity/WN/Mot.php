@@ -577,11 +577,25 @@ class Mot
 	}
 
 
+	/*
+	 * Get allDerive
+	 *
+	 * Regroupe les relations deriveTo et deriveFrom dans un tableau
+	 *
+	 * @return Array : tableau de mots
+	*/
 	public function getAllDerive()
 	{
 		return array_merge($this -> getDeriveFrom() -> toArray(),$this -> getDeriveTo() -> toArray());
 	}
 
+	/*
+	 * Get allBuild
+	 *
+	 * Regroupe les relations build et builtFrom dans un tableau
+	 *
+	 * @return Array : tableau de mots
+	*/
 	public function getAllBuild()
 	{
 		$construction = array();
@@ -592,6 +606,13 @@ class Mot
 		return $construction;
 	}
 
+	/*
+	 * Get allParticiple
+	 *
+	 * Regroupe les relations participleOf et participleTo dans un tableau
+	 *
+	 * @return Array : tableau de mots
+	*/
 	public function getAllParticiple()
 	{
 		$participe_passe = array();
@@ -602,11 +623,25 @@ class Mot
 		return $participe_passe;
 	}
 
+	/*
+	 * Get allPertainym
+	 *
+	 * Regroupe les relations pertainTo et pertainFrom dans un tableau
+	 *
+	 * @return Array : tableau de mots
+	*/
 	public function getAllPertainym()
 	{
 		return array_merge($this -> getPertainFrom() -> toArray(),$this -> getPertainTo() -> toArray());
 	}
 
+	/*
+	 * Get allSynsets
+	 *
+	 * Regroupe les synsets d'un mot, quelque soit leur type
+	 *
+	 * @return Array : tableau de synsets
+	*/
 	public function getAllSynsets()
 	{
 		return array_merge($this -> getASynsets() -> toArray(),$this -> getNSynsets() -> toArray(),$this -> getVSynsets() -> toArray(),$this -> getRSynsets() -> toArray());
