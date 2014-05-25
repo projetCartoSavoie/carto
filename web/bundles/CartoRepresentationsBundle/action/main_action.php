@@ -10,7 +10,8 @@
 			$cmd = $_POST['cmd'];
 
 		}
-
+		
+		$url = '';
 		switch($cmd)
 		{
 			case "search_action":
@@ -29,11 +30,9 @@
 				exit("{success:false}");
 			break;
 		}
-
 		$curlSession = curl_init();
 
 		curl_setopt($curlSession, CURLOPT_URL, $url);
-
 		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
 		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
 
@@ -53,7 +52,7 @@
 			if(empty($options) == false){
 				$relations = implode(",", $options);
 			}
-			//Gérer ici la profondeur de la recherche
+			//Gerer ici la profondeur de la recherche
 			$profondeur = 3;
 			if(empty($optionsProfondeur) == false){
 				$profondeur = $optionsProfondeur;
@@ -64,16 +63,20 @@
 			$relations = "all";
 			$profondeur = 3;
 		}
-
+		
+		$ini_array = parse_ini_file(__DIR__."/app.ini");
+		$url = $ini_array["urlACTWN"].$cmd."/".$relations."/".$profondeur;
+		return $url;
+		/*
 		//Ouverture du fichier de configuration
 		$fichier='../../../../app/config/config.yml'; 
 		//Recuperation des lignes dans le fichier de config
 		$tabfich=file($fichier);
-
-		/*On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro*/
+		$MYurl = "";
+		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
 		foreach ($tabfich as $lineNumber => $lineContent)
 		{
-			/*On recupere la ligne*/
+			//On recupere la ligne
 			$MYurlTMP = $tabfich[$lineNumber];
 
 			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
@@ -86,8 +89,9 @@
 
 			} 
 		}
-		$MYurl = $MYurl.$cmd.'/'.$relations.'/'.$profondeur;
-		return $MYurl;
+		//$MYurl = 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/';
+		$url = $MYurl.$cmd."/".$relations."/".$profondeur;
+		return $url;*/
 	}
 	
 	function search_dbpedia($postvar){
@@ -96,15 +100,19 @@
 		}
 		else { $cmd = 'entity'; }
 		
+		$ini_array = parse_ini_file(__DIR__."/app.ini");
+		$url = $ini_array["urlACTPB"].$cmd."/".$relations."/".$profondeur;
+		return $url;
+		/*
 		//Ouverture du fichier de configuration
 		$fichier='../../../../app/config/config.yml'; 
 		//Recuperation des lignes dans le fichier de config
 		$tabfich=file($fichier);
 
-		/*On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro*/
+		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
 		foreach ($tabfich as $lineNumber => $lineContent)
 		{
-			/*On recupere la ligne*/
+			//On recupere la ligne
 			$MYurlTMP = $tabfich[$lineNumber];
 
 			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
@@ -118,7 +126,7 @@
 			} 
 		}
 		$MYurl = $MYurl.$cmd;
-		return $MYurl;
+		return $MYurl;*/
 	}
 
 	function search_autre($postvar)
@@ -131,15 +139,19 @@
 			$cmd = 'nano'; 
 		}
 		
+		$ini_array = parse_ini_file(__DIR__."/app.ini");
+		$url = $ini_array["urlAUTRE"].$cmd."/".$relations."/".$profondeur;
+		return $url;
+		/*
 		//Ouverture du fichier de configuration
 		$fichier='../../../../app/config/config.yml'; 
 		//Recuperation des lignes dans le fichier de config
 		$tabfich=file($fichier);
 
-		/*On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro*/
+		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
 		foreach ($tabfich as $lineNumber => $lineContent)
 		{
-			/*On recupere la ligne*/
+			//On recupere la ligne
 			$MYurlTMP = $tabfich[$lineNumber];
 
 			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
@@ -155,19 +167,23 @@
 		
 		$MYurl = $MYurl.$cmd;
 		
-		return $MYurl; 
+		return $MYurl; */
 	}
 
 	function get_relations(){
+		$ini_array = parse_ini_file(__DIR__."/app.ini");
+		$url = $ini_array["urlOPTON"].$cmd."/".$relations."/".$profondeur;
+		return $url;
+		/*
 		//Ouverture du fichier de configuration
 		$fichier='../../../../app/config/config.yml'; 
 		//Recuperation des lignes dans le fichier de config
 		$tabfich=file($fichier);
 	
-		/*On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro*/
+		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
 		foreach ($tabfich as $lineNumber => $lineContent)
 		{
-			/*On recupere la ligne*/
+			//On recupere la ligne
 			$MYurlTMP = $tabfich[$lineNumber];
 
 			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
@@ -179,6 +195,6 @@
 				$MYurl = str_replace("\n", "", $MYurl);
 			} 
 		}
-		return $MYurl;
+		return $MYurl;*/
 	}
  ?>

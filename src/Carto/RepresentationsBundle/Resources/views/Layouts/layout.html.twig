@@ -170,7 +170,7 @@
 				cache: false,
 				success: function(response) {
 					var result;
-					//try {
+					try {
 						result = $.parseJSON(response);
 						if(result.success){
 							var data = result.data;
@@ -185,14 +185,14 @@
 							}else{
 								representation.show(data);
 								d3_utils.show_wikipedia(search);
-								$("#loading").hide();
 							}
 						}else{
 							alert("Request Error");
 						}
-					//} catch(err){
-						//alert("Request Error");
-					//}
+					} catch(err){
+						alert("Request Error " + err);
+					}
+					$("#loading").hide();
 				}
 			});
 			return false;
