@@ -44,11 +44,6 @@ D3_Utils.prototype.load_json = function(d) {
 	var cmdAction = "";	
 	if (wordnet)
 	{
-		//var url = URLWNGLOB;
-	//}
-	//else
-	//{
-		//var url = URLDBPGLOB;
 		cmdAction = "search_action";
 	}
 	else if (dbpedia)
