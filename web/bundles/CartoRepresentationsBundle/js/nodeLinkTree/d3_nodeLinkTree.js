@@ -128,7 +128,7 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 			d3_utils.show_wikipedia(d.name);
 		})
 		.on("dblclick", function(d) {
-			d3_utils.load_json(d.name);
+			d3_utils.load_json(d);
 		});
 		
 	// On ajoute des etiquettes sur les noeuds

@@ -26,7 +26,7 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 * Charge un nouveau json en fonction du nom 
 * @param d : objet node sur lequel l'utilisateur a clique
 */
-D3_Utils.prototype.load_json = function(name) {
+D3_Utils.prototype.load_json = function(d) {
 
 	// On recupere les relations selectionnees par l'utilisateur pour le filtre
 	var valeurs = [];
@@ -36,8 +36,8 @@ D3_Utils.prototype.load_json = function(name) {
 	
 	var profondeur = $("#quantite").val();
 	
-	$('#search').val(name); //Mise à jour du mot demandé
-	var search = name;
+	$('#search').val(d.name); //Mise à jour du mot demandé
+	var search = d.name;
 
 	//Récupération de la source de données demandée
 	var wordnet = $('#WN').attr('checked'); 
