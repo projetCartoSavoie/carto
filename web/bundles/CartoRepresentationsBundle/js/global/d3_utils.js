@@ -52,9 +52,9 @@ D3_Utils.prototype.load_json = function(d) {
 	if (wordnet)
 	{
 		//var url = URLWNGLOB;
-	}
-	else
-	{
+	//}
+	//else
+	//{
 		//var url = URLDBPGLOB;
 		cmdAction = "search_action";
 	}
