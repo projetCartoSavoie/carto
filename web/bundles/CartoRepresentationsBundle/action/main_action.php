@@ -130,6 +130,11 @@
 		else { 
 			$cmd = 'nano'; 
 		}
+		
+		//Ouverture du fichier de configuration
+		$fichier='../../../../app/config/config.yml'; 
+		//Recuperation des lignes dans le fichier de config
+		$tabfich=file($fichier);
 
 		/*On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro*/
 		foreach ($tabfich as $lineNumber => $lineContent)

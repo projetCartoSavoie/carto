@@ -170,7 +170,7 @@
 				cache: false,
 				success: function(response) {
 					var result;
-					try {
+					//try {
 						result = $.parseJSON(response);
 						if(result.success){
 							var data = result.data;
@@ -190,9 +190,9 @@
 						}else{
 							alert("Request Error");
 						}
-					} catch(err){
-						alert("Request Error");
-					}
+					//} catch(err){
+						//alert("Request Error");
+					//}
 				}
 			});
 			return false;
