@@ -35,7 +35,10 @@ class DefaultController extends Controller
 		$formBuilder = $this -> createFormBuilder($comment);
 		$formBuilder -> add('auteur','text');
 		$formBuilder -> add('contenu','textarea');
-		$formBuilder -> add('captcha', 'captcha');
+		if ($this -> get('kernel') -> getEnvironment() != 'test')
+		{
+			$formBuilder -> add('captcha', 'captcha');
+		}
 		return $formBuilder;
 	}
 

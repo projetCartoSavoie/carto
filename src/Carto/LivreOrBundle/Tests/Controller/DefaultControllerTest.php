@@ -16,7 +16,7 @@ class DefaultControllerTest extends WebTestCase
 		$this -> assertTrue($crawler->filter('html:contains("Author")') -> count() > 0,'problème affichage du formulaire');
 	}
 
-	/*public function testIndexEnregistreCommentaires()
+	public function testIndexEnregistreCommentaires()
 	{
 		$client = static::createClient();
 
@@ -26,7 +26,6 @@ class DefaultControllerTest extends WebTestCase
 		$form['form[auteur]'] = 'testeur';
 		$form['form[contenu]'] = 'Mon nouveau commentaire';
 		$crawler = $client -> submit($form);
-		echo $client->getResponse()->getContent();
 
 		$this -> assertTrue($crawler->filter('html:contains("Mon nouveau commentaire")') -> count() > 0,'problème enregistrement commentaire livre d\'or');
 	}
@@ -35,8 +34,23 @@ class DefaultControllerTest extends WebTestCase
 	{
 		$client = static::createClient();
 
-		$crawler = $client -> request('GET', '/en/livre-d-or/');
+		$crawler = $client -> request('GET', '/en/donnees/admin');
+
+		$crawler = $client -> followRedirect();
+
+		$form = $crawler -> selectButton('submit') -> form();
+		$form['_username'] = 'admin';
+		$form['_password'] = 'adminpass';
+		$crawler = $client->submit($form);
+
+		$crawler = $client -> followRedirect();
+
+		//echo substr($client -> getResponse() -> getContent(),0,20000);
+		$crawler = $client -> request('GET', '/en/livre-d-or/admin');
+
+		$link = $crawler -> selectLink('Supprimer') -> link();
+		$crawler = $client -> click($link);
 
 		$this -> assertTrue($crawler->filter('html:contains("Mon nouveau commentaire")') -> count() == 0,'problème suppression commentaire livre d\'or');
-	}*/
+	}
 }
