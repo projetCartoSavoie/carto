@@ -101,7 +101,7 @@
 		else { $cmd = 'entity'; }
 		
 		$ini_array = parse_ini_file(__DIR__."/app.ini");
-		$url = $ini_array["urlACTPB"].$cmd."/".$relations."/".$profondeur;
+		$url = $ini_array["urlACTPB"];
 		return $url;
 		/*
 		//Ouverture du fichier de configuration
@@ -140,7 +140,7 @@
 		}
 		
 		$ini_array = parse_ini_file(__DIR__."/app.ini");
-		$url = $ini_array["urlAUTRE"].$cmd."/".$relations."/".$profondeur;
+		$url = $ini_array["urlAUTRE"];
 		return $url;
 		/*
 		//Ouverture du fichier de configuration
@@ -172,7 +172,7 @@
 
 	function get_relations(){
 		$ini_array = parse_ini_file(__DIR__."/app.ini");
-		$url = $ini_array["urlOPTON"].$cmd."/".$relations."/".$profondeur;
+		$url = $ini_array["urlOPTON"];
 		return $url;
 		/*
 		//Ouverture du fichier de configuration
