@@ -124,10 +124,11 @@ D3_NodeLinkTreeRepresentation.load = function(json) {
 		})
 		.attr("cursor","pointer")
 		.on("click", function(d) {
+			//alert("coucou0"); 
 			d3_utils.show_wikipedia(d.name);
 		})
 		.on("dblclick", function(d) {
-			d3_utils.load_json(d);
+			d3_utils.load_json(d.name);
 		});
 		
 	// On ajoute des etiquettes sur les noeuds

@@ -5,11 +5,21 @@
 	else { $cmd = 'entity'; }
 
 	$curlSession = curl_init();
-	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/fr/donnees/dbpedia/json/'.$cmd); //Céline
-	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/'.$cmd); //Juliana
-	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/dbpedia/json/'.$cmd); // Anthony
-	curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/dbpedia/json/'.$cmd); // Anthony2
-	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/app_dev.php/en/donnees/dbpedia/json/'.$cmd); // remy
+
+	//Ouverture du fichier de configuration
+	$fichier='../../../../app/config/config.yml'; 
+	//Recuperation des lignes dans le fichier de config
+	$tabfich=file($fichier);
+	//Formatage de l'URL pour la requete CURL
+	$MYurl = $tabfich[35].$cmd;
+	//Manipulation chaine de caractere pour un bon format d'echange
+	$MYurl = substr($MYurl,18);
+	$MYurl = str_replace("", "", $MYurl);
+	$MYurl = str_replace("\n", "", $MYurl);
+
+	//echo $MYurl;
+	
+	curl_setopt($curlSession, CURLOPT_URL, $MYurl);
 
 	curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
 	curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
@@ -19,3 +29,8 @@
 
 	exit('{"success":"true","data":'.$jsonresult.'}');
 ?>
+
+
+
+
+

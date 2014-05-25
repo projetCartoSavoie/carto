@@ -1,0 +1,30 @@
+Paramétre Wordnet :
+Main_Action_WN :  
+http://127.0.0.1/fr/donnees/json/
+Main_Action_DBPEDIA :
+http://127.0.0.1/fr/donnees/dbpedia/json/
+Default.html.twig & D3_Utils:
+'http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php'
+'http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php'
+
+
+--------------------------------------------------------------------------------
+Pour information voici vos URL :
+
+Main_Action_WN : 
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); //Céline 
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); //Juliana
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // Anthony
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // Anthony2
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // Anthony2
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/app_dev.php/en/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur); // remy
+
+Main_Action_DBPEDIA :
+
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.localhost/fr/donnees/dbpedia/json/'.$cmd); //Céline
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/'.$cmd); //Juliana
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/dbpedia/json/'.$cmd); // Anthony
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://carto.dev/fr/donnees/dbpedia/json/'.$cmd); // Anthony2
+	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/app_dev.php/en/donnees/dbpedia/json/'.$cmd); // remy
+
+

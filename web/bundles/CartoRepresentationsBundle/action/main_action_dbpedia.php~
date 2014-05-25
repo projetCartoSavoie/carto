@@ -1,0 +1,49 @@
+<?php
+	if (isset($_POST['search'])){
+		$cmd = $_POST['search'];
+	}
+	else { $cmd = 'entity'; }
+
+	$curlSession = curl_init();
+
+	//Ouverture du fichier de configuration
+	$fichier='../../../../app/config/myParameters.yml'; 
+	//Recuperation des lignes dans le fichier de config
+	$tabfich=file($fichier);
+	//Formatage de l'URL pour la requete CURL
+	$MYurl = $tabfich[4].$cmd;
+	//Suppression des retour à ligne
+	$MYurl = str_replace("\n", "", $MYurl);
+
+	curl_setopt($curlSession, CURLOPT_URL, $MYurl);
+
+	curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
+	curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
+
+	$jsonresult = curl_exec($curlSession);
+	curl_close($curlSession);
+
+	exit('{"success":"true","data":'.$jsonresult.'}');
+?>
+
+
+		<?php
+			//Ouverture du fichier de configuration
+			$fichier='../../../../app/config/myParameters.yml'; 
+			//Recuperation des lignes dans le fichier de config
+			$tabfich=file($fichier);
+			//Recuperation de l'url pour Wordnet (JAVASCRIPT)
+			$MYurlWN = $tabfich[6];
+			//Suppression des retour à ligne
+			$MYurlWN = str_replace("\n", "", $MYurlWN);
+			//Recuperation de l'url pour DBPedia (JAVASCRIPT)
+			$MYurlDBP = $tabfich[7];
+			//Suppression des retour à ligne
+			$MYurlDBP = str_replace("\n", "", $MYurlDBP);
+			
+			$Javascript =  '<script type="text/javascript"> URLWN = '.$MYurlWN.'\n URLDBP = '.$MYurlDBP.'\n </script>';
+			echo $Javascript;
+			
+		?>
+
+
