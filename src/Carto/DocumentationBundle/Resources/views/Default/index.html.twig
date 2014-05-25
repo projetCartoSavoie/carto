@@ -1,4 +1,42 @@
 {% extends "CartoDocumentationBundle:Layouts:layout.html.twig" %}
 {% block body %}
 <h1>{{ "Documentation" | trans }}</h1>
+<div class=docBlock>
+	<div class=projectBlock>
+		<div class=imageProjectBlock>
+			<img src="{{ asset('bundles/CartoAccueilBundle/images/logo.png') }}" title="Project" alt="project">
+		</div>
+		<div class=textProjectBlock>
+			<a href="{{ path('carto_documentation_projet') }}"><h2>{{ "Le projet"|trans }}</h2></a>
+			<p>{{"Description docProjet" | trans}}</p>
+		</div>
+	</div>
+	<div class=wordNetBlock>
+		<div class=imageWordNetBlock>
+			<img src="{{ asset('bundles/CartoAccueilBundle/images/words.png') }}" title="Word Net" alt="Word Net">
+		</div>
+		<div class=textWordNetBlock>
+			<a href="{{ path('carto_documentation_etudewn') }}"><h2>Word Net</h2></a>
+			<p>{{"Description docWordnet" | trans}}</p>
+		</div>
+	</div>
+	<div class=dbPediaBlock>
+		<div class=imageDbPediaBlock>
+			<img src="{{ asset('bundles/CartoAccueilBundle/images/dbpedia_logo.png') }}" title="DbOedia" alt="DbPedia">
+		</div>
+		<div class=textDbPediaBlock>
+			<a href="{{ path('carto_documentation_etudedbpedia') }}"><h2>DbPedia</h2></a>
+			<p>{{"Description docDbpedia" | trans}}</p>
+		</div>
+	</div>
+	<div class=representationsBlock>
+		<div class=imageRepresentationsBlock>
+			<img src="{{ asset('bundles/CartoAccueilBundle/images/icon-links.png') }}" title="Representations" alt="links">
+		</div>
+		<div class=textRepresentationsBlock>
+			<a href="{{ path('carto_documentation_representation') }}"><h2>{{ "Représentations"|trans }}</h2></a>
+			<p>{{"Description docRepresentation" | trans}}</p>
+		</div>
+	</div>
+</div>
 {% endblock %}

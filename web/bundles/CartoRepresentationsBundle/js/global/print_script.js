@@ -14,11 +14,14 @@ function Popup(data)
 		mywindow.document.write(' pour une profondeur de ');
 		mywindow.document.write($('#quantite').val());
 	}
-	//if ($('#selectRelation').val($(this).find("option:selected").val())){
-	//	mywindow.document.write(' avec la relation ');
-	//	mywindow.document.write($('#selectRelation').val($(this).find("option:selected").val());
-	//	mywindow.document.write('sélectionnée');
-	//}
+	if ($('input:checked[name = options]').val()){
+		mywindow.document.write(' avec la(les) relation(s) ');
+		$('input:checked[name = options]').each(function() {
+				mywindow.document.write($(this).val());
+				mywindow.document.write(', ');
+		});
+		mywindow.document.write('sélectionnée(s)');
+	}
 	mywindow.document.write('</title>');
 	/*optional stylesheet*/ //mywindow.document.write('<link rel="stylesheet" href="main.css" type="text/css" />');
 	mywindow.document.write('</head><body >');

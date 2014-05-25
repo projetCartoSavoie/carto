@@ -20,7 +20,6 @@ class DefaultControllerTest extends WebTestCase
 		$this->assertTrue($crawler->filter('html:contains("Representations")')->count() > 0,'affichage Representations');
 		$this->assertTrue($crawler->filter('html:contains("Datas")')->count() > 0,'affichage Datas');
 		$this->assertTrue($crawler->filter('html:contains("About us")')->count() > 0,'affichage About us');
-		$this->assertTrue($crawler->filter('html:contains("Contact us")')->count() > 0,'affichage Contact us');
 	}
 
 	public function testSwitchLang()
@@ -36,7 +35,7 @@ class DefaultControllerTest extends WebTestCase
 		$this->assertTrue($crawler->filter('html:contains("Représentations")')->count() > 0);
 		$this->assertTrue($crawler->filter('html:contains("Données")')->count() > 0);
 		$this->assertTrue($crawler->filter('html:contains("A propos")')->count() > 0);
-		$this->assertTrue($crawler->filter('html:contains("Contacts")')->count() > 0);
+		$this->assertTrue($crawler->filter('html:contains("Livre d\'or")')->count() > 0);
 
 		//Je repasse en anglais
 		$crawler = $client->request('GET', '/en');
@@ -46,14 +45,8 @@ class DefaultControllerTest extends WebTestCase
 		$this->assertTrue($crawler->filter('html:contains("Documentation")')->count() > 0);
 		$this->assertTrue($crawler->filter('html:contains("Representations")')->count() > 0);
 		$this->assertTrue($crawler->filter('html:contains("Datas")')->count() > 0);
-		$this->assertTrue($crawler->filter('html:contains("About us")')->count() > 0);
-		$this->assertTrue($crawler->filter('html:contains("Contact us")')->count() > 0);
+		$this->assertTrue($crawler->filter('html:contains("Visitors book")')->count() > 0);
 
-		/*
-		//Si je demande une autre langue non supportée, il faut que ça me ramène sur anglais
-		//Non ça ne peut pas car ça devrait alors reconnaitre toute url comme une demande de langue incorrecte
-		*/
-		$this -> assertTrue(true);
 	}
 
 	public function testAboutUs()
@@ -81,23 +74,4 @@ class DefaultControllerTest extends WebTestCase
 		$this -> assertTrue(true);
 	}
 
-	public function testContactUs()
-	{
-		
-		$client = static::createClient();
-
-		//Je visite la première page du site
-		$crawler = $client->request('GET', '/');
-
-		//Je clique sur le lien contenant le texte 'Contact us'
-		$link = $crawler->selectLink('Contact us')->link();
-		$crawler = $client->click($link);
-
-		//Je vérifie que la page s'affiche
-		$this->assertTrue($crawler->filter('html:contains("Home")')->count() > 0,'page contact us ne fonctionne pas');
-
-		//Il faudra ajouter des tests pour voir si contactus s'affiche bien (qui remplaceront le test ci-dessus)
-		
-		$this -> assertTrue(true);
-	}
 }

@@ -3,6 +3,8 @@ body{
 	background: #ebebeb;
 	color: #666;
 	height: 100%;
+	background-image: url('../bundles/CartoAccueilBundle/images/background.png');
+	background-size: 100% 100%;
 }
 
 a{
@@ -16,44 +18,88 @@ html{
 /**************
 	HEADER
 ***************/
-.tableHeader{
+.header{
 	width: 100%;
-	border-spacing: 0px;
+	height: 230px;
 }
 
-.header{
-	border-bottom: 10px solid;
+.headerLeft{
+	float:left;
+	width: 20%;
+	height: 100%;
 }
 
 .headerCenter{
-	border-bottom: 10px solid;
-	width: 1000px;
+	float:left;
+	width: 70%;
+	height: 100%;
 }
 
+.headerRight{
+	float:left;
+	width: 10%;
+	height: 100%;
+}
 /*************
 	CONTENU
 **************/
 
-.tableContent {
+.content {
+	clear:both;
 	width: 100%;
-	height:100%;
-	border-spacing: 0px;
+	min-height:630px;
+	border-top: solid 10px;
+	border-top-color: #666;
 }
+
+	/******************
+		    LEFT
+	*******************/
+
+.contentLeft{
+	width:20%;
+	height:620px;
+	/*border-left: solid 1px;*/
+	padding: 0px;
+	vertical-align: top;
+	float:left;
+}
+
+.utilsLeft{
+	padding: 10px;
+}
+
+.contentLeft #wikipedia{
+	border-top: solid 1px;
+	border-left: solid 1px;
+	border-bottom: solid 1px;
+	border-right: solid 1px;
+	height: 500px;
+	background-color: #eaeaea;
+}
+.borderLeft{
+	width: 100%;
+	height: 100%;
+}
+
+#form_options{
+	background-color: #eaeaea;
+}
+
 	/******************
 		   CENTER
 	*******************/
 #contentCenter{
 	background-color: #FDFAFA;
-
-/*	width: 1000px;*/
-/*	height: auto;*/
-
-	width: 950px;
-
-	border-left: solid 1px;
-	border-right: solid 1px;
+	float:left;
+	width: 70%;
+	border-left: solid 3px;
+	border-right: solid 3px;
+	border-color: #666;
 	vertical-align:top;
 	padding:15px;
+	min-height:600px;
+	height: 100%;
 }
 #contentCenter #loading {
     display: block;
@@ -73,50 +119,19 @@ html{
 	color : rgb(20, 94, 191);
 }
 
-	/******************
-		    LEFT
-	*******************/
-
-.contentLeft{
-	background-image:url('/bundles/CartoAccueilBundle/images/left.png');
-	background-size:100% 100%;
-	color:black;
-	width:300px;
-	height:100%;
-	padding:30px;
-	border-left: solid 1px;
-	padding: 0px;
-	vertical-align: top;
+.image_help img{
+	width:100%;
 }
 
-.utilsLeft{
-	padding: 10px;
-}
-
-.contentLeft #wikipedia{
-	border-top: solid 1px;
-	border-left: solid 1px;
-	border-bottom: solid 1px;
-	border-right: solid 1px;
-	height: 700px;
-	background-color: #eaeaea;
-}
-.borderLeft{
-	width: 100%;
-	height: 100%;
-}
-
-#form_options{
-	background-color: #eaeaea;
-}
 
 	/******************
 		    RIGHT
 	*******************/
 .contentRight{
 	height : 100%;
-	width : 250px;
-	float : right;
+	min-height: 620px;
+	width : 5%;
+	float : left;
 }
 
 .toolsRight{
@@ -124,6 +139,7 @@ html{
 	padding-top: 20px;
 	height: 100%;
 	width: 44px;
+	float: left;
 }
 
 /**************
@@ -396,6 +412,47 @@ height:230px;
 	height:100%;
 }
 
+/******************
+	   FOOTER
+*******************/
+
+.footer{
+	clear:both;
+	width: 100%;
+	height: 100px;
+}
+
+.footerLeft{
+	float:left;
+	width: 20%;
+	height: 100%;
+}
+
+.footerCenter{
+	float:left;
+	width: 70%;
+	height: 100%;
+	padding: 15px;
+	background-color: #FFFFFF;
+	border-left: solid 3px;
+	border-right: solid 3px;
+}
+
+.footerRight{
+	float:left;
+	width: 7%;
+	height: 100%;
+}
+
+.bannerBlock{
+	display: inline-block;
+	height: 100px;
+}
+.bannerBlock img{
+	width: 100%;
+	height:100%;
+}
+
 .imageUnivSavoie{
 	float:left;
 	width:24%;
@@ -422,7 +479,65 @@ height:230px;
 
 .credit{
 	float:left;
-	width:24%;
+	width:23%;
 	height:100px;
 	padding-right: 10px;
+}
+
+
+/******************
+	DOCUMENTATION
+*******************/
+
+.docBlock{
+	float:left;
+	width:100%;
+	margin-top: 30px;
+	border-style: solid;
+	border-width: 2px;
+	border-color: rgb(20, 94, 121);
+	padding-top: 5px;
+}
+
+.docBlock a{
+	text-decoration: none;
+	font-size: 120%;
+	color : rgb(20, 94, 121);
+	cursor : pointer;
+}
+
+.docBlock a:hover{
+	color: rgba(20, 94, 121, 0.5);
+}
+
+.docBlock img{
+	float: left;
+	padding-right: 5px;
+	width: 150px;
+	height:150px;
+
+}
+
+.projectBlock{
+float:left;
+width:50%;
+height:230px;
+}
+
+.wordNetBlock{
+display:inline-block;
+width:50%;
+height:230px;
+}
+
+.dbPediaBlock{
+float:left;
+width:50%;
+height:230px;
+}
+
+.representationsBlock{
+display:inline-block;
+width:50%;
+height:230px;
 }

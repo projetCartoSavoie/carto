@@ -8,7 +8,6 @@
 		if (isset($_POST['cmd']))
 		{
 			$cmd = $_POST['cmd'];
-
 		}
 		switch($cmd)
 		{
@@ -63,27 +62,8 @@
 			$profondeur = 3;
 		}
 
-
-
-	//Ouverture du fichier de configuration
-	//$fichier='../../../../app/config/config.yml'; 
-	//Recuperation des lignes dans le fichier de config
-	//$tabfich=file($fichier);
-	//Formatage de l'URL pour la requete CURL
-	//$MYurl = $tabfich[34].$cmd.'/'.$relations.'/'.$profondeur;
-	//Manipulation chaine de caractere pour un bon format d'echange
-	//$MYurl = substr($MYurl,18);
-	//$MYurl = str_replace("", "", $MYurl);
-	//$MYurl = str_replace("\n", "", $MYurl);
-
-	
-	curl_setopt($curlSession, CURLOPT_URL, $MYurl);
-	
-	curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
-	curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
-
-		//return 'http://carto.localhost/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Céline 
-		return 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Juliana
+		return 'http://carto.localhost/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Céline 
+		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Juliana
 		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // Anthony
 		//return 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // Anthony2
 		//return 'http://localhost/app_dev.php/en/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // remy
@@ -94,9 +74,9 @@
 			$cmd = $postvar['search'];
 		}
 		else { $cmd = 'entity'; }
-		
-		//return 'http://carto.localhost/fr/donnees/dbpedia/json/'.$cmd; //Céline
-		return 'http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/'.$cmd; //Juliana
+
+		return 'http://carto.localhost/fr/donnees/dbpedia/json/'.$cmd; //Céline
+		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/'.$cmd; //Juliana
 		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/dbpedia/json/'.$cmd; // Anthony
 		//return 'http://carto.dev/fr/donnees/dbpedia/json/'.$cmd; // Anthony2
 		//return 'http://localhost/app_dev.php/en/donnees/dbpedia/json/'.$cmd; // remy
@@ -112,12 +92,12 @@
 			$cmd = 'nano'; 
 		}
 
-		return 'http://demo4.itpassion.info/crawler.php?target='.$cmd; 
+		return 'http://demo4.itpassion.info/crawler.php?target='.$cmd; //Céline 
 	}
 
 	function get_relations(){
-		//return 'http://carto.localhost/fr/donnees/relations'; //Céline
-		return 'http://localhost/CartoSavoie/carto/web/fr/donnees/relations'; //Juliana
+		return 'http://carto.localhost/fr/donnees/relations'; //Céline
+		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/relations'; //Juliana
 		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/relations'; // Anthony
 		//return 'http://carto.dev/fr/donnees/relations'; // Anthony2
 		//return 'http://localhost/app_dev.php/fr/donnees/relations'; // remy

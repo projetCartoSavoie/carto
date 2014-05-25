@@ -122,9 +122,23 @@ class MotRepository extends EntityRepository
 		return $c;
 	}
 
+	/**
+	 * Fabrique un json au format commun correspondant à la recherche demandée
+	 *
+	 * Pour les explication voir présentation
+	 *
+	 * @param string $recherche
+	 * @param string $options : liste des relations à prendre en compte
+	 * @param integer $profondeur : profondeur de la recherche à effectuer
+	 * @return string chaine de caractère au format json commun
+	*/
 	public function fabriqueGraphe($recherche,$options,$profondeur)
 	{
 		$this -> profondeurMax = $profondeur;
+
+		//Au départ la profondeur est de 0 pour toutes les relations.
+		//On incrémentera la profondeur en construisant les branches du graphe,
+		//jusqu'à atteindre la profondeur maximale
 		$this -> profondeur = array(
 				'hypernymie' => 0,
 				'hyponymie' => 0,
@@ -141,6 +155,8 @@ class MotRepository extends EntityRepository
 				'similar' => 0,
 				'synonymie' => 0
 		);
+
+		//Si option est défini à all, on les met toutes
 		if ($options == 'all')
 		{
 			$relations = array(
@@ -163,6 +179,7 @@ class MotRepository extends EntityRepository
 				'synonymie',
 			);
 		}
+		//Sinon la liste de relations séparées par des virgules est transformée en tableau
 		else { $relations = explode(',',$options); }
 		
 		//Initialisation du tableau résultat, qui sera ensuite encodé en json
@@ -171,6 +188,7 @@ class MotRepository extends EntityRepository
 			'relations' => array_merge($relations,array('groupe_initial')),
 			'graphe' => array()
 		);
+		//On a ajouté la relation groupe_initial, car dans le cas où la synonymie n'est pas cochée, on doit donner un nom à la relation de départ entre le mot recherché et ses synsets.
 
 		//Recherche du mot demandé et ajout dans la liste des noeuds et dans le graphe
 		$this -> mot = $this -> trouve($recherche);
@@ -182,7 +200,8 @@ class MotRepository extends EntityRepository
 		$this -> resultat['graphe']['M'.$this -> mot -> getId()] = array( 'noeud' => 'M'.$this -> mot -> getId() );
 		$this -> listeid = array('M'.$this -> mot -> getId());
 
-		//On cherche les relations entre mots
+
+		//On cherche les relations entre mots : relations lexicales
 		$relations_mots = array(
 				'derivation',
 				'pertainymie',
@@ -196,9 +215,12 @@ class MotRepository extends EntityRepository
 		$relationsentresynsets = array_diff($relations,$relations_mots);
 		if (count($relationsentresynsets) != 0)
 		{
+			//parcourirMot va lancer la recherche des relations du mot
 			if (in_array('synonymie',$relations)) { $this -> parcourirMot($this -> mot,$relations,'synonymie'); }
 			else { $this -> parcourirMot($this -> mot,$relations,'groupe_initial'); }
 		}
+
+
 		//On enlève les clés du tableau graphe pour correspondre au format commun
 		$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
 
@@ -210,6 +232,13 @@ class MotRepository extends EntityRepository
 /****************************
   RELATIONS ENTRE MOTS
 ****************************/
+
+	/**
+	 * Pour chaque relation lexicale sélectionnée, on utilise parcourir pour trouver les mots en relation avec le mot de départ
+	 *
+	 * @param string $motdep : mot de départ
+	 * @param array $relations : liste des relations lexicales à prendre en compte
+	*/
 	private function relationsentremots($motdep,$relations)
 	{
 		if (in_array('derivation',$relations))
@@ -234,15 +263,29 @@ class MotRepository extends EntityRepository
 		}
 	}
 
+	/**
+	 * Pour une relation lexicale donnée, on inscrit dans le graphe les mots en relation avec le mot de départ
+	 *
+	 * @param string $motdep : mot de départ
+	 * @param array $resultat : liste des mots en relation avec le mot de départ pour la relation sélectionnée
+	 * @param string $nomrelation : nom de la relation sélectionnée
+	 * @param array $relations : liste des relations lexicales à prendre en compte
+	*/
 	private function parcourir($motdep,$resultat,$nomrelation,$relations)
 	{
 		foreach($resultat as $mot)
 		{
+			//Id du mot exploré
 			$id = 'M'.$mot -> getId();
+
+			//Dans l'arbre la relation peut aller dans 2 sens motdep -> motactuel ou motactuel -> motdep
+			//Si motactuel -> motdep existe déjà rien à faire (ça signifie qu'on a déjà passé la relation et qu'on est en train de revenir en arrière)
+			//Sinon on ajoute motdep -> motactuel
 			if (!isset($this -> resultat['graphe'][$id][$nomrelation]))
 			{
 				$this -> resultat['graphe']['M'.$motdep -> getId()][$nomrelation][] = $id;
 			}
+			//Si c'est la première fois qu'on rencontre ce noeud, on doit l'inscrire dans la liste des noeuds.
 			if (!in_array($id,$this -> listeid))
 			{
 				$this -> resultat['noeuds'][] = array(
