@@ -1,4 +1,4 @@
-function D3_DependencyWheel(){}
+function D3_DependencyWheelRepresentation(){}
 
 /**
  * Dependency wheel chart for d3.js
@@ -31,9 +31,46 @@ function D3_DependencyWheel(){}
  * @license MIT
  * @see https://github.com/fzaninotto/DependencyWheel for complete source and license
  */
-d3.chart.dependencyWheel = function(options) {
 
-  var width = 700;
+D3_DependencyWheelRepresentation.prototype.show = function(data) {
+
+  // data is file path
+  if(typeof data === "string"){
+    d3.json(data, function(error, root) {
+      if (error) alert(error);
+      D3_DependencyWheelRepresentation.load(root);
+    });
+  }
+  // data is json
+  else {
+    D3_DependencyWheelRepresentation.load(data);
+  }
+}
+
+D3_DependencyWheelRepresentation.load = function(json) {
+//d3.chart.dependencyWheel = function(options) {
+  /***************************************************/
+  /*    Transformation du json generique       */
+  /***************************************************/
+
+  var formatter = new D3_Formatter();
+  var graph = formatter.to_matrix(json); 
+  
+  /***************************************************/
+  /*          Outils               */
+  /***************************************************/
+  var d3_utils = new D3_Utils();
+
+  /***************************/
+  /*    Relations        */
+  /**************************/
+  
+  d3_utils.showRelation(json, "graph");
+
+  // On recupere la taille de la div pour mettre le svg
+  var width = $("#contentCenter").width();
+
+  //var width = 700;
   var margin = 150;
   var padding = 0.02;
 
@@ -166,4 +203,4 @@ d3.chart.dependencyWheel = function(options) {
   };
 
   return chart;
-};
+}
