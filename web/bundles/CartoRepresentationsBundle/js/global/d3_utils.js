@@ -89,15 +89,14 @@ D3_Utils.prototype.load_json = function(d) {
 						alert("Error " + data.error);
 					}else{
 						representation.show(data);
-						show_wikipedia(search);
-						$("#loading").hide();
 					}
 				}else{
 					alert("Request Error");
 				}
 			} catch(err){
-				alert("Request Error");
+				alert("Error : " + err);
 			}
+			$("#loading").hide();
 		}
 	});
 	return false;
