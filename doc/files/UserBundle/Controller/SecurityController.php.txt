@@ -21,7 +21,6 @@ use Symfony\Component\Security\Core\SecurityContext;
  * Controleur pour la page de login d'administateur
  *
  * Pour enregistrer des données en bdd, on demande à l'administrateur de se connecter
- * @todo bouton déconnecter
 */
 class SecurityController extends Controller
 {

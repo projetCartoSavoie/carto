@@ -8,7 +8,7 @@
 			<tr><td class="auteur">{{ com.auteur }}, le {{ com.date | date("d/m/Y")}}</td></tr>
 			<tr class="comment"><td>{{ com.contenu }}</td></tr>
 			{% if is_granted('ROLE_ADMIN') %}
-			<tr><td><a href="{{ path('carto_livre_or_admin_supprimer',{'id':com.id}) }}">Supprimer</a></td></tr>
+			<tr><td><a name="supprimer" href="{{ path('carto_livre_or_admin_supprimer',{'id':com.id}) }}">Supprimer</a></td></tr>
 			{% endif %}
 		<tr class="separation"><td> </td></tr>
 {% endfor %}

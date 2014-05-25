@@ -150,6 +150,16 @@ class VSynset
 	}
 
 	/**
+	 * Quel est le type du synset ? 
+	 *
+	 * @return string : 'V' pour verbe
+	 */
+	public function getType()
+	{
+		return 'V';
+	}
+
+	/**
 	 * Get id
 	 *
 	 * @return integer 

@@ -28,11 +28,13 @@
 				<td>{{ form_errors(form.contenu) }}</td>
 				<td>{{ form_widget(form.contenu) }}</td>
 			</tr>
+			{% if form.captcha is defined %}
 			<tr>
 				<td>{{ form_label(form.captcha, "captcha"|trans) }}</td>
 				<td>{{ form_errors(form.captcha) }}</td>
 				<td>{{ form_widget(form.captcha) }}</td>
 			</tr>
+			{% endif %}
 		{{ form_rest(form) }}
 		</table>
 		<input type="submit" id="submit" value="{{ 'submit'|trans }}"/>

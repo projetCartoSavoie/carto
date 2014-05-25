@@ -41,11 +41,26 @@ class MotRepository extends EntityRepository
  */
 	private $mot;
 
+/**
+ * Profondeur. Pour chaque relation, dès qu'on la trouve on incrémente la profondeur pour savoir si on a atteint le maximum
+ *
+ * @var array of integer : profondeur actuelle pour chaque relation
+ */
 	private $profondeur;
 
-	private $numero = 0;
-
+/**
+ * Profondeur maximale demandée par l'utilisateur.
+ *
+ * @var integer
+ */
 	private $profondeurMax;
+
+/**
+ * Liste des id déjà vues. Permet de savoir quels mots et synsets ont déjà été inscrits dans la liste de noeuds, afin de n'en oublier aucun et de ne pas faire de doublons.
+ *
+ * @var array
+ */
+	private $listeId;
 
 	/**
 	 * fonction trouve
@@ -68,7 +83,7 @@ class MotRepository extends EntityRepository
 		else
 		{
 			//On cherche tous les mots ayant 3 caractères en commun avec la recherche
-			$query = $this->getEntityManager()->createQuery(
+			$query = $this -> getEntityManager() -> createQuery(
 				'SELECT m
 				FROM CartoDonneesBundle:WN\Mot m
 				WHERE m.mot LIKE :court'
@@ -125,7 +140,7 @@ class MotRepository extends EntityRepository
 	/**
 	 * Fabrique un json au format commun correspondant à la recherche demandée
 	 *
-	 * Pour les explication voir présentation
+	 * Pour les explications voir présentation écrite et orale
 	 *
 	 * @param string $recherche
 	 * @param string $options : liste des relations à prendre en compte
@@ -304,10 +319,18 @@ class MotRepository extends EntityRepository
   RELATIONS ENTRE SYNSETS : SYNONYMIE
 ****************************/
 
-	private function ajouterSynsets($mot,$syn,$relation='synonymie')
+	/**
+	 * On ajoute un synset, lié au mot qui lui appartient
+	 *
+	 * @param Mot $mot : le mot donné
+	 * @param Synset $syn : le synset donné
+	 * @param string $relation : nom de la relation sélectionnée (ex : si le synset a été trouvé en cherchant la relation d'hypernymie, on mettra hypernymie au lieu de synonymie afin que les branches aillent bien d'un mot à un autre, ce qui rendra la visualisation plus lisible à l'utilisateur)
+	*/
+	private function ajouterSynsets($mot,$syn,$relation = 'synonymie')
 	{
 		$type = $syn -> getType();
 		$id = $type.$syn -> getId();
+		//On ajoute le synset dans la liste des noeuds s'il n'y est pas déjà
 		if (!in_array($id,$this -> listeid))
 		{
 			$this -> resultat['noeuds'][] = array(
@@ -318,13 +341,24 @@ class MotRepository extends EntityRepository
 			$this -> resultat['graphe'][$id]['noeud'] = $id;
 			$this -> listeid[] = $id;
 		}
+		//On inscrit la relation : le mot appartient au synset.
 		$this -> resultat['graphe']['M'.$mot -> getId()][$relation][] = $id;
 	}
 
-	private function parcourirSynset($synset,$relations,$relation='synonymie')
+	/**
+	 * Pour un synset donné, on cherche les synsets en relation avec lui et les mots qui lui appartiennent
+	 *
+	 * @param Synset $synset : Le synset donné
+	 * @param array $relations : Les relations sélectionnées par l'utilisateur
+	 * @param string $relation : nom de la relation sélectionnée (ex : si le synset a été trouvé en cherchant la relation d'hypernymie, on mettra hypernymie au lieu de synonymie afin que les branches aillent bien d'un mot à un autre, ce qui rendra la visualisation plus lisible à l'utilisateur)
+	*/
+	private function parcourirSynset($synset,$relations,$relation = 'synonymie')
 	{
-		$mots = $synset -> getMots();
 		$type = $synset -> getType();
+
+		//On cherche tous les mots du synset
+		$mots = $synset -> getMots();
+		//Pour chaque mot on inscrit que le synset contient ce mot et on l'ajoute si il n'y est pas déjà dans la liste de noeuds.
 		foreach($mots as $mot)
 		{
 			$id = 'M'.$mot -> getId();
@@ -341,36 +375,40 @@ class MotRepository extends EntityRepository
 				);
 				$this -> resultat['graphe'][$id]['noeud'] = $id;
 				$this -> listeid[] = $id;
+				//Dans le cas où on est en train d'explorer la relation de synonymie et qu'on a pas atteint la profondeur maximale, on va continuer à explorer ce mot.
+				//Dans le cas contraire, on a seulement cherché des mots dans le but d'illustrer le synset, donc on continuera l'exploration autour du synset mais pas autour du mot.
 				if ($relation == 'synonymie' and $this -> profondeur['synonymie'] < $this -> profondeurMax)
 				{
 					$this -> profondeur['synonymie']++;
 					$this -> parcourirMot($mot,$relations,$relation);
 				}
-				/*else if ($relation != 'synonymie')
-				{
-					$this -> parcourirMot($mot,$relations,$relation);
-				}*/
 			}
 		}
 	}
 
+	/**
+	 * Pour un mot donné, on cherche ses synsets et leurs relations
+	 *
+	 * @param Mot $mot : Le mot donné
+	 * @param array $relations : Les relations sélectionnées par l'utilisateur
+	 * @param string $relation : nom de la relation actuellement en train d'être explorée (utile comme on l'a vu pour la relation d'appartenance à un synset)
+	*/
 	private function parcourirMot($mot,$relations,$relation)
 	{
-		$synsets = array_merge($mot -> getASynsets() -> toArray(),$mot -> getNSynsets() -> toArray(),$mot -> getVSynsets() -> toArray(),$mot -> getRSynsets() -> toArray());
+		//On cherche tous les synsets du mot et pour chacun on ajoute la relation 'ce mot appartient à ce synset'
+		$synsets = $mot -> getAllSynsets();
 		foreach($synsets as $syn) { $this -> ajouterSynsets($mot,$syn,$relation); }
 
 		//On parcourt la relation de synonymie
-		//if (in_array('synonymie',$relations) and $this -> profondeur['synonymie'] < $this -> profondeurMax)
-		//{
-			foreach($synsets as $syn) { $this -> parcourirSynset($syn,$relations,$relation); }
-		//}
+		foreach($synsets as $syn) { $this -> parcourirSynset($syn,$relations,$relation); }
 
-		//Relations des nsynsets :
+		//On cherche les synsets en différenciant leurs type afin de savoir quelles relations peuvent les concerner :
 		$nsynsets = $mot -> getNSynsets();
 		$asynsets = $mot -> getASynsets();
 		$vsynsets = $mot -> getVSynsets();
 		$rsynsets = $mot -> getRSynsets();
 
+		//Relations des nsynsets
 		foreach($nsynsets as $syn)
 		{
 			if (in_array('hypernymie',$relations)) { $this -> parcourirRelSynset($syn,$relations,'hypernymie','Hypernyms'); }
@@ -381,6 +419,7 @@ class MotRepository extends EntityRepository
 			if (in_array('antonymie',$relations))  { $this -> parcourirRelSynset($syn,$relations,'antonymie','Antonyms'); }
 		}
 
+		//Relations des asynsets
 		foreach($asynsets as $syn)
 		{
 			if (in_array('attribut',$relations)) { $this -> parcourirRelSynset($syn,$relations,'attribut','IsAttributeOf'); }
@@ -388,6 +427,7 @@ class MotRepository extends EntityRepository
 			if (in_array('similar',$relations))  { $this -> parcourirRelSynset($syn,$relations,'similar','Similars'); }
 		}
 
+		//Relations des vsynsets
 		foreach($vsynsets as $syn) 
 		{
 			if (in_array('troponymie',$relations)) { $this -> parcourirRelSynset($syn,$relations,'troponymie','Troponyms'); }
@@ -399,6 +439,7 @@ class MotRepository extends EntityRepository
 			if (in_array('antonymie',$relations))  { $this -> parcourirRelSynset($syn,$relations,'antonymie','Antonyms'); }
 		}
 
+		//Relations des rsynsets
 		foreach($rsynsets as $syn) 
 		{
 			if (in_array('antonymie',$relations))  { $this -> parcourirRelSynset($syn,$relations,'antonymie','Antonyms'); }
@@ -408,22 +449,40 @@ class MotRepository extends EntityRepository
 /****************************
   RELATIONS ENTRE SYNSETS : GENERAL
 ****************************/
+	/**
+	 * Pour un synset et une relation donnés, on cherche les synsets en relation avec lui pour la relation donnée
+	 *
+	 * @param Synset $synsrc : Le synset donné
+	 * @param array $relations : Les relations sélectionnées par l'utilisateur
+	 * @param string $relation : nom de la relation actuellement en train d'être explorée
+	 * @param string $getter : Le nom de la fonction getter correspondant à la relation actuellement explorée (ex : pour la relation Hypernym, le getter est getHypernyms)
+	*/
 	private function parcourirRelSynset($synsrc,$relations,$relation,$getter)
 	{
-		if ($getter == 'HasAttribute') { $getterinv = 'IsAttributeOf'; }
-		else if ($getter == 'IsAttributeOf') { $getterinv = 'HasAttribute'; }
-		else { $getterinv = $getter; }
+		//Recherche du getter suivant.
+		//Exemple : Si on cherche par exemple un hypernyme, ensuite on cherchera encore un hypernyme de cet hypernyme. C'est comme ça pour toutes les relations sauf pour la relation d'attribut qui se joue entre un nsynset et un asynset. Nom1 a pour attribut Adj1, qui est attribut de Nom2, qui a pour attribut Adj2 etc. (on voit que le nom de la relation alterne à chaque étape)
+		if ($getter == 'HasAttribute') { $getternext = 'IsAttributeOf'; }
+		else if ($getter == 'IsAttributeOf') { $getternext = 'HasAttribute'; }
+		else { $getternext = $getter; }
+
+		//On utilise le getter pour trouver tous les synsets en relation avec le synset donné au départ
 		$fonc = 'get' . $getter;
 		$rels = $synsrc -> $fonc() -> toArray();
+
+		//Pour chaque synset trouvé : 
 		foreach($rels as $syndest)
 		{
+			//On inscrit si nécessaire la relation entre le synset source et ce synset (ce n'est pas nécessaire si ils sont déjà en relation).
+			//Par exemple, si l'utilisateur a demandé hypernymie et hyponymie, on peut trouver que NS1 est hypernyme de NS2 après avoir déjà trouvé que NS2 est hyponyme de NS1.
 			$id = $syndest -> getType().$syndest -> getId();
 			if (!isset($this -> resultat['graphe'][$id][$relation]))
 			{
 				$this -> resultat['graphe'][$synsrc -> getType().$synsrc -> getId()][$relation][] = $id;
 			}
+			//On inscrit aussi ces mots dans le graphe (un synset n'apparait jamais sans ses mots)
 			$this -> parcourirSynset($syndest,$relations,$relation);
 
+			//Dans le cas où ce synset n'a pas encore été exploré, on l'enregistre dans le liste des noeuds et on lance l'exploration de ce synset (en utilisant le getternext défini au début de la fonction)
 			if (!in_array($id,$this -> listeid))
 			{
 				$this -> resultat['noeuds'][] = array(
@@ -436,7 +495,7 @@ class MotRepository extends EntityRepository
 				if ($this -> profondeur[$relation] < $this -> profondeurMax and (in_array($relation,$relations)))
 				{
 					$this -> profondeur[$relation]++;
-					$this -> parcourirRelSynset($syndest,$relations,$relation,$getterinv);
+					$this -> parcourirRelSynset($syndest,$relations,$relation,$getternext);
 				}
 			}
 		}

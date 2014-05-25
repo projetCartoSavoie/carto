@@ -49,6 +49,8 @@ class RSynset
 	private $wnid;
 
 	/**
+	 * Définition du concept représenté par le synset
+	 *
 	 * @var string
 	 *
 	 * @ORM\Column(name="definition", type="text")
@@ -56,22 +58,41 @@ class RSynset
 	private $definition;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\Mot",mappedBy="rsynsets")
-	*/
+	 * Liste des mots appartenant à ce synset
+	 *
+	 * @var \Doctrine\Common\Collections\Collection 
+	 *
+	 * @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\Mot",mappedBy="rsynsets")
+	 */
 	private $mots;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\RSynset")
-	* @ORM\JoinTable(name="rantonyms")
-	*/
+	 * Liste des antonymes de ce synset
+	 *
+	 * @var \Doctrine\Common\Collections\Collection 
+	 *
+	 * @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\RSynset")
+	 * @ORM\JoinTable(name="rantonyms")
+	 */
 	private $antonyms;
 
+	/**
+	 * Constructeur
+	 *
+	 * @param string $wnid : identificateur du synset dans les fichiers textes téléchargés de WordNet
+	 * @param string $def : définition du concept représenté par le synset
+	 */
 	public function __construct($wnid,$def)
 	{
 		$this -> setDefinition($def);
 		$this -> setWnid($wnid);
 	}
 
+	/**
+	 * Quel est le type du synset ? 
+	 *
+	 * @return string : 'R' pour adverbe
+	 */
 	public function getType()
 	{
 		return 'R';

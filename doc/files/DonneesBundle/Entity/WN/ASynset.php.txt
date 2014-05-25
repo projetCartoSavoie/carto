@@ -49,6 +49,8 @@ class ASynset
 	private $wnid;
 
 	/**
+	 * Définition du concept représenté par le synset
+	 *
 	 * @var string
 	 *
 	 * @ORM\Column(name="definition", type="text")
@@ -56,31 +58,63 @@ class ASynset
 	private $definition;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\Mot",mappedBy="asynsets")
-	*/
+	 * Liste des mots appartenant à ce synset
+	 *
+	 * @var \Doctrine\Common\Collections\Collection 
+	 *
+	 * @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\Mot",mappedBy="asynsets")
+	 */
 	private $mots;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\NSynset",mappedBy="hasAttribute")
-	*/
+	 * Liste des synset dont ce synset est attribut (relation d'attribut entre nom et adjectif)
+	 *
+	 * @var \Doctrine\Common\Collections\Collection 
+	 *
+	 * @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\NSynset",mappedBy="hasAttribute")
+	 */
 	private $isAttributeOf;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\ASynset")
-	* @ORM\JoinTable(name="aantonyms")
-	*/
+	 * Liste des antonymes de ce synset
+	 *
+	 * @var \Doctrine\Common\Collections\Collection 
+	 *
+	 * @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\ASynset")
+	 * @ORM\JoinTable(name="aantonyms")
+	 */
 	private $antonyms;
 
 	/**
-	* @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\ASynset")
-	* @ORM\JoinTable(name="asimilars")
-	*/
+	 * Liste des synsets définissant un concept similaire à celui ci
+	 *
+	 * @var \Doctrine\Common\Collections\Collection 
+	 *
+	 * @ORM\ManyToMany(targetEntity="Carto\DonneesBundle\Entity\WN\ASynset")
+	 * @ORM\JoinTable(name="asimilars")
+	 */
 	private $similars;
 
+	/**
+	 * Constructeur
+	 *
+	 * @param string $wnid : identificateur du synset dans les fichiers textes téléchargés de WordNet
+	 * @param string $def : définition du concept représenté par le synset
+	 */
 	public function __construct($wnid,$def)
 	{
 	$this -> setDefinition($def);
 	$this -> setWnid($wnid);
+	}
+
+	/**
+	 * Quel est le type du synset ? 
+	 *
+	 * @return string : 'A' pour adjectif
+	 */
+	public function getType()
+	{
+		return 'A';
 	}
 
 	/**
