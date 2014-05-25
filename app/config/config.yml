@@ -28,7 +28,13 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
-
+    globals:
+        urlJSWN: http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php
+        urlJSDB: http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_dbpedia.php
+        urlJSOP: http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action_options.php
+        urlACTWN: http://127.0.0.1/fr/donnees/json/
+        urlACTPB: http://127.0.0.1/fr/donnees/dbpedia/json/
+        urlOPTON: http://127.0.0.1/fr/donnees/relations
 # Assetic Configuration
 assetic:
     debug:          "%kernel.debug%"

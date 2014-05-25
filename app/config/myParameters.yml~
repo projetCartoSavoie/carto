@@ -28,23 +28,3 @@ Main_Action_DBPEDIA :
 	//curl_setopt($curlSession, CURLOPT_URL, 'http://localhost/app_dev.php/en/donnees/dbpedia/json/'.$cmd); // remy
 
 
-
---------------------------------------------------------------------------------
-<?php
-	//Ouverture du fichier de configuration
-	$fichier='../../../../app/config/myParameters.yml'; 
-	//Recuperation des lignes dans le fichier de config
-	$tabfich=file($fichier);
-	//Recuperation de l'url pour Wordnet (JAVASCRIPT)
-	$MYurlWN = $tabfich[6];
-	//Suppression des retour à ligne
-	$MYurlWN = str_replace("\n", "", $MYurlWN);
-	//Recuperation de l'url pour DBPedia (JAVASCRIPT)
-	$MYurlDBP = $tabfich[7];
-	//Suppression des retour à ligne
-	$MYurlDBP = str_replace("\n", "", $MYurlDBP);
-	
-	
-	echo $Javascript;
-	$Javascript =  '<script type="text/javascript"> URLWN = '.$MYurlWN.'\n URLDBP = '.$MYurlDBP.'\n </script>';
-	?>

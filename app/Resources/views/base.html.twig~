@@ -17,6 +17,11 @@
 		{% block javascripts %}{% endblock %}
 	</head>
 	<body>
+		<?php
+		$codejavascript = '<script type=\"text/javascript\">document.write("Bonjour");</script>';
+
+		echo $codejavascript;
+		?>
 		{% block menuSuperieur %}
 			<table class="tableHeader">
 				<tr>
