@@ -169,6 +169,22 @@ SELECT DISTINCT * WHERE
 		}
 		var_dump($jsoncommun['graphe']);*/
 
+		foreach( $jsoncommun['noeuds'] as $cle => $value){
+			if (strpbrk($value['nom'],'#')==False) // si il n'y a pas un # dans l'url
+			{
+			$tab=explode('/',$value['nom']);
+			$val=end($tab);
+			$jsoncommun['noeuds'][$cle] = array('id' => $cle, 'nom' => $val);
+			}
+			else { 
+				unset($jsoncommun['noeuds'][$cle]);
+
+				$jsoncommun['noeuds'][$cle] = array('id' => $cle, 'nom' => 'toto');
+			}
+			
+
+		}
+		$jsoncommun['noeuds'] = array_values($jsoncommun['noeuds']);
 		$jsoncommun['graphe'] = array_values($jsoncommun['graphe']);
 
 		$json = json_encode($jsoncommun);
