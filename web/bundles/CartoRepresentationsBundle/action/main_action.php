@@ -63,10 +63,10 @@
 		}
 
 		//return 'http://carto.localhost/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Céline 
-		return 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Juliana
+		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Juliana
 		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // Anthony
 		//return 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // Anthony2
-		//return 'http://localhost/app_dev.php/en/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // remy
+		return 'http://127.0.0.1/app_dev.php/en/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // remy
  	}
 	
 	function search_dbpedia($postvar){
@@ -75,11 +75,17 @@
 		}
 		else { $cmd = 'entity'; }
 		
+		if (isset($postvar['quantite'])){
+			$profondeur = $postvar['nombre'];
+		}
+		else { $profondeur = '20'; }
+		 echo $profondeur;
+		
 		//return 'http://carto.localhost/fr/donnees/dbpedia/json/'.$cmd; //Céline
-		return 'http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/'.$cmd; //Juliana
+		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/'.$cmd; //Juliana
 		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/dbpedia/json/'.$cmd; // Anthony
 		//return 'http://carto.dev/fr/donnees/dbpedia/json/'.$cmd; // Anthony2
-		//return 'http://localhost/app_dev.php/en/donnees/dbpedia/json/'.$cmd; // remy
+		return 'http://127.0.0.1/app_dev.php/en/donnees/dbpedia/json/'.$cmd.'/'.$profondeur; // remy
 	}
 
 	function search_autre($postvar)
@@ -97,9 +103,9 @@
 
 	function get_relations(){
 		//return 'http://carto.localhost/fr/donnees/relations'; //Céline
-		return 'http://localhost/CartoSavoie/carto/web/fr/donnees/relations'; //Juliana
+		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/relations'; //Juliana
 		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/relations'; // Anthony
 		//return 'http://carto.dev/fr/donnees/relations'; // Anthony2
-		//return 'http://localhost/app_dev.php/fr/donnees/relations'; // remy
+		return 'http://127.0.0.1/app_dev.php/fr/donnees/relations'; // remy
 	}
  ?>

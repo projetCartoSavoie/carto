@@ -38,7 +38,12 @@ class DbPediaController extends Controller
 	*/
 	public function indexAction($recherche)
 	{
-
+		$profondeur='20';
+		
+	print_r($recherche);
+	print_r($profondeur);
+	
+	
 		//Faire une requete de profondeur 3 sans les sameAs
 		$format = 'json';
 
@@ -59,7 +64,7 @@ SELECT DISTINCT * WHERE
  FILTER NOT EXISTS { 
   ?objet2 owl:sameAs ?objet3 .
  }
-} LIMIT 20
+} LIMIT '.intval($recherche).'
 ';
 		$searchUrl = 'http://dbpedia.org/sparql?'
 				.'query='.urlencode($sparql)
