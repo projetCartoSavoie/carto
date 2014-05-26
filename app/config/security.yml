@@ -27,12 +27,12 @@ security:
             anonymous: false
             provider:  in_memory
             form_login:
-                login_path: carto_donnees_admin_login
-                check_path: carto_donnees_admin_login_check
+                login_path: carto_user_admin_login
+                check_path: carto_user_admin_login_check
                 always_use_default_target_path: true
-                default_target_path: /en/donnees/admin
+                default_target_path: /en/user/admin
             logout:
-                path:   carto_donnees_admin_logout
+                path:   carto_user_admin_logout
                 target: /
 
         main:

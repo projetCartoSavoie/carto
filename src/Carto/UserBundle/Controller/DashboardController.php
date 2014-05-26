@@ -10,7 +10,7 @@
  *
  * @version 1.0
  */
-namespace Carto\DonneesBundle\Controller;
+namespace Carto\UserBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
@@ -27,6 +27,6 @@ class DashboardController extends Controller
  */
 	public function indexAction()
 	{
-		return $this->render('CartoDonneesBundle:Dashboard:index.html.twig');
+		return $this->render('CartoUserBundle:Dashboard:index.html.twig');
 	}
 }

@@ -1,19 +1,5 @@
 # Admin
 
-carto_donnees_admin_dashboard:
-    pattern:  /admin
-    defaults: { _controller: CartoDonneesBundle:Dashboard:index }
-
-carto_donnees_admin_login:
-    pattern:  /admin/login
-    defaults:  { _controller: CartoUserBundle:Security:login }
-
-carto_donnees_admin_login_check:
-    pattern:  /admin/login_check
-
-carto_donnees_admin_logout:
-    pattern:  /admin/logout
-
 carto_donnees_admin_enregistre:
     pattern:  /admin/enregistrer
     defaults: { _controller: CartoDonneesBundle:EnregistreWN:index }
@@ -92,6 +78,6 @@ carto_donnees_simple:
     defaults: { _controller: CartoDonneesBundle:WN:index, recherche:'entity' }
 
 carto_donnees_dbpedia_json:
-    pattern:  /dbpedia/json/{recherche}
-    defaults: { _controller: CartoDonneesBundle:DbPedia:index, recherche:'horse' }
+    pattern:  /dbpedia/json/{recherche}/{limite}
+    defaults: { _controller: CartoDonneesBundle:DbPedia:index, recherche:'horse', limite:20 }
 

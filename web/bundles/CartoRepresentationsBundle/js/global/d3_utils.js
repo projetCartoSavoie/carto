@@ -45,15 +45,15 @@ D3_Utils.prototype.load_json = function(d) {
 	var cmdAction = "";	
 	if (wordnet)
 	{
-		cmdAction = "search_action";
+		cmdAction = "search_wordnet";
 	}
 	else if (dbpedia)
 	{
-		cmdAction = "search_dbpeadia";
+		cmdAction = "search_dbpedia";
 	}
 	else
 	{
-		cmdAction = "search_autre";
+		cmdAction = "search_debian";
 	}
 	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif>');
 	//Utilisation d'ajax pour placer le résultat dans le conteneur

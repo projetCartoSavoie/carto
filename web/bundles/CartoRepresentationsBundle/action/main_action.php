@@ -8,28 +8,10 @@
 		if (isset($_POST['cmd']))
 		{
 			$cmd = $_POST['cmd'];
-
 		}
-		
-		$url = '';
-		switch($cmd)
-		{
-			case "search_action":
-				$url = search($_POST);
-			break;
-			case "search_dbpedia":
-				$url = search_dbpedia($_POST);
-			break;
-			case "search_autre":
-				$url = search_autre($_POST);
-			break;
-			case "get_relations":
-				$url = get_relations();
-			break;
-			default:
-				exit("{success:false}");
-			break;
-		}
+		$valid_actions = array('search_wordnet','search_dbpedia','search_debian','get_relations');
+		if (in_array($cmd,$valid_actions)) { $url = $cmd($_POST); }
+		else { exit('success:false'); }
 		$curlSession = curl_init();
 
 		curl_setopt($curlSession, CURLOPT_URL, $url);
@@ -42,17 +24,17 @@
 		exit('{"success":"true","data":'.$jsonresult.'}');
 	}
 
-	function search($postvar) {
+	function search_wordnet($postvar) {
 
 		if (isset($postvar['search'])){
 			$cmd = $postvar['search'];
-			$options = $postvar['options'];//liste des relations à prendre en
-			$optionsProfondeur = $postvar['profondeur'];
+			$options = $postvar['options'];//liste des relations à prendre en compte
 			$relations = "all";
 			if(empty($options) == false){
 				$relations = implode(",", $options);
 			}
 			//Gerer ici la profondeur de la recherche
+			$optionsProfondeur = $postvar['profondeurWN'];
 			$profondeur = 3;
 			if(empty($optionsProfondeur) == false){
 				$profondeur = $optionsProfondeur;
@@ -67,69 +49,28 @@
 		$ini_array = parse_ini_file(__DIR__."/app.ini");
 		$url = $ini_array["urlACTWN"].$cmd."/".$relations."/".$profondeur;
 		return $url;
-		/*
-		//Ouverture du fichier de configuration
-		$fichier='../../../../app/config/config.yml'; 
-		//Recuperation des lignes dans le fichier de config
-		$tabfich=file($fichier);
-		$MYurl = "";
-		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
-		foreach ($tabfich as $lineNumber => $lineContent)
-		{
-			//On recupere la ligne
-			$MYurlTMP = $tabfich[$lineNumber];
-
-			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
-			if( strstr($MYurlTMP, "urlACTWN")) {
-				
-				//Manipulation chaine de caractere pour un bon format d'echange
-				$MYurl = substr($MYurlTMP,18);
-				$MYurl = str_replace("", "", $MYurl);
-				$MYurl = str_replace("\n", "", $MYurl);
-
-			} 
-		}
-		//$MYurl = 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/';
-		$url = $MYurl.$cmd."/".$relations."/".$profondeur;
-		return $url;*/
 	}
 	
 	function search_dbpedia($postvar){
 		if (isset($postvar['search'])){
 			$cmd = $postvar['search'];
+			//Gerer ici la profondeur de la recherche
+			//exit('{success:'.$postvar['profondeur'].'}');
+			$optionsProfondeur = $postvar['profondeurDB'];
+			$profondeur = 10;
+			if(empty($optionsProfondeur) == false){
+				$profondeur = $optionsProfondeur;
+			}
+			//exit('{success:'.$optionsProfondeur.'-'.$profondeur.'}');
 		}
-		else { $cmd = 'entity'; }
+		else { $cmd = 'entity'; $profondeur = 10; }
 		
 		$ini_array = parse_ini_file(__DIR__."/app.ini");
 		$url = $ini_array["urlACTPB"];
-		return $url;
-		/*
-		//Ouverture du fichier de configuration
-		$fichier='../../../../app/config/config.yml'; 
-		//Recuperation des lignes dans le fichier de config
-		$tabfich=file($fichier);
-
-		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
-		foreach ($tabfich as $lineNumber => $lineContent)
-		{
-			//On recupere la ligne
-			$MYurlTMP = $tabfich[$lineNumber];
-
-			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
-			if( strstr($MYurlTMP, "urlACTPB")) {
-				
-				//Manipulation chaine de caractere pour un bon format d'echange
-				$MYurl = substr($MYurlTMP,18);
-				$MYurl = str_replace("", "", $MYurl);
-				$MYurl = str_replace("\n", "", $MYurl);
-
-			} 
-		}
-		$MYurl = $MYurl.$cmd;
-		return $MYurl;*/
+		return $url.$cmd.'/'.$profondeur;
 	}
 
-	function search_autre($postvar)
+	function search_debian($postvar)
 	{
 		if (isset($postvar['search']))
 		{
@@ -141,60 +82,12 @@
 		
 		$ini_array = parse_ini_file(__DIR__."/app.ini");
 		$url = $ini_array["urlAUTRE"];
-		return $url;
-		/*
-		//Ouverture du fichier de configuration
-		$fichier='../../../../app/config/config.yml'; 
-		//Recuperation des lignes dans le fichier de config
-		$tabfich=file($fichier);
-
-		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
-		foreach ($tabfich as $lineNumber => $lineContent)
-		{
-			//On recupere la ligne
-			$MYurlTMP = $tabfich[$lineNumber];
-
-			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
-			if( strstr($MYurlTMP, "urlAUTRE")) {
-				
-				//Manipulation chaine de caractere pour un bon format d'echange
-				$MYurl = substr($MYurlTMP,18);
-				$MYurl = str_replace("", "", $MYurl);
-				$MYurl = str_replace("\n", "", $MYurl);
-
-			} 
-		}
-		
-		$MYurl = $MYurl.$cmd;
-		
-		return $MYurl; */
+		return $url.$cmd;
 	}
 
 	function get_relations(){
 		$ini_array = parse_ini_file(__DIR__."/app.ini");
 		$url = $ini_array["urlOPTON"];
 		return $url;
-		/*
-		//Ouverture du fichier de configuration
-		$fichier='../../../../app/config/config.yml'; 
-		//Recuperation des lignes dans le fichier de config
-		$tabfich=file($fichier);
-	
-		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
-		foreach ($tabfich as $lineNumber => $lineContent)
-		{
-			//On recupere la ligne
-			$MYurlTMP = $tabfich[$lineNumber];
-
-			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
-			if( strstr($MYurlTMP, "urlOPTON")) {
-				
-				//Manipulation chaine de caractere pour un bon format d'echange
-				$MYurl = substr($MYurlTMP,18);
-				$MYurl = str_replace("", "", $MYurl);
-				$MYurl = str_replace("\n", "", $MYurl);
-			} 
-		}
-		return $MYurl;*/
 	}
  ?>

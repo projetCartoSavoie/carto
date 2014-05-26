@@ -56,7 +56,7 @@ A selector is used to capture a set of nodes or operators given, then we can per
 'or': 'ou'
 'your code for the representation chosen': 'votre code pour la representation choisie'
 'Textbook to add a view on our website': 'Manuel d’utilisation pour ajouter une vue à notre site'
-'Description docProjet': "Description du projet A FAIRE !!!!"
-'Description docWordnet': "Description de WORDNET A FAIRE !!!!"
-'Description docDbpedia': "Description du DBPEDIA A FAIRE !!!!"
-'Description docRepresentation': "Description des representations A FAIRE !!!!"
+'Description docProjet': 'Découvrez le fonctionnement général de notre projet'
+'Description docWordnet': "Vous trouverez ici des informations sur WordNet et la façon dont nous l'avons utilisé dans le cadre de notre projet"
+'Description docDbpedia': "Vous trouverez ici des informations sur DbPedia et la façon dont nous l'avons utilisé dans le cadre de notre projet"
+'Description docRepresentation': "Vous trouverez ici des informations sur D3 et les visualisations que nous avons développées"

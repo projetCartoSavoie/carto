@@ -218,7 +218,7 @@ On emploie un sélecteur pour saisir un ensemble de nœuds ou d'opérateurs donn
 'ou': 'or'
 'votre code pour la representation choisie': 'your code for the representation chosen'
 "Manuel d’utilisation pour ajouter une vue à notre site": "Textbook to add a view on our website"
-'Description docProjet': "bla Description of the Project TO DO !!!!"
-'Description docWordnet': "bla Description of WordNet TO DO !!!!"
-'Description docDbpedia': "bla Description of DbPedia TO DO !!!!"
-'Description docRepresentation': "bla Description of Representation TO DO !!!!"
+'Description docProjet': 'Here you can see the organization of the whole project'
+'Description docWordnet': 'Learn more about WordNet and how we used it in our project'
+'Description docDbpedia': 'Learn more about DbPedia and how we used it in our project'
+'Description docRepresentation': 'Learn more about D3 and the visualizations we developped'

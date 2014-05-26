@@ -86,13 +86,13 @@
 	// Propose une profondeur a selectionner
 	function showProfondeur(){
 		$('.showOptionsProfondeur').append('<legend>Choisissez votre profondeur:</legend>');
-		$('.showOptionsProfondeur').append('<div><input type="number" name="nombre" id="quantite">');
+		$('.showOptionsProfondeur').append('<div><input type="number" name="nombre" id="quantiteWN">');
 	}
 	
 	// Propose un nombre de voisins a selectionner
 	function showNbVoisins(){
 		$('.showOptionsNbVoisins').append('<legend>Choisissez le nombre de voisins:</legend>');
-		$('.showOptionsNbVoisins').append('<div><input type="number" name="nombre" id="quantite">');
+		$('.showOptionsNbVoisins').append('<div><input type="number" name="nombre" id="quantiteDB"/>');
 	}
 	
 	// Montrer les options de WN
@@ -113,7 +113,7 @@
 		//Récupération de la source de données
 		var wordnet = $('#WN').attr('checked'); 
 		var dbpedia = $('#DB').attr('checked');
-		var autre = $('#Autres').attr('checked');
+		var debian = $('#Debian').attr('checked');
 		
 		//Affichage des options pour chaque source
 		showOptionsWN();
@@ -132,7 +132,8 @@
 				valeurs.push($(this).val());
 			});
 			
-			var profondeur = $("#quantite").val();
+			var profondeurWN = $("#quantiteWN").val();
+			var profondeurDB = $("#quantiteDB").val();
 			
 			var search = $('#search').val(); //Récupération du mot demandé
 			if ( search == '' ) { alert('Vous devez entrer un mot'); search = 'pasderecherche' }
@@ -140,21 +141,21 @@
 			//Récupération de la source de données demandée
 			var wordnet = $('#WN').attr('checked'); 
 			var dbpedia = $('#DB').attr('checked');
-			var autre = $('#Autres').attr('checked');
+			var debian = $('#Debian').attr('checked');
 			//Choix de l'action à effectuer par main_action
 			var cmdAction = "";
 			var url = URLGLOB;
 			if (wordnet)
 			{
-				cmdAction = "search_action";
+				cmdAction = "search_wordnet";
 			}
 			else if (dbpedia)
 			{
-				cmdAction = "search_dbpeadia";
+				cmdAction = "search_dbpedia";
 			}
-			else if (autre)
+			else if (debian)
 			{
-				cmdAction = "search_autre";
+				cmdAction = "search_debian";
 			}
 			$("#contentCenter").html('<img id="loading" src="{{ asset('bundles/CartoRepresentationsBundle/images/image-loader.gif') }}">');
 			//Utilisation d'ajax pour placer le résultat dans le conteneur
@@ -165,13 +166,15 @@
 					cmd: cmdAction,
 					search: search,
 					options: valeurs,
-					profondeur: profondeur
+					profondeurWN: profondeurWN,
+					profondeurDB: profondeurDB
 				},
 				cache: false,
 				success: function(response) {
 					var result;
 					try {
 						result = $.parseJSON(response);
+						
 						if(result.success){
 							var data = result.data;
 							if(representation){
@@ -212,8 +215,8 @@
 			<label for="DB" class="toggle-btn">
 				<input id="DB" type="radio" name="choixsource" value="DB" onclick="loadOptions()"/>DbPedia
 			</label>
-			<label for="Autres" class="toggle-btn">
-				<input id="Autres" type="radio" name="choixsource" value="Autres" onclick="loadOptions()"/>Autres
+			<label for="Debian" class="toggle-btn">
+				<input id="Debian" type="radio" name="choixsource" value="Debian" onclick="loadOptions()"/>Debian
 			</label>
 		</div>
 		

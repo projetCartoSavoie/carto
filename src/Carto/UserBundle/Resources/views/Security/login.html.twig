@@ -1,4 +1,4 @@
-{% extends "CartoDonneesBundle:Layouts:layout.html.twig" %}
+{% extends "::base.html.twig" %}
 
 {% block title %}{{ parent() }}{{'Admin - Identification' | trans}}{% endblock %}
 
@@ -10,8 +10,8 @@
 			<div class="alert alert-error">{{ error.message }}</div>
 			{% endif %}
 
-			{# Le formulaire, avec URL de soumission vers la route « carto_donnees_admin_login_check » comme on l'a vu #}
-			<form action="{{ path('carto_donnees_admin_login_check') }}" method="post">
+			{# Le formulaire, avec URL de soumission vers la route « carto_user_admin_login_check » comme on l'a vu #}
+			<form action="{{ path('carto_user_admin_login_check') }}" method="post">
 				<label for="username">{{'Identifiant' | trans }} :</label>
 				<input type="text" id="username" name="_username" value="{{ last_username }}" />
 

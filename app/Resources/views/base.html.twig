@@ -33,12 +33,12 @@
 					</div>
 					{% if app.user %}
 					<h3 class="text_login">{{'Bienvenue' | trans}}, {{ app.user.username }} !</h3>
-					<div class="login">
-						<a href="{{ path('carto_donnees_admin_logout') }}">{{"Déconnexion" | trans}}</a>
-					</div>
+					<span class="login">
+						<a href="{{ path('carto_user_admin_logout') }}">{{"Déconnexion" | trans}}</a>
+					</span>
 					{% else %}
 					<div class="login">
-						<a href="{{ path('carto_donnees_admin_dashboard')}}">
+						<a href="{{ path('carto_user_admin_dashboard')}}">
 							<img src="{{ asset('bundles/CartoAccueilBundle/images/icone_cadenas.png') }}" title="Cadenas" alt="Cadenas">
 						</a>
 					</div>
@@ -77,9 +77,6 @@
 										<li>
 											<a href="{{ path('carto_representations_representation4') }}">{{"Bubble Tree" | trans}}</a>
 										</li>
-										<li>
-											<a href="{{ path('carto_representations_representation6') }}">{{"Dependency Wheel" | trans}}</a>
-										</li>
 									</ul>
 								</li>
 								<li id="donnees" {% if "donnees" in app.request.attributes.get('_route') %}class="current"{% endif %} >
@@ -89,9 +86,6 @@
 											<a href="{{ path('carto_donnees_simple') }}">{{"Recherche simple" | trans}}</a>
 										</li>
 										{% if app.user %}
-										<li>
-											<a href="{{ path('carto_donnees_admin_enregistre') }}">{{"Enregistrer les données" | trans}}</a>
-										</li>
 										<li>
 											<a href="{{ path('carto_donnees_json') }}">{{"Générer json" | trans}}</a>
 										</li>

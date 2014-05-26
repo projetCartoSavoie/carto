@@ -5,6 +5,13 @@ carto_livre_or:
     requirements:
         _locale: en|fr
 
+carto_user:
+    resource: "@CartoUserBundle/Resources/config/routing.yml"
+    prefix:   /{_locale}/user
+    defaults: {_locale: en}
+    requirements:
+        _locale: en|fr
+
 carto_accueil:
     resource: "@CartoAccueilBundle/Resources/config/routing.yml"
     prefix:    /

@@ -1,9 +1,10 @@
 {% extends "CartoDocumentationBundle:Layouts:layout.html.twig" %}
 {% block body %}
 <h1>Documentation</h1>
-<h2>DbPedia</h2>
+<h2>Résumé de nos recherche sur DbPedia, les bases de données RDF et le langage de requêtes SPARQL</h2>
 <p>
-DbPedia est une base de données libre, contenant notamment les informations contenues dans les infobox des articles wikipedia.
+DbPedia est une base de données libre, contenant notamment les informations contenues dans les infobox des articles wikipedia.</p>
+<p>
 Liens utiles :
 <ul>
 	<li>http://www.lespetitescases.net</li>
@@ -17,11 +18,12 @@ Liens utiles :
 </ul>
 </p>
 <p>
-Principe de base : sujet relation/predicat objet.<br/>
+Le principe de base des bases de données RDF est d'enregistrer les données sous forme de triplets de la forme :
+<pre style="word-wrap: break-word; max-width:500px;"> sujet relation/predicat objet.</pre>
 Une requête SPARQL a pour but de trouver un ou plusieurs membres d'un ensemble de triplets.<br/>
 Les 3 éléments du triplet sont des URI (souvent des pages web ou du texte brut).<br/>
-L'idée de SPARQL est de résoudre une équation sur un ensemble de triplet :<br/>
-MonaLisa ?X ?Y = MonaLisa a quelles relations avec quels objets ? <br/>
+L'idée de SPARQL est de résoudre une équation sur un ensemble de triplets :<br/>
+<pre style="word-wrap: break-word; max-width:500px;">MonaLisa ?X ?Y = MonaLisa a quelles relations avec quels objets ? </pre>
 </p>
 <p>
 Notations :
@@ -104,20 +106,100 @@ SELECT DISTINCT * WHERE
 } 
 </pre>
 
-<h2>Idée générale</h2>
+<h2>Idée générale de notre algorithme de recherche sur DBPedia</h2>
 <ul>
 	<li>Faire une requete de profondeur 3 sans les sameAs</li>
 	<li>Récupérer le tableau results[bindings] du json obtenu</li>
 	<li>Enlever tous les noeuds qui contiennent des litéraux n'ayant pas "xml:lang": "en"</li>
-	<li>Pour chaque noeud de type URI, essayer de le remplacer par un label en faisant une requete</li>
+	<li>Pour chaque noeud de type URI, simplifier sa dénomination en ne considérant que la fin de l'URI</li>
 	<li>Etablir la liste des noeuds</li>
 	<li>Etablir la liste des relations</li>
-	<li>Coder les relations</li>
+	<li>Coder les relations en parcourant les branches de profondeur 3 obtenues lors de la requête</li>
 </ul>
 
-<h2>Json obtenu</h2>
+<h2>Json obtenu avec cet algorithme</h2>
 <pre style="word-wrap: break-word; max-width:500px;">
-
+{
+    "noeuds": [
+        {
+            "id": "0",
+            "nom": "Horse"
+        },
+        {
+            "id": "1",
+            "nom": "Wild_horse"
+        },
+        {
+            "id": "2",
+            "nom": "Thing"
+        },
+        {
+            "id": "3",
+            "nom": "Class"
+        },
+        {
+            "id": "5",
+            "nom": "Animal"
+        },
+        {
+            "id": "9",
+            "nom": "Carl_Linnaeus"
+        }
+    ],
+    "graphe": [
+        {
+            "noeud": "0",
+            "species": [
+                "1"
+            ],
+            "kingdom": [
+                "5"
+            ],
+            "trinomialAuthority": [
+                "9"
+            ]
+        },
+        {
+            "noeud": "1",
+            "type": [
+                "2"
+            ]
+        },
+        {
+            "noeud": "2",
+            "type": [
+                "3",
+                "3",
+                "3"
+            ]
+        },
+        {
+            "noeud": "3"
+        },
+        {
+            "noeud": "5",
+            "type": [
+                "2"
+            ]
+        },
+        {
+            "noeud": "9",
+            "type": [
+                "2"
+            ]
+        }
+    ],
+    "relations": [
+        "species",
+        "type",
+        "kingdom",
+        "trinomialAuthority"
+    ]
+}
 </pre>
+
+<h2>Pour plus tard</h2>
+
+<p>Notre travail est loin d'être terminé sur DbPedia. Une amélioration possible de ce projet serait d'effectuer des recherches approfondies sur les relations de DbPedia afin de proposer un paramétrage adéquat à l'utilisateur et de faire des requêtes plus intelligentes que seulement les premières branches de profondeur 3 trouvées. Il serait également intéressant de travailler la sélection des relations afin que les visualisations en graphe soient plus lisibles.</p>
 
 {% endblock %}

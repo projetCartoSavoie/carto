@@ -16,11 +16,7 @@ namespace Carto\DonneesBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
-use Carto\DonneesBundle\Entity\WN\ASynset;
-use Carto\DonneesBundle\Entity\WN\RSynset;
-use Carto\DonneesBundle\Entity\WN\NSynset;
-use Carto\DonneesBundle\Entity\WN\VSynset;
-use Carto\DonneesBundle\Entity\WN\Mot;
+use Carto\DonneesBundle\Entity\DBPedia\DBFormateur;
 
 /**
  * Controleur pour les recherches DbPedia
@@ -36,12 +32,10 @@ class DbPediaController extends Controller
 	 * @param string $recherche
 	 * @return Vue twig
 	*/
-	public function indexAction($recherche)
+	public function indexAction($recherche,$limite)
 	{
 
-		//Faire une requete de profondeur 3 sans les sameAs
-		$format = 'json';
-
+		//La requête sparql
 		$sparql = 
 '
 SELECT DISTINCT * WHERE 
@@ -59,137 +53,32 @@ SELECT DISTINCT * WHERE
  FILTER NOT EXISTS { 
   ?objet2 owl:sameAs ?objet3 .
  }
-} LIMIT 20
+} LIMIT '.$limite.'
 ';
+		//L'adresse du moteur sur lequel on doit réaliser cette requête
 		$searchUrl = 'http://dbpedia.org/sparql?'
 				.'query='.urlencode($sparql)
-				.'&format='.$format;
+				.'&format=json';
+		//On utilise CURL pour effectuer la requête
+		$curl_session = curl_init();
+		curl_setopt($curl_session,CURLOPT_URL,$searchUrl);
+		curl_setopt($curl_session,CURLOPT_RETURNTRANSFER,true);
+		$response = curl_exec($curl_session);
+		curl_close($curl_session);
 
-		$ch= curl_init();
-		curl_setopt($ch,CURLOPT_URL,$searchUrl);
-		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
-		$response = curl_exec($ch);
-		curl_close($ch);
-
-		//Récupérer le tableau results[bindings] du json obtenu
+		//La requête renvoie une chaine de caractère, dont la partie 'results'->'bindings' correspond aux résultats
 		$tableau = json_decode($response,true);
 		$resultats = $tableau['results']['bindings'];
-		//var_dump($resultats);
 
-		//Enlever tous les noeuds qui contiennent des litéraux n'ayant pas "xml:lang": "en"
-		foreach ($resultats as $cle => $chaine) //Un résultat est une chaine d'objets liés par des relations
-		{
-			if ( ($chaine['sujet']['type'] == 'literal' and isset($chaine['sujet']['xml:lang']) and $chaine['sujet']['xml:lang'] != 'en')
-				or ($chaine['objet']['type'] == 'literal' and isset($chaine['objet']['xml:lang']) and $chaine['objet']['xml:lang'] != 'en')
-				or ($chaine['objet2']['type'] == 'literal' and isset($chaine['objet2']['xml:lang']) and $chaine['objet2']['xml:lang'] != 'en')
-				or ($chaine['objet3']['type'] == 'literal' and isset($chaine['objet3']['xml:lang']) and $chaine['objet3']['xml:lang'] != 'en')
-			)
-			{
-				unset($resultats[$cle]);
-			}
-		}
-		//var_dump($resultats);
+		//On utilise le formateur du modèle, dont le rôle est de transformer le résultat fourni par le moteur en un json au format générique.
+		$DbFormateur = new DBFormateur();
+		$jsoncommun = $DbFormateur -> transformer($resultats);
 
-		//Pour chaque noeud de type URI, essayer de le remplacer par un label en faisant une requete
-		/*foreach ($resultats as $cle => $chaine) //Un résultat est une chaine d'objets liés par des relations
-		{
-			if ( $chaine['objet']['type'] == 'uri' )
-			{
-				//
-			}
-		}
-		var_dump($resultats);*/
-
-		//Etablir la liste des noeuds et des relations
-		$id = 1;
-		$jsoncommun = array();
-		$lnoeuds = array();
-		$lrelations = array();
-		foreach ($resultats as $cle => $chaine) //Un résultat est une chaine d'objets liés par des relations
-		{
-			$lnoeuds[] = $chaine['sujet']['value'];
-			$lrelations[] = $chaine['property']['value'];
-			$lnoeuds[] = $chaine['objet']['value'];
-			$lrelations[] = $chaine['property2']['value'];
-			$lnoeuds[] = $chaine['objet2']['value'];
-			$lrelations[] = $chaine['property3']['value'];
-			$lnoeuds[] = $chaine['objet3']['value'];
-		}
-		$lnoeuds = array_unique($lnoeuds);
-		$idnoeuds = array_flip($lnoeuds);
-		$lrelations = array_unique($lrelations);
-		$idrelations = array_flip($lrelations);
-
-		//var_dump($idnoeuds);
-		//var_dump($idrelations);
-
-		$jsoncommun['noeuds'] = array();
-		foreach($lnoeuds as $cle => $valeur)
-		{
-			$jsoncommun['noeuds'][] = array('id' => $cle, 'nom' => $valeur);
-			$jsoncommun['graphe'][$cle] = array('noeud' => $cle);
-		}
-
-		$jsoncommun['relations'] = array();
-		foreach($lrelations as $valeur)
-		{
-			$jsoncommun['relations'][] = $valeur;
-		}
-		
-		//Coder les relations
-		foreach ($resultats as $cle => $chaine) //Un résultat est une chaine d'objets liés par des relations
-		{
-			//Mettre en relation sujet et objet par la relation property
-			if (!isset($jsoncommun['graphe'][$idnoeuds[$chaine['sujet']['value']]][$chaine['property']['value']]))
-			{
-				$jsoncommun['graphe'][$idnoeuds[$chaine['sujet']['value']]][$chaine['property']['value']] = array();
-			}
-			$jsoncommun['graphe'][$idnoeuds[$chaine['sujet']['value']]][$chaine['property']['value']][] = $idnoeuds[$chaine['objet']['value']];
-			//Mettre en relation objet et objet2 par la relation property2
-			if (!isset($jsoncommun['graphe'][$idnoeuds[$chaine['objet']['value']]][$chaine['property2']['value']]))
-			{
-				$jsoncommun['graphe'][$idnoeuds[$chaine['objet']['value']]][$chaine['property2']['value']] = array();
-			}
-			$jsoncommun['graphe'][$idnoeuds[$chaine['objet']['value']]][$chaine['property2']['value']][] = $idnoeuds[$chaine['objet2']['value']];
-			//Mettre en relation objet2 et objet3 par la relation property3
-			if (!isset($jsoncommun['graphe'][$idnoeuds[$chaine['objet2']['value']]][$chaine['property3']['value']]))
-			{
-				$jsoncommun['graphe'][$idnoeuds[$chaine['objet2']['value']]][$chaine['property3']['value']] = array();
-			}
-			$jsoncommun['graphe'][$idnoeuds[$chaine['objet2']['value']]][$chaine['property3']['value']][] = $idnoeuds[$chaine['objet3']['value']];
-		}
-
-		//var_dump($jsoncommun);
-		//var_dump($jsoncommun['graphe']);
-
-		//J'ajoute la partie "noeud" des éléments du graphe et j'élimine les doublons
-		/*foreach ($jsoncommun['graphe'] as $cle => $valeur)
-		{
-			$valeur = array_merge(array('noeud' => $cle),$valeur);
-		}
-		var_dump($jsoncommun['graphe']);*/
-
-		foreach( $jsoncommun['noeuds'] as $cle => $value){
-			if (strpbrk($value['nom'],'#')==False) // si il n'y a pas un # dans l'url
-			{
-			$tab=explode('/',$value['nom']);
-			$val=end($tab);
-			$jsoncommun['noeuds'][$cle] = array('id' => $cle, 'nom' => $val);
-			}
-			else { 
-				unset($jsoncommun['noeuds'][$cle]);
-
-				$jsoncommun['noeuds'][$cle] = array('id' => $cle, 'nom' => 'toto');
-			}
-			
-
-		}
-		$jsoncommun['noeuds'] = array_values($jsoncommun['noeuds']);
-		$jsoncommun['graphe'] = array_values($jsoncommun['graphe']);
-
+		//On transforme le tableau en chaine de caractère json
 		$json = json_encode($jsoncommun);
-		echo $json;
-		return new Response('');
+
+		//On envoie la réponse
+		return new Response($json);
 	}
 
 }

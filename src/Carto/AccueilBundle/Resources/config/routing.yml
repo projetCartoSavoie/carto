@@ -9,7 +9,7 @@ carto_accueil_homepage_switch_language:
     defaults: { _controller: CartoAccueilBundle:Default:switchLanguage }
 
 carto_accueil_aboutus:
-    pattern:  /aboutus
+    pattern:  /{_locale}/aboutus
     defaults: { _controller: CartoAccueilBundle:Default:aboutus, _locale:en }
     requirements:
         _locale: en|fr

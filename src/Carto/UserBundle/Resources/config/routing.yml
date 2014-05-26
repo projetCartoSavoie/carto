@@ -1,0 +1,13 @@
+carto_user_admin_dashboard:
+    pattern:  /admin
+    defaults: { _controller: CartoUserBundle:Dashboard:index }
+
+carto_user_admin_login:
+    pattern:  /admin/login
+    defaults:  { _controller: CartoUserBundle:Security:login }
+
+carto_user_admin_login_check:
+    pattern:  /admin/login_check
+
+carto_user_admin_logout:
+    pattern:  /admin/logout

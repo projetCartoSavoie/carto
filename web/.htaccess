@@ -3,7 +3,7 @@
 # mod_rewrite). Additionally, this reduces the matching process for the
 # startpage (path "/") because otherwise Apache will apply the rewritting rules
 # to each configured DirectoryIndex file (e.g. index.php, index.html, index.pl).
-DirectoryIndex app_dev.php
+DirectoryIndex app.php
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
@@ -34,6 +34,6 @@ DirectoryIndex app_dev.php
     # a safe, one-size fits all solution.
     RewriteCond %{REQUEST_URI}::$1 ^(/.+)(.+)::\2$
     RewriteRule ^(.*) - [E=BASE:%1]
-    RewriteRule .? %{ENV:BASE}app_dev.php [L]
+    RewriteRule .? %{ENV:BASE}app.php [L]
 </IfModule>
 
