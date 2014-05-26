@@ -55,10 +55,10 @@ twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
     globals:
-        urlGlob: http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php
-        urlACTWN: http://localhost/CartoSavoie/carto/web/fr/donnees/json/
-        urlACTPB: http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/
-        urlOPTON: http://localhost/CartoSavoie/carto/web/fr/donnees/relations
+        urlGlob: http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php
+        urlACTWN: http://carto.localhost/fr/donnees/json/
+        urlACTPB: http://carto.localhost/fr/donnees/dbpedia/json/
+        urlOPTON: http://carto.localhost/fr/donnees/relations
         urlAUTRE: http://demo4.itpassion.info/crawler.php?target=
 # Assetic Configuration
 assetic:
