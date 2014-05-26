@@ -92,6 +92,6 @@ carto_donnees_simple:
     defaults: { _controller: CartoDonneesBundle:WN:index, recherche:'entity' }
 
 carto_donnees_dbpedia_json:
-    pattern:  /dbpedia/json/{recherche}
-    defaults: { _controller: CartoDonneesBundle:DbPedia:index, recherche:'horse' }
+    pattern:  /dbpedia/json/{recherche}/{limite}
+    defaults: { _controller: CartoDonneesBundle:DbPedia:index, recherche:'horse',limite:20 }
 

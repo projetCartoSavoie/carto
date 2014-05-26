@@ -149,11 +149,15 @@ class VSynset
 		$this -> setWnid($wnid);
 	}
 
+	/**
+	 * Quel est le type du synset ? 
+	 *
+	 * @return string : 'V' pour verbe
+	 */
 	public function getType()
 	{
 		return 'V';
 	}
-
 
 	/**
 	 * Get id

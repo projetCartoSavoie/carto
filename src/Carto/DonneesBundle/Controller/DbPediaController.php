@@ -36,12 +36,11 @@ class DbPediaController extends Controller
 	 * @param string $recherche
 	 * @return Vue twig
 	*/
-	public function indexAction($recherche)
+	public function indexAction($recherche,$limite)
 	{
-		$profondeur='20';
 		
-	print_r($recherche);
-	print_r($profondeur);
+	//print_r($recherche);
+	//print_r($limite);
 	
 	
 		//Faire une requete de profondeur 3 sans les sameAs
@@ -64,7 +63,7 @@ SELECT DISTINCT * WHERE
  FILTER NOT EXISTS { 
   ?objet2 owl:sameAs ?objet3 .
  }
-} LIMIT '.intval($recherche).'
+} LIMIT '.intval($limite).'
 ';
 		$searchUrl = 'http://dbpedia.org/sparql?'
 				.'query='.urlencode($sparql)
@@ -74,11 +73,11 @@ SELECT DISTINCT * WHERE
 		curl_setopt($ch,CURLOPT_URL,$searchUrl);
 		curl_setopt($ch,CURLOPT_RETURNTRANSFER,true);
 		$response = curl_exec($ch);
-		//print($response);
-		if ( strpbrk($response,'We are sorry')==True){
+		print($response);
+		/*if ( strpbrk($response,'We are sorry')==True){
 			echo "{\"erreur\":[\"DbPediaEnMaintenance\"]}";
 			return new Response('');
-		}
+		}*/
 		curl_close($ch);
 
 		//Récupérer le tableau results[bindings] du json obtenu
@@ -190,11 +189,11 @@ SELECT DISTINCT * WHERE
 			}
 		}
 			
-		foreach( $jsoncommun['graphe'] as $cle => $value){
+		/*foreach( $jsoncommun['graphe'] as $cle => $value){
 				$tab=explode('/',$value['nom']);
 				$val=end($tab);
 				$jsoncommun['graphe'][$cle] = array('id' => $cle, 'nom' => $val);
-		}
+		}*/
 		
 		$jsoncommun['noeuds'] = array_values($jsoncommun['noeuds']);
 		$jsoncommun['graphe'] = array_values($jsoncommun['graphe']);

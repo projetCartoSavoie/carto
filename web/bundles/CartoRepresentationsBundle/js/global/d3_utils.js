@@ -1,5 +1,6 @@
 function D3_Utils(){}
 
+
 /**
 * Met dans une iframe la page url du nom passe en parametre
 * @param name : name qu'on veut chercher sur wikipedia
@@ -13,7 +14,7 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 	$('#wikipedia').html(
 			"<p><b>Informations on "+name+"</b> "+
 			"<iframe id='wikiframe' src='"+url+"' "+
-			"width='100%' frameborder='0'></iframe>"
+			"width='98%' frameborder='0'></iframe>"
 			);
 	var size = Math.round( $('#wikiframe').position().top
 			- $('#wikipedia').position().top );
@@ -26,13 +27,6 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 * @param d : objet node sur lequel l'utilisateur a clique
 */
 D3_Utils.prototype.load_json = function(d) {
-	//Url permettant de faire la recherche demandée
-	//var url = "http://localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // remy
-	//var url = "http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php"; // Celine
-	//var url = "http://127.0.0.1/bundles/CartoRepresentationsBundle/action/main_action.php"; // remi
-	var url = "http://localhost/CartoSavoie/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; // Juliana
-	//var url = "http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony
-	//var url = "http://carto.dev/bundles/CartoRepresentationsBundle/action/main_action.php"; //Anthony2
 
 	// On recupere les relations selectionnees par l'utilisateur pour le filtre
 	var valeurs = [];
@@ -61,9 +55,7 @@ D3_Utils.prototype.load_json = function(d) {
 	{
 		cmdAction = "search_autre";
 	}
-
 	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif>');
-	
 	//Utilisation d'ajax pour placer le résultat dans le conteneur
 	$.ajax({
 		type: "POST",
@@ -76,29 +68,34 @@ D3_Utils.prototype.load_json = function(d) {
 		},
 		cache: false,
 		success: function(response) {
-			var result = $.parseJSON(response);
-			if(result.success){
-				var data = result.data;
-				if(representation){
-					$('svg').remove();
-					$('.relation').remove();
-					$('.dragAndDrop').css("background-color", "#d0cbcb");
-					$('.dragAndDrop').attr("value", "0");
-				}
-				if(data.error != null){
-					alert("Error " + data.error);
+			var result;
+			try{
+				result = $.parseJSON(response);
+				if(result.success){
+					var data = result.data;
+					if(representation){
+						$('svg').remove();
+						$('.relation').remove();
+						$('.dragAndDrop').css("background-color", "#d0cbcb");
+						$('.dragAndDrop').attr("value", "0");
+					}
+					if(data.error != null){
+						alert("Error " + data.error);
+					}else{
+						representation.show(data);
+					}
 				}else{
-					representation.show(data);
-					show_wikipedia(search);
-					$("#loading").hide();
+					alert("Request Error");
 				}
-			}else{
-				alert("Request Error");
+			} catch(err){
+				alert("Error : " + err);
 			}
+			$("#loading").hide();
 		}
 	});
 	return false;
 }
+
 
 function move(d) {
 	// d est un objet compose des coordonnees x et y

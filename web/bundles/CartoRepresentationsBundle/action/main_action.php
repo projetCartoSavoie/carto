@@ -8,7 +8,10 @@
 		if (isset($_POST['cmd']))
 		{
 			$cmd = $_POST['cmd'];
+
 		}
+		
+		$url = '';
 		switch($cmd)
 		{
 			case "search_action":
@@ -27,11 +30,9 @@
 				exit("{success:false}");
 			break;
 		}
-
 		$curlSession = curl_init();
 
 		curl_setopt($curlSession, CURLOPT_URL, $url);
-
 		curl_setopt($curlSession, CURLOPT_BINARYTRANSFER, true);
 		curl_setopt($curlSession, CURLOPT_RETURNTRANSFER, true);
 
@@ -42,6 +43,7 @@
 	}
 
 	function search($postvar) {
+
 		if (isset($postvar['search'])){
 			$cmd = $postvar['search'];
 			$options = $postvar['options'];//liste des relations à prendre en
@@ -50,7 +52,7 @@
 			if(empty($options) == false){
 				$relations = implode(",", $options);
 			}
-			//Gérer ici la profondeur de la recherche
+			//Gerer ici la profondeur de la recherche
 			$profondeur = 3;
 			if(empty($optionsProfondeur) == false){
 				$profondeur = $optionsProfondeur;
@@ -61,31 +63,76 @@
 			$relations = "all";
 			$profondeur = 3;
 		}
+		
+		//$ini_array = parse_ini_file(__DIR__."/app.ini");
+		//$url = $ini_array["urlACTWN"].$cmd."/".$relations."/".$profondeur;
+		//return $url;
+		
+		//Ouverture du fichier de configuration
+		$fichier='../../../../app/config/config.yml'; 
+		//Recuperation des lignes dans le fichier de config
+		$tabfich=file($fichier);
+		$MYurl = "";
+		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
+		foreach ($tabfich as $lineNumber => $lineContent)
+		{
+			//On recupere la ligne
+			$MYurlTMP = $tabfich[$lineNumber];
 
-		//return 'http://carto.localhost/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Céline 
-		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; //Juliana
-		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // Anthony
-		//return 'http://carto.dev/fr/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // Anthony2
-		return 'http://127.0.0.1/app_dev.php/en/donnees/json/'.$cmd.'/'.$relations.'/'.$profondeur; // remy
- 	}
+			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
+			if( strstr($MYurlTMP, "urlACTWN")) {
+				
+				//Manipulation chaine de caractere pour un bon format d'echange
+				$MYurl = substr($MYurlTMP,18);
+				$MYurl = str_replace("", "", $MYurl);
+				$MYurl = str_replace("\n", "", $MYurl);
+
+			} 
+		}
+		//$MYurl = 'http://localhost/CartoSavoie/carto/web/fr/donnees/json/';
+		$url = $MYurl.$cmd."/".$relations."/".$profondeur;
+		return $url;
+	}
 	
 	function search_dbpedia($postvar){
 		if (isset($postvar['search'])){
 			$cmd = $postvar['search'];
+			
 		}
 		else { $cmd = 'entity'; }
 		
-		if (isset($postvar['quantite'])){
-			$profondeur = $postvar['nombre'];
+		if (isset($postvar['profondeur'])){
+			$optionsProfondeur = $postvar['profondeur'];
+			
 		}
-		else { $profondeur = '20'; }
-		 echo $profondeur;
+		else { $optionsProfondeur = '20'; }
+		//$ini_array = parse_ini_file(__DIR__."/app.ini");
+		//$url = $ini_array["urlACTPB"];
+		//return $url;
 		
-		//return 'http://carto.localhost/fr/donnees/dbpedia/json/'.$cmd; //Céline
-		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/dbpedia/json/'.$cmd; //Juliana
-		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/dbpedia/json/'.$cmd; // Anthony
-		//return 'http://carto.dev/fr/donnees/dbpedia/json/'.$cmd; // Anthony2
-		return 'http://127.0.0.1/app_dev.php/en/donnees/dbpedia/json/'.$cmd.'/'.$profondeur; // remy
+		//Ouverture du fichier de configuration
+		$fichier='../../../../app/config/config.yml'; 
+		//Recuperation des lignes dans le fichier de config
+		$tabfich=file($fichier);
+
+		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
+		foreach ($tabfich as $lineNumber => $lineContent)
+		{
+			//On recupere la ligne
+			$MYurlTMP = $tabfich[$lineNumber];
+
+			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
+			if( strstr($MYurlTMP, "urlACTPB")) {
+				
+				//Manipulation chaine de caractere pour un bon format d'echange
+				$MYurl = substr($MYurlTMP,18);
+				$MYurl = str_replace("", "", $MYurl);
+				$MYurl = str_replace("\n", "", $MYurl);
+
+			} 
+		}
+		$MYurl = $MYurl..$cmd.."/".$optionsProfondeur;
+		return $MYurl;
 	}
 
 	function search_autre($postvar)
@@ -97,15 +144,63 @@
 		else { 
 			$cmd = 'nano'; 
 		}
+		
+		//$ini_array = parse_ini_file(__DIR__."/app.ini");
+		//$url = $ini_array["urlAUTRE"];
+		//return $url;
+		
+		//Ouverture du fichier de configuration
+		$fichier='../../../../app/config/config.yml'; 
+		//Recuperation des lignes dans le fichier de config
+		$tabfich=file($fichier);
 
-		return 'http://demo4.itpassion.info/crawler.php?target='.$cmd; 
+		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
+		foreach ($tabfich as $lineNumber => $lineContent)
+		{
+			//On recupere la ligne
+			$MYurlTMP = $tabfich[$lineNumber];
+
+			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
+			if( strstr($MYurlTMP, "urlAUTRE")) {
+				
+				//Manipulation chaine de caractere pour un bon format d'echange
+				$MYurl = substr($MYurlTMP,18);
+				$MYurl = str_replace("", "", $MYurl);
+				$MYurl = str_replace("\n", "", $MYurl);
+
+			} 
+		}
+		
+		$MYurl = $MYurl.$cmd;
+		
+		return $MYurl;
 	}
 
 	function get_relations(){
-		//return 'http://carto.localhost/fr/donnees/relations'; //Céline
-		//return 'http://localhost/CartoSavoie/carto/web/fr/donnees/relations'; //Juliana
-		//return 'http://localhost/Projet%20-%20Visualisation%20de%20donnees/carto/web/fr/donnees/relations'; // Anthony
-		//return 'http://carto.dev/fr/donnees/relations'; // Anthony2
-		return 'http://127.0.0.1/app_dev.php/fr/donnees/relations'; // remy
+		//$ini_array = parse_ini_file(__DIR__."/app.ini");
+		//$url = $ini_array["urlOPTON"];
+		//return $url;
+		
+		//Ouverture du fichier de configuration
+		$fichier='../../../../app/config/config.yml'; 
+		//Recuperation des lignes dans le fichier de config
+		$tabfich=file($fichier);
+	
+		//On parcourt le tableau $lines et on affiche le contenu de chaque ligne précédée de son numéro
+		foreach ($tabfich as $lineNumber => $lineContent)
+		{
+			//On recupere la ligne
+			$MYurlTMP = $tabfich[$lineNumber];
+
+			//Code à exécuter si la sous-chaine chaine2 est trouvée dans chaine1
+			if( strstr($MYurlTMP, "urlOPTON")) {
+				
+				//Manipulation chaine de caractere pour un bon format d'echange
+				$MYurl = substr($MYurlTMP,18);
+				$MYurl = str_replace("", "", $MYurl);
+				$MYurl = str_replace("\n", "", $MYurl);
+			} 
+		}
+		return $MYurl;
 	}
  ?>

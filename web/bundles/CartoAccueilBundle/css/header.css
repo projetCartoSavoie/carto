@@ -47,7 +47,7 @@ html{
 .content {
 	clear:both;
 	width: 100%;
-	min-height:633px;
+	min-height:630px;
 	border-top: solid 10px;
 	border-top-color: #666;
 }
@@ -74,7 +74,7 @@ html{
 	border-left: solid 1px;
 	border-bottom: solid 1px;
 	border-right: solid 1px;
-	height: 380px;
+	height: 500px;
 	background-color: #eaeaea;
 }
 .borderLeft{
@@ -430,8 +430,9 @@ height:230px;
 
 .footerCenter{
 	float:left;
-	width: 71.8%;
+	width: 70%;
 	height: 100%;
+	padding: 15px;
 	background-color: #FFFFFF;
 	border-left: solid 3px;
 	border-right: solid 3px;

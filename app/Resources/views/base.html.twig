@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 	
 	<head>
 		<meta charset="UTF-8" />
@@ -10,7 +11,7 @@
 				<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
 			{% endstylesheets %}
 		{% endblock %}
-		
+
 		<link rel="icon" type="image/png" href="{{ asset('bundles/CartoAccueilBundle/images/logo.png') }}" />
 		
 		{% block javascripts %}{% endblock %}
@@ -49,10 +50,10 @@
 						<nav>
 							<ul class="nav">
 								{# Quand on clique sur un <li> on attribue une class current pour le laisser en couleur #}
-								<li id="home" {% if path(app.request.attributes.get('_route')) == "/" ~ app.request.locale or path(app.request.attributes.get('_route')) == "/" %}class="current"{% endif %}>
+								<li id="home" {% if app.request.attributes.get('_route') == "carto_accueil_homepage" %}class="current"{% endif %}>
 											<a href="{{ path('carto_accueil_homepage') }}" --class="homeIcon"-->{{"Accueil"|trans}}</a>
 								</li>
-								<li id="documentation" {% if "documentation" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+								<li id="documentation" {% if "documentation" in app.request.attributes.get('_route') %}class="current"{% endif %}>
 									<a href="{{ path('carto_documentation_homepage') }}">{{"Documentation" | trans}}</a>
 									<ul>
 										<li><a href="{{ path('carto_documentation_projet') }}">{{"Le projet"|trans}}</a></li>
@@ -61,7 +62,7 @@
 										<li><a href="{{ path('carto_documentation_representation') }}">{{"Représentations"|trans}}</a></li>
 									</ul>
 								</li>
-								<li id="representations" {% if "representations" in path(app.request.attributes.get('_route')) %}class="current"{% endif %}>
+								<li id="representations" {% if "representations" in app.request.attributes.get('_route') %}class="current"{% endif %}>
 									<a href="{{ path('carto_representations_homepage') }}">{{"Représentations"|trans}}</a>
 									<ul>
 										<li>
@@ -81,7 +82,7 @@
 										</li>
 									</ul>
 								</li>
-								<li id="donnees" {% if "donnees" in path(app.request.attributes.get('_route')) %}class="current"{% endif %} >
+								<li id="donnees" {% if "donnees" in app.request.attributes.get('_route') %}class="current"{% endif %} >
 									<a href="{{ path('carto_donnees_simple') }}">{{"Données" | trans}}</a>
 									<ul>
 										<li>
@@ -100,10 +101,10 @@
 										{% endif %}
 									</ul>
 								</li>
-								<li id="about" {% if "about" in path(app.request.attributes.get('_route')) %}class="current"{% endif %} >
+								<li id="about" {% if "about" in app.request.attributes.get('_route') %}class="current"{% endif %} >
 									<a href="{{ path('carto_accueil_aboutus') }}">{{"A propos" | trans}}</a>
 								</li>
-								<li id="contact" {% if "livre-d-or" in path(app.request.attributes.get('_route')) %}class="current"{% endif %} >
+								<li id="contact" {% if "livre-d-or" in app.request.attributes.get('_route') %}class="current"{% endif %} >
 									<a href="{{ path('carto_livre_or_homepage') }}">{{"livre" | trans}}</a>
 									{% if app.user %}
 									<ul>

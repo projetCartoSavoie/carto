@@ -1,16 +1,14 @@
 /*************
 	BOUTONS
 **************/
-label { 
-    padding:0.4em 2em 0.4em 0; 
-}
+
 .toggle-btn-grp { 
     margin:3px 0; 
 }
 .toggle-btn { 
     text-align:centre; 
     margin:5px 2px;
-    padding:0.4em 3em; 
+    padding:0.3em 0.7em; 
     color:#000; 
     background-color:#FFF; 
     border-radius:10px; 
@@ -21,7 +19,7 @@ label {
 
 .toggle-btn-grp.joint-toggle .toggle-btn { 
     margin:5px 0; 
-    padding:0.4em 2em; 
+    padding:0.3em 0.7em;  
     border-radius:0;
     border-right-color:white;
 }
@@ -85,7 +83,7 @@ label {
 ***************************/
 #search_keywords{
 border: none;
-margin: 6px 0 0 30px;
+margin: 6px 0 0 15px;
 vertical-align: middle;
 color: #666;
 padding: 0 0 0 6px;

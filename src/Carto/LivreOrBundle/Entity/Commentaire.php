@@ -1,5 +1,15 @@
 <?php
-
+/**
+	* Modèle des commentaires du livre d'or
+	*
+	* @author Rémy Cluze <Remy.Cluze@etu.univ-savoie.fr>
+	* @author Anthony Di Lisio <Anthony.Di-Lisio@etu.univ-savoie.fr>
+	* @author Juliana Leclaire <Juliana.Leclaire@etu.univ-savoie.fr>
+	* @author Rémi Mollard <Remi.Mollard@etu.univ-savoie.fr>
+	* @author Céline de Roland <Celine.de-Roland@etu.univ-savoie.fr>
+	*
+	* @version 1.0
+	*/
 namespace Carto\LivreOrBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -13,6 +23,8 @@ use Doctrine\ORM\Mapping as ORM;
 class Commentaire
 {
 	/**
+	 * Identificateur en base de données
+	 *
 	 * @var integer
 	 *
 	 * @ORM\Column(name="id", type="integer")
@@ -22,6 +34,8 @@ class Commentaire
 	private $id;
 
 	/**
+	 * Texte du commentaire
+	 *
 	 * @var string
 	 *
 	 * @ORM\Column(name="contenu", type="text")
@@ -29,6 +43,8 @@ class Commentaire
 	private $contenu;
 
 	/**
+	 * Pseudo choisi par l'auteur
+	 *
 	 * @var string
 	 *
 	 * @ORM\Column(name="auteur", type="string", length=255)
@@ -36,16 +52,22 @@ class Commentaire
 	private $auteur;
 
 	/**
+	 * Date à laquelle il a été écrit
+	 *
 	 * @var \DateTime
 	 *
 	 * @ORM\Column(name="date", type="datetime")
 	 */
 	private $date;
 
+	/**
+	 * Constructeur : définit la date au moment présent
+	 */
 	public function __construct()
 	{
 		$this -> date = new \Datetime;
 	}
+
 	/**
 	 * Get id
 	 *

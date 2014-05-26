@@ -82,19 +82,54 @@ class WNController extends Controller
 	 * fonction json
 	 *
 	 * Renvoie un fichier json correspondant au format commun établi.
-	 * correspondant à une recherche de profondeur 3 à partir du mot demandé
+	 * correspondant à une recherche.
 	 *
-	 * @param string $recherche
-	 * @return Vue twig
+	 * @param string $recherche : mot demandé
+	 * @param string $relations : liste des relations à prendre en compte
+	 * @param integer $profondeur : niveau de profondeur demandé
+	 * @return Réponse http
 	*/
-	public function jsonAction($recherche)
+	public function jsonAction($recherche,$relations,$profondeur)
 	{
 		$manager = $this -> getDoctrine() -> getManager();
 		$mrep = $manager -> getRepository('CartoDonneesBundle:WN\Mot');
 
-		$text = json_encode($mrep -> fabriqueGraphe($recherche));
+		$text = json_encode($mrep -> fabriqueGraphe($recherche,$relations,$profondeur));
 
 		//On retourne le json obtenu
+		return new Response($text);
+	}
+
+	/**
+	 * fonction relations
+	 *
+	 * Renvoie un fichier json indiquant l'ensemble des options.
+	 *
+	 * @param string $recherche
+	 * @return Réponse http
+	*/
+	public function relationsAction()
+	{
+		$tab = array(
+			'derivation',
+			'pertainymie',
+			'construction',
+			'participe_passe',
+			'hypernymie',
+			'hyponymie',
+			'meronymie',
+			'holonymie',
+			'troponymie',
+			'verbe_hyponymie',
+			'entailments',
+			'antonymie',
+			'attribut',
+			'cause',
+			'consequence',
+			'similar',
+			'synonymie'
+		);
+		$text = json_encode($tab);
 		return new Response($text);
 	}
 }
