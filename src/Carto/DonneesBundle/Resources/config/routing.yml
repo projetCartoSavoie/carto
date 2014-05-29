@@ -64,6 +64,14 @@ carto_donnees_admin_recherche:
     pattern:  /admin/recherche/{recherche}
     defaults: { _controller: CartoDonneesBundle:WN:index, recherche:'entity' }
 
+carto_donnees_admin_humour_objets:
+    pattern:  /admin/humour/objets
+    defaults: { _controller: CartoDonneesBundle:Humour:objet }
+
+carto_donnees_admin_humour_objets_supprimer:
+    pattern:  /admin/humour/objets/supprimer/{id}
+    defaults: { _controller: CartoDonneesBundle:Humour:objetSuppr }
+
 #Client 
 carto_donnees_relations:
     pattern: /relations
