@@ -15,6 +15,7 @@
     <script type="text/javascript" src="{{ asset_url }}"></script>
     <script type="text/javascript">
 	URLGLOB = "{{ urlGlob }}";
+	URLHUMOUR = "{{ urlHumour }}";
 	</script>
 	
 {% endjavascripts %}
@@ -49,25 +50,29 @@
 			$('.showOptionsNbVoisins').hide();
 			$('.showOptionsProfondeur').show();
 			$('.showOptionsRelations').show();
+			$('.showHumourOptionsRelations').hide();
 		}
 		else if (dbpedia){
 			$('.showOptionsRelations').hide();
 			$('.showOptionsProfondeur').hide();
 			$('.showOptionsNbVoisins').show();
+			$('.showHumourOptionsRelations').hide();
 		}
 		else if (debian){
 			$('.showOptionsRelations').hide();
 			$('.showOptionsProfondeur').hide();
 			$('.showOptionsNbVoisins').hide();
+			$('.showHumourOptionsRelations').hide();
 		}
 		else if (humour){
 			$('.showOptionsRelations').hide();
 			$('.showOptionsProfondeur').hide();
 			$('.showOptionsNbVoisins').hide();
+			$('.showHumourOptionsRelations').show();
 		}
 	}
 
-	// Montre toutes les relations possibles
+	// Montre toutes les relations possibles pour wordnet
 	function showRelations(){
 
 		$.ajax({
@@ -84,6 +89,30 @@
 					$('.showOptionsRelations').append('<legend>Choisissez vos relations:</legend>');
 					for (var d in data){
 						$('.showOptionsRelations').append('<div><input type="checkbox" name="options" value="' + data[d] + '"/>' + data[d] + '</div>');
+					}
+				}
+			}
+		});
+	}
+
+	// Montre toutes les relations possibles pour humour
+	function showHumourRelations(){
+
+		$.ajax({
+			type: "POST",
+			url: url,
+			data: {
+					cmd: 'get_humourrelations'
+			},
+			cache: false,
+			success: function(response) {
+				console.log(response);
+				var result = $.parseJSON(response);
+				if(result.success){
+					var data = result.data;
+					$('.showHumourOptionsRelations').append('<legend>Choisissez vos relations:</legend>');
+					for (var d in data){
+						$('.showHumourOptionsRelations').append('<div><input type="checkbox" name="options" value="' + data[d] + '"/>' + data[d] + '</div>');
 					}
 				}
 			}
@@ -113,6 +142,11 @@
 		showNbVoisins();
 	}
 
+	// Montre les options de Humour
+	function showOptionsHumour(){
+		showHumourRelations();
+	}
+
 	// Lorsque la page est prete
 	$(document).ready(function(){
 
@@ -126,6 +160,7 @@
 		//Affichage des options pour chaque source
 		showOptionsWN();
 		showOptionsDBpedia();
+		showOptionsHumour();
 		
 		// On montre les options suivant la source de donnees selectionnee
 		loadOptions();
@@ -246,6 +281,7 @@
 				<p class="showOptionsProfondeur"></p>
 				<p class="showOptionsNbVoisins"></p>
 				<p class="showOptionsRelations"></p>
+				<p class="showHumourOptionsRelations"></p>
 			</details>
 		</form>
 		

@@ -106,6 +106,14 @@ carto_donnees_dbpedia_json:
     defaults: { _controller: CartoDonneesBundle:DbPedia:index, recherche:'horse', limite:20 }
 
 carto_donnees_humour_json:
-    pattern:  /humour/json/{recherche}
-    defaults: { _controller: CartoDonneesBundle:Humour:json, recherche:'WordNet' }
+    pattern:  /humour/json/{recherche}/{relations}
+    defaults: { _controller: CartoDonneesBundle:Humour:json, recherche:'WordNet', relations:'all' }
+
+carto_donnees_humour_recuprelations:
+    pattern: /humour/recuprelations
+    defaults: { _controller: CartoDonneesBundle:Humour:recupRelations }
+
+carto_donnees_humour_recupdescription:
+    pattern: /humour/description/{mot}
+    defaults: { _controller: CartoDonneesBundle:Humour:description }
 

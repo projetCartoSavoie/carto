@@ -17,8 +17,12 @@ class ObjetRepository extends EntityRepository
 	private $objet;
 	private $listeId;
 
-	public function fabriqueGraphe($recherche)
+	public function fabriqueGraphe($recherche, $options, $allrelations)
 	{
+		//Si option est défini à all, on les met toutes
+		if ($options == 'all') { $relations = $allrelations; }
+		//Sinon la liste de relations séparées par des virgules est transformée en tableau
+		else { $relations = explode(',',$options); }
 
 		//Initialisation du tableau résultat, qui sera ensuite encodé en json
 		$this -> resultat = array(
@@ -39,45 +43,48 @@ class ObjetRepository extends EntityRepository
 		//var_dump($this -> listeId);
 
 		//Recherche des objets en relation avec ce mot
-		$this -> rechercheRec($this -> objet);
+		$this -> rechercheRec($this -> objet,$relations);
 
 		$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
 
 		return $this -> resultat;
 	}
 
-	public function rechercheRec($objet)
+	public function rechercheRec($objet,$relations)
 	{
 		$continu = false;
 		$triplets = $objet -> getTriplets();
 		foreach($triplets as $triplet)
 		{
-			$cible = $triplet -> getObjet();
-			$idcible = $cible -> getId();
-			if (!in_array($idcible,$this -> listeId))
+			if (in_array($triplet -> getRelation() -> getTitre(), $relations))
 			{
-				//echo $idcible. ' n\'est pas dans :';
-				//var_dump($this -> listeId);
-				$this -> resultat['noeuds'][] = array(
-					'id' => $cible -> getId(),
-					'nom' => $cible -> getTitre(),
-					'type' => 'M'
-				);
-				$this -> resultat['graphe'][$cible -> getId()] = array( 'noeud' => $cible -> getId() );
-				$this -> listeId[] = $cible -> getId();
-				$continu = true;
+				$cible = $triplet -> getObjet();
+				$idcible = $cible -> getId();
+				if (!in_array($idcible,$this -> listeId))
+				{
+					//echo $idcible. ' n\'est pas dans :';
+					//var_dump($this -> listeId);
+					$this -> resultat['noeuds'][] = array(
+						'id' => $cible -> getId(),
+						'nom' => $cible -> getTitre(),
+						'type' => 'M'
+					);
+					$this -> resultat['graphe'][$cible -> getId()] = array( 'noeud' => $cible -> getId() );
+					$this -> listeId[] = $cible -> getId();
+					$continu = true;
+				}
+				if (!isset($this -> resultat['graphe'][$objet -> getId()][$triplet -> getRelation() -> getTitre()]))
+				{
+					$this -> resultat['graphe'][$objet -> getId()][$triplet -> getRelation() -> getTitre()] = array();
+				}
+				if (!in_array($triplet -> getRelation() -> getTitre(),$this -> resultat['relations']))
+				{
+					$this -> resultat['relations'][] = $triplet -> getRelation() -> getTitre();
+				}
+				$this -> resultat['graphe'][$objet -> getId()][$triplet -> getRelation() -> getTitre()][] = $cible -> getId();
+				if ($continu) { $this -> rechercheRec($cible,$relations); }
+				$continu = false;
 			}
-			if (!isset($this -> resultat['graphe'][$objet -> getId()][$triplet -> getRelation() -> getTitre()]))
-			{
-				$this -> resultat['graphe'][$objet -> getId()][$triplet -> getRelation() -> getTitre()] = array();
-			}
-			if (!in_array($triplet -> getRelation() -> getTitre(),$this -> resultat['relations']))
-			{
-				$this -> resultat['relations'][] = $triplet -> getRelation() -> getTitre();
-			}
-			$this -> resultat['graphe'][$objet -> getId()][$triplet -> getRelation() -> getTitre()][] = $cible -> getId();
-			if ($continu) { $this -> rechercheRec($cible); }
-			$continu = false;
 		}
 	}
 

@@ -7,9 +7,22 @@ function D3_Utils(){}
 */
 D3_Utils.prototype.show_wikipedia = function(name) {
 
-	var s = name.replace(/\./g,"").replace(" ","_").replace("-","_");
-	// On construit l'url avec le name selectionne par l'utilisateur
-	var url = "http://en.m.wikipedia.org/wiki/"+s;
+	//R√©cup√©ration de la source de donn√©es demand√©e
+	var wordnet = $('#WN').attr('checked'); 
+	var dbpedia = $('#DB').attr('checked');
+	var debian = $('#Debian').attr('checked'); 
+	var humour = $('#Humour').attr('checked');
+
+	if (humour)
+	{
+		var url = URLHUMOUR + name;
+	}
+	else
+	{
+		var s = name.replace(/\./g,"").replace(" ","_").replace("-","_");
+		// On construit l'url avec le name selectionne par l'utilisateur
+		var url = "http://en.m.wikipedia.org/wiki/"+s;
+	}
 	// On ajoute des balises a la div qui a l'identifiant wikipedia
 	$('#wikipedia').html(
 			"<p><b>Informations on "+name+"</b> "+
@@ -36,15 +49,15 @@ D3_Utils.prototype.load_json = function(d) {
 	
 	var profondeur = $("#quantite").val();
 	
-	$('#search').val(d.name); //Mise ‡ jour du mot demandÈ
+	$('#search').val(d.name); //Mise √† jour du mot demand√©
 	var search = d.name;
 
-	//RÈcupÈration de la source de donnÈes demandÈe
+	//R√©cup√©ration de la source de donn√©es demand√©e
 	var wordnet = $('#WN').attr('checked'); 
 	var dbpedia = $('#DB').attr('checked');
 	var debian = $('#Debian').attr('checked'); 
 	var humour = $('#Humour').attr('checked');
-	//Choix de l'action ‡ effectuer par main_action
+	//Choix de l'action √† effectuer par main_action
 	var cmdAction = "";
 	var url = URLGLOB;
 	if (wordnet)
@@ -64,7 +77,7 @@ D3_Utils.prototype.load_json = function(d) {
 		cmdAction = "search_humour";
 	}
 	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif>');
-	//Utilisation d'ajax pour placer le rÈsultat dans le conteneur
+	//Utilisation d'ajax pour placer le r√©sultat dans le conteneur
 	$.ajax({
 		type: "POST",
 		url: url,

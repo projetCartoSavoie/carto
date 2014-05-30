@@ -30,6 +30,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         urlGlob: http://carto.localhost/bundles/CartoRepresentationsBundle/action/main_action.php
+        urlHumour: http://carto.localhost/en/donnees/humour/description/
 
 
 # Assetic Configuration

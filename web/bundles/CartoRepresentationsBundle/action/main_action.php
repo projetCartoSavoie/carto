@@ -9,7 +9,7 @@
 		{
 			$cmd = $_POST['cmd'];
 		}
-		$valid_actions = array('search_wordnet','search_dbpedia','search_debian','search_humour','get_relations');
+		$valid_actions = array('search_wordnet','search_dbpedia','search_debian','search_humour','get_relations','get_humourrelations');
 		if (in_array($cmd,$valid_actions)) { $url = $cmd($_POST); }
 		else { exit('success:false'); }
 		$curlSession = curl_init();
@@ -90,19 +90,31 @@
 		if (isset($postvar['search']))
 		{
 			$cmd = $postvar['search'];
+			$options = $postvar['options'];//liste des relations à prendre en compte
+			$relations = "all";
+			if(empty($options) == false){
+				$relations = implode(",", $options);
+			}
 		}
 		else { 
 			$cmd = 'D3'; 
+			$relations = 'all';
 		}
 
 		$ini_array = parse_ini_file(__DIR__."/app.ini");
 		$url = $ini_array["urlHUMOUR"];
-		return $url.$cmd;
+		return $url.$cmd.'/'.$relations;
 	}
 
 	function get_relations(){
 		$ini_array = parse_ini_file(__DIR__."/app.ini");
 		$url = $ini_array["urlOPTON"];
+		return $url;
+	}
+
+	function get_humourrelations(){
+		$ini_array = parse_ini_file(__DIR__."/app.ini");
+		$url = $ini_array["urlHUMOUROPTON"];
 		return $url;
 	}
  ?>

@@ -31,9 +31,23 @@ class Objet
 	/**
 	 * @var string
 	 *
+	 * @ORM\Column(name="type", type="string", length=255)
+	 */
+	private $type;
+
+	/**
+	 * @var string
+	 *
 	 * @ORM\Column(name="description", type="text")
 	 */
 	private $description;
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="description", type="text")
+	 */
+	private $image;
 
 	/**
 	* liste des triplets dont cet objet est le sujet 

@@ -103,6 +103,11 @@ class HumourController extends Controller
 		$manager = $this -> getDoctrine() -> getManager();
 		$rel_rep = $manager -> getRepository('CartoDonneesBundle:Humour\Relation');
 		$relation = $rel_rep -> find($id);
+		$triplets = $relation -> getTriplets();
+		foreach($triplets as $triplet)
+		{
+			$manager -> remove($triplet);
+		}
 		$manager -> remove($relation);
 		$manager -> flush();
 		return $this -> relationAction();
@@ -158,12 +163,19 @@ class HumourController extends Controller
 	 * @param integer $profondeur : niveau de profondeur demandé
 	 * @return Réponse http
 	*/
-	public function jsonAction($recherche)
+	public function jsonAction($recherche,$relations)
 	{
 		$manager = $this -> getDoctrine() -> getManager();
 		$mrep = $manager -> getRepository('CartoDonneesBundle:Humour\Objet');
+		$rel_rep = $manager -> getRepository('CartoDonneesBundle:Humour\Relation');
+		$mesrels = $rel_rep -> findAll();
+		$allrelations = array();
+		foreach($mesrels as $relation)
+		{
+			$allrelations[] = $relation -> getTitre();
+		}
 
-		$text = json_encode($mrep -> fabriqueGraphe($recherche));
+		$text = json_encode($mrep -> fabriqueGraphe($recherche,$relations,$allrelations));
 
 		//On retourne le json obtenu
 		return new Response($text);
@@ -176,11 +188,26 @@ class HumourController extends Controller
 	 *
 	 * @return Réponse http
 	*/
-	public function relationsAction()
+	public function recupRelationsAction()
 	{
-		$tab = array(
-		);
+		$manager = $this -> getDoctrine() -> getManager();
+		$rel_rep = $manager -> getRepository('CartoDonneesBundle:Humour\Relation');
+		$relations = $rel_rep -> findAll();
+		$tab = array();
+		foreach($relations as $relation)
+		{
+			$tab[] = $relation -> getTitre();
+		}
 		$text = json_encode($tab);
 		return new Response($text);
+	}
+
+	public function descriptionAction($mot)
+	{
+		$manager = $this -> getDoctrine() -> getManager();
+		$mrep = $manager -> getRepository('CartoDonneesBundle:Humour\Objet');
+		$objet = $mrep -> trouve($mot);
+		//var_dump($objet);
+		return new Response($objet -> getDescription());
 	}
 }
