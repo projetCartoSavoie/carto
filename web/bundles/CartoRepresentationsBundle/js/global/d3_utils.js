@@ -23,7 +23,7 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 	}
 	else if (debian)
 	{
-		var url = 'http://carto.localhost/en/donnees/extractdebian/' + name;
+		var url = URLDEBIAN + name;
 	}
 	else
 	{
