@@ -34,7 +34,7 @@ class DefaultControllerTest extends WebTestCase
 	{
 		$client = static::createClient();
 
-		$crawler = $client -> request('GET', '/en/donnees/admin');
+		$crawler = $client -> request('GET', '/en/user/admin');
 
 		$crawler = $client -> followRedirect();
 
@@ -45,7 +45,6 @@ class DefaultControllerTest extends WebTestCase
 
 		$crawler = $client -> followRedirect();
 
-		//echo substr($client -> getResponse() -> getContent(),0,20000);
 		$crawler = $client -> request('GET', '/en/livre-d-or/admin');
 
 		$link = $crawler -> selectLink('Supprimer') -> link();
