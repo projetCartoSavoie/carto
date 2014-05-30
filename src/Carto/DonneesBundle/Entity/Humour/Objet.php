@@ -45,7 +45,7 @@ class Objet
 	/**
 	 * @var string
 	 *
-	 * @ORM\Column(name="description", type="text")
+	 * @ORM\Column(name="image", type="string", length=255)
 	 */
 	private $image;
 
@@ -202,4 +202,50 @@ class Objet
 		return array_merge($this->getOtriplets() -> toArray(), $this -> getTriplets() -> toArray());
 	}
 
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return Objet
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     * @return Objet
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string 
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
 }

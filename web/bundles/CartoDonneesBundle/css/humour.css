@@ -1,0 +1,33 @@
+.humour
+{
+	width:100%;
+	background-color:white;
+}
+
+.humour table
+{
+	width:100%;
+}
+
+.humour td
+{
+	padding:5px;
+	background-color:#ebebeb;
+}
+
+.comment td
+{
+	border:solid 1px lightgrey;
+	background-color:#fffafa;
+}
+
+.auteur td
+{
+	border:solid 1px lightgrey;
+	background-color:#fffafa;
+}
+
+h1
+{
+	color:blue;
+}

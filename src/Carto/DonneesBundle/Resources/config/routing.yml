@@ -72,6 +72,10 @@ carto_donnees_admin_humour_objets_supprimer:
     pattern:  /admin/humour/objets/supprimer/{id}
     defaults: { _controller: CartoDonneesBundle:Humour:objetSuppr }
 
+carto_donnees_admin_humour_objets_editer:
+    pattern:  /admin/humour/objets/editer/{id}
+    defaults: { _controller: CartoDonneesBundle:Humour:objetEdit }
+
 carto_donnees_admin_humour_relations:
     pattern:  /admin/humour/relations
     defaults: { _controller: CartoDonneesBundle:Humour:relation }

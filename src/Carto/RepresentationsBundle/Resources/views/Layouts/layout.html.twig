@@ -106,7 +106,6 @@
 			},
 			cache: false,
 			success: function(response) {
-				console.log(response);
 				var result = $.parseJSON(response);
 				if(result.success){
 					var data = result.data;
@@ -222,11 +221,9 @@
 					var result;
 					try {
 						result = $.parseJSON(response);
-						console.log(result);
 						
 						if(result.success){
 							var data = result.data;
-							console.log(data);
 							if(representation){
 								$('svg').remove();
 								$('.relation').remove();
@@ -234,7 +231,6 @@
 								$('.dragAndDrop').attr("value", "0");
 							}
 							if(data.error != null){
-								console.log('data.error');
 								alert("Error " + data.error);
 							}else{
 								representation.show(data);

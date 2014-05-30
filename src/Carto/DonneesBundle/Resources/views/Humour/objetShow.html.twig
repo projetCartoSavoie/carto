@@ -1,0 +1,22 @@
+
+<h1>{{ obj.titre }}</h1>
+<div class="humour">
+<table>
+	{% if (obj.image != '') %}
+		<tr class="comment" style="text-align:center"><td>
+			<img src="{{ asset('bundles/CartoDonneesBundle/images/humour/' ~ obj.image ) }}" width="100px"></img>
+		</td></tr>
+	{% endif %}
+	{% if (obj.type != '') %}
+		<tr class="auteur"><td>type : {{ obj.type }}</td></tr>
+	{% endif %}
+	<tr class="comment"><td>{{ obj.description }}</td></tr>
+</table>
+</div>
+
+{% block stylesheets %}
+{% stylesheets 'bundles/CartoDonneesBundle/css/humour.css' %}
+	<link href="{{ asset_url }}" type="text/css" rel="stylesheet" />
+{% endstylesheets %}
+{% endblock %}
+

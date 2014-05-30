@@ -35,7 +35,9 @@ class HumourController extends Controller
 		$objet = new Objet();
 		$formBuilder = $this -> createFormBuilder($objet);
 		$formBuilder -> add('titre','text');
+		$formBuilder -> add('type','text');
 		$formBuilder -> add('description','textarea');
+		$formBuilder -> add('image','text');
 		$form = $formBuilder -> getForm();
 		if ($request -> getMethod() == 'POST') 
 		{
@@ -68,6 +70,36 @@ class HumourController extends Controller
 		$manager -> remove($objet);
 		$manager -> flush();
 		return $this -> objetAction();
+	}
+
+	public function objetEditAction($id)
+	{
+		$manager = $this -> getDoctrine() -> getManager();
+		$obj_rep = $manager -> getRepository('CartoDonneesBundle:Humour\Objet');
+		$objet = $obj_rep -> find($id);
+
+		$request = $this -> get('request');
+
+		$formBuilder = $this -> createFormBuilder($objet);
+		$formBuilder -> add('titre','text');
+		$formBuilder -> add('type','text');
+		$formBuilder -> add('description','textarea');
+		$formBuilder -> add('image','text');
+		$form = $formBuilder -> getForm();
+		if ($request -> getMethod() == 'POST') 
+		{
+			$form -> bind($request);
+			if ($form -> isValid()) 
+			{
+				$manager -> persist($objet);
+				$manager -> flush();
+			}
+			//return $this -> objetAction();
+		}
+
+		$form = $form -> createView();
+		
+		return $this->render('CartoDonneesBundle:Humour:objetEdit.html.twig', array('form' => $form, 'obj' => $objet));
 	}
 
 	public function relationAction()
@@ -208,6 +240,7 @@ class HumourController extends Controller
 		$mrep = $manager -> getRepository('CartoDonneesBundle:Humour\Objet');
 		$objet = $mrep -> trouve($mot);
 		//var_dump($objet);
+		return $this->render('CartoDonneesBundle:Humour:objetShow.html.twig', array('obj' => $objet));
 		return new Response($objet -> getDescription());
 	}
 }

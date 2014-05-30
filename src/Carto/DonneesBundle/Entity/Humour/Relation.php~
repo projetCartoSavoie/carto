@@ -67,4 +67,44 @@ class Relation
 	{
 		return $this->titre;
 	}
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->triplets = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add triplets
+     *
+     * @param \Carto\DonneesBundle\Entity\Humour\Triplet $triplets
+     * @return Relation
+     */
+    public function addTriplet(\Carto\DonneesBundle\Entity\Humour\Triplet $triplets)
+    {
+        $this->triplets[] = $triplets;
+
+        return $this;
+    }
+
+    /**
+     * Remove triplets
+     *
+     * @param \Carto\DonneesBundle\Entity\Humour\Triplet $triplets
+     */
+    public function removeTriplet(\Carto\DonneesBundle\Entity\Humour\Triplet $triplets)
+    {
+        $this->triplets->removeElement($triplets);
+    }
+
+    /**
+     * Get triplets
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTriplets()
+    {
+        return $this->triplets;
+    }
 }

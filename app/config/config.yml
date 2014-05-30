@@ -37,7 +37,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [CartoAccueilBundle, CartoDocumentationBundle, CartoRepresentationsBundle, CartoLivreOrBundle]
+    bundles:        [CartoAccueilBundle, CartoDocumentationBundle, CartoRepresentationsBundle, CartoLivreOrBundle, CartoDonneesBundle]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~
