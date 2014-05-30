@@ -19,6 +19,12 @@ namespace Carto\DonneesBundle\Entity\DBPedia;
 class DBFormateur
 {
 
+/**
+	* Transforme les résultats founis par dbpedia et les transforme en json générique
+	*
+	* @param $resultats : tableau de résultats dbpedia, les résultats fournis sont des branches sujet rel objet rel2 objet2 rel3 objet3
+	* @return string : chaine de caractères json générique
+	*/
 	public function transformer($resultats)
 	{
 		//Enlever toutes les branches dont un des noeuds contient au moins un littéral qui n'est pas écrit en langue anglaise
@@ -119,6 +125,12 @@ class DBFormateur
 		return $jsoncommun;
 	}
 
+/**
+	* Pour simplifier la valeur des noeuds, on transforme les URI du type <http://www.w3.org/2002/07/owl#category> en simplement category
+	*
+	* @param $chaine : l'URI difficile à lire
+	* @return string : chaine de caractères simplifiée
+	*/
 	public function raccourcir($chaine)
 	{
 		$tableau = explode("/",$chaine);

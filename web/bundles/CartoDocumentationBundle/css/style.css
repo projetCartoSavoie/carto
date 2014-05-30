@@ -1,0 +1,15 @@
+table.representation-list {
+	border-collapse: collapse;
+}
+
+table.representation-list tr td {
+	border: solid 1px;
+	text-align: center;
+	padding: 5px;
+}
+
+table.representation-list tr td.representation-title {
+	color: rgb(20, 94, 171);
+	font-weight: bold;
+	font-size: 14px;
+}

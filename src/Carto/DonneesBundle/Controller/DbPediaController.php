@@ -30,6 +30,7 @@ class DbPediaController extends Controller
 	 * Effectue une recherche simple : pour un mot donné, on trouve ses relations directes, ses synsets et les relations directes de ces synsets
 	 *
 	 * @param string $recherche
+	 * @param integer $limite nombre maximal de résultats
 	 * @return Vue twig
 	*/
 	public function indexAction($recherche,$limite)
