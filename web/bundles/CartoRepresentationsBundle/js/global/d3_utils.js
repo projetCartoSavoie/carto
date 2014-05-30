@@ -17,6 +17,14 @@ D3_Utils.prototype.show_wikipedia = function(name) {
 	{
 		var url = URLHUMOUR + name;
 	}
+	else if (wordnet)
+	{
+		var url = 'http://wordnetweb.princeton.edu/perl/webwn?s='+name+'&sub=Search+WordNet&o2=&o0=1&o8=1&o1=1&o7=&o5=&o9=&o6=&o3=&o4=&h=';
+	}
+	else if (debian)
+	{
+		var url = 'http://carto.localhost/en/donnees/extractdebian/' + name;
+	}
 	else
 	{
 		var s = name.replace(/\./g,"").replace(" ","_").replace("-","_");

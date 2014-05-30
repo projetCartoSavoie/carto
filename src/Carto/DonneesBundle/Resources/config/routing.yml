@@ -121,3 +121,6 @@ carto_donnees_humour_recupdescription:
     pattern: /humour/description/{mot}
     defaults: { _controller: CartoDonneesBundle:Humour:description }
 
+carto_donnees_extraction_debian:
+    pattern: /extractdebian/{mot}
+    defaults: { _controller: CartoDonneesBundle:Default:extractdebian }
