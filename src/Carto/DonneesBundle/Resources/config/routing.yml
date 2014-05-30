@@ -72,6 +72,22 @@ carto_donnees_admin_humour_objets_supprimer:
     pattern:  /admin/humour/objets/supprimer/{id}
     defaults: { _controller: CartoDonneesBundle:Humour:objetSuppr }
 
+carto_donnees_admin_humour_relations:
+    pattern:  /admin/humour/relations
+    defaults: { _controller: CartoDonneesBundle:Humour:relation }
+
+carto_donnees_admin_humour_relations_supprimer:
+    pattern:  /admin/humour/relations/supprimer/{id}
+    defaults: { _controller: CartoDonneesBundle:Humour:relationSuppr }
+
+carto_donnees_admin_humour_triplets:
+    pattern:  /admin/humour/triplets
+    defaults: { _controller: CartoDonneesBundle:Humour:triplet }
+
+carto_donnees_admin_humour_triplets_supprimer:
+    pattern:  /admin/humour/triplets/supprimer/{id}
+    defaults: { _controller: CartoDonneesBundle:Humour:tripletSuppr }
+
 #Client 
 carto_donnees_relations:
     pattern: /relations
@@ -88,4 +104,8 @@ carto_donnees_simple:
 carto_donnees_dbpedia_json:
     pattern:  /dbpedia/json/{recherche}/{limite}
     defaults: { _controller: CartoDonneesBundle:DbPedia:index, recherche:'horse', limite:20 }
+
+carto_donnees_humour_json:
+    pattern:  /humour/json/{recherche}
+    defaults: { _controller: CartoDonneesBundle:Humour:json, recherche:'WordNet' }
 

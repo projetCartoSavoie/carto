@@ -12,4 +12,147 @@ use Doctrine\ORM\EntityRepository;
  */
 class ObjetRepository extends EntityRepository
 {
+
+	private $resultat;
+	private $objet;
+	private $listeId;
+
+	public function fabriqueGraphe($recherche)
+	{
+
+		//Initialisation du tableau résultat, qui sera ensuite encodé en json
+		$this -> resultat = array(
+			'noeuds' => array(), 
+			'relations' => array(),
+			'graphe' => array()
+		);
+
+		//Recherche du mot demandé et ajout dans la liste des noeuds et dans le graphe
+		$this -> objet = $this -> trouve($recherche);
+		$this -> resultat['noeuds'][] = array(
+			'id' => $this -> objet -> getId(),
+			'nom' => $this -> objet -> getTitre(),
+			'type' => 'M'
+		);
+		$this -> resultat['graphe'][$this -> objet -> getId()] = array( 'noeud' => $this -> objet -> getId() );
+		$this -> listeId = array($this -> objet -> getId());
+		//var_dump($this -> listeId);
+
+		//Recherche des objets en relation avec ce mot
+		$this -> rechercheRec($this -> objet);
+
+		$this -> resultat['graphe'] = array_values($this -> resultat['graphe']);
+
+		return $this -> resultat;
+	}
+
+	public function rechercheRec($objet)
+	{
+		$continu = false;
+		$triplets = $objet -> getTriplets();
+		foreach($triplets as $triplet)
+		{
+			$cible = $triplet -> getObjet();
+			$idcible = $cible -> getId();
+			if (!in_array($idcible,$this -> listeId))
+			{
+				//echo $idcible. ' n\'est pas dans :';
+				//var_dump($this -> listeId);
+				$this -> resultat['noeuds'][] = array(
+					'id' => $cible -> getId(),
+					'nom' => $cible -> getTitre(),
+					'type' => 'M'
+				);
+				$this -> resultat['graphe'][$cible -> getId()] = array( 'noeud' => $cible -> getId() );
+				$this -> listeId[] = $cible -> getId();
+				$continu = true;
+			}
+			if (!isset($this -> resultat['graphe'][$objet -> getId()][$triplet -> getRelation() -> getTitre()]))
+			{
+				$this -> resultat['graphe'][$objet -> getId()][$triplet -> getRelation() -> getTitre()] = array();
+			}
+			if (!in_array($triplet -> getRelation() -> getTitre(),$this -> resultat['relations']))
+			{
+				$this -> resultat['relations'][] = $triplet -> getRelation() -> getTitre();
+			}
+			$this -> resultat['graphe'][$objet -> getId()][$triplet -> getRelation() -> getTitre()][] = $cible -> getId();
+			if ($continu) { $this -> rechercheRec($cible); }
+			$continu = false;
+		}
+	}
+
+	/**
+	 * fonction trouve
+	 *
+	 * Si le mot cherché est dans la base de données, alors la fonction
+	 * renvoie le mot correspondant
+	 * Sinon on cherche un mot qui ressemble à la recherche dans la bdd
+	 * et on renvoie le mot correspondant
+	 *
+	 * @param string $recherche
+	 * @return Carto\DonneesBundle\Entity\WN\Mot
+	*/
+	public function trouve($recherche)
+	{
+		$mot = $this -> findOneByTitre($recherche);
+		if ($mot != NULL)
+		{
+			return $mot;
+		}
+		else
+		{
+			//On cherche tous les mots ayant 3 caractères en commun avec la recherche
+			$query = $this -> getEntityManager() -> createQuery(
+				'SELECT m
+				FROM CartoDonneesBundle:Humour\Objet m
+				WHERE m.titre LIKE :court'
+			);
+			$mots = array();
+			for ($i = 0; $i < strlen($recherche) - 2; $i++)
+			{
+				$regex = substr($recherche,$i,3);
+				$query->setParameter('court', '%'.$regex.'%');
+				$mots = array_merge($mots, $query -> getResult());
+			}
+
+			//On remplace le tableau d'objets par un tableau de chaines de caractères
+			$strmots = array();
+			foreach ($mots as $m)
+			{
+				$strmots[] = $m -> getMot();
+			}
+
+			//Pour chaque mot on calcule son taux de correspondance
+			$correspondances = array();
+			foreach ($strmots as $m)
+			{
+				$correspondance[$m] = $this -> calculCorrespondance($m,$recherche);
+			}
+			$minindex = min($correspondance);
+			$correspondance = array_flip($correspondance);
+
+			//On retourne l'objet Mot correspondant au plus bas taux de correspondance
+			$mot = $this -> findOneByTitre($correspondance[$minindex]);
+			return $mot;
+		}
+	}
+
+	/**
+	 * Calcul un taux de différence entre deux mots
+	 *
+	 * tient compte de la ressemblance sonore et de la
+	 * ressemblance en terme de caractères (nombre d'insertions et suppressions
+	 * nécessaires pour passer d'une chaine à l'autre)
+	 * plus le résultat est petit plus les mots se ressemblent
+	 *
+	 * @param string $recherche
+	 * @param string $m (mot à comparer à la recherche)
+	 * @return integer
+	*/
+	public function calculCorrespondance($m,$recherche)
+	{
+		$c = levenshtein($m,$recherche);
+		if (soundex($m) == soundex($recherche)) { $c -= 10; }
+		return $c;
+	}
 }

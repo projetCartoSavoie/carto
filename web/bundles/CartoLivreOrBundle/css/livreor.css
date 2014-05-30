@@ -29,6 +29,11 @@
 	padding:1px;
 }
 
+.supprimer td
+{
+	background-color:#ffd0d0;
+}
+
 .form
 {
 	width:40%;

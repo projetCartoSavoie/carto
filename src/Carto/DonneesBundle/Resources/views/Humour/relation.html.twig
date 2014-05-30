@@ -1,0 +1,30 @@
+{% extends "CartoLivreOrBundle:Layouts:layout.html.twig" %}
+{% block body %}
+
+<h1>{{"ajouter une relation" | trans}}</h1>
+<div class="livre">
+<table>
+{% for rel in relations %}
+			<tr><td class="auteur">{{ rel.titre }}</td></tr>
+			{% if is_granted('ROLE_ADMIN') %}
+			<tr class="supprimer"><td><a name="supprimer" href="{{ path('carto_donnees_admin_humour_relations_supprimer',{'id':rel.id}) }}">Supprimer</a></td></tr>
+			{% endif %}
+		<tr class="separation"><td> </td></tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="form">
+	<form method="post" action="{{ path('carto_donnees_admin_humour_relations') }}">
+		<table>
+			<tr>
+				<td>{{ form_label(form.titre, "titre"|trans) }}</td>
+				<td>{{ form_errors(form.titre) }}</td>
+				<td>{{ form_widget(form.titre) }}</td>
+			</tr>
+		{{ form_rest(form) }}
+		</table>
+		<input type="submit" id="submit" value="{{ 'submit'|trans }}"/>
+	</form>
+</div>
+{% endblock %}

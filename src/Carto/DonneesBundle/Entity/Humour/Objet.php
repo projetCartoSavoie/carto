@@ -12,83 +12,180 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Objet
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=255)
-     */
-    private $titre;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="titre", type="string", length=255)
+	 */
+	private $titre;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="text")
-     */
-    private $description;
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="description", type="text")
+	 */
+	private $description;
 
+	/**
+	* liste des triplets dont cet objet est le sujet 
+	*
+	* @ORM\OneToMany(targetEntity="Carto\DonneesBundle\Entity\Humour\Triplet",mappedBy="sujet")
+	*/
+	private $triplets;
 
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+	/**
+	* liste des triplets dont cet objet est l'objet 
+	*
+	* @ORM\OneToMany(targetEntity="Carto\DonneesBundle\Entity\Humour\Triplet",mappedBy="objet")
+	*/
+	private $otriplets;
 
-    /**
-     * Set titre
-     *
-     * @param string $titre
-     * @return Objet
-     */
-    public function setTitre($titre)
-    {
-        $this->titre = $titre;
+	/**
+	 * Get id
+	 *
+	 * @return integer 
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set titre
+	 *
+	 * @param string $titre
+	 * @return Objet
+	 */
+	public function setTitre($titre)
+	{
+		$this->titre = $titre;
 
-    /**
-     * Get titre
-     *
-     * @return string 
-     */
-    public function getTitre()
-    {
-        return $this->titre;
-    }
+		return $this;
+	}
 
-    /**
-     * Set description
-     *
-     * @param string $description
-     * @return Objet
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
+	/**
+	 * Get titre
+	 *
+	 * @return string 
+	 */
+	public function getTitre()
+	{
+		return $this->titre;
+	}
 
-        return $this;
-    }
+	/**
+	 * Set description
+	 *
+	 * @param string $description
+	 * @return Objet
+	 */
+	public function setDescription($description)
+	{
+		$this->description = $description;
 
-    /**
-     * Get description
-     *
-     * @return string 
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
+		return $this;
+	}
+
+	/**
+	 * Get description
+	 *
+	 * @return string 
+	 */
+	public function getDescription()
+	{
+		return $this->description;
+	}
+	/**
+	 * Constructor
+	 */
+	public function __construct()
+	{
+		$this->triplets = new \Doctrine\Common\Collections\ArrayCollection();
+	}
+
+	/**
+	 * Add triplets
+	 *
+	 * @param \Carto\DonneesBundle\Entity\Humour\Triplet $triplets
+	 * @return Objet
+	 */
+	public function addTriplet(\Carto\DonneesBundle\Entity\Humour\Triplet $triplets)
+	{
+		$this->triplets[] = $triplets;
+
+		return $this;
+	}
+
+	/**
+	 * Remove triplets
+	 *
+	 * @param \Carto\DonneesBundle\Entity\Humour\Triplet $triplets
+	 */
+	public function removeTriplet(\Carto\DonneesBundle\Entity\Humour\Triplet $triplets)
+	{
+		$this->triplets->removeElement($triplets);
+	}
+
+	/**
+	 * Get triplets
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getTriplets()
+	{
+		return $this->triplets;
+	}
+
+	/**
+	 * Add otriplets
+	 *
+	 * @param \Carto\DonneesBundle\Entity\Humour\Triplet $otriplets
+	 * @return Objet
+	 */
+	public function addOtriplet(\Carto\DonneesBundle\Entity\Humour\Triplet $otriplets)
+	{
+		$this->otriplets[] = $otriplets;
+
+		return $this;
+	}
+
+	/**
+	 * Remove otriplets
+	 *
+	 * @param \Carto\DonneesBundle\Entity\Humour\Triplet $otriplets
+	 */
+	public function removeOtriplet(\Carto\DonneesBundle\Entity\Humour\Triplet $otriplets)
+	{
+		$this->otriplets->removeElement($otriplets);
+	}
+
+	/**
+	 * Get otriplets
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getOtriplets()
+	{
+		return $this->otriplets;
+	}
+
+	/**
+	 * Get otriplets
+	 *
+	 * @return \Doctrine\Common\Collections\Collection 
+	 */
+	public function getAlltriplets()
+	{
+		return array_merge($this->getOtriplets() -> toArray(), $this -> getTriplets() -> toArray());
+	}
+
 }

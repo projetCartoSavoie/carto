@@ -17,26 +17,14 @@ namespace Carto\DonneesBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Carto\DonneesBundle\Entity\Humour\Objet;
+use Carto\DonneesBundle\Entity\Humour\Relation;
+use Carto\DonneesBundle\Entity\Humour\Triplet;
 
 /**
  * Controleur pour les recherches WordNet
  */
 class HumourController extends Controller
 {
-
-/**
- * Création d'un formulaire
- *
- * @param Sujet $sujet
- * @return FormBuilder
- */
-	public function formulaire($sujet)
-	{
-		$formBuilder = $this -> createFormBuilder($sujet);
-		$formBuilder -> add('titre','text');
-		$formBuilder -> add('description','textarea');
-		return $formBuilder;
-	}
 
 	public function objetAction()
 	{
@@ -45,7 +33,10 @@ class HumourController extends Controller
 		$request = $this -> get('request');
 
 		$objet = new Objet();
-		$form = $this -> formulaire($objet) -> getForm();
+		$formBuilder = $this -> createFormBuilder($objet);
+		$formBuilder -> add('titre','text');
+		$formBuilder -> add('description','textarea');
+		$form = $formBuilder -> getForm();
 		if ($request -> getMethod() == 'POST') 
 		{
 			$form -> bind($request);
@@ -69,9 +60,91 @@ class HumourController extends Controller
 		$manager = $this -> getDoctrine() -> getManager();
 		$obj_rep = $manager -> getRepository('CartoDonneesBundle:Humour\Objet');
 		$objet = $obj_rep -> find($id);
+		$triplets = $objet -> getAlltriplets();
+		foreach($triplets as $triplet)
+		{
+			$manager -> remove($triplet);
+		}
 		$manager -> remove($objet);
 		$manager -> flush();
 		return $this -> objetAction();
+	}
+
+	public function relationAction()
+	{
+		$manager = $this -> getDoctrine() -> getManager();
+
+		$request = $this -> get('request');
+
+		$relation = new Relation();
+		$formBuilder = $this -> createFormBuilder($relation);
+		$formBuilder -> add('titre','text');
+		$form = $formBuilder -> getForm();
+		if ($request -> getMethod() == 'POST') 
+		{
+			$form -> bind($request);
+			if ($form -> isValid()) 
+			{
+				$manager -> persist($relation);
+				$manager -> flush();
+			}
+		}
+
+		$form = $form -> createView();
+
+		$rel_rep = $manager -> getRepository('CartoDonneesBundle:Humour\Relation');
+		$relations = $rel_rep -> findAll();
+		
+		return $this->render('CartoDonneesBundle:Humour:relation.html.twig', array('form' => $form, 'relations' => $relations));
+	}
+
+	public function relationSupprAction($id)
+	{
+		$manager = $this -> getDoctrine() -> getManager();
+		$rel_rep = $manager -> getRepository('CartoDonneesBundle:Humour\Relation');
+		$relation = $rel_rep -> find($id);
+		$manager -> remove($relation);
+		$manager -> flush();
+		return $this -> relationAction();
+	}
+
+	public function tripletAction()
+	{
+		$manager = $this -> getDoctrine() -> getManager();
+
+		$request = $this -> get('request');
+
+		$triplet = new Triplet();
+		$formBuilder = $this -> createFormBuilder($triplet);
+		$formBuilder -> add('sujet','entity',array('class' => 'CartoDonneesBundle:Humour\Objet', 'property' => 'titre', 'multiple' => false));
+		$formBuilder -> add('relation','entity',array('class' => 'CartoDonneesBundle:Humour\Relation', 'property' => 'titre', 'multiple' => false));
+		$formBuilder -> add('objet','entity',array('class' => 'CartoDonneesBundle:Humour\Objet', 'property' => 'titre', 'multiple' => false));
+		$form = $formBuilder -> getForm();
+		if ($request -> getMethod() == 'POST') 
+		{
+			$form -> bind($request);
+			if ($form -> isValid()) 
+			{
+				$manager -> persist($triplet);
+				$manager -> flush();
+			}
+		}
+
+		$form = $form -> createView();
+
+		$tri_rep = $manager -> getRepository('CartoDonneesBundle:Humour\Triplet');
+		$triplets = $tri_rep -> findAll();
+		return $this->render('CartoDonneesBundle:Humour:triplet.html.twig', array('form' => $form,'triplets' => $triplets));
+	}
+
+	public function tripletSupprAction($id)
+	{
+		$manager = $this -> getDoctrine() -> getManager();
+		$tri_rep = $manager -> getRepository('CartoDonneesBundle:Humour\Triplet');
+		$triplet = $tri_rep -> find($id);
+		$manager -> remove($triplet);
+		$manager -> flush();
+		return $this -> tripletAction();
 	}
 
 	/**
@@ -85,12 +158,12 @@ class HumourController extends Controller
 	 * @param integer $profondeur : niveau de profondeur demandé
 	 * @return Réponse http
 	*/
-	public function jsonAction($recherche,$relations,$profondeur)
+	public function jsonAction($recherche)
 	{
-		/*$manager = $this -> getDoctrine() -> getManager();
-		$mrep = $manager -> getRepository('CartoDonneesBundle:WN\Mot');
+		$manager = $this -> getDoctrine() -> getManager();
+		$mrep = $manager -> getRepository('CartoDonneesBundle:Humour\Objet');
 
-		$text = json_encode($mrep -> fabriqueGraphe($recherche,$relations,$profondeur));*/ $text = "";
+		$text = json_encode($mrep -> fabriqueGraphe($recherche));
 
 		//On retourne le json obtenu
 		return new Response($text);

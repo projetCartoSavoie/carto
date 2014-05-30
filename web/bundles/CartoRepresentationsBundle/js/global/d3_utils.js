@@ -41,8 +41,12 @@ D3_Utils.prototype.load_json = function(d) {
 
 	//Récupération de la source de données demandée
 	var wordnet = $('#WN').attr('checked'); 
-	var dbpedia = $('#DB').attr('checked'); 
-	var cmdAction = "";	
+	var dbpedia = $('#DB').attr('checked');
+	var debian = $('#Debian').attr('checked'); 
+	var humour = $('#Humour').attr('checked');
+	//Choix de l'action à effectuer par main_action
+	var cmdAction = "";
+	var url = URLGLOB;
 	if (wordnet)
 	{
 		cmdAction = "search_wordnet";
@@ -51,9 +55,13 @@ D3_Utils.prototype.load_json = function(d) {
 	{
 		cmdAction = "search_dbpedia";
 	}
-	else
+	else if (debian)
 	{
 		cmdAction = "search_debian";
+	}
+	else if (humour)
+	{
+		cmdAction = "search_humour";
 	}
 	$("#contentCenter").html('<img id="loading" src="/bundles/CartoRepresentationsBundle/images/ajax-loader.gif>');
 	//Utilisation d'ajax pour placer le résultat dans le conteneur

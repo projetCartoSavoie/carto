@@ -8,7 +8,7 @@
 			<tr><td class="auteur">{{ obj.titre }}</td></tr>
 			<tr class="comment"><td>{{ obj.description }}</td></tr>
 			{% if is_granted('ROLE_ADMIN') %}
-			<tr><td><a name="supprimer" href="{{ path('carto_donnees_admin_humour_objets_supprimer',{'id':obj.id}) }}">Supprimer</a></td></tr>
+			<tr class="supprimer"><td><a name="supprimer" href="{{ path('carto_donnees_admin_humour_objets_supprimer',{'id':obj.id}) }}">Supprimer</a></td></tr>
 			{% endif %}
 		<tr class="separation"><td> </td></tr>
 {% endfor %}

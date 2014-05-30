@@ -9,7 +9,7 @@
 		{
 			$cmd = $_POST['cmd'];
 		}
-		$valid_actions = array('search_wordnet','search_dbpedia','search_debian','get_relations');
+		$valid_actions = array('search_wordnet','search_dbpedia','search_debian','search_humour','get_relations');
 		if (in_array($cmd,$valid_actions)) { $url = $cmd($_POST); }
 		else { exit('success:false'); }
 		$curlSession = curl_init();
@@ -82,6 +82,21 @@
 		
 		$ini_array = parse_ini_file(__DIR__."/app.ini");
 		$url = $ini_array["urlAUTRE"];
+		return $url.$cmd;
+	}
+
+	function search_humour($postvar)
+	{
+		if (isset($postvar['search']))
+		{
+			$cmd = $postvar['search'];
+		}
+		else { 
+			$cmd = 'D3'; 
+		}
+
+		$ini_array = parse_ini_file(__DIR__."/app.ini");
+		$url = $ini_array["urlHUMOUR"];
 		return $url.$cmd;
 	}
 

@@ -1,0 +1,40 @@
+{% extends "CartoLivreOrBundle:Layouts:layout.html.twig" %}
+{% block body %}
+
+<h1>{{"ajouter une relation" | trans}}</h1>
+<div class="livre">
+<table>
+{% for triplet in triplets %}
+			<tr><td class="auteur">{{ triplet.sujet.titre }}</td></tr>
+			<tr class="comment"><td>{{ triplet.relation.titre }}</td></tr>
+			<tr><td class="auteur">{{ triplet.objet.titre }}</td></tr>
+			<tr class="supprimer"><td><a name="supprimer" href="{{ path('carto_donnees_admin_humour_triplets_supprimer',{'id':triplet.id}) }}">Supprimer</a></td></tr>
+		<tr class="separation"><td> </td></tr>
+{% endfor %}
+</table>
+</div>
+
+<div class="form">
+	<form method="post" action="{{ path('carto_donnees_admin_humour_triplets') }}">
+		<table>
+			<tr>
+				<td>{{ form_label(form.sujet, "sujet"|trans) }}</td>
+				<td>{{ form_errors(form.sujet) }}</td>
+				<td>{{ form_widget(form.sujet) }}</td>
+			</tr>
+			<tr>
+				<td>{{ form_label(form.relation, "relation"|trans) }}</td>
+				<td>{{ form_errors(form.relation) }}</td>
+				<td>{{ form_widget(form.relation) }}</td>
+			</tr>
+			<tr>
+				<td>{{ form_label(form.objet, "objet"|trans) }}</td>
+				<td>{{ form_errors(form.objet) }}</td>
+				<td>{{ form_widget(form.objet) }}</td>
+			</tr>
+		{{ form_rest(form) }}
+		</table>
+		<input type="submit" id="submit" value="{{ 'submit'|trans }}"/>
+	</form>
+</div>
+{% endblock %}
