@@ -36,7 +36,7 @@ class ObjetRepository extends EntityRepository
 		$this -> resultat['noeuds'][] = array(
 			'id' => $this -> objet -> getId(),
 			'nom' => $this -> objet -> getTitre(),
-			'type' => 'M'
+			'type' => $this -> objet -> getType()
 		);
 		$this -> resultat['graphe'][$this -> objet -> getId()] = array( 'noeud' => $this -> objet -> getId() );
 		$this -> listeId = array($this -> objet -> getId());
@@ -67,7 +67,7 @@ class ObjetRepository extends EntityRepository
 					$this -> resultat['noeuds'][] = array(
 						'id' => $cible -> getId(),
 						'nom' => $cible -> getTitre(),
-						'type' => 'M'
+						'type' => $cible -> getType()
 					);
 					$this -> resultat['graphe'][$cible -> getId()] = array( 'noeud' => $cible -> getId() );
 					$this -> listeId[] = $cible -> getId();
